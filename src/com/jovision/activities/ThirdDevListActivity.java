@@ -225,7 +225,7 @@ public class ThirdDevListActivity extends BaseActivity implements
             String strCancel = getResources().getString(
                     R.string.str_alarm_thirddev_cancel);
             String[] choices = {
-                strDelete
+                    strDelete
             };
             // 包含多个选项的对话框
             onSelect onSelect = new onSelect(mActivity, arg2 - 1);

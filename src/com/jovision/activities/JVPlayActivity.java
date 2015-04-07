@@ -2746,7 +2746,7 @@ public class JVPlayActivity extends PlayActivity implements
                 case R.id.setspeed: {// 设置云台速度
                     /** 云台速度调整命令 **/
                     int speed = Integer.parseInt(ytSpeed.getText().toString());
-                    PlayUtil.setYTSpeed(lastClickIndex, speed);
+                    // PlayUtil.setYTSpeed(lastClickIndex, speed);
                     channel.getParent().setYtSpeed(speed);
 
                     break;
@@ -3204,12 +3204,17 @@ public class JVPlayActivity extends PlayActivity implements
                 } else {
                     JVPlayActivity.AUDIO_SINGLE = channelList.get(
                             lastClickIndex).isSingleVoice();
-                    createDialog("", false);
-                    startVoiceCall(lastClickIndex,
-                            channelList.get(lastClickIndex));
-                    if (Consts.PLAY_AP == playFlag) {
-                        functionListAdapter.selectIndex = 1;
+                    if (null != proDialog && proDialog.isShowing()) {
+                        MyLog.v(TAG, "频繁点击对讲");
+                    } else {
+                        createDialog("", false);
+                        startVoiceCall(lastClickIndex,
+                                channelList.get(lastClickIndex));
+                        if (Consts.PLAY_AP == playFlag) {
+                            functionListAdapter.selectIndex = 1;
+                        }
                     }
+
                 }
             }
 

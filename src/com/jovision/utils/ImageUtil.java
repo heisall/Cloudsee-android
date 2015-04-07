@@ -708,7 +708,7 @@ public class ImageUtil {
         FormFile mFormFile = new FormFile(fis, filename, formnames, contentType);
 
         FormFile[] files = new FormFile[] {
-            mFormFile
+                mFormFile
         };
 
         // 添加参数

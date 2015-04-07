@@ -816,7 +816,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
         File file = null;
 
         String[] proj = {
-            MediaStore.Images.Media.DATA
+                MediaStore.Images.Media.DATA
         };
         Cursor actualimagecursor = mActivity.managedQuery(uri, proj, null,
                 null, null);

@@ -1,3 +1,4 @@
+
 package com.jovision.views;
 
 import android.content.Context;
@@ -10,42 +11,42 @@ import com.jovision.activities.PlayActivity;
 
 public class MyViewPager extends ViewPager {
 
-	private boolean disableSliding;
-	private static Context mContext;
+    private boolean disableSliding;
+    private static Context mContext;
 
-	public boolean isDisableSliding() {
-		return disableSliding;
-	}
+    public boolean isDisableSliding() {
+        return disableSliding;
+    }
 
-	public MyViewPager(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public MyViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public MyViewPager(Context context) {
-		super(context);
-	}
+    public MyViewPager(Context context) {
+        super(context);
+    }
 
-	public void setContext(Context context) {
-		mContext = context;
-	}
+    public void setContext(Context context) {
+        mContext = context;
+    }
 
-	/**
-	 * 设置禁用滑动
-	 * 
-	 * @param disableSliding
-	 */
-	public void setDisableSliding(boolean disableSliding) {
-		this.disableSliding = disableSliding;
-	}
+    /**
+     * 设置禁用滑动
+     * 
+     * @param disableSliding
+     */
+    public void setDisableSliding(boolean disableSliding) {
+        this.disableSliding = disableSliding;
+    }
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent arg0) {
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent arg0) {
 
-		if (Configuration.ORIENTATION_LANDSCAPE == ((PlayActivity) mContext).configuration.orientation) {
-			return false;
-		}
+        if (Configuration.ORIENTATION_LANDSCAPE == ((PlayActivity) mContext).configuration.orientation) {
+            return false;
+        }
 
-		return (disableSliding ? false : super.onInterceptTouchEvent(arg0));
-	}
+        return (disableSliding ? false : super.onInterceptTouchEvent(arg0));
+    }
 
 }

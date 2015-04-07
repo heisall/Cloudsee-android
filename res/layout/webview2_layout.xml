@@ -116,6 +116,16 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/linkparams"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linksetting"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
                 <RelativeLayout
                     android:id="@+id/playbar"
                     android:layout_width="match_parent"

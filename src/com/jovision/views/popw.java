@@ -1,3 +1,4 @@
+
 package com.jovision.views;
 
 import android.app.Activity;
@@ -13,37 +14,37 @@ import com.jovetech.CloudSee.temp.R;
 
 public class popw extends PopupWindow {
 
-	private RelativeLayout btn_take_photo, btn_pick_photo, btn_cancel;
-	private View mMenuView;
-	private RelativeLayout pop_outside;
+    private RelativeLayout btn_take_photo, btn_pick_photo, btn_cancel;
+    private View mMenuView;
+    private RelativeLayout pop_outside;
 
-	public popw(Activity context, OnClickListener itemsOnClick) {
-		super(context);
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mMenuView = inflater.inflate(R.layout.pop, null);
-		btn_take_photo = (RelativeLayout) mMenuView
-				.findViewById(R.id.btn_take_photo);
-		btn_pick_photo = (RelativeLayout) mMenuView
-				.findViewById(R.id.btn_pick_photo);
-		btn_cancel = (RelativeLayout) mMenuView.findViewById(R.id.btn_cancel);
-		pop_outside = (RelativeLayout) mMenuView.findViewById(R.id.pop_outside);
+    public popw(Activity context, OnClickListener itemsOnClick) {
+        super(context);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mMenuView = inflater.inflate(R.layout.pop, null);
+        btn_take_photo = (RelativeLayout) mMenuView
+                .findViewById(R.id.btn_take_photo);
+        btn_pick_photo = (RelativeLayout) mMenuView
+                .findViewById(R.id.btn_pick_photo);
+        btn_cancel = (RelativeLayout) mMenuView.findViewById(R.id.btn_cancel);
+        pop_outside = (RelativeLayout) mMenuView.findViewById(R.id.pop_outside);
 
-		pop_outside.setOnClickListener(itemsOnClick);
-		btn_take_photo.setOnClickListener(itemsOnClick);
-		btn_pick_photo.setOnClickListener(itemsOnClick);
-		btn_cancel.setOnClickListener(itemsOnClick);
-		// 设置SelectPicPopupWindow的View
-		this.setContentView(mMenuView);
-		// 设置SelectPicPopupWindow弹出窗体的宽
-		this.setWidth(LayoutParams.FILL_PARENT);
-		// 设置SelectPicPopupWindow弹出窗体的高
-		this.setHeight(LayoutParams.WRAP_CONTENT);
-		// 设置SelectPicPopupWindow弹出窗体可点击
-		this.setFocusable(true);
-		// 设置SelectPicPopupWindow弹出窗体动画效果
-		this.setAnimationStyle(R.style.popupAnimation);
-		// mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-	}
+        pop_outside.setOnClickListener(itemsOnClick);
+        btn_take_photo.setOnClickListener(itemsOnClick);
+        btn_pick_photo.setOnClickListener(itemsOnClick);
+        btn_cancel.setOnClickListener(itemsOnClick);
+        // 设置SelectPicPopupWindow的View
+        this.setContentView(mMenuView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        this.setWidth(LayoutParams.FILL_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        this.setHeight(LayoutParams.WRAP_CONTENT);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        this.setFocusable(true);
+        // 设置SelectPicPopupWindow弹出窗体动画效果
+        this.setAnimationStyle(R.style.popupAnimation);
+        // mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
+    }
 
 }

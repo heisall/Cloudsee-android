@@ -1,6 +1,5 @@
-package com.jovision.adapters;
 
-import java.util.ArrayList;
+package com.jovision.adapters;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -24,258 +23,262 @@ import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
 import com.jovision.commons.MyLog;
 
+import java.util.ArrayList;
+
 public class ChannelAdapter extends BaseAdapter {
 
-	private ArrayList<Channel> channelList;
-	private BaseFragment mfragment;
-	private LayoutInflater inflater;
+    private ArrayList<Channel> channelList;
+    private BaseFragment mfragment;
+    private LayoutInflater inflater;
 
-	private int[] channelResArray = { R.drawable.channel_bg_1,
-			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
-			R.drawable.channel_bg_4, R.drawable.channel_bg_1,
-			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
-			R.drawable.channel_bg_4, R.drawable.channel_bg_1,
-			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
-			R.drawable.channel_bg_4, R.drawable.channel_bg_1,
-			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
-			R.drawable.channel_bg_4 };
+    private int[] channelResArray = {
+            R.drawable.channel_bg_1,
+            R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+            R.drawable.channel_bg_4, R.drawable.channel_bg_1,
+            R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+            R.drawable.channel_bg_4, R.drawable.channel_bg_1,
+            R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+            R.drawable.channel_bg_4, R.drawable.channel_bg_1,
+            R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+            R.drawable.channel_bg_4
+    };
 
-	private boolean showDelete = false;
-	private int screenWidth = 0;
+    private boolean showDelete = false;
+    private int screenWidth = 0;
 
-	public ChannelAdapter(BaseFragment fragment) {
-		mfragment = fragment;
-		try {
-			inflater = (LayoutInflater) fragment.getActivity()
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		} catch (Exception e) {
-			MyLog.v("ChannelAdapter", "ChannelAdapter is null");
-			e.printStackTrace();
-		}
+    public ChannelAdapter(BaseFragment fragment) {
+        mfragment = fragment;
+        try {
+            inflater = (LayoutInflater) fragment.getActivity()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        } catch (Exception e) {
+            MyLog.v("ChannelAdapter", "ChannelAdapter is null");
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	public void setData(ArrayList<Channel> dataList, int width) {
-		channelList = dataList;
+    public void setData(ArrayList<Channel> dataList, int width) {
+        channelList = dataList;
 
-		try {
-			if (width <= 0) {
-				screenWidth = ((BaseActivity) mfragment.getActivity()).disMetrics.widthPixels;
-			} else {
-				screenWidth = width;
-			}
+        try {
+            if (width <= 0) {
+                screenWidth = ((BaseActivity) mfragment.getActivity()).disMetrics.widthPixels;
+            } else {
+                screenWidth = width;
+            }
 
-		} catch (Exception e) {
-			MyLog.v("setData", "setData is null");
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            MyLog.v("setData", "setData is null");
+            e.printStackTrace();
+        }
 
-		notifyDataSetChanged();
-	}
+        notifyDataSetChanged();
+    }
 
-	// 控制是否显示删除按钮
-	public boolean setShowDelete(boolean flag) {
-		boolean changeSucc;
-		if (showDelete == flag) {
-			changeSucc = false;
-		} else {
-			showDelete = flag;
-			changeSucc = true;
-		}
-		return changeSucc;
-	}
+    // 控制是否显示删除按钮
+    public boolean setShowDelete(boolean flag) {
+        boolean changeSucc;
+        if (showDelete == flag) {
+            changeSucc = false;
+        } else {
+            showDelete = flag;
+            changeSucc = true;
+        }
+        return changeSucc;
+    }
 
-	@Override
-	public int getCount() {
-		return (null != channelList) ? (channelList.size() + 1) : 0;
-	}
+    @Override
+    public int getCount() {
+        return (null != channelList) ? (channelList.size() + 1) : 0;
+    }
 
-	@Override
-	public Object getItem(int arg0) {
-		return (null != channelList) ? (channelList.get(arg0)) : null;
-	}
+    @Override
+    public Object getItem(int arg0) {
+        return (null != channelList) ? (channelList.get(arg0)) : null;
+    }
 
-	@Override
-	public long getItemId(int arg0) {
-		return arg0;
-	}
+    @Override
+    public long getItemId(int arg0) {
+        return arg0;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ChannelHolder channelHolder;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ChannelHolder channelHolder;
 
-		if (null == convertView) {
-			convertView = inflater.inflate(R.layout.channel_item, null);
-			channelHolder = new ChannelHolder();
-			channelHolder.channelBG = (FrameLayout) convertView
-					.findViewById(R.id.channel_rl);
-			channelHolder.channelName = (TextView) convertView
-					.findViewById(R.id.channel_name);
-			channelHolder.channelDel = (ImageView) convertView
-					.findViewById(R.id.channeldelect);
-			channelHolder.channelEdit = (RelativeLayout) convertView
-					.findViewById(R.id.channel_edit);
-			channelHolder.channelEditIV = (ImageView) convertView
-					.findViewById(R.id.channel_cancleedit);
+        if (null == convertView) {
+            convertView = inflater.inflate(R.layout.channel_item, null);
+            channelHolder = new ChannelHolder();
+            channelHolder.channelBG = (FrameLayout) convertView
+                    .findViewById(R.id.channel_rl);
+            channelHolder.channelName = (TextView) convertView
+                    .findViewById(R.id.channel_name);
+            channelHolder.channelDel = (ImageView) convertView
+                    .findViewById(R.id.channeldelect);
+            channelHolder.channelEdit = (RelativeLayout) convertView
+                    .findViewById(R.id.channel_edit);
+            channelHolder.channelEditIV = (ImageView) convertView
+                    .findViewById(R.id.channel_cancleedit);
 
-			convertView.setTag(channelHolder);
+            convertView.setTag(channelHolder);
 
-		} else {
-			channelHolder = (ChannelHolder) convertView.getTag();
-		}
-		try {
-			int w = screenWidth / 4;
-			int h = w - 20;
-			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
-					w, h);
-			rllp.setMargins(0, 10, 10, 0);
-			channelHolder.channelBG.setLayoutParams(rllp);
+        } else {
+            channelHolder = (ChannelHolder) convertView.getTag();
+        }
+        try {
+            int w = screenWidth / 4;
+            int h = w - 20;
+            RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
+                    w, h);
+            rllp.setMargins(0, 10, 10, 0);
+            channelHolder.channelBG.setLayoutParams(rllp);
 
-			// 普通通道
-			if (position < channelList.size()) {
-				if (showDelete) {
-					channelHolder.channelEdit.setVisibility(View.VISIBLE);
-					channelHolder.channelDel.setVisibility(View.VISIBLE);
-				} else {
-					channelHolder.channelEdit.setVisibility(View.GONE);
-					channelHolder.channelDel.setVisibility(View.GONE);
-				}
+            // 普通通道
+            if (position < channelList.size()) {
+                if (showDelete) {
+                    channelHolder.channelEdit.setVisibility(View.VISIBLE);
+                    channelHolder.channelDel.setVisibility(View.VISIBLE);
+                } else {
+                    channelHolder.channelEdit.setVisibility(View.GONE);
+                    channelHolder.channelDel.setVisibility(View.GONE);
+                }
 
-				final int channel = channelList.get(position).getChannel();
-				channelHolder.channelName.setText(channelList.get(position)
-						.getChannelName());
-				channelHolder.channelBG
-						.setBackgroundResource(channelResArray[((channel - 1) / 4) % 4]);
+                final int channel = channelList.get(position).getChannel();
+                channelHolder.channelName.setText(channelList.get(position)
+                        .getChannelName());
+                channelHolder.channelBG
+                        .setBackgroundResource(channelResArray[((channel - 1) / 4) % 4]);
 
-				// 通道单击播放
-				channelHolder.channelBG
-						.setOnClickListener(new OnClickListener() {
+                // 通道单击播放
+                channelHolder.channelBG
+                        .setOnClickListener(new OnClickListener() {
 
-							@Override
-							public void onClick(View arg0) {
-								mfragment.onNotify(
-										Consts.WHAT_CHANNEL_ITEM_CLICK,
-										channel, 0, null);
-							}
-						});
+                            @Override
+                            public void onClick(View arg0) {
+                                mfragment.onNotify(
+                                        Consts.WHAT_CHANNEL_ITEM_CLICK,
+                                        channel, 0, null);
+                            }
+                        });
 
-				// 长按删除
-				channelHolder.channelBG
-						.setOnLongClickListener(new OnLongClickListener() {
+                // 长按删除
+                channelHolder.channelBG
+                        .setOnLongClickListener(new OnLongClickListener() {
 
-							@Override
-							public boolean onLongClick(View arg0) {
-								mfragment.onNotify(
-										Consts.WHAT_CHANNEL_ITEM_LONG_CLICK,
-										channel, 0, null);
-								return true;
-							}
-						});
+                            @Override
+                            public boolean onLongClick(View arg0) {
+                                mfragment.onNotify(
+                                        Consts.WHAT_CHANNEL_ITEM_LONG_CLICK,
+                                        channel, 0, null);
+                                return true;
+                            }
+                        });
 
-				// 点击删除通道
-				channelHolder.channelDel
-						.setOnClickListener(new OnClickListener() {
+                // 点击删除通道
+                channelHolder.channelDel
+                        .setOnClickListener(new OnClickListener() {
 
-							@Override
-							public void onClick(View arg0) {
-								delChanneldialog(channelList.size(), channel);
-							}
-						});
+                            @Override
+                            public void onClick(View arg0) {
+                                delChanneldialog(channelList.size(), channel);
+                            }
+                        });
 
-				// 编辑通道
-				channelHolder.channelEditIV
-						.setOnClickListener(new OnClickListener() {
+                // 编辑通道
+                channelHolder.channelEditIV
+                        .setOnClickListener(new OnClickListener() {
 
-							@Override
-							public void onClick(View arg0) {
-								mfragment.onNotify(
-										Consts.WHAT_CHANNEL_EDIT_CLICK,
-										channel, 0, null);
-							}
-						});
-			} else {
-				// 最后一个通道用于添加通道
-				channelHolder.channelName.setText("+");
-				channelHolder.channelDel.setVisibility(View.GONE);
-				channelHolder.channelEdit.setVisibility(View.GONE);
+                            @Override
+                            public void onClick(View arg0) {
+                                mfragment.onNotify(
+                                        Consts.WHAT_CHANNEL_EDIT_CLICK,
+                                        channel, 0, null);
+                            }
+                        });
+            } else {
+                // 最后一个通道用于添加通道
+                channelHolder.channelName.setText("+");
+                channelHolder.channelDel.setVisibility(View.GONE);
+                channelHolder.channelEdit.setVisibility(View.GONE);
 
-				// [Neo] stable
-				channelHolder.channelBG
-						.setBackgroundResource(channelResArray[0]);
-				channelHolder.channelBG
-						.setOnClickListener(new OnClickListener() {
+                // [Neo] stable
+                channelHolder.channelBG
+                        .setBackgroundResource(channelResArray[0]);
+                channelHolder.channelBG
+                        .setOnClickListener(new OnClickListener() {
 
-							@Override
-							public void onClick(View arg0) {
-								mfragment.onNotify(
-										Consts.WHAT_CHANNEL_ADD_CLICK, 0, 0,
-										null);
-							}
-						});
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+                            @Override
+                            public void onClick(View arg0) {
+                                mfragment.onNotify(
+                                        Consts.WHAT_CHANNEL_ADD_CLICK, 0, 0,
+                                        null);
+                            }
+                        });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-		}
+        }
 
-		return convertView;
-	}
+        return convertView;
+    }
 
-	class ChannelHolder {
-		FrameLayout channelBG;
-		TextView channelName;
-		ImageView channelDel;
+    class ChannelHolder {
+        FrameLayout channelBG;
+        TextView channelName;
+        ImageView channelDel;
 
-		RelativeLayout channelEdit;
-		ImageView channelEditIV;
-	}
+        RelativeLayout channelEdit;
+        ImageView channelEditIV;
+    }
 
-	/**
-	 * 删除通道
-	 * 
-	 * @param size
-	 * @param channel
-	 */
-	protected void delChanneldialog(int size, final int channel) {
-		String okString = mfragment.getActivity().getResources()
-				.getString(R.string.ok);
+    /**
+     * 删除通道
+     * 
+     * @param size
+     * @param channel
+     */
+    protected void delChanneldialog(int size, final int channel) {
+        String okString = mfragment.getActivity().getResources()
+                .getString(R.string.ok);
 
-		String delectString = "";
+        String delectString = "";
 
-		if (size > 1) {
-			delectString = mfragment.getActivity().getResources()
-					.getString(R.string.str_delete_sure);
-		} else {
-			delectString = mfragment.getActivity().getResources()
-					.getString(R.string.delete_dev_sure);
-		}
+        if (size > 1) {
+            delectString = mfragment.getActivity().getResources()
+                    .getString(R.string.str_delete_sure);
+        } else {
+            delectString = mfragment.getActivity().getResources()
+                    .getString(R.string.delete_dev_sure);
+        }
 
-		String warmString = mfragment.getActivity().getResources()
-				.getString(R.string.str_delete_tip);
-		String cancleString = mfragment.getActivity().getResources()
-				.getString(R.string.str_crash_cancel);
-		AlertDialog.Builder builder = new Builder(mfragment.getActivity());
-		builder.setMessage(delectString);
-		builder.setTitle(warmString);
-		builder.setPositiveButton(okString,
-				new DialogInterface.OnClickListener() {
+        String warmString = mfragment.getActivity().getResources()
+                .getString(R.string.str_delete_tip);
+        String cancleString = mfragment.getActivity().getResources()
+                .getString(R.string.str_crash_cancel);
+        AlertDialog.Builder builder = new Builder(mfragment.getActivity());
+        builder.setMessage(delectString);
+        builder.setTitle(warmString);
+        builder.setPositiveButton(okString,
+                new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						mfragment.onNotify(Consts.WHAT_CHANNEL_ITEM_DEL_CLICK,
-								channel, 0, null);
-					}
-				});
-		builder.setNegativeButton(cancleString,
-				new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        mfragment.onNotify(Consts.WHAT_CHANNEL_ITEM_DEL_CLICK,
+                                channel, 0, null);
+                    }
+                });
+        builder.setNegativeButton(cancleString,
+                new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-					}
-				});
-		builder.create().show();
-	}
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+    }
 }

@@ -1,13 +1,15 @@
 
 package com.jovetech.product;
 
+import android.content.Context;
+
 public interface ITabItem {
 
     public String message = null;
     
     public boolean isCustomize();
     
-    public String getName();
+    public String getName(Context context);
 
     public int getDrawable();
 

@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <com.jovision.activities.JVFragmentIndicator
+            <com.jovision.customize.CustomizeIconTabIndicator
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

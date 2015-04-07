@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/customize_board_blur_background" >
+
+    <LinearLayout
+        android:id="@+id/pop_control_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/customize_board_below_background"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/pop_control_bar_front_holder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/customize_board_below_background"
+            android:clickable="true"
+            android:focusable="false"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/customize_board_background_icon_close" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/panel_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/composer_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85.0dip"
+        android:src="@drawable/compose_slogan" />
+
+</RelativeLayout>

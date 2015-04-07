@@ -1,22 +1,19 @@
-
 package com.jovetech.product;
 
-import android.content.res.Resources;
+import android.content.Context;
 
 import com.jovetech.CloudSee.temp.R;
 
 public class VideoTab implements ITabItem {
 
     @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        return Resources.getSystem().getStringArray(R.array.array_tab)[1];
+    public String getName(Context context) {
+        return context.getResources().getStringArray(R.array.array_tab)[1];
     }
 
     @Override
     public int getDrawable() {
-        // TODO Auto-generated method stub
-        return 0;
+        return R.drawable.tab_videomanage_selector;
     }
 
     @Override
@@ -27,13 +24,11 @@ public class VideoTab implements ITabItem {
 
     @Override
     public char getTag() {
-        // TODO Auto-generated method stub
         return 'b';
     }
 
     @Override
     public int getLayoutType() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -45,7 +40,6 @@ public class VideoTab implements ITabItem {
 
     @Override
     public boolean isCustomize() {
-        // TODO Auto-generated method stub
         return false;
     }
 

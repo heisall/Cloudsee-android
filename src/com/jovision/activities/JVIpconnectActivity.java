@@ -2,6 +2,7 @@
 package com.jovision.activities;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -232,12 +233,13 @@ public class JVIpconnectActivity extends BaseActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
 
-                default:
-                    break;
-            }
-        }
-    };
-    OnClickListener myOnClickListener = new OnClickListener() {
+			default:
+				break;
+			}
+		}
+	};
+
+	OnClickListener myOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -268,88 +270,100 @@ public class JVIpconnectActivity extends BaseActivity {
                             couldnumLayout.setVisibility(View.GONE);
                             portLayout.setVisibility(View.VISIBLE);
 
-                            ipconnect_address.setText(editDevice.getIp());
-                            if (0 == editDevice.getPort()) {
-                                ipconnect_port.setText("9101");
-                            } else {
-                                ipconnect_port.setText(editDevice.getPort() + "");
-                            }
-                            ipconnect_user.setText(editDevice.getUser());
-                            ipconnect_pwd.setText(editDevice.getPwd());
-                            mContainer.startAnimation(AnimationUtils.loadAnimation(
-                                    JVIpconnectActivity.this, R.anim.rotate_in));
-                        }
-                    });
-                    mContainer.startAnimation(ani);
-                    break;
-                case R.id.ipconnect_cloud:
-                    Animation ani2 = AnimationUtils.loadAnimation(
-                            JVIpconnectActivity.this, R.anim.rotate_out);
-                    ani2.setAnimationListener(new AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
+						ipconnect_address.setText(editDevice.getIp());
+						if (0 == editDevice.getPort()) {
+							ipconnect_port.setText("9101");
+						} else {
+							ipconnect_port.setText(editDevice.getPort() + "");
+						}
+						ipconnect_user.setText(editDevice.getUser());
+						ipconnect_pwd.setText(editDevice.getPwd());
+						mContainer.startAnimation(AnimationUtils.loadAnimation(
+								JVIpconnectActivity.this, R.anim.rotate_in));
+					}
+				});
+				if (2 != isDevice) {
+					mContainer.startAnimation(ani);
+				}
+				break;
+			case R.id.ipconnect_cloud:
+				if (2 == isDevice) {
+					showTextToast(R.string.ip_add_notallow);
+				}else{
+					Animation ani2 = AnimationUtils.loadAnimation(
+							JVIpconnectActivity.this, R.anim.rotate_out);
+					ani2.setAnimationListener(new AnimationListener() {
+						@Override
+						public void onAnimationStart(Animation animation) {
+						}
 
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
+						@Override
+						public void onAnimationRepeat(Animation animation) {
+						}
 
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            isTurn = false;
-                            ipText.setTextColor(getResources().getColor(
-                                    R.color.leftdevicecolor));
-                            cloudText.setTextColor(getResources().getColor(
-                                    R.color.play_bq));
-                            ipImg.setVisibility(View.GONE);
-                            cloudImg.setVisibility(View.VISIBLE);
-                            addressLayout.setVisibility(View.GONE);
-                            tcpLayout.setVisibility(View.GONE);
-                            couldnumLayout.setVisibility(View.VISIBLE);
-                            portLayout.setVisibility(View.GONE);
+						@Override
+						public void onAnimationEnd(Animation animation) {
+							isTurn = false;
+							ipText.setTextColor(getResources().getColor(
+									R.color.leftdevicecolor));
+							cloudText.setTextColor(getResources().getColor(
+									R.color.play_bq));
+							ipImg.setVisibility(View.GONE);
+							cloudImg.setVisibility(View.VISIBLE);
+							addressLayout.setVisibility(View.GONE);
+							tcpLayout.setVisibility(View.GONE);
+							couldnumLayout.setVisibility(View.VISIBLE);
+							portLayout.setVisibility(View.GONE);
 
-                            cloud_number.setText(editDevice.getFullNo());
-                            ipconnect_user.setText(editDevice.getUser());
-                            ipconnect_pwd.setText(editDevice.getPwd());
+							cloud_number.setText(editDevice.getFullNo());
+							ipconnect_user.setText(editDevice.getUser());
+							ipconnect_pwd.setText(editDevice.getPwd());
 
-                            userString = ipconnect_user.getText().toString();
-                            pwdString = ipconnect_pwd.getText().toString();
+							userString = ipconnect_user.getText().toString();
+							pwdString = ipconnect_pwd.getText().toString();
 
-                            mContainer.startAnimation(AnimationUtils.loadAnimation(
-                                    JVIpconnectActivity.this, R.anim.rotate_in));
-                        }
-                    });
-                    mContainer.startAnimation(ani2);
-                    break;
-                case R.id.editsave:
-                    if (isTurn) {
-                        ipString = ipconnect_address.getText().toString();
-                        portString = ipconnect_port.getText().toString();
-                        userString = ipconnect_user.getText().toString();
-                        pwdString = ipconnect_pwd.getText().toString();
-                        if ("".equalsIgnoreCase(ipString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_ip_adress_notnull);
-                        } else if (!ConfigUtil.checkIPAdress(ipString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_ipadress_format_err);
-                        } else if ("".equalsIgnoreCase(portString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_port_notnull);
-                        } else if (!ConfigUtil.checkPortNum(portString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_port_format_err);
-                        } else if ("".equalsIgnoreCase(userString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_device_account_notnull);
-                        } else if (!ConfigUtil.checkDeviceUsername(userString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_device_account_error);
-                        } else {
-                            EditDevTask task = new EditDevTask();
-                            String[] params = new String[3];
-                            params[0] = "1";
-                            task.execute(params);
+							mContainer.startAnimation(AnimationUtils.loadAnimation(
+									JVIpconnectActivity.this, R.anim.rotate_in));
+						}
+					});
+					mContainer.startAnimation(ani2);
+				}
+				break;
+			case R.id.editsave:
+				if (isTurn) {
+					ipString = ipconnect_address.getText().toString();
+					portString = ipconnect_port.getText().toString();
+					userString = ipconnect_user.getText().toString();
+					pwdString = ipconnect_pwd.getText().toString();
+					if ("".equalsIgnoreCase(ipString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_ip_adress_notnull);
+					} else if (!ConfigUtil.checkIPAdress(ipString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_ipadress_format_err);
+					} else if ("".equalsIgnoreCase(portString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_port_notnull);
+					} else if (!ConfigUtil.checkPortNum(portString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_port_format_err);
+					} else if ("".equalsIgnoreCase(userString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_device_account_notnull);
+					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_device_account_error);
+					} else {
+						EditDevTask task = new EditDevTask();
+						String[] params = new String[3];
+						if (Boolean.valueOf(statusHashMap
+								.get(Consts.LOCAL_LOGIN)) && 2== editDevice.getIsDevice()) {
+							params[0] = "2";
+						}else  {
+							params[0] = "1";
+						}
+
+						task.execute(params);
 
                             // if (!Boolean.valueOf(statusHashMap
                             // .get(Consts.LOCAL_LOGIN))) {
@@ -376,21 +390,21 @@ public class JVIpconnectActivity extends BaseActivity {
                         userString = ipconnect_user.getText().toString();
                         pwdString = ipconnect_pwd.getText().toString();
 
-                        if ("".equalsIgnoreCase(userString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_device_account_notnull);
-                        } else if (!ConfigUtil.checkDeviceUsername(userString)) {
-                            JVIpconnectActivity.this
-                                    .showTextToast(R.string.login_str_device_account_error);
-                        }
-                        // else if ("".equalsIgnoreCase(pwdString)) {
-                        // JVIpconnectActivity.this
-                        // .showTextToast(R.string.login_str_device_pass_notnull);
-                        // } else if (!ConfigUtil.checkDevicePwd(pwdString)) {
-                        // JVIpconnectActivity.this
-                        // .showTextToast(R.string.login_str_device_pass_error);
-                        // }
-                        else {
+					if ("".equalsIgnoreCase(userString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_device_account_notnull);
+					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
+						JVIpconnectActivity.this
+						.showTextToast(R.string.login_str_device_account_error);
+					}
+					// else if ("".equalsIgnoreCase(pwdString)) {
+					// JVIpconnectActivity.this
+					// .showTextToast(R.string.login_str_device_pass_notnull);
+					// } else if (!ConfigUtil.checkDevicePwd(pwdString)) {
+					// JVIpconnectActivity.this
+					// .showTextToast(R.string.login_str_device_pass_error);
+					// }
+					else {
 
                             EditDevTask task = new EditDevTask();
                             String[] params = new String[3];
@@ -444,53 +458,52 @@ public class JVIpconnectActivity extends BaseActivity {
             int editRes = -1;
             try {
                 int isDevice = Integer.parseInt(params[0]);
+				if (1 == isDevice || 2 == isDevice) {// IP
+					if (isTcpchose) {
+						editDevice.setEnableTcpConnect(1);
+					} else {
+						editDevice.setEnableTcpConnect(0);
+					}
+					editDevice.setIp(ConfigUtil.getIpAddress(ipString));
+					editDevice.setPort(Integer.valueOf(portString));
+					editDevice.setUser(userString);
+					editDevice.setPwd(pwdString);
+					editDevice.setIsDevice(isDevice);// Ip设备
+				} else {
+					// editDevice.setIp("");
+					// editDevice.setPort(0);
+					editDevice.setUser(userString);
+					editDevice.setPwd(pwdString);
+					editDevice.setIsDevice(0);// 云视通
+				}
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+					editRes = DeviceUtil.editDeviceConnType(editDevice,
+							statusHashMap.get(Consts.KEY_USERNAME));
+				} else {
+					editRes = 0;
+				}
 
-                if (1 == isDevice) {// IP
-                    if (isTcpchose) {
-                        editDevice.setEnableTcpConnect(1);
-                    } else {
-                        editDevice.setEnableTcpConnect(0);
-                    }
-                    editDevice.setIp(ConfigUtil.getIpAddress(ipString));
-                    editDevice.setPort(Integer.valueOf(portString));
-                    editDevice.setUser(userString);
-                    editDevice.setPwd(pwdString);
-                    editDevice.setIsDevice(1);// Ip设备
-                } else {
-                    // editDevice.setIp("");
-                    // editDevice.setPort(0);
-                    editDevice.setUser(userString);
-                    editDevice.setPwd(pwdString);
-                    editDevice.setIsDevice(0);// 云视通
-                }
-                if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-                    editRes = DeviceUtil.editDeviceConnType(editDevice,
-                            statusHashMap.get(Consts.KEY_USERNAME));
-                } else {
-                    editRes = 0;
-                }
-
-                if (0 == editRes) {
-                    if (1 == isDevice) {// IP
-                        if (isTcpchose) {
-                            deviceList.get(deviceIndex).setEnableTcpConnect(1);
-                        } else {
-                            deviceList.get(deviceIndex).setEnableTcpConnect(0);
-                        }
-                        deviceList.get(deviceIndex).setIp(
-                                ConfigUtil.getIpAddress(ipString));
-                        deviceList.get(deviceIndex).setPort(
-                                Integer.valueOf(portString));
-                        deviceList.get(deviceIndex).setUser(userString);
-                        deviceList.get(deviceIndex).setPwd(pwdString);
-                        deviceList.get(deviceIndex).setIsDevice(1);// Ip设备
-                    } else {
-                        deviceList.get(deviceIndex).setIp("");
-                        deviceList.get(deviceIndex).setPort(0);
-                        deviceList.get(deviceIndex).setUser(userString);
-                        deviceList.get(deviceIndex).setPwd(pwdString);
-                        deviceList.get(deviceIndex).setIsDevice(0);// 云视通
-                    }
+				if (0 == editRes) {
+					if (1 == isDevice || 2 == isDevice) {// IP
+						if (isTcpchose) {
+							deviceList.get(deviceIndex).setEnableTcpConnect(1);
+						} else {
+							deviceList.get(deviceIndex).setEnableTcpConnect(0);
+						}
+						deviceList.get(deviceIndex).setIp(
+								ConfigUtil.getIpAddress(ipString));
+						deviceList.get(deviceIndex).setPort(
+								Integer.valueOf(portString));
+						deviceList.get(deviceIndex).setUser(userString);
+						deviceList.get(deviceIndex).setPwd(pwdString);
+						deviceList.get(deviceIndex).setIsDevice(isDevice);// Ip设备
+					} else {
+						deviceList.get(deviceIndex).setIp("");
+						deviceList.get(deviceIndex).setPort(0);
+						deviceList.get(deviceIndex).setUser(userString);
+						deviceList.get(deviceIndex).setPwd(pwdString);
+						deviceList.get(deviceIndex).setIsDevice(0);// 云视通
+					}
 
                     CacheUtil.saveDevList(deviceList);
                 }

@@ -64,6 +64,33 @@
         <item>Scan QR Code</item>
     </string-array>
     <!-- 家庭安防产品 -->
+    <string-array name="time_zone">
+        <item>UTC+12</item>
+        <item>UTC+11</item>
+        <item>UTC+10</item>
+        <item>UTC+9</item>
+        <item>UTC+8</item>
+        <item>UTC+7</item>
+        <item>UTC+6</item>
+        <item>UTC+5</item>
+        <item>UTC+4</item>
+        <item>UTC+3</item>
+        <item>UTC+2</item>
+        <item>UTC+1</item>
+        <item>UTC</item>
+        <item>UTC-1</item>
+        <item>UTC-2</item>
+        <item>UTC-3</item>
+        <item>UTC-4</item>
+        <item>UTC-5</item>
+        <item>UTC-6</item>
+        <item>UTC-7</item>
+        <item>UTC-8</item>
+        <item>UTC-9</item>
+        <item>UTC-10</item>
+        <item>UTC-11</item>
+        <item>UTC-12</item>
+    </string-array>
     <!-- 图片质量 -->
     <string-array name="array_image_quality">
         <item>Fluent</item>

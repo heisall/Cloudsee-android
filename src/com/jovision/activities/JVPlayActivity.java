@@ -1142,7 +1142,6 @@ public class JVPlayActivity extends PlayActivity implements
             }
 
             case Consts.CALL_CHAT_DATA: {
-                dismissDialog();
                 MyLog.i(TAG, "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2=" + arg2);
                 switch (arg2) {
                 // 语音数据
@@ -1153,7 +1152,7 @@ public class JVPlayActivity extends PlayActivity implements
 
                     // 同意语音请求
                     case JVNetConst.JVN_RSP_CHATACCEPT: {
-
+                        MyLog.v("tag-voiceCall", "主控同意对讲");
                         Channel channel = channelList.get(lastClickIndex);
                         if (channel.isSingleVoice()) {
                             showTextToast(R.string.voice_tips2);
@@ -1190,12 +1189,13 @@ public class JVPlayActivity extends PlayActivity implements
                         channel.setVoiceCall(true);
                         VOICECALLING = true;
                         voiceCallSelected(true);
-
+                        dismissDialog();
                         break;
                     }
 
                     // 暂停语音聊天
                     case JVNetConst.JVN_CMD_CHATSTOP: {
+                        MyLog.e("tag-voiceCall", "主控----不同意对讲");
                         if (realStop) {
                             realStop = false;
                         } else {
@@ -1203,7 +1203,7 @@ public class JVPlayActivity extends PlayActivity implements
                                     .getDrawable(R.drawable.video_talkback_icon));
                             showTextToast(R.string.has_calling);
                         }
-
+                        dismissDialog();
                         break;
                     }
                 }
@@ -1328,7 +1328,7 @@ public class JVPlayActivity extends PlayActivity implements
                                 Device device = channel.getParent();
                                 boolean enableTcp = device.getEnableTcpConnect() == 1 ? true
                                         : false;
-                                MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
+                                // MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
 
                                 // playStatistics
                                 // .setText(String
@@ -2392,7 +2392,7 @@ public class JVPlayActivity extends PlayActivity implements
 
                 boolean enableTcp = device.getEnableTcpConnect() == 1 ? true
                         : false;
-                MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
+                // MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
 
                 if (null != ssid
                         && channel.getParent().getFullNo()
@@ -3067,6 +3067,7 @@ public class JVPlayActivity extends PlayActivity implements
                     break;
                 case R.id.funclayout:// AP功能列表对讲功能
                 case R.id.voicecall:// 语音对讲
+                    MyLog.v("tag-voiceCall", "按钮点击");
                     voiceCall(channel);
                     if (istalk) {
                         istalk = false;
@@ -3075,17 +3076,22 @@ public class JVPlayActivity extends PlayActivity implements
                         function.setVisibility(View.VISIBLE);
                         talk_eachother.setVisibility(View.GONE);
                     }
+
                     break;
                 case R.id.talk_cancel:
-                    voiceCall(channel);
-                    talkMethod();
-                    voiceCallSelected(false);
-                    function.setVisibility(View.VISIBLE);
-                    talk_eachother.setVisibility(View.GONE);
-                    istalk = false;
-                    if (Consts.PLAY_AP == playFlag) {
-                        horfunc_talk.setVisibility(View.GONE);
-                        ishonfunctalk = false;
+                    if (null != proDialog && proDialog.isShowing()) {
+                        MyLog.v(TAG, "频繁点击对讲" + proDialog + "" + proDialog.isShowing());
+                    } else {
+                        voiceCall(channel);
+                        talkMethod();
+                        voiceCallSelected(false);
+                        function.setVisibility(View.VISIBLE);
+                        talk_eachother.setVisibility(View.GONE);
+                        istalk = false;
+                        if (Consts.PLAY_AP == playFlag) {
+                            horfunc_talk.setVisibility(View.GONE);
+                            ishonfunctalk = false;
+                        }
                     }
                     break;
                 case R.id.bottom_but7:
@@ -3192,7 +3198,12 @@ public class JVPlayActivity extends PlayActivity implements
                 showTextToast(R.string.not_support_this_func);
             } else {
                 if (channelList.get(lastClickIndex).isVoiceCall()) {
+                    MyLog.e("tag-voiceCall", "发---停止对讲命令");
+                    if (!channelList.get(lastClickIndex).isSingleVoice()) {
+                        createDialog("", false);
+                    }
                     stopVoiceCall(lastClickIndex);
+                    handler.sendEmptyMessageDelayed(Consts.WHAT_DIALOG_CLOSE, 2 * 1000);
                     Jni.pauseAudio(lastClickIndex);
                     channelList.get(lastClickIndex).setVoiceCall(false);
                     realStop = true;
@@ -3204,17 +3215,13 @@ public class JVPlayActivity extends PlayActivity implements
                 } else {
                     JVPlayActivity.AUDIO_SINGLE = channelList.get(
                             lastClickIndex).isSingleVoice();
-                    if (null != proDialog && proDialog.isShowing()) {
-                        MyLog.v(TAG, "频繁点击对讲");
-                    } else {
-                        createDialog("", false);
-                        startVoiceCall(lastClickIndex,
-                                channelList.get(lastClickIndex));
-                        if (Consts.PLAY_AP == playFlag) {
-                            functionListAdapter.selectIndex = 1;
-                        }
+                    createDialog("", false);
+                    MyLog.v("tag-voiceCall", "发----请求对讲命令");
+                    startVoiceCall(lastClickIndex,
+                            channelList.get(lastClickIndex));
+                    if (Consts.PLAY_AP == playFlag) {
+                        functionListAdapter.selectIndex = 1;
                     }
-
                 }
             }
 
@@ -3254,32 +3261,6 @@ public class JVPlayActivity extends PlayActivity implements
     public void onBackPressed() {
         backMethod(true);
     }
-
-    // @Override
-    // public boolean onKeyDown(int keyCode, KeyEvent event) {
-    // if(keyCode == KeyEvent.KEYCODE_MENU){
-    // if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
-    // 横屏
-    // if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
-    // horPlayBarLayout.setVisibility(View.GONE);
-    // } else {
-    // horPlayBarLayout.setVisibility(View.VISIBLE);
-    // }
-    // } else {
-    // if (ONE_SCREEN == currentScreen) {
-    // if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
-    // verPlayBarLayout.setVisibility(View.GONE);
-    // } else {
-    // verPlayBarLayout.setVisibility(View.VISIBLE);
-    // }
-    // }
-    // }
-    // return false;
-    // }else if(keyCode == KeyEvent.KEYCODE_BACK){
-    // backMethod(true);
-    // }
-    // return super.onKeyDown(keyCode, event);
-    // }
 
     boolean backFunc = false;
 

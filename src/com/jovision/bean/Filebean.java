@@ -1,3 +1,4 @@
+
 package com.jovision.bean;
 
 /**
@@ -7,22 +8,22 @@ package com.jovision.bean;
  * @version 创建时间 ：2014-11-21 上午12:11:12
  */
 public class Filebean {
-	private String filename;
-	private boolean select;
+    private String filename;
+    private boolean select;
 
-	public String getFilename() {
-		return filename;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
-	public boolean isSelect() {
-		return select;
-	}
+    public boolean isSelect() {
+        return select;
+    }
 
-	public void setSelect(boolean select) {
-		this.select = select;
-	}
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
 }

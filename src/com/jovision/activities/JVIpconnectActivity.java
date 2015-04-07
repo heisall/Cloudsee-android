@@ -1,6 +1,5 @@
-package com.jovision.activities;
 
-import java.util.ArrayList;
+package com.jovision.activities;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -26,211 +25,213 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.views.AlarmDialog;
 
+import java.util.ArrayList;
+
 public class JVIpconnectActivity extends BaseActivity {
-	// ip连接形式的布局
-	private RelativeLayout ipconnnect_ip;
-	// 云视通号连接形式的布局
-	private RelativeLayout ipconnnect_cloud;
-	// 输入ip地址的布局
-	private LinearLayout addressLayout;
-	// 输入云视通号的布局
-	private LinearLayout couldnumLayout;
-	// 选择连接模式的布局
-	private RelativeLayout tcpLayout;
-	// 输入接口的布局
-	private LinearLayout portLayout;
-	// 输入ip地址的edittext
-	private EditText ipconnect_address;
-	// 输入端口号的edittext
-	private EditText ipconnect_port;
-	// 输入用户名的edittext
-	private EditText ipconnect_user;
-	// 输入密码的edittext
-	private EditText ipconnect_pwd;
-	// 保存按钮
-	private Button editsave;
-	// 旋转的外层包裹布局
-	private LinearLayout mContainer;
-	// 更改形式的标志位
-	private boolean isTurn = false;
-	// 返回按钮
-	private ImageView tcpImageView;
+    // ip连接形式的布局
+    private RelativeLayout ipconnnect_ip;
+    // 云视通号连接形式的布局
+    private RelativeLayout ipconnnect_cloud;
+    // 输入ip地址的布局
+    private LinearLayout addressLayout;
+    // 输入云视通号的布局
+    private LinearLayout couldnumLayout;
+    // 选择连接模式的布局
+    private RelativeLayout tcpLayout;
+    // 输入接口的布局
+    private LinearLayout portLayout;
+    // 输入ip地址的edittext
+    private EditText ipconnect_address;
+    // 输入端口号的edittext
+    private EditText ipconnect_port;
+    // 输入用户名的edittext
+    private EditText ipconnect_user;
+    // 输入密码的edittext
+    private EditText ipconnect_pwd;
+    // 保存按钮
+    private Button editsave;
+    // 旋转的外层包裹布局
+    private LinearLayout mContainer;
+    // 更改形式的标志位
+    private boolean isTurn = false;
+    // 返回按钮
+    private ImageView tcpImageView;
 
-	private boolean isTcpchose;
+    private boolean isTcpchose;
 
-	private TextView cloud_number;
+    private TextView cloud_number;
 
-	private int deviceIndex;
+    private int deviceIndex;
 
-	private int isDevice;
+    private int isDevice;
 
-	private TextView ipText;
+    private TextView ipText;
 
-	private ImageView ipImg;
+    private ImageView ipImg;
 
-	private TextView cloudText;
+    private TextView cloudText;
 
-	private ImageView cloudImg;
+    private ImageView cloudImg;
 
-	private ArrayList<Device> deviceList = new ArrayList<Device>();
+    private ArrayList<Device> deviceList = new ArrayList<Device>();
 
-	// private Device device;
+    // private Device device;
 
-	private Device editDevice;
+    private Device editDevice;
 
-	private String ipString;
-	private String portString;
-	private String userString;
-	private String pwdString;
+    private String ipString;
+    private String portString;
+    private String userString;
+    private String pwdString;
 
-	protected RelativeLayout.LayoutParams reParamsip;
-	protected RelativeLayout.LayoutParams reParamscloud;
+    protected RelativeLayout.LayoutParams reParamsip;
+    protected RelativeLayout.LayoutParams reParamscloud;
 
-	@Override
-	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch (what) {
-		case Consts.WHAT_PUSH_MESSAGE:
-			// 弹出对话框
-			new AlarmDialog(this).Show(obj);
-			break;
-		default:
-			break;
-		}
-	}
+    @Override
+    public void onHandler(int what, int arg1, int arg2, Object obj) {
+        switch (what) {
+            case Consts.WHAT_PUSH_MESSAGE:
+                // 弹出对话框
+                new AlarmDialog(this).Show(obj);
+                break;
+            default:
+                break;
+        }
+    }
 
-	@Override
-	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-	}
+    @Override
+    public void onNotify(int what, int arg1, int arg2, Object obj) {
+        handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+    }
 
-	// @Override
-	// protected void onCreate(Bundle savedInstanceState) {
-	// super.onCreate(savedInstanceState);
-	// MyActivityManager.getActivityManager().pushAlarmActivity(this);//保存需要弹出报警的Activity
-	// getWindow().addFlags(
-	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	// }
-	@Override
-	protected void initSettings() {
-		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
-		deviceList = CacheUtil.getDevList();
-		if (null != deviceList && 0 != deviceList.size()
-				&& deviceIndex < deviceList.size()) {
-			editDevice = deviceList.get(deviceIndex);
-			isDevice = editDevice.getIsDevice();
-		}
-	}
+    // @Override
+    // protected void onCreate(Bundle savedInstanceState) {
+    // super.onCreate(savedInstanceState);
+    // MyActivityManager.getActivityManager().pushAlarmActivity(this);//保存需要弹出报警的Activity
+    // getWindow().addFlags(
+    // WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+    // WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+    // WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    // }
+    @Override
+    protected void initSettings() {
+        deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
+        deviceList = CacheUtil.getDevList();
+        if (null != deviceList && 0 != deviceList.size()
+                && deviceIndex < deviceList.size()) {
+            editDevice = deviceList.get(deviceIndex);
+            isDevice = editDevice.getIsDevice();
+        }
+    }
 
-	@Override
-	protected void initUi() {
-		setContentView(R.layout.ipconnect_layout);
+    @Override
+    protected void initUi() {
+        setContentView(R.layout.ipconnect_layout);
 
-		if (null == editDevice) {
-			finish();
-			return;
-		}
+        if (null == editDevice) {
+            finish();
+            return;
+        }
 
-		ipText = (TextView) findViewById(R.id.iptext);
-		ipImg = (ImageView) findViewById(R.id.ipimg);
-		cloudText = (TextView) findViewById(R.id.cloudtext);
-		cloudImg = (ImageView) findViewById(R.id.cloudimg);
+        ipText = (TextView) findViewById(R.id.iptext);
+        ipImg = (ImageView) findViewById(R.id.ipimg);
+        cloudText = (TextView) findViewById(R.id.cloudtext);
+        cloudImg = (ImageView) findViewById(R.id.cloudimg);
 
-		mContainer = (LinearLayout) findViewById(R.id.mContainer);
-		cloud_number = (TextView) findViewById(R.id.cloudnumber_text);
-		ipconnnect_ip = (RelativeLayout) findViewById(R.id.ipconnect_ip);
-		ipconnnect_cloud = (RelativeLayout) findViewById(R.id.ipconnect_cloud);
-		addressLayout = (LinearLayout) findViewById(R.id.Addresslayout);
-		couldnumLayout = (LinearLayout) findViewById(R.id.NumberLayout);
-		tcpLayout = (RelativeLayout) findViewById(R.id.tcp_layout);
-		tcpImageView = (ImageView) findViewById(R.id.tcp_img);
-		portLayout = (LinearLayout) findViewById(R.id.portlayout);
-		ipconnect_address = (EditText) findViewById(R.id.ipconnnect_address);
-		ipconnect_port = (EditText) findViewById(R.id.ipconnect_port);
-		ipconnect_user = (EditText) findViewById(R.id.ipconnect_username);
-		ipconnect_pwd = (EditText) findViewById(R.id.ipconnect_pwd);
-		editsave = (Button) findViewById(R.id.editsave);
-		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.str_connect_mode);
-		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
-		accountError = (TextView) findViewById(R.id.accounterror);
-		rightBtn = (Button) findViewById(R.id.btn_right);
-		rightBtn.setVisibility(View.GONE);
+        mContainer = (LinearLayout) findViewById(R.id.mContainer);
+        cloud_number = (TextView) findViewById(R.id.cloudnumber_text);
+        ipconnnect_ip = (RelativeLayout) findViewById(R.id.ipconnect_ip);
+        ipconnnect_cloud = (RelativeLayout) findViewById(R.id.ipconnect_cloud);
+        addressLayout = (LinearLayout) findViewById(R.id.Addresslayout);
+        couldnumLayout = (LinearLayout) findViewById(R.id.NumberLayout);
+        tcpLayout = (RelativeLayout) findViewById(R.id.tcp_layout);
+        tcpImageView = (ImageView) findViewById(R.id.tcp_img);
+        portLayout = (LinearLayout) findViewById(R.id.portlayout);
+        ipconnect_address = (EditText) findViewById(R.id.ipconnnect_address);
+        ipconnect_port = (EditText) findViewById(R.id.ipconnect_port);
+        ipconnect_user = (EditText) findViewById(R.id.ipconnect_username);
+        ipconnect_pwd = (EditText) findViewById(R.id.ipconnect_pwd);
+        editsave = (Button) findViewById(R.id.editsave);
+        currentMenu = (TextView) findViewById(R.id.currentmenu);
+        currentMenu.setText(R.string.str_connect_mode);
+        leftBtn = (Button) findViewById(R.id.btn_left);
+        alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+        accountError = (TextView) findViewById(R.id.accounterror);
+        rightBtn = (Button) findViewById(R.id.btn_right);
+        rightBtn.setVisibility(View.GONE);
 
-		int height = disMetrics.heightPixels;
-		int width = disMetrics.widthPixels;
-		int useWidth = 0;
-		if (height < width) {
-			useWidth = height;
-		} else {
-			useWidth = width;
-		}
-		reParamsip = new RelativeLayout.LayoutParams(useWidth / 2, useWidth / 6);
-		reParamscloud = new RelativeLayout.LayoutParams(useWidth / 2,
-				useWidth / 6);
-		reParamscloud.addRule(RelativeLayout.RIGHT_OF, R.id.ipconnect_ip);
-		ipconnnect_ip.setLayoutParams(reParamsip);
-		ipconnnect_cloud.setLayoutParams(reParamscloud);
+        int height = disMetrics.heightPixels;
+        int width = disMetrics.widthPixels;
+        int useWidth = 0;
+        if (height < width) {
+            useWidth = height;
+        } else {
+            useWidth = width;
+        }
+        reParamsip = new RelativeLayout.LayoutParams(useWidth / 2, useWidth / 6);
+        reParamscloud = new RelativeLayout.LayoutParams(useWidth / 2,
+                useWidth / 6);
+        reParamscloud.addRule(RelativeLayout.RIGHT_OF, R.id.ipconnect_ip);
+        ipconnnect_ip.setLayoutParams(reParamsip);
+        ipconnnect_cloud.setLayoutParams(reParamscloud);
 
-		if (isDevice == 0) {
-			isTurn = false;
-			ipText.setTextColor(getResources()
-					.getColor(R.color.leftdevicecolor));
-			cloudText.setTextColor(getResources().getColor(R.color.play_bq));
-			ipImg.setVisibility(View.GONE);
-			cloudImg.setVisibility(View.VISIBLE);
-			addressLayout.setVisibility(View.GONE);
-			tcpLayout.setVisibility(View.GONE);
-			couldnumLayout.setVisibility(View.VISIBLE);
-			portLayout.setVisibility(View.GONE);
-			cloud_number.setText(editDevice.getFullNo());
-			ipconnect_user.setText(editDevice.getUser());
-			ipconnect_pwd.setText(editDevice.getPwd());
-		} else {
-			isTurn = true;
-			ipText.setTextColor(getResources().getColor(R.color.play_bq));
-			cloudText.setTextColor(getResources().getColor(
-					R.color.leftdevicecolor));
-			ipImg.setVisibility(View.VISIBLE);
-			cloudImg.setVisibility(View.GONE);
-			addressLayout.setVisibility(View.VISIBLE);
-			tcpLayout.setVisibility(View.VISIBLE);
-			couldnumLayout.setVisibility(View.GONE);
-			portLayout.setVisibility(View.VISIBLE);
-			ipconnect_address.setText(editDevice.getIp());
-			if (editDevice.getEnableTcpConnect() == 0) {
-				isTcpchose = false;
-				tcpImageView.setImageResource(R.drawable.ipc_normal);
-			} else {
-				isTcpchose = true;
-				tcpImageView.setImageResource(R.drawable.ipc_selector);
-			}
-			if (0 == editDevice.getPort()) {
-				ipconnect_port.setText("9101");
-			} else {
-				ipconnect_port.setText(editDevice.getPort() + "");
-			}
-			ipconnect_user.setText(editDevice.getUser());
-			ipconnect_pwd.setText(editDevice.getPwd());
-		}
+        if (isDevice == 0) {
+            isTurn = false;
+            ipText.setTextColor(getResources()
+                    .getColor(R.color.leftdevicecolor));
+            cloudText.setTextColor(getResources().getColor(R.color.play_bq));
+            ipImg.setVisibility(View.GONE);
+            cloudImg.setVisibility(View.VISIBLE);
+            addressLayout.setVisibility(View.GONE);
+            tcpLayout.setVisibility(View.GONE);
+            couldnumLayout.setVisibility(View.VISIBLE);
+            portLayout.setVisibility(View.GONE);
+            cloud_number.setText(editDevice.getFullNo());
+            ipconnect_user.setText(editDevice.getUser());
+            ipconnect_pwd.setText(editDevice.getPwd());
+        } else {
+            isTurn = true;
+            ipText.setTextColor(getResources().getColor(R.color.play_bq));
+            cloudText.setTextColor(getResources().getColor(
+                    R.color.leftdevicecolor));
+            ipImg.setVisibility(View.VISIBLE);
+            cloudImg.setVisibility(View.GONE);
+            addressLayout.setVisibility(View.VISIBLE);
+            tcpLayout.setVisibility(View.VISIBLE);
+            couldnumLayout.setVisibility(View.GONE);
+            portLayout.setVisibility(View.VISIBLE);
+            ipconnect_address.setText(editDevice.getIp());
+            if (editDevice.getEnableTcpConnect() == 0) {
+                isTcpchose = false;
+                tcpImageView.setImageResource(R.drawable.ipc_normal);
+            } else {
+                isTcpchose = true;
+                tcpImageView.setImageResource(R.drawable.ipc_selector);
+            }
+            if (0 == editDevice.getPort()) {
+                ipconnect_port.setText("9101");
+            } else {
+                ipconnect_port.setText(editDevice.getPort() + "");
+            }
+            ipconnect_user.setText(editDevice.getUser());
+            ipconnect_pwd.setText(editDevice.getPwd());
+        }
 
-		tcpLayout.setOnClickListener(myOnClickListener);
-		ipconnect_address.setFocusable(true);
-		ipconnect_address.setFocusableInTouchMode(true);
-		leftBtn.setOnClickListener(myOnClickListener);
-		rightBtn.setOnClickListener(myOnClickListener);
-		ipconnnect_ip.setOnClickListener(myOnClickListener);
-		ipconnnect_cloud.setOnClickListener(myOnClickListener);
-		editsave.setOnClickListener(myOnClickListener);
-	}
+        tcpLayout.setOnClickListener(myOnClickListener);
+        ipconnect_address.setFocusable(true);
+        ipconnect_address.setFocusableInTouchMode(true);
+        leftBtn.setOnClickListener(myOnClickListener);
+        rightBtn.setOnClickListener(myOnClickListener);
+        ipconnnect_ip.setOnClickListener(myOnClickListener);
+        ipconnnect_cloud.setOnClickListener(myOnClickListener);
+        editsave.setOnClickListener(myOnClickListener);
+    }
 
-	OnCheckedChangeListener mylistener = new OnCheckedChangeListener() {
+    OnCheckedChangeListener mylistener = new OnCheckedChangeListener() {
 
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			switch (checkedId) {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId) {
 
 			default:
 				break;
@@ -240,34 +241,34 @@ public class JVIpconnectActivity extends BaseActivity {
 
 	OnClickListener myOnClickListener = new OnClickListener() {
 
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.ipconnect_ip:
-				Animation ani = AnimationUtils.loadAnimation(
-						JVIpconnectActivity.this, R.anim.rotate_out);
-				ani.setAnimationListener(new AnimationListener() {
-					@Override
-					public void onAnimationStart(Animation animation) {
-					}
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ipconnect_ip:
+                    Animation ani = AnimationUtils.loadAnimation(
+                            JVIpconnectActivity.this, R.anim.rotate_out);
+                    ani.setAnimationListener(new AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
 
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-					}
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
 
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						isTurn = true;
-						ipText.setTextColor(getResources().getColor(
-								R.color.play_bq));
-						cloudText.setTextColor(getResources().getColor(
-								R.color.leftdevicecolor));
-						ipImg.setVisibility(View.VISIBLE);
-						cloudImg.setVisibility(View.GONE);
-						addressLayout.setVisibility(View.VISIBLE);
-						tcpLayout.setVisibility(View.VISIBLE);
-						couldnumLayout.setVisibility(View.GONE);
-						portLayout.setVisibility(View.VISIBLE);
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            isTurn = true;
+                            ipText.setTextColor(getResources().getColor(
+                                    R.color.play_bq));
+                            cloudText.setTextColor(getResources().getColor(
+                                    R.color.leftdevicecolor));
+                            ipImg.setVisibility(View.VISIBLE);
+                            cloudImg.setVisibility(View.GONE);
+                            addressLayout.setVisibility(View.VISIBLE);
+                            tcpLayout.setVisibility(View.VISIBLE);
+                            couldnumLayout.setVisibility(View.GONE);
+                            portLayout.setVisibility(View.VISIBLE);
 
 						ipconnect_address.setText(editDevice.getIp());
 						if (0 == editDevice.getPort()) {
@@ -364,30 +365,30 @@ public class JVIpconnectActivity extends BaseActivity {
 
 						task.execute(params);
 
-						// if (!Boolean.valueOf(statusHashMap
-						// .get(Consts.LOCAL_LOGIN))) {
-						// editDevice.setIp(ConfigUtil
-						// .getInetAddress(ipString));
-						// editDevice.setPort(Integer.valueOf(portString));
-						// editDevice.setUser(userString);
-						// editDevice.setPwd(pwdString);
-						// editDevice.setIsDevice(1);
-						// DeviceUtil.editDeviceConnType(editDevice,
-						// statusHashMap.get(Consts.KEY_USERNAME));
-						// } else {
-						// deviceList.get(deviceIndex).setIp(
-						// ConfigUtil.getInetAddress(ipString));
-						// deviceList.get(deviceIndex).setPort(
-						// Integer.valueOf(portString));
-						// deviceList.get(deviceIndex).setUser(userString);
-						// deviceList.get(deviceIndex).setPwd(pwdString);
-						// deviceList.get(deviceIndex).setIsDevice(1);
-						// CacheUtil.saveDevList(deviceList);
-						// }
-					}
-				} else {
-					userString = ipconnect_user.getText().toString();
-					pwdString = ipconnect_pwd.getText().toString();
+                            // if (!Boolean.valueOf(statusHashMap
+                            // .get(Consts.LOCAL_LOGIN))) {
+                            // editDevice.setIp(ConfigUtil
+                            // .getInetAddress(ipString));
+                            // editDevice.setPort(Integer.valueOf(portString));
+                            // editDevice.setUser(userString);
+                            // editDevice.setPwd(pwdString);
+                            // editDevice.setIsDevice(1);
+                            // DeviceUtil.editDeviceConnType(editDevice,
+                            // statusHashMap.get(Consts.KEY_USERNAME));
+                            // } else {
+                            // deviceList.get(deviceIndex).setIp(
+                            // ConfigUtil.getInetAddress(ipString));
+                            // deviceList.get(deviceIndex).setPort(
+                            // Integer.valueOf(portString));
+                            // deviceList.get(deviceIndex).setUser(userString);
+                            // deviceList.get(deviceIndex).setPwd(pwdString);
+                            // deviceList.get(deviceIndex).setIsDevice(1);
+                            // CacheUtil.saveDevList(deviceList);
+                            // }
+                        }
+                    } else {
+                        userString = ipconnect_user.getText().toString();
+                        pwdString = ipconnect_pwd.getText().toString();
 
 					if ("".equalsIgnoreCase(userString)) {
 						JVIpconnectActivity.this
@@ -405,58 +406,58 @@ public class JVIpconnectActivity extends BaseActivity {
 					// }
 					else {
 
-						EditDevTask task = new EditDevTask();
-						String[] params = new String[3];
-						params[0] = "0";
-						task.execute(params);
-						// if (!Boolean.valueOf(statusHashMap
-						// .get(Consts.LOCAL_LOGIN))) {
-						// editDevice.setIp("");
-						// editDevice.setPort(0);
-						// editDevice.setUser(userString);
-						// editDevice.setPwd(pwdString);
-						// DeviceUtil.editDeviceConnType(editDevice,
-						// statusHashMap.get(Consts.KEY_USERNAME));
-						// } else {
-						// deviceList.get(deviceIndex).setIp("");
-						// deviceList.get(deviceIndex).setPort(0);
-						// deviceList.get(deviceIndex).setUser(userString);
-						// deviceList.get(deviceIndex).setPwd(pwdString);
-						// CacheUtil.saveDevList(deviceList);
-						// }
-					}
-				}
+                            EditDevTask task = new EditDevTask();
+                            String[] params = new String[3];
+                            params[0] = "0";
+                            task.execute(params);
+                            // if (!Boolean.valueOf(statusHashMap
+                            // .get(Consts.LOCAL_LOGIN))) {
+                            // editDevice.setIp("");
+                            // editDevice.setPort(0);
+                            // editDevice.setUser(userString);
+                            // editDevice.setPwd(pwdString);
+                            // DeviceUtil.editDeviceConnType(editDevice,
+                            // statusHashMap.get(Consts.KEY_USERNAME));
+                            // } else {
+                            // deviceList.get(deviceIndex).setIp("");
+                            // deviceList.get(deviceIndex).setPort(0);
+                            // deviceList.get(deviceIndex).setUser(userString);
+                            // deviceList.get(deviceIndex).setPwd(pwdString);
+                            // CacheUtil.saveDevList(deviceList);
+                            // }
+                        }
+                    }
 
-				break;
-			case R.id.btn_left:
-				finish();
-				break;
-			case R.id.btn_right:
+                    break;
+                case R.id.btn_left:
+                    finish();
+                    break;
+                case R.id.btn_right:
 
-				break;
-			case R.id.tcp_layout:
-				if (!isTcpchose) {
-					tcpImageView.setImageResource(R.drawable.ipc_selector);
-					isTcpchose = true;
-				} else {
-					tcpImageView.setImageResource(R.drawable.ipc_normal);
-					isTcpchose = false;
-				}
-				break;
-			default:
-				break;
-			}
-		}
-	};
+                    break;
+                case R.id.tcp_layout:
+                    if (!isTcpchose) {
+                        tcpImageView.setImageResource(R.drawable.ipc_selector);
+                        isTcpchose = true;
+                    } else {
+                        tcpImageView.setImageResource(R.drawable.ipc_normal);
+                        isTcpchose = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
-	// 保存更改设备信息线程
-	class EditDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
-		// 可变长的输入参数，与AsyncTask.exucute()对应
-		@Override
-		protected Integer doInBackground(String... params) {
-			int editRes = -1;
-			try {
-				int isDevice = Integer.parseInt(params[0]);
+    // 保存更改设备信息线程
+    class EditDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+        // 可变长的输入参数，与AsyncTask.exucute()对应
+        @Override
+        protected Integer doInBackground(String... params) {
+            int editRes = -1;
+            try {
+                int isDevice = Integer.parseInt(params[0]);
 				if (1 == isDevice || 2 == isDevice) {// IP
 					if (isTcpchose) {
 						editDevice.setEnableTcpConnect(1);
@@ -504,67 +505,67 @@ public class JVIpconnectActivity extends BaseActivity {
 						deviceList.get(deviceIndex).setIsDevice(0);// 云视通
 					}
 
-					CacheUtil.saveDevList(deviceList);
-				}
+                    CacheUtil.saveDevList(deviceList);
+                }
 
-				// if (!Boolean.valueOf(statusHashMap
-				// .get(Consts.LOCAL_LOGIN))) {
-				// editDevice.setIp("");
-				// editDevice.setPort(0);
-				// editDevice.setUser(userString);
-				// editDevice.setPwd(pwdString);
-				// DeviceUtil.editDeviceConnType(editDevice,
-				// statusHashMap.get(Consts.KEY_USERNAME));
-				// } else {
-				// deviceList.get(deviceIndex).setIp("");
-				// deviceList.get(deviceIndex).setPort(0);
-				// deviceList.get(deviceIndex).setUser(userString);
-				// deviceList.get(deviceIndex).setPwd(pwdString);
-				// CacheUtil.saveDevList(deviceList);
-				// }
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return editRes;
-		}
+                // if (!Boolean.valueOf(statusHashMap
+                // .get(Consts.LOCAL_LOGIN))) {
+                // editDevice.setIp("");
+                // editDevice.setPort(0);
+                // editDevice.setUser(userString);
+                // editDevice.setPwd(pwdString);
+                // DeviceUtil.editDeviceConnType(editDevice,
+                // statusHashMap.get(Consts.KEY_USERNAME));
+                // } else {
+                // deviceList.get(deviceIndex).setIp("");
+                // deviceList.get(deviceIndex).setPort(0);
+                // deviceList.get(deviceIndex).setUser(userString);
+                // deviceList.get(deviceIndex).setPwd(pwdString);
+                // CacheUtil.saveDevList(deviceList);
+                // }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return editRes;
+        }
 
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
 
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			dismissDialog();
-			if (0 == result) {
-				showTextToast(R.string.login_str_device_edit_success);
-				JVIpconnectActivity.this.finish();
-			} else {
-				showTextToast(R.string.login_str_device_edit_failed);
-			}
-		}
+        @Override
+        protected void onPostExecute(Integer result) {
+            // 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+            dismissDialog();
+            if (0 == result) {
+                showTextToast(R.string.login_str_device_edit_success);
+                JVIpconnectActivity.this.finish();
+            } else {
+                showTextToast(R.string.login_str_device_edit_failed);
+            }
+        }
 
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("", true);
-		}
+        @Override
+        protected void onPreExecute() {
+            // 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+            createDialog("", true);
+        }
 
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
-		}
-	}
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+        }
+    }
 
-	@Override
-	protected void saveSettings() {
+    @Override
+    protected void saveSettings() {
 
-	}
+    }
 
-	@Override
-	protected void freeMe() {
+    @Override
+    protected void freeMe() {
 
-	}
+    }
 
 }

@@ -1,22 +1,19 @@
-
 package com.jovetech.product;
 
-import android.content.res.Resources;
+import android.content.Context;
 
 import com.jovetech.CloudSee.temp.R;
 
 public class MyDeviceTab implements ITabItem {
 
     @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        return Resources.getSystem().getStringArray(R.array.array_tab)[0];
+    public String getName(Context context) {
+        return context.getResources().getStringArray(R.array.array_tab)[0];
     }
 
     @Override
     public int getDrawable() {
-        // TODO Auto-generated method stub
-        return 0;
+        return R.drawable.tab_device_selector;
     }
 
     @Override
@@ -27,13 +24,11 @@ public class MyDeviceTab implements ITabItem {
 
     @Override
     public char getTag() {
-        // TODO Auto-generated method stub
         return 'a';
     }
 
     @Override
     public int getLayoutType() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -45,7 +40,6 @@ public class MyDeviceTab implements ITabItem {
 
     @Override
     public boolean isCustomize() {
-        // TODO Auto-generated method stub
         return false;
     }
 

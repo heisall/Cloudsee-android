@@ -24,6 +24,8 @@ public class Consts {
     public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
     // 测试服务器
     public static boolean TEST_SERVER = false;// true 测试服务器， false 正式服务器
+    // 国外服务器
+    public static boolean FOREIGN_SERVER = false;// true 国外服务器， false 国内服务器
 
     /**************************** 华丽的分割线 ******************************/
     public static int CURRENT_LAN = -1;// 当前语言
@@ -671,6 +673,9 @@ public class Consts {
     /*********************** 以下是状态变量key的声明 ********************************/
 
     /** 账号sdk是否初始化的key */
+
+    /** 云台速度 key */
+    public static final String YT_SPEED_KEY = "_yt_speed";// 云台速度 key
 
     /** 云视通sdk是否初始化的key */
     public static final String KEY_SHOW_GUID = "ShowGuide";

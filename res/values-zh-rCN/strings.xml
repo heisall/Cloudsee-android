@@ -280,6 +280,7 @@
     <string name="str_updating">正在下载更新软件</string>
     <string name="str_change_zoom">变倍</string>
     <string name="str_change_focus">变焦</string>
+    <string name="yt_speed">速度</string>
     <string name="str_exiting_now">正在断开,请等待…</string>
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <!-- 设备管理 -->

@@ -47,7 +47,13 @@ public class Device {
 
     private boolean isHelperEnabled;
     /** 设备类型 */
-    private int type;// 云视通端定义 4：家用设备 其他值 非家用
+    private int type;// 云视通端定义 如下常量及含义
+    // public static final int DEVICE_TYPE_UNKOWN = -1;
+    // public static final int DEVICE_TYPE_DVR = 0x01;
+    // public static final int DEVICE_TYPE_950 = 0x02;
+    // public static final int DEVICE_TYPE_951 = 0x03;
+    // public static final int DEVICE_TYPE_IPC = 0x04;
+    // public static final int DEVICE_TYPE_NVR = 0x05;
 
     /** 设备类型 */
     private int deviceType;// 服务端定义 2：家用设备 其他值 非家用

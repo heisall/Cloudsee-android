@@ -115,10 +115,10 @@ public class JVTimeZoneActivity extends BaseActivity {
         adapter = new SimpleAdapter(this,
                 (ArrayList<Map<String, Object>>) content,
                 R.layout.select_time_item, new String[] {
-                    "time"
+                        "time"
                 },
                 new int[] {
-                    R.id.time_zone_item
+                        R.id.time_zone_item
                 });
         selectListView.setAdapter(adapter);
         selectListView.setOnItemClickListener(onItemClickListener);

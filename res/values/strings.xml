@@ -280,6 +280,7 @@
     <string name="str_updating">Downloading update software</string>
     <string name="str_change_zoom">Zoom</string>
     <string name="str_change_focus">Focus</string>
+    <string name="yt_speed">Speed</string>
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <!-- 设备管理 -->

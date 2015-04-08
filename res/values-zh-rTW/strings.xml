@@ -280,6 +280,7 @@
     <string name="str_updating">正在下載更新軟體</string>
     <string name="str_change_zoom">變倍</string>
     <string name="str_change_focus">變焦</string>
+    <string name="yt_speed">速度</string>
     <string name="str_exiting_now">正在斷開,請等待…</string>
     <string name="str_no_response_data">網路連接異常，請重新登錄.</string>
     <!-- 設備管理 -->

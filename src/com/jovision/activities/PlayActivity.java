@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -133,8 +132,10 @@ public abstract class PlayActivity extends BaseActivity implements
             yt_cancle;
 
     /***** 2015.4.3 云台速度调整 *******/
-    protected EditText ytSpeed;// 云台速度
-    protected Button ysSpeedSet;// 云台速度调整按钮
+    // protected EditText ytSpeed;// 云台速度
+    // protected Button ysSpeedSet;// 云台速度调整按钮
+    protected RelativeLayout ytSeekLayout;// 云台速度布局
+    protected SeekBar ytSeekBar;// 云台速度seekbar
 
     /** layout 下 */
     protected Button capture;// 抓拍
@@ -465,10 +466,11 @@ public abstract class PlayActivity extends BaseActivity implements
         downArrow = (ImageView) ytLayout.findViewById(R.id.downArrow);
         leftArrow = (ImageView) ytLayout.findViewById(R.id.leftArrow);
         rightArrow = (ImageView) ytLayout.findViewById(R.id.rightArrow);
-        ytSpeed = (EditText) ytLayout.findViewById(R.id.ytspeed);
-        ;// 云台速度
-        ysSpeedSet = (Button) ytLayout.findViewById(R.id.setspeed);// 云台速度调整按钮
-
+        // ytSpeed = (EditText) ytLayout.findViewById(R.id.ytspeed);// 云台速度
+        // ysSpeedSet = (Button) ytLayout.findViewById(R.id.setspeed);//
+        // 云台速度调整按钮
+        ytSeekLayout = (RelativeLayout) ytLayout.findViewById(R.id.ytspeedseekbarlayout);// 云台速度调整布局
+        ytSeekBar = (SeekBar) ytLayout.findViewById(R.id.ytspeedseekbar);// 云台速度调整seekbar
         autoimage.setOnClickListener(imageOnClickListener);
         zoomIn.setOnClickListener(imageOnClickListener);
         zoomout.setOnClickListener(imageOnClickListener);

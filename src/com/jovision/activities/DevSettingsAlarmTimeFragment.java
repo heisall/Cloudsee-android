@@ -152,4 +152,10 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
         }
         toast.show();
     }
+
+    @Override
+    public void onFuncAction(int func_index, int nowFlag, int destFlag) {
+        // TODO Auto-generated method stub
+
+    }
 }

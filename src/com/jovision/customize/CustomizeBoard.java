@@ -3,6 +3,7 @@ package com.jovision.customize;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +19,17 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.MainApplication;
+import com.jovision.activities.AlarmSettingsActivity;
+import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVWebViewActivity;
+import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
+import com.jovision.commons.GetDemoTask;
+import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
+import com.jovision.utils.ConfigUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,25 +43,30 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         OnTabTouchedListener {
 
     protected static final String TAG = "CustomizeBoard";
-    private Activity mActivity;
+    private BaseActivity mActivity;
     private ImageView mClose;
     private LinearLayout mPanelHolder;
     private CustomizePageView mCustomizePageView;
 
-    // -----------------------------------------------
-    private String menuText[] = new String[] {
-            "qq1", "qq2", "qq3", "qq4"
-    };
-    private int[] menuImage = new int[] {
-            R.drawable.tabbar_compose_camera,
-            R.drawable.tabbar_compose_idea, R.drawable.tabbar_compose_photo,
-            R.drawable.tabbar_compose_weibo
-    };
-    List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+    // 功能菜单项数组
+    private String menuText[];
+    // 功能菜单Tag数组
+    private String menuTag[];
+    // 功能菜单列表
+    private List<Map<String, String>> menuList = new ArrayList<Map<String, String>>();
+
+    private OnFuncActionListener mListener;
 
     public CustomizeBoard(Activity activity) {
         super(activity);
-        this.mActivity = activity;
+        mActivity = (BaseActivity) activity;
+
+        try {
+            mListener = (OnFuncActionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + "must implement OnFuncEnabledListener");
+        }
 
         initDatas();
 
@@ -61,11 +77,19 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     }
 
     private void initDatas() {
-        for (int i = 0, length = menuImage.length; i < length; i++) {
+        // 初始化菜单数组
+        menuText = mActivity.getResources().getStringArray(
+                R.array.array_customize_board);
+        menuTag = mActivity.getResources().getStringArray(
+                R.array.array_customize_item_tag);
+        for (int i = 0, length = menuText.length; i < length; i++) {
             Map<String, String> map = new HashMap<String, String>();
-            map.put("item_image", String.valueOf(menuImage[i]));
+            map.put("item_tag", menuTag[i]);
             map.put("item_text", menuText[i]);
-            list.add(map);
+            // 获取图片资源
+            int iconResId = getItemImageByTag(menuTag[i]);
+            map.put("item_image", String.valueOf(iconResId));
+            menuList.add(map);
         }
     }
 
@@ -84,7 +108,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         mClose = (ImageView) rootView.findViewById(R.id.btn_cancel);
         mPanelHolder = (LinearLayout) rootView.findViewById(R.id.panel_holder);
         mCustomizePageView = new CustomizePageView(mActivity);
-        mCustomizePageView.setIndicator(list);
+        mCustomizePageView.setIndicator(menuList);
         mCustomizePageView.setVisibility(View.GONE);
 
         ViewGroup.LayoutParams localLayoutParams = new ViewGroup.LayoutParams(
@@ -152,7 +176,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * 处理自定义面板上的元素的onTouch事件
      */
     @Override
-    public boolean onItemTouch(int position, View v, MotionEvent event) {
+    public boolean onItemTouch(int position, String tag, View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 v.startAnimation(CustomizeAnimation.ScaleOutAnimation());
@@ -180,9 +204,8 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
                         || (j >= v.getHeight())) {
                 } else {
                     v.startAnimation(CustomizeAnimation.ScaleInAnimation());
-                    Toast.makeText(mActivity, "position->" + position,
-                            Toast.LENGTH_SHORT).show();
-                    clickItemEvents(position);
+                    // 点击事件
+                    clickItemEvents(tag);
                 }
                 break;
         }
@@ -191,20 +214,97 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     }
 
     /**
+     * 通过元素的标记获取相应的图片
+     * @param tag 标记
+     * @return iconResId 图片资源
+     */
+    private int getItemImageByTag(String tag) {
+        int iconResId = R.drawable.customize_item_no_image;
+        if (tag.equals(Consts.MORE_ALARMSWITCH)) {// 报警设置
+            iconResId = R.drawable.tabbar_compose_camera;
+        } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
+            iconResId = R.drawable.tabbar_compose_idea;
+        } else if (tag.equals("unknown")) {// 未知
+            iconResId = R.drawable.tabbar_compose_photo;
+        }
+        
+        return iconResId;
+    }
+
+    /**
      * 处理自定义面板上的元素的click事件
      */
-    private void clickItemEvents(int position) {
-        switch (position) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            default:
+    private void clickItemEvents(String tag) {
+        if (tag.equals(Consts.MORE_ALARMSWITCH)) {// 报警设置
+            alarmSwitch();
+        } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
+            gcsurl();
+        } else if (tag.equals("unknown")) {// 未知
+            Toast.makeText(mActivity, tag,
+                    Toast.LENGTH_SHORT).show();
+        }
+        // 关闭面板
+        CustomizeBoard.super.dismiss();
+    }
 
+    // ------------------------------------------------------
+    // ## 面板上元素的click事件对应的操作
+    // ## 操作代码来自JVMoreFragment的listViewClick()
+    // ------------------------------------------------------
+    /**
+     * 报警设置
+     */
+    private void alarmSwitch() {
+        boolean localFlag = Boolean.valueOf(mActivity.statusHashMap
+                .get(Consts.LOCAL_LOGIN));
+        if (localFlag)// 本地登录
+        {
+            mActivity.showTextToast(R.string.more_nologin);
+        } else {
+            Intent intent = new Intent(mActivity,
+                    AlarmSettingsActivity.class);
+            mActivity.startActivity(intent);
+        }
+    }
+
+    /**
+     * 工程商入驻
+     */
+    private void gcsurl() {
+        if (!MySharedPreference
+                .getBoolean(Consts.MORE_GCSURL)) {
+            MySharedPreference.putBoolean(
+                    Consts.MORE_GCSURL, true);
+            mListener.OnFuncEnabled(0, 1);
+        }
+        if (!ConfigUtil.isConnected(mActivity)) {
+            mActivity.alertNetDialog();
+        } else {
+            if (null != ((BaseActivity) mActivity).statusHashMap
+                    .get(Consts.MORE_GCSURL)) {
+                Intent intentAD0 = new Intent(mActivity,
+                        JVWebViewActivity.class);
+                intentAD0
+                        .putExtra(
+                                "URL",
+                                ((BaseActivity) mActivity).statusHashMap
+                                        .get(Consts.MORE_GCSURL));
+                intentAD0.putExtra("title", -2);
+                mActivity.startActivity(intentAD0);
+            } else {
+                if ("false".equals(mActivity.statusHashMap
+                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                    MyLog.e("Login", "初始化账号SDK失败");
+                    ConfigUtil
+                            .initAccountSDK(((MainApplication) mActivity
+                                    .getApplication()));// 初始化账号SDK
+                }
+                GetDemoTask UrlTask = new GetDemoTask(
+                        mActivity);
+                String[] demoParams = new String[3];
+                demoParams[1] = "0";
+                UrlTask.execute(demoParams);
+            }
         }
     }
 

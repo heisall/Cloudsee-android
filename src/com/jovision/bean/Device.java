@@ -112,6 +112,7 @@ public class Device {
 
     private int ytSpeed = 0;// 2015.4.3设备云台转速
 
+    private int cloudEnabled = 0; //云存储服务开关
     public Device() {
         channelList = new MyList<Channel>(1);
         thirdDevList = new ArrayList<ThirdAlarmDev>();
@@ -274,7 +275,7 @@ public class Device {
             object.put("serverState", serverState);
             object.put("alarmSwitch", alarmSwitch);
             object.put("oldDevice", oldDevice);
-
+            object.put("cloudEnabled", cloudEnabled);//云存储
             try {
                 ArrayList<Channel> list = channelList.toList();
                 int size = list.size();
@@ -365,6 +366,7 @@ public class Device {
             dev.setChannelList(Channel.fromJsonArray(
                     ConfigUtil.getString(object, "channelList"), dev));
 
+            dev.setCloudEnabled(ConfigUtil.getInt(object, "cloudEnabled"));//云存储
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -641,4 +643,11 @@ public class Device {
         this.ytSpeed = ytSpeed;
     }
 
+    public int getCloudEnabled(){
+        return this.cloudEnabled;
+    }
+    
+    public void setCloudEnabled(int enabled){
+        this.cloudEnabled = enabled;
+    }
 }

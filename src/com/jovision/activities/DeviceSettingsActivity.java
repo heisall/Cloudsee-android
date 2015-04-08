@@ -403,6 +403,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
         waitingDialog.show();
         funcIndex = func_index;
         switch (func_index) {
+            case Consts.DEV_SETTINGS_CLOUD:// 云存储
+                CloudSwitchTask cloudtask = new CloudSwitchTask();
+                String[] params1 = new String[3];
+                cloudtask.execute(params1);
+                break;
             case Consts.DEV_SETTINGS_ALARM:// 安全防护
                 alarmEnabling = enabled;
                 if (alarm_way_flag == 1) {
@@ -687,6 +692,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public interface OnMainListener {
         public void onMainAction(int packet_type, int packet_subtype,
                 int ex_type, int func_index, int destFlag, String Content);
+
+        public void onFuncAction(int func_index, int nowFlag, int destFlag);
     }
 
     @Override
@@ -995,9 +1002,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
                     + md_enable + "--" + alarmTime0 + "--" + alarmsound_enable);
             // 兼容没有返回值的设备
             if (onFuncOperationFlag) {
-                myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
-                UpdateSettingsRes(funcIndex);
-                return -1;
+                if (funcIndex != Consts.DEV_SETTINGS_CLOUD) {// 云存储不需要
+                    myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
+                    UpdateSettingsRes(funcIndex);
+                    return -1;
+                }
             }
             if (alarm_enable == null) {
                 alarmEnabled = -1;
@@ -1039,6 +1048,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
             initDevParamObject.put("bMDEnable", mdEnabled);
             initDevParamObject.put("alarmTime0", alarmTime0);
             initDevParamObject.put("alarmWay", alarm_way_flag);
+            initDevParamObject.put("bCloudEnabled", device.getCloudEnabled());// 云存储
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -1080,5 +1090,87 @@ public class DeviceSettingsActivity extends BaseActivity implements
         // TODO Auto-generated method stub
         super.onPause();
         MySharedPreference.putString("TIMEZONE", "");
+    }
+
+    class CloudSwitchTask extends AsyncTask<String, Integer, Integer> {
+        // 可变长的输入参数，与AsyncTask.exucute()对应
+        @Override
+        protected Integer doInBackground(String... params) {
+            int switchRes = -1;// 0成功， 1失败，1000离线
+            try {
+                if (null == device) {
+                    device = deviceList.get(deviceIndex);
+                }
+                // if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
+                // .getServerState()) {
+                int sendTag = 0;
+                if (1 == device.getCloudEnabled()) {
+                    sendTag = JVDeviceConst.DEVICE_SWITCH_CLOSE;
+                } else {
+                    sendTag = JVDeviceConst.DEVICE_SWITCH_OPEN;
+                }
+                switchRes = DeviceUtil.saveCloudSettings(
+                        0, sendTag,
+                        statusHashMap.get(Consts.KEY_USERNAME),
+                        device.getFullNo());
+                // Thread.sleep(1000);
+                // switchRes = 0;
+                // } else {
+                // switchRes = 1000;
+                // }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return switchRes;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            // 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+            // dismissDialog();
+            waitingDialog.dismiss();
+            if (0 == result) {
+                // StatService.trackCustomEvent(mActivity, "Alarm", mActivity
+                // .getResources().getString(R.string.census_alarm2));
+                if (1 == device.getCloudEnabled()) {
+                    device.setCloudEnabled(0);
+                    mainListener.onFuncAction(Consts.DEV_SETTINGS_CLOUD, 0, 0);
+                    showTextToast(R.string.cloud_close_succ);// 关闭OK
+                } else {
+                    device.setCloudEnabled(1);
+                    mainListener.onFuncAction(Consts.DEV_SETTINGS_CLOUD, 1, 1);
+                    showTextToast(R.string.cloud_open_succ);
+                }
+                // [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
+                CacheUtil.saveDevList(deviceList);
+            } else if (1000 == result) {
+                showTextToast(R.string.device_offline);
+            } else {
+                if (1 == device.getCloudEnabled()) {
+                    showTextToast(R.string.cloud_close_fail);
+                } else {
+                    showTextToast(R.string.cloud_open_fail);
+                }
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+            // createDialog("", true);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+
+        }
     }
 }

@@ -268,4 +268,6 @@ public class JVACCOUNT {
 
     // reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
     public static native int SetAccountInfo(String reqJson);
+    
+    public static native int ReportUserFlow(String account, String guid, int channel, int flow_type, int flow);
 }

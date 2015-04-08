@@ -815,6 +815,7 @@ public class Consts {
     public static final int THUMBNAIL_HEIGHT = 120;
 
     // 报警设置功能索引
+    public static final int DEV_SETTINGS_CLOUD = 0x00; // 云存储
     public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
     public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
     public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
@@ -832,4 +833,7 @@ public class Consts {
     public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
     public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
     public static final int NEW_BBS = 0x99992;// 外设菜单单击事件
+    
+    /*流量统计*/
+    public static final String KEY_CLOUD_VOD_SIZE = "CLOUD_VOD_SIZE";    
 }

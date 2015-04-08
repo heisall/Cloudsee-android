@@ -223,5 +223,19 @@
         <item>通知时铃声提醒</item>
         <item>通知时振动提醒</item>
     </string-array>
+    <!-- 中间自定义面板中的元素 -->
+    <string-array name="array_customize_board">
+        <item>报警设置</item>
+        <item>工程商入驻</item>
+        <item>未知</item>
+        <item>未知</item>
+    </string-array>
+    <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
+    <string-array name="array_customize_item_tag">
+        <item>AlarmSwitch</item>
+        <item>GCSURL</item>
+        <item>unknown</item>
+        <item>unknown</item>
+    </string-array>
 
 </resources>

@@ -221,4 +221,122 @@
             android:background="@color/more_fragment_color4" />
     </LinearLayout>
 
+    <!-- 流量统计 -->
+
+
+    <!-- 总流量 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/more_fragment_color4" />
+
+        <RelativeLayout
+            android:id="@+id/rebind_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp" >
+
+            <TextView
+                android:id="@+id/tv_surplus_flow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="剩余流量"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_surplus_flow_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/mailnext"
+                android:text="300M"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/mailnext"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/morefragment_next_icon" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/more_fragment_color4" />
+    </LinearLayout>
+
+    <!-- 已使用流量 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/rebind_hasused"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp" >
+
+            <TextView
+                android:id="@+id/hasband_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="使用流量"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reband_hasused_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/mailnext"
+                android:text="200G"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/mailnext"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/morefragment_next_icon" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/more_fragment_color4" />
+    </LinearLayout>
+
 </LinearLayout>

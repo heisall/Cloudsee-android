@@ -20,11 +20,18 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/tab_bg_color" />
 
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@id/indicator"
+                android:background="@color/line" />
+
             <FrameLayout
                 android:id="@+id/tab_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/indicator" >
+                android:layout_above="@id/divider" >
             </FrameLayout>
         </RelativeLayout>
 

@@ -514,4 +514,5 @@
     <color name="tab_text_normal">#898989</color>
     <color name="tab_text_selected">#898989</color>
     <color name="customize_item_text_color">#ff828282</color>
+
 </resources>

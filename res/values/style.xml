@@ -157,7 +157,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 模糊 -->
     </style>
-    
+
     <!-- customize -->
     <style name="CustomizeBoardWindowAnim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/customize_window_fade_in</item>

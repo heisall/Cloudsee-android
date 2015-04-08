@@ -125,7 +125,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             R.drawable.morefragment_update_icon,
             R.drawable.morefragment_aboutus_icon, R.drawable.develop_warning,
             R.drawable.develop_warning, R.drawable.develop_warning,
-            R.drawable.develop_warning,
+            R.drawable.develop_warning, R.drawable.develop_warning,
     };
     // 功能名称数组
     private String[] fragment_name;
@@ -555,6 +555,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             if (bean.getItemFlag().equals(Consts.MORE_LITTLEHELP)
                     || bean.getItemFlag().equals(Consts.MORE_BROADCAST)
                     || bean.getItemFlag().equals(Consts.MORE_TESTSWITCH)
+                    || bean.getItemFlag().equals(Consts.MORE_FOREIGNSWITCH)
                     || bean.getItemFlag().equals(Consts.MORE_VERSION)) {
                 bean.setDismiss(false);
             }
@@ -563,6 +564,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             if (bean.getItemFlag().equals(Consts.MORE_LITTLEHELP)
                     || bean.getItemFlag().equals(Consts.MORE_BROADCAST)
                     || bean.getItemFlag().equals(Consts.MORE_TESTSWITCH)
+                    || bean.getItemFlag().equals(Consts.MORE_FOREIGNSWITCH)
                     || bean.getItemFlag().equals(Consts.MORE_VERSION)) {
                 bean.setDismiss(false);
             }
@@ -693,6 +695,26 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                                 // 打开测试开关要关闭记住密码功能
                                 MySharedPreference.putBoolean(
                                         Consts.MORE_TESTSWITCH, true);
+                                MySharedPreference.putBoolean(
+                                        Consts.MORE_REMEMBER, false);
+                            }
+                        } else if (dataList.get(position).getItemFlag()
+                                .equals(Consts.MORE_FOREIGNSWITCH)) {
+                            // 测试服务器开关
+                            MySharedPreference.putString("ChannelIP", "");
+                            MySharedPreference.putString("OnlineIP", "");
+                            MySharedPreference.putString("ChannelIP_en", "");
+                            MySharedPreference.putString("OnlineIP_en", "");
+
+                            if (MySharedPreference
+                                    .getBoolean(Consts.MORE_FOREIGNSWITCH)) {
+                                MySharedPreference.putBoolean(
+                                        Consts.MORE_FOREIGNSWITCH, false);
+                            } else {
+                                // MySharedPreference.clearAll();
+                                // 打开国外服务器开关要关闭记住密码功能
+                                MySharedPreference.putBoolean(
+                                        Consts.MORE_FOREIGNSWITCH, true);
                                 MySharedPreference.putBoolean(
                                         Consts.MORE_REMEMBER, false);
                             }

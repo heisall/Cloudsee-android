@@ -10,7 +10,7 @@ public class ConfigFragmentFactory implements IFragmentFactory {
     @Override
     public Fragment newInstance() {
         // TODO Auto-generated method stub
-//        return new ConfigurationFragment();
+        // return new ConfigurationFragment();
         return new JVDeviceManageFragment();
     }
 

@@ -27,6 +27,7 @@
         <item>Helper</item>
         <item>BroadCast</item>
         <item>Test Switch</item>
+        <item>Foreign server</item>
         <item>Version</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -47,6 +48,7 @@
         <item>Helper</item>
         <item>BroadCast</item>
         <item>Test Switch</item>
+        <item>Foreign server</item>
         <item>Version</item>
     </string-array>
     <!-- add Dev pop menu -->

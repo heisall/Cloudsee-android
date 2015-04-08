@@ -46,4 +46,7 @@ public class Url {
     public static String LONGSERVERIP = Consts.TEST_SERVER ? "58.56.19.187"
             : ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
                     : "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
+
+    // if (MySharedPreference
+    // .getBoolean(Consts.MORE_FOREIGNSWITCH)) {
 }

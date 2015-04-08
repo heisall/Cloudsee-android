@@ -1,8 +1,7 @@
+
 package com.jovision.customize;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-
-import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,6 +15,8 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovetech.product.ITabItem;
+
+import java.util.List;
 
 /**
  * 自定义带图标的TabIndicator
@@ -38,14 +39,10 @@ public class CustomizeIconTabIndicator extends LinearLayout {
         /**
          * Callback when the selected tab has been reselected.
          * 
-         * @param position
-         *            Position of the current center item.
-         * @param oldPosition
-         *            old position
-         * @param tag
-         *            tab indicator tag
-         * @param isCustomize
-         *            is/not customize
+         * @param position Position of the current center item.
+         * @param oldPosition old position
+         * @param tag tab indicator tag
+         * @param isCustomize is/not customize
          */
         void onTabSelected(int position, int oldPosition, char tag,
                 boolean isCustomize);
@@ -53,8 +50,7 @@ public class CustomizeIconTabIndicator extends LinearLayout {
         /**
          * Callback when the selected tab has been reselected.
          * 
-         * @param position
-         *            Position of the current center item.
+         * @param position Position of the current center item.
          */
         void onTabReselected(int position, char tag, boolean isCustomize);
     }
@@ -219,8 +215,7 @@ public class CustomizeIconTabIndicator extends LinearLayout {
     /**
      * 设置tab选项卡,默认初始选中位置为0
      * 
-     * @param fragmentFactorys
-     *            fragments factory
+     * @param fragmentFactorys fragments factory
      */
     public void setIndicator(List<ITabItem> tabItems) {
         if (tabItems == null || tabItems.size() <= 0) {
@@ -235,10 +230,8 @@ public class CustomizeIconTabIndicator extends LinearLayout {
     /**
      * 设置tab选项卡,支持设置初始选中位置
      * 
-     * @param fragmentFactorys
-     *            fragments factory
-     * @param initialPosition
-     *            position 初始选中位置
+     * @param fragmentFactorys fragments factory
+     * @param initialPosition position 初始选中位置
      */
     public void setIndicator(List<ITabItem> tabItems, int initialPosition) {
         setIndicator(tabItems);
@@ -316,15 +309,15 @@ public class CustomizeIconTabIndicator extends LinearLayout {
             View view;
             // check layout
             switch (viewType) {
-            case 1:
-                view = View.inflate(context, R.layout.tab_item_customize, null);
-                break;
-            case 0:
-            default:
-                view = View.inflate(context, R.layout.tab_item, null);
-                // 消息
-                mInfoImage = (ImageView) view.findViewById(R.id.tab_info_icon);
-                mInfoText = (TextView) view.findViewById(R.id.tab_info_text);
+                case 1:
+                    view = View.inflate(context, R.layout.tab_item_customize, null);
+                    break;
+                case 0:
+                default:
+                    view = View.inflate(context, R.layout.tab_item, null);
+                    // 消息
+                    mInfoImage = (ImageView) view.findViewById(R.id.tab_info_icon);
+                    mInfoText = (TextView) view.findViewById(R.id.tab_info_text);
             }
             // indicator's title
             mTextView = (TextView) view.findViewById(R.id.tab_title);
@@ -377,26 +370,26 @@ public class CustomizeIconTabIndicator extends LinearLayout {
                 .findViewById(R.id.tab_info);
 
         switch (whitch) {
-        case 1: {// 报警消息条数,这个屏蔽掉，因为换位置了，避免出错，重新定义个值
-            // tabInfoText.setText(String.valueOf(msgCount));
-            //
-            // if (show) {
-            // tabInfo.setVisibility(View.VISIBLE);
-            // } else {
-            // tabInfo.setVisibility(View.GONE);
-            // }
-            break;
-        }
-        case 4: {// 更多功能，新
-            if (show) {
-                rlty.setVisibility(View.VISIBLE);
-                tabView.setInfoText(count + "");
-            } else {
-                rlty.setVisibility(View.GONE);
-                tabView.setInfoText(EMPTY_TITLE);
+            case 1: {// 报警消息条数,这个屏蔽掉，因为换位置了，避免出错，重新定义个值
+                // tabInfoText.setText(String.valueOf(msgCount));
+                //
+                // if (show) {
+                // tabInfo.setVisibility(View.VISIBLE);
+                // } else {
+                // tabInfo.setVisibility(View.GONE);
+                // }
+                break;
             }
-            break;
-        }
+            case 4: {// 更多功能，新
+                if (show) {
+                    rlty.setVisibility(View.VISIBLE);
+                    tabView.setInfoText(count + "");
+                } else {
+                    rlty.setVisibility(View.GONE);
+                    tabView.setInfoText(EMPTY_TITLE);
+                }
+                break;
+            }
         }
 
     }

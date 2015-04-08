@@ -27,6 +27,7 @@
         <item>小助手</item>
         <item>广播</item>
         <item>测试开关</item>
+        <item>国外服务器</item>
         <item>版本号</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -47,6 +48,7 @@
         <item>小助手</item>
         <item>广播</item>
         <item>测试开关</item>
+        <item>国外服务器</item>
         <item>版本号</item>
     </string-array>
     <!-- add Dev pop menu -->
@@ -91,7 +93,6 @@
         <item>西十一区</item>
         <item>西十二区</item>
     </string-array>
-    
     <!-- 图片质量 -->
     <string-array name="array_image_quality">
         <item>流畅</item>

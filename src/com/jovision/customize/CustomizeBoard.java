@@ -1,9 +1,5 @@
-package com.jovision.customize;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package com.jovision.customize;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +20,11 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 中间加号定制面板
  */
@@ -37,10 +38,14 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     private CustomizePageView mCustomizePageView;
 
     // -----------------------------------------------
-    private String menuText[] = new String[] { "qq1", "qq2", "qq3", "qq4" };
-    private int[] menuImage = new int[] { R.drawable.tabbar_compose_camera,
+    private String menuText[] = new String[] {
+            "qq1", "qq2", "qq3", "qq4"
+    };
+    private int[] menuImage = new int[] {
+            R.drawable.tabbar_compose_camera,
             R.drawable.tabbar_compose_idea, R.drawable.tabbar_compose_photo,
-            R.drawable.tabbar_compose_weibo };
+            R.drawable.tabbar_compose_weibo
+    };
     List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
     public CustomizeBoard(Activity activity) {
@@ -101,12 +106,12 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-        case R.id.btn_cancel:
-            // 关闭popupwindow
-            CustomizeBoard.this.dismiss();
-            break;
-        default:
-            break;
+            case R.id.btn_cancel:
+                // 关闭popupwindow
+                CustomizeBoard.this.dismiss();
+                break;
+            default:
+                break;
         }
     }
 
@@ -149,37 +154,37 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     @Override
     public boolean onItemTouch(int position, View v, MotionEvent event) {
         switch (event.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-            v.startAnimation(CustomizeAnimation.ScaleOutAnimation());
-            mIsScaleOut = true;
-            break;
-        case MotionEvent.ACTION_MOVE:
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-            if ((x > 0) && (x < v.getWidth()) && (y > 0) && (y < v.getHeight())) {
-                if (!mIsScaleOut) {
-                    v.startAnimation(CustomizeAnimation.ScaleOutAnimation());
-                    mIsScaleOut = true;
+            case MotionEvent.ACTION_DOWN:
+                v.startAnimation(CustomizeAnimation.ScaleOutAnimation());
+                mIsScaleOut = true;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                if ((x > 0) && (x < v.getWidth()) && (y > 0) && (y < v.getHeight())) {
+                    if (!mIsScaleOut) {
+                        v.startAnimation(CustomizeAnimation.ScaleOutAnimation());
+                        mIsScaleOut = true;
+                    }
+                } else {
+                    if (mIsScaleOut) {
+                        v.startAnimation(CustomizeAnimation.ScaleInAnimation());
+                        mIsScaleOut = false;
+                    }
                 }
-            } else {
-                if (mIsScaleOut) {
+                break;
+            case MotionEvent.ACTION_UP:
+                int i = (int) event.getX();
+                int j = (int) event.getY();
+                if ((i <= 0) || (i >= v.getWidth()) || (j <= 0)
+                        || (j >= v.getHeight())) {
+                } else {
                     v.startAnimation(CustomizeAnimation.ScaleInAnimation());
-                    mIsScaleOut = false;
+                    Toast.makeText(mActivity, "position->" + position,
+                            Toast.LENGTH_SHORT).show();
+                    clickItemEvents(position);
                 }
-            }
-            break;
-        case MotionEvent.ACTION_UP:
-            int i = (int) event.getX();
-            int j = (int) event.getY();
-            if ((i <= 0) || (i >= v.getWidth()) || (j <= 0)
-                    || (j >= v.getHeight())) {
-            } else {
-                v.startAnimation(CustomizeAnimation.ScaleInAnimation());
-                Toast.makeText(mActivity, "position->" + position,
-                        Toast.LENGTH_SHORT).show();
-                clickItemEvents(position);
-            }
-            break;
+                break;
         }
 
         return true;
@@ -190,15 +195,15 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      */
     private void clickItemEvents(int position) {
         switch (position) {
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        default:
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
 
         }
     }

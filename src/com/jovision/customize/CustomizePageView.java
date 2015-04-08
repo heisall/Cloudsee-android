@@ -1,7 +1,5 @@
-package com.jovision.customize;
 
-import java.util.List;
-import java.util.Map;
+package com.jovision.customize;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -17,9 +15,11 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 自定义面板上的自定义元素布局
- * 
  */
 public class CustomizePageView extends RelativeLayout {
 

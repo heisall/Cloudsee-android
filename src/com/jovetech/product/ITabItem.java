@@ -6,15 +6,15 @@ import android.content.Context;
 public interface ITabItem {
 
     public String message = null;
-    
+
     public boolean isCustomize();
-    
+
     public String getName(Context context);
 
     public int getDrawable();
 
     public void setMessage(String count);
-    
+
     public String getMessage();
 
     public char getTag();

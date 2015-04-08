@@ -249,60 +249,60 @@ public class ManageFragment extends BaseFragment {
         }
     }
 
-	@Override
-	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
-				+ ";arg2=" + arg1);
-		switch (what) {
-		case Consts.WHAT_MANAGE_TIMEOUT: {
-			stopTimer();
-			if (null != mActivity.proDialog && mActivity.proDialog.isShowing()) {
-				mActivity.proDialog.dismiss();
-			}
-			PlayUtil.disconnectDevice();
-			mActivity.showTextToast(R.string.connfailed_timeout);
-			break;
-		}
-		case Consts.WHAT_MANAGE_ITEM_CLICK: {// adapter item 单击事件
-			JVDeviceManageFragment.deviceIndex = arg2;
-			device = deviceList.get(JVDeviceManageFragment.deviceIndex);
-			switch (arg1) {
-			case 0: {// 远程设置
-				StatService.trackCustomEvent(mActivity, "RemoteSet", mActivity
-						.getResources().getString(R.string.census_remoteset));
-				if (2 == device.getIsDevice()) {
-					mActivity.showTextToast(R.string.ip_add_notallow);
-				} else {
-					startTimer();
-					mActivity.createDialog("", false);
-					PlayUtil.connectDevice(device);
-				}
-				break;
-			}
-			case 1: {// 设备管理
-				StatService.trackCustomEvent(
-						mActivity,
-						"DeviceManage",
-						mActivity.getResources().getString(
-								R.string.census_devicemanage));
-				devType = 0;
-				Intent deviceIntent = new Intent(mActivity,
-						JVDeviceManageActivity.class);
-				deviceIntent.putExtra("deviceIndex", deviceIndex);
-				startActivity(deviceIntent);
-				break;
-			}
-			case 2: {// 连接模式
-				StatService.trackCustomEvent(mActivity, "Ipconnect", mActivity
-						.getResources().getString(R.string.census_ipconect));
-//				if (2 == device.getIsDevice()) {
-//					mActivity.showTextToast(R.string.ip_add_notallow);
-//				} else {
-					Intent intent = new Intent(mActivity,
-							JVIpconnectActivity.class);
-					intent.putExtra("deviceIndex", deviceIndex);
-					startActivity(intent);
-//				}
+    @Override
+    public void onHandler(int what, int arg1, int arg2, Object obj) {
+        MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
+                + ";arg2=" + arg1);
+        switch (what) {
+            case Consts.WHAT_MANAGE_TIMEOUT: {
+                stopTimer();
+                if (null != mActivity.proDialog && mActivity.proDialog.isShowing()) {
+                    mActivity.proDialog.dismiss();
+                }
+                PlayUtil.disconnectDevice();
+                mActivity.showTextToast(R.string.connfailed_timeout);
+                break;
+            }
+            case Consts.WHAT_MANAGE_ITEM_CLICK: {// adapter item 单击事件
+                JVDeviceManageFragment.deviceIndex = arg2;
+                device = deviceList.get(JVDeviceManageFragment.deviceIndex);
+                switch (arg1) {
+                    case 0: {// 远程设置
+                        StatService.trackCustomEvent(mActivity, "RemoteSet", mActivity
+                                .getResources().getString(R.string.census_remoteset));
+                        if (2 == device.getIsDevice()) {
+                            mActivity.showTextToast(R.string.ip_add_notallow);
+                        } else {
+                            startTimer();
+                            mActivity.createDialog("", false);
+                            PlayUtil.connectDevice(device);
+                        }
+                        break;
+                    }
+                    case 1: {// 设备管理
+                        StatService.trackCustomEvent(
+                                mActivity,
+                                "DeviceManage",
+                                mActivity.getResources().getString(
+                                        R.string.census_devicemanage));
+                        devType = 0;
+                        Intent deviceIntent = new Intent(mActivity,
+                                JVDeviceManageActivity.class);
+                        deviceIntent.putExtra("deviceIndex", deviceIndex);
+                        startActivity(deviceIntent);
+                        break;
+                    }
+                    case 2: {// 连接模式
+                        StatService.trackCustomEvent(mActivity, "Ipconnect", mActivity
+                                .getResources().getString(R.string.census_ipconect));
+                        // if (2 == device.getIsDevice()) {
+                        // mActivity.showTextToast(R.string.ip_add_notallow);
+                        // } else {
+                        Intent intent = new Intent(mActivity,
+                                JVIpconnectActivity.class);
+                        intent.putExtra("deviceIndex", deviceIndex);
+                        startActivity(intent);
+                        // }
 
                         break;
                     }

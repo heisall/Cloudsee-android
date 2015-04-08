@@ -27,6 +27,7 @@
         <item>小助手</item>
         <item>廣播</item>
         <item>測試開關</item>
+        <item>國外服務器</item>
         <item>版本號</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -47,6 +48,7 @@
         <item>小助手</item>
         <item>廣播</item>
         <item>測試開關</item>
+        <item>國外服務器</item>
         <item>版本號</item>
     </string-array>
     <!-- add Dev pop menu -->

@@ -384,7 +384,7 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
-			
+
             <!-- 重启设备功能 -->
 
             <RelativeLayout
@@ -453,7 +453,7 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
-            
+
             <!-- 重置设备功能 -->
 
             <RelativeLayout

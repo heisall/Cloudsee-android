@@ -1135,27 +1135,27 @@ public class JVTabActivity extends ShakeActivity implements
 
         if (!mFactoryMap.containsKey(tag)) {
             switch (tag) {
-            case 'a':
-                fragmentFactory = new MyDeviceFragmentFactory();
-                break;
-            case 'b':
-                fragmentFactory = new VideoFragmentFactory();
-                break;
-            case 'c':
-                fragmentFactory = new CustomizeFragmentFactory();
-                break;
-            case 'd':
-                fragmentFactory = new ConfigFragmentFactory();
-                break;
-            case 'e':
-                fragmentFactory = new MoreFragmentFactory();
-                break;
-            case 'g':
-                break;
-            case 'h':
-                break;
-            default:
-                MyLog.v(TAG, "--default tab--");
+                case 'a':
+                    fragmentFactory = new MyDeviceFragmentFactory();
+                    break;
+                case 'b':
+                    fragmentFactory = new VideoFragmentFactory();
+                    break;
+                case 'c':
+                    fragmentFactory = new CustomizeFragmentFactory();
+                    break;
+                case 'd':
+                    fragmentFactory = new ConfigFragmentFactory();
+                    break;
+                case 'e':
+                    fragmentFactory = new MoreFragmentFactory();
+                    break;
+                case 'g':
+                    break;
+                case 'h':
+                    break;
+                default:
+                    MyLog.v(TAG, "--default tab--");
             }
             // 保存工厂
             mFactoryMap.put(tag, fragmentFactory);
@@ -1182,7 +1182,7 @@ public class JVTabActivity extends ShakeActivity implements
         char charTag = (char) mark;
         return mFragmentsMap.get(charTag);
     }
-    
+
     /**
      * 通过标记获取Tab
      */

@@ -19,4 +19,5 @@
     <!-- customize -->
     <dimen name="composer_item_margin_vertical">20.0dip</dimen>
     <dimen name="composer_item_margin_top">30.0dip</dimen>
-</resources>
+
+</resources>

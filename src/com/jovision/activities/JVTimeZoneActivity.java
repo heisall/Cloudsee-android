@@ -19,7 +19,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyActivityManager;
-import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 
@@ -41,84 +40,90 @@ public class JVTimeZoneActivity extends BaseActivity {
     private Button rightButton;
     private ProgressBar timezone_progress;
     private int window;
-	private String timezone;
-	@Override
-	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch (what) {
-		case Consts.CALL_TEXT_DATA: {// 文本回调
-			switch (arg2) {
-			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
-				String allStr = obj.toString();
-				try {
-					JSONObject dataObj = new JSONObject(allStr);
-					switch (dataObj.getInt("flag")) {
-					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
-						String pnJSON = dataObj.getString("msg");
-						HashMap<String, String> pnMap = ConfigUtil
-								.genMsgMap(pnJSON);
-						if (null != pnMap.get("timezone")) {
-							timezone_progress.setVisibility(View.GONE);
-							int index = Integer.valueOf(pnMap.get("timezone"));
-							currentTimeZone
-									.setText(getResources().getStringArray(
-											R.array.time_zone)[12 - index]);
-							MySharedPreference.putString("TIMEZONE", getResources().getStringArray(
-											R.array.time_zone)[12 - index]);
-						}
-						break;
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		}
-	}
+    private String timezone;
+
+    @Override
+    public void onHandler(int what, int arg1, int arg2, Object obj) {
+        switch (what) {
+            case Consts.CALL_TEXT_DATA: {// 文本回调
+                switch (arg2) {
+                    case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
+                        String allStr = obj.toString();
+                        try {
+                            JSONObject dataObj = new JSONObject(allStr);
+                            switch (dataObj.getInt("flag")) {
+                                case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
+                                    String pnJSON = dataObj.getString("msg");
+                                    HashMap<String, String> pnMap = ConfigUtil
+                                            .genMsgMap(pnJSON);
+                                    if (null != pnMap.get("timezone")) {
+                                        timezone_progress.setVisibility(View.GONE);
+                                        int index = Integer.valueOf(pnMap.get("timezone"));
+                                        currentTimeZone
+                                                .setText(getResources().getStringArray(
+                                                        R.array.time_zone)[12 - index]);
+                                        MySharedPreference.putString("TIMEZONE", getResources()
+                                                .getStringArray(
+                                                        R.array.time_zone)[12 - index]);
+                                    }
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                }
+            }
+        }
+    }
 
     @Override
     public void onNotify(int what, int arg1, int arg2, Object obj) {
         handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
     }
 
-	@Override
-	protected void initSettings() {
-		MyActivityManager.getActivityManager().pushActivity(
-				JVTimeZoneActivity.this);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.time_zone_layout);
-		Bundle extras = getIntent().getExtras();
-		if (null != extras) {
-			window = extras.getInt("window");
-			timezone = extras.getString("timezone");
-		}
-		Log.i("TAG",timezone+"JJJJJJJJ");
-	}
+    @Override
+    protected void initSettings() {
+        MyActivityManager.getActivityManager().pushActivity(
+                JVTimeZoneActivity.this);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.time_zone_layout);
+        Bundle extras = getIntent().getExtras();
+        if (null != extras) {
+            window = extras.getInt("window");
+            timezone = extras.getString("timezone");
+        }
+        Log.i("TAG", timezone + "JJJJJJJJ");
+    }
 
-	@Override
-	protected void initUi() {
-		timezone_progress = (ProgressBar) findViewById(R.id.timezone_progress);
-		rightButton = (Button) findViewById(R.id.btn_right);
-		rightButton.setVisibility(View.GONE);
-		back = (Button) findViewById(R.id.btn_left);
-		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(getResources().getString(R.string.time_zone));
-		currentTimeZone = (TextView) findViewById(R.id.current_time_zone);
-		selectListView = (ListView) findViewById(R.id.select_time_zone);
-		String[] array = getResources().getStringArray(R.array.time_zone);
-		currentTimeZone.setText(timezone);
-		for (int i = 0; i < 25; i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("time", array[i]);
-			content.add(map);
-		}
-		adapter = new SimpleAdapter(this,
-				(ArrayList<Map<String, Object>>) content,
-				R.layout.select_time_item, new String[] { "time" },
-				new int[] { R.id.time_zone_item });
-		selectListView.setAdapter(adapter);
-		selectListView.setOnItemClickListener(onItemClickListener);
-		back.setOnClickListener(myOnClickListener);
-	}
+    @Override
+    protected void initUi() {
+        timezone_progress = (ProgressBar) findViewById(R.id.timezone_progress);
+        rightButton = (Button) findViewById(R.id.btn_right);
+        rightButton.setVisibility(View.GONE);
+        back = (Button) findViewById(R.id.btn_left);
+        currentMenu = (TextView) findViewById(R.id.currentmenu);
+        currentMenu.setText(getResources().getString(R.string.time_zone));
+        currentTimeZone = (TextView) findViewById(R.id.current_time_zone);
+        selectListView = (ListView) findViewById(R.id.select_time_zone);
+        String[] array = getResources().getStringArray(R.array.time_zone);
+        currentTimeZone.setText(timezone);
+        for (int i = 0; i < 25; i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("time", array[i]);
+            content.add(map);
+        }
+        adapter = new SimpleAdapter(this,
+                (ArrayList<Map<String, Object>>) content,
+                R.layout.select_time_item, new String[] {
+                    "time"
+                },
+                new int[] {
+                    R.id.time_zone_item
+                });
+        selectListView.setAdapter(adapter);
+        selectListView.setOnItemClickListener(onItemClickListener);
+        back.setOnClickListener(myOnClickListener);
+    }
 
     OnClickListener myOnClickListener = new OnClickListener() {
 

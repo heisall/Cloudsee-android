@@ -309,15 +309,15 @@ public class CustomizeIconTabIndicator extends LinearLayout {
             View view;
             // check layout
             switch (viewType) {
-            case 1:
-                view = View.inflate(context, R.layout.tab_item_customize, null);
-                break;
-            case 0:
-            default:
-                view = View.inflate(context, R.layout.tab_item, null);
-                // 消息
-                mInfoImage = (ImageView) view.findViewById(R.id.tab_info_img);
-                mInfoText = (TextView) view.findViewById(R.id.tab_info_text);
+                case 1:
+                    view = View.inflate(context, R.layout.tab_item_customize, null);
+                    break;
+                case 0:
+                default:
+                    view = View.inflate(context, R.layout.tab_item, null);
+                    // 消息
+                    mInfoImage = (ImageView) view.findViewById(R.id.tab_info_img);
+                    mInfoText = (TextView) view.findViewById(R.id.tab_info_text);
             }
             // indicator's title
             mTextView = (TextView) view.findViewById(R.id.tab_title);

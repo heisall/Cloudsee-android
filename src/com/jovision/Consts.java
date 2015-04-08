@@ -625,7 +625,7 @@ public class Consts {
     public static final int PLAY_BACK_DOWNLOAD = 0x74;// 远程回放视频下载
 
     /** 视频播放进设备设置 */
-    public static final int PLAY_DEVSET_REQUSET = 0x75;// 视频播放进设备设置 
+    public static final int PLAY_DEVSET_REQUSET = 0x75;// 视频播放进设备设置
     /** 设备设置回视频播放 */
     public static final int PLAY_DEVSET_RESPONSE = 0x76;// 设备设置回视频播放
     /** 设备设置回视频播放 */

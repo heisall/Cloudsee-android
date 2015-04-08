@@ -4,6 +4,7 @@ package com.jovision.activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -42,6 +43,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private String devicename;
     private int channelIndex;// 窗口
     protected Toast toast;
+	private int dialogflag; // 0表示重置设备，1表示重启设备;
 
     public interface OnFuncActionListener {
         public void OnFuncEnabled(int func_index, int enabled);
@@ -49,25 +51,25 @@ public class DeviceSettingsMainFragment extends Fragment implements
         public void OnFuncSelected(int func_index, String params);
     }
 
-    private OnFuncActionListener mListener;
-    private ImageView func_swalert;
-    private ImageView func_swmotion;
-    private ImageView funcAlaramSound;
-    private int func_alert_enabled = -1;
-    private int func_motion_enabled = -1;
-    private int func_alarm_sound = -1;// 1：开启 0：关闭
-    private int alarm_way_flag = -1;// ///////////判断的优先级最高
-    private String strParam = "";
-    private String alarmTime0 = "";
-    private String startTime = "", endTime = "";
-    private String startHour = "", startMin = "";
-    private String endHour = "", endMin = "";
-    private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
-            functionlayout4, functionlayout5, functionlayout6, functionlayout7;
-    private RelativeLayout functiontips1, functiontips2, functiontips3,
-            functiontips6;
-    private TextView alarmTime0TextView, funtion_titile_71;
-    private int power = 0;
+	private OnFuncActionListener mListener;
+	private ImageView func_swalert;
+	private ImageView func_swmotion;
+	private ImageView funcAlaramSound;
+	private int func_alert_enabled = -1;
+	private int func_motion_enabled = -1;
+	private int func_alarm_sound = -1;// 1：开启 0：关闭
+	private int alarm_way_flag = -1;// ///////////判断的优先级最高
+	private String strParam = "";
+	private String alarmTime0 = "";
+	private String startTime = "", endTime = "";
+	private String startHour = "", startMin = "";
+	private String endHour = "", endMin = "";
+	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
+	functionlayout4, functionlayout5, functionlayout6,functionlayout7,functionlayout8;
+	private RelativeLayout functiontips1, functiontips2, functiontips3,
+	functiontips6;
+	private TextView alarmTime0TextView , funtion_titile_71;
+	private int power = 0;
 
     private Dialog initDialog;// 显示弹出框
     private TextView dialogCancel;// 取消按钮
@@ -76,6 +78,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private Dialog resetDialog;// 显示弹出框
     private TextView resetCancel;// 取消按钮
     private TextView resetCompleted;// 确定按钮
+	private TextView retext;//提示内容
 
     // 设备名称
     private TextView device_name;
@@ -131,6 +134,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
                 .findViewById(R.id.funclayout6);
         functionlayout7 = (RelativeLayout) rootView
                 .findViewById(R.id.funclayout7);
+		functionlayout8 = (RelativeLayout) rootView
+				.findViewById(R.id.funclayout8);
 
         functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
         functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
@@ -150,6 +155,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
         functionlayout5.setOnClickListener(this);
         functionlayout6.setOnClickListener(this);
         functionlayout7.setOnClickListener(this);
+		functionlayout8.setOnClickListener(this);
 
         Bundle data = getArguments();// 获得从activity中传递过来的值
 
@@ -297,22 +303,22 @@ public class DeviceSettingsMainFragment extends Fragment implements
                         break;
                 }
 
-                // switch (func_alarm_sound) {
-                // case 0:
-                // funcAlaramSound
-                // .setBackgroundResource(R.drawable.morefragment_normal_icon);
-                // break;
-                // case 1:
-                // funcAlaramSound
-                // .setBackgroundResource(R.drawable.morefragment_selector_icon);
-                // break;
-                // case -1:
-                // functionlayout5.setVisibility(View.GONE);
-                // functiontips2.setVisibility(View.GONE);
-                // break;
-                // default:
-                // break;
-                // }
+				// switch (func_alarm_sound) {
+				// case 0:
+				// funcAlaramSound
+				// .setBackgroundResource(R.drawable.morefragment_normal_icon);
+				// break;
+				// case 1:
+				// funcAlaramSound
+				// .setBackgroundResource(R.drawable.morefragment_selector_icon);
+				// break;
+				// case -1:
+				// functionlayout5.setVisibility(View.GONE);
+				// functiontips2.setVisibility(View.GONE);
+				// break;
+				// default:
+				// break;
+				// }
 
                 if (alarmTime0.equals("")
                         || (startTime.equals("00:00") && endTime
@@ -335,88 +341,98 @@ public class DeviceSettingsMainFragment extends Fragment implements
         return rootView;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.function_switch_11:
-                if (func_alert_enabled == 1) {
-                    // 打开--->关闭
-                    mListener.OnFuncEnabled(Consts.DEV_SETTINGS_ALARM, 0);
-                } else if (func_alert_enabled == 0) {
-                    // 关闭--->打开
-                    mListener.OnFuncEnabled(Consts.DEV_SETTINGS_ALARM, 1);
-                } else {
-                    // 隐藏
-                }
-                break;
-            case R.id.function_switch_21:
-                if (func_motion_enabled == 1) {
-                    // 打开--->关闭
-                    mListener.OnFuncEnabled(Consts.DEV_SETTINGS_MD, 0);
-                } else if (func_motion_enabled == 0) {
-                    // 关闭--->打开
-                    mListener.OnFuncEnabled(Consts.DEV_SETTINGS_MD, 1);
-                } else {
-                    // 隐藏
-                }
-                break;
-            case R.id.function_switch_31: {// 报警声音
-                if (func_alarm_sound == 1) {
-                    // 打开--->关闭
-                    mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 0);
-                } else if (func_alarm_sound == 0) {
-                    // 关闭--->打开
-                    mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 1);
-                } else {
-                    // 隐藏
-                }
-                break;
-            }
-            case R.id.device_passwrodet_cancle:
-                device_passwordet.setText("");
-                break;
-            case R.id.dialog_cancle_img:
-                initDialog.dismiss();
-                break;
-            case R.id.reset_cancel:
-                resetDialog.dismiss();
-                break;
-            case R.id.reset_completed:
-                mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE, "");
-                resetDialog.dismiss();
-                break;
-            case R.id.funclayout5:
-                ResetDialog();
-                break;
-            case R.id.funclayout6:
-                // TODO
-                break;
-            case R.id.funclayout4:
-                if (DeviceSettingsActivity.isadmin) {
-                    initSummaryDialog();
-                } else {
-                    showTextToast(getActivity(), R.string.edit_pass_not);
-                }
-                break;
-            case R.id.funclayout3:
-                JSONObject paraObject = new JSONObject();
-                try {
-                    paraObject.put("st", startTime);
-                    paraObject.put("et", endTime);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.function_switch_11:
+			if (func_alert_enabled == 1) {
+				// 打开--->关闭
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_ALARM, 0);
+			} else if (func_alert_enabled == 0) {
+				// 关闭--->打开
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_ALARM, 1);
+			} else {
+				// 隐藏
+			}
+			break;
+		case R.id.function_switch_21:
+			if (func_motion_enabled == 1) {
+				// 打开--->关闭
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_MD, 0);
+			} else if (func_motion_enabled == 0) {
+				// 关闭--->打开
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_MD, 1);
+			} else {
+				// 隐藏
+			}
+			break;
+		case R.id.function_switch_31: {// 报警声音
+			if (func_alarm_sound == 1) {
+				// 打开--->关闭
+				mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 0);
+			} else if (func_alarm_sound == 0) {
+				// 关闭--->打开
+				mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 1);
+			} else {
+				// 隐藏
+			}
+			break;
+		}
+		case R.id.device_passwrodet_cancle:
+			device_passwordet.setText("");
+			break;
+		case R.id.dialog_cancle_img:
+			initDialog.dismiss();
+			break;
+		case R.id.reset_cancel:
+			resetDialog.dismiss();
+			break;
+		case R.id.reset_completed:
+			if (0 == dialogflag) {
+				mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE, "");
+			}else if (1 == dialogflag) {
+				mListener.OnFuncSelected(Consts.DEV_RESTART_DEVICE, "");
+			}
+			resetDialog.dismiss();
+			break;
+		case R.id.funclayout5:
+			dialogflag = 0;
+			ResetDialog();
+			break;
+		case R.id.funclayout6:
+			// TODO
+			break;
+		case R.id.funclayout4:
+			if (DeviceSettingsActivity.isadmin) {
+				initSummaryDialog();
+			} else {
+				showTextToast(getActivity(), R.string.edit_pass_not);
+			}
+			break;
+		case R.id.funclayout3:
+			JSONObject paraObject = new JSONObject();
+			try {
+				paraObject.put("st", startTime);
+				paraObject.put("et", endTime);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 
                 mListener.OnFuncSelected(Consts.DEV_SETTINGS_ALARMTIME,
                         paraObject.toString());
                 break;
             case R.id.funclayout7:
-
-                break;
-            default:
-                break;
-        }
-    }
+			mListener.OnFuncSelected(JVNetConst.TIME_ZONE,
+					null);
+			break;
+		case R.id.funclayout8:
+			dialogflag = 1;
+			ResetDialog();
+			break;
+		default:
+			break;
+		}
+	}
 
     /** 弹出框初始化 */
     private void initSummaryDialog() {
@@ -524,216 +540,223 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
         resetCancel = (TextView) view.findViewById(R.id.reset_cancel);
         resetCompleted = (TextView) view.findViewById(R.id.reset_completed);
+		retext = (TextView)view.findViewById(R.id.retext);
 
-        resetCancel.setOnClickListener(this);
-        resetCompleted.setOnClickListener(this);
-        resetDialog.show();
+		if (0 == dialogflag) {
+			retext.setText(getResources().getString(R.string.str_reset_device));	
+		}else if (1 == dialogflag) {
+			retext.setText(getResources().getString(R.string.str_restart_device));	
+		}
+		resetCancel.setOnClickListener(this);
+		resetCompleted.setOnClickListener(this);
+		resetDialog.show();
 
     }
 
-    @Override
-    public void onMainAction(int packet_type, int packet_subtype, int ex_type,
-            int func_index, int destFlag, String Content) {
-        Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
-                + "," + ex_type);
-        switch (packet_type) {
-            case JVNetConst.JVN_GET_USERINFO:
-                // Toast.makeText(
-                // getActivity(),
-                // getActivity().getResources()
-                // .getString(R.string.pwd_success),
-                // Toast.LENGTH_SHORT).show();
-                showTextToast(getActivity(), R.string.pwd_success);
-                initDialog.dismiss();
-                break;
-            case JVNetConst.RC_EXTEND: {
-                switch (packet_subtype) {
-                    case JVNetConst.TIME_ZONE:
-                        // TODO
-                        break;
-                    case JVNetConst.RC_EX_MD:
-                        if (ex_type == JVNetConst.EX_MD_SUBMIT) {
-                            // 移动侦测
-                            if (func_motion_enabled == 1) {
-                                // 打开--->关闭
-                                // Log.e("Alarm",
-                                // "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
-                                if (func_motion_enabled == destFlag) {
-                                    Log.e("Alarm", "middle Don't need to change");
-                                    return;
-                                }
-                                func_motion_enabled = 0;
-                                func_swmotion
-                                        .setBackgroundResource(R.drawable.morefragment_normal_icon);
-                                // String text = getResources().getString(
-                                // R.string.str_mdenabled_close_ok);
-                                // Toast.makeText(getActivity(), text,
-                                // Toast.LENGTH_SHORT)
-                                // .show();
-                                showTextToast(getActivity().getApplicationContext(),
-                                        R.string.str_mdenabled_close_ok);
-                                // Log.e("Alarm",
-                                // "after func_motion_enabled:"+func_motion_enabled);
-                            } else if (func_motion_enabled == 0) {
-                                // 关闭--->打开
-                                if (func_motion_enabled == destFlag) {
-                                    Log.e("Alarm", "middle Don't need to change");
-                                    return;
-                                }
-                                func_motion_enabled = 1;
-                                func_swmotion
-                                        .setBackgroundResource(R.drawable.morefragment_selector_icon);
-                                // String text = getResources().getString(
-                                // R.string.str_mdenabled_open_ok);
-                                // Toast.makeText(getActivity(), text,
-                                // Toast.LENGTH_SHORT)
-                                // .show();
-                                showTextToast(getActivity().getApplicationContext(),
-                                        R.string.str_mdenabled_open_ok);
-                            } else {
-                                // 隐藏
-                                // String text = getResources().getString(
-                                // R.string.str_operation_failed);
-                                // Toast.makeText(getActivity(), text,
-                                // Toast.LENGTH_SHORT)
-                                // .show();
-                                showTextToast(getActivity(),
-                                        R.string.str_operation_failed);
-                            }
-                        }
-                        break;
-                    case JVNetConst.RC_EX_ALARM:
-                        // 安全防护与报警声音开关返回值是一样的，这里要做区分
-                        if (ex_type == JVNetConst.EX_ALARM_SUBMIT) {
-                            switch (func_index) {
-                                case Consts.DEV_ALARAM_SOUND:// 报警声音开关
-                                {
-                                    if (func_alarm_sound == 1) {
-                                        // 打开--->关闭
-                                        // Log.e("Alarm",
-                                        // "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
-                                        if (func_alarm_sound == destFlag) {
-                                            Log.e("Alarm", "middle Don't need to change");
-                                            return;
-                                        }
-                                        func_alarm_sound = 0;
-                                        funcAlaramSound
-                                                .setBackgroundResource(R.drawable.morefragment_normal_icon);
-                                        // String text =
-                                        // getResources().getString(
-                                        // R.string.str_mdenabled_close_ok);
-                                        // Toast.makeText(getActivity(), text,
-                                        // Toast.LENGTH_SHORT)
-                                        // .show();
-                                        showTextToast(
-                                                getActivity().getApplicationContext(),
-                                                R.string.str_operation_success);
-                                        // Log.e("Alarm",
-                                        // "after func_motion_enabled:"+func_motion_enabled);
-                                    } else if (func_alarm_sound == 0) {
-                                        // 关闭--->打开
-                                        if (func_alarm_sound == destFlag) {
-                                            Log.e("Alarm", "middle Don't need to change");
-                                            return;
-                                        }
-                                        func_alarm_sound = 1;
-                                        funcAlaramSound
-                                                .setBackgroundResource(R.drawable.morefragment_selector_icon);
-                                        // String text =
-                                        // getResources().getString(
-                                        // R.string.str_mdenabled_open_ok);
-                                        // Toast.makeText(getActivity(), text,
-                                        // Toast.LENGTH_SHORT)
-                                        // .show();
-                                        showTextToast(
-                                                getActivity().getApplicationContext(),
-                                                R.string.str_operation_success);
-                                    } else {
-                                        // 隐藏
-                                        // String text =
-                                        // getResources().getString(
-                                        // R.string.str_operation_failed);
-                                        // Toast.makeText(getActivity(), text,
-                                        // Toast.LENGTH_SHORT)
-                                        // .show();
-                                        showTextToast(getActivity(),
-                                                R.string.str_operation_failed);
-                                    }
-                                }
-                                    break;
-                                default:
-                                    if (func_alert_enabled == 1) {
-                                        // 打开--->关闭
-                                        // Log.e("Alarm",
-                                        // "before func_alert_enabled:"+func_alert_enabled);
-                                        if (func_alert_enabled == destFlag) {
-                                            Log.e("Alarm", "middle Don't need to change");
-                                            return;
-                                        }
-                                        if (alarm_way_flag == 1) {
-                                            functionlayout2.setVisibility(View.GONE);
-                                            functiontips2.setVisibility(View.GONE);
-                                            functionlayout3.setVisibility(View.GONE);
-                                            functiontips3.setVisibility(View.GONE);
+	@Override
+	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
+			int func_index, int destFlag,String Content) {
+		Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
+				+ "," + ex_type);
+		switch (packet_type) {
+		case JVNetConst.JVN_GET_USERINFO:
+			// Toast.makeText(
+			// getActivity(),
+			// getActivity().getResources()
+			// .getString(R.string.pwd_success),
+			// Toast.LENGTH_SHORT).show();
+			showTextToast(getActivity(), R.string.pwd_success);
+			initDialog.dismiss();
+			break;
+		case JVNetConst.RC_EXTEND: {
+			switch (packet_subtype) {
+			case JVNetConst.TIME_ZONE:
+				//TODO
+				funtion_titile_71.setText(Content);
+				break;
+			case JVNetConst.RC_EX_MD:
+				if (ex_type == JVNetConst.EX_MD_SUBMIT) {
+					// 移动侦测
+					if (func_motion_enabled == 1) {
+						// 打开--->关闭
+						// Log.e("Alarm",
+						// "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
+						if (func_motion_enabled == destFlag) {
+							Log.e("Alarm", "middle Don't need to change");
+							return;
+						}
+						func_motion_enabled = 0;
+						func_swmotion
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+						// String text = getResources().getString(
+						// R.string.str_mdenabled_close_ok);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity().getApplicationContext(),
+								R.string.str_mdenabled_close_ok);
+						// Log.e("Alarm",
+						// "after func_motion_enabled:"+func_motion_enabled);
+					} else if (func_motion_enabled == 0) {
+						// 关闭--->打开
+						if (func_motion_enabled == destFlag) {
+							Log.e("Alarm", "middle Don't need to change");
+							return;
+						}
+						func_motion_enabled = 1;
+						func_swmotion
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						// String text = getResources().getString(
+						// R.string.str_mdenabled_open_ok);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity().getApplicationContext(),
+								R.string.str_mdenabled_open_ok);
+					} else {
+						// 隐藏
+						// String text = getResources().getString(
+						// R.string.str_operation_failed);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity(),
+								R.string.str_operation_failed);
+					}
+				}
+				break;
+			case JVNetConst.RC_EX_ALARM:
+				// 安全防护与报警声音开关返回值是一样的，这里要做区分
+				if (ex_type == JVNetConst.EX_ALARM_SUBMIT) {
+					switch (func_index) {
+					case Consts.DEV_ALARAM_SOUND:// 报警声音开关
+					{
+						if (func_alarm_sound == 1) {
+							// 打开--->关闭
+							// Log.e("Alarm",
+							// "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
+							if (func_alarm_sound == destFlag) {
+								Log.e("Alarm", "middle Don't need to change");
+								return;
+							}
+							func_alarm_sound = 0;
+							funcAlaramSound
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+							// String text =
+							// getResources().getString(
+							// R.string.str_mdenabled_close_ok);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(
+									getActivity().getApplicationContext(),
+									R.string.str_operation_success);
+							// Log.e("Alarm",
+							// "after func_motion_enabled:"+func_motion_enabled);
+						} else if (func_alarm_sound == 0) {
+							// 关闭--->打开
+							if (func_alarm_sound == destFlag) {
+								Log.e("Alarm", "middle Don't need to change");
+								return;
+							}
+							func_alarm_sound = 1;
+							funcAlaramSound
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+							// String text =
+							// getResources().getString(
+							// R.string.str_mdenabled_open_ok);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(
+									getActivity().getApplicationContext(),
+									R.string.str_operation_success);
+						} else {
+							// 隐藏
+							// String text =
+							// getResources().getString(
+							// R.string.str_operation_failed);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(getActivity(),
+									R.string.str_operation_failed);
+						}
+					}
+					break;
+					default:
+						if (func_alert_enabled == 1) {
+							// 打开--->关闭
+							// Log.e("Alarm",
+							// "before func_alert_enabled:"+func_alert_enabled);
+							if (func_alert_enabled == destFlag) {
+								Log.e("Alarm", "middle Don't need to change");
+								return;
+							}
+							if (alarm_way_flag == 1) {
+								functionlayout2.setVisibility(View.GONE);
+								functiontips2.setVisibility(View.GONE);
+								functionlayout3.setVisibility(View.GONE);
+								functiontips3.setVisibility(View.GONE);
 
-                                            // String text =
-                                            // getResources().getString(
-                                            // R.string.protect_close_succ);
-                                            // Toast.makeText(getActivity(),
-                                            // text,
-                                            // Toast.LENGTH_SHORT).show();
-                                            showTextToast(getActivity()
-                                                    .getApplicationContext(),
-                                                    R.string.protect_close_succ);
-                                        }
-                                        func_alert_enabled = 0;
-                                        func_swalert
-                                                .setBackgroundResource(R.drawable.morefragment_normal_icon);
-                                        // Log.e("Alarm",
-                                        // "after func_alert_enabled:"+func_alert_enabled);
-                                    } else if (func_alert_enabled == 0) {
-                                        // 关闭--->打开
-                                        if (func_alert_enabled == destFlag) {
-                                            Log.e("Alarm", "middle Don't need to change");
-                                            return;
-                                        }
-                                        if (alarm_way_flag == 1) {
-                                            if (func_motion_enabled == -1) {
-                                                functionlayout2.setVisibility(View.GONE);
-                                                functiontips2.setVisibility(View.GONE);
-                                            } else {
-                                                functionlayout2.setVisibility(View.VISIBLE);
-                                                functiontips2.setVisibility(View.VISIBLE);
-                                                functionlayout3.setVisibility(View.VISIBLE);
-                                                functiontips3.setVisibility(View.VISIBLE);
-                                            }
-                                            // String text =
-                                            // getResources().getString(
-                                            // R.string.protect_open_succ);
-                                            // Toast.makeText(getActivity(),
-                                            // text,
-                                            // Toast.LENGTH_SHORT).show();
-                                            showTextToast(getActivity()
-                                                    .getApplicationContext(),
-                                                    R.string.protect_open_succ);
-                                        }
-                                        func_alert_enabled = 1;
-                                        func_swalert
-                                                .setBackgroundResource(R.drawable.morefragment_selector_icon);
-                                    } else {
-                                        // 隐藏
-                                        // String text =
-                                        // getResources().getString(
-                                        // R.string.str_operation_failed);
-                                        // Toast.makeText(getActivity(), text,
-                                        // Toast.LENGTH_SHORT)
-                                        // .show();
-                                        showTextToast(
-                                                getActivity().getApplicationContext(),
-                                                R.string.str_operation_failed);
-                                    }
-                                    break;
-                            }
+								// String text =
+								// getResources().getString(
+								// R.string.protect_close_succ);
+								// Toast.makeText(getActivity(),
+								// text,
+								// Toast.LENGTH_SHORT).show();
+								showTextToast(getActivity()
+										.getApplicationContext(),
+										R.string.protect_close_succ);
+							}
+							func_alert_enabled = 0;
+							func_swalert
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+							// Log.e("Alarm",
+							// "after func_alert_enabled:"+func_alert_enabled);
+						} else if (func_alert_enabled == 0) {
+							// 关闭--->打开
+							if (func_alert_enabled == destFlag) {
+								Log.e("Alarm", "middle Don't need to change");
+								return;
+							}
+							if (alarm_way_flag == 1) {
+								if (func_motion_enabled == -1) {
+									functionlayout2.setVisibility(View.GONE);
+									functiontips2.setVisibility(View.GONE);
+								} else {
+									functionlayout2.setVisibility(View.VISIBLE);
+									functiontips2.setVisibility(View.VISIBLE);
+									functionlayout3.setVisibility(View.VISIBLE);
+									functiontips3.setVisibility(View.VISIBLE);
+								}
+								// String text =
+								// getResources().getString(
+								// R.string.protect_open_succ);
+								// Toast.makeText(getActivity(),
+								// text,
+								// Toast.LENGTH_SHORT).show();
+								showTextToast(getActivity()
+										.getApplicationContext(),
+										R.string.protect_open_succ);
+							}
+							func_alert_enabled = 1;
+							func_swalert
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						} else {
+							// 隐藏
+							// String text =
+							// getResources().getString(
+							// R.string.str_operation_failed);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(
+									getActivity().getApplicationContext(),
+									R.string.str_operation_failed);
+						}
+						break;
+					}
 
                         }
                         break;

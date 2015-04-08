@@ -3,7 +3,6 @@ package com.jovision.customize;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +66,6 @@ public class CustomizePageView extends RelativeLayout {
     protected void onLayout(boolean paramBoolean, int paramInt1, int paramInt2,
             int paramInt3, int paramInt4) {
         int childCount = getChildCount();
-        Log.e("childCount", childCount + "");
         int itemMarginTop;
         for (int i = 0; i < childCount; ++i) {
             View childView = getChildAt(i);
@@ -87,12 +85,6 @@ public class CustomizePageView extends RelativeLayout {
                     + this.mItemMarginVerticalAverage;
             int right = left + childWidth;
             int bottom = top + childHeight;
-            Log.v("demo", "--------------------");
-            Log.v("demo", "---i5---" + left);
-            Log.v("demo", "---i6---" + top);
-            Log.v("demo", "---i7---" + right);
-            Log.v("demo", "---i8---" + bottom);
-            Log.v("demo", "--------------------");
             getChildAt(i).layout(left, top, right, bottom);
         }
     }
@@ -141,12 +133,10 @@ public class CustomizePageView extends RelativeLayout {
      * @param tabItems
      */
     public void setIndicator(List<Map<String, String>> tabItems) {
-        Log.v("demo", "--setIndicator--");
         if (tabItems == null || tabItems.size() <= 0) {
             return;
         }
 
-        Log.v("demo", "--setIndicator success--");
         this.tabItems = tabItems;
 
         notifyDataSetChanged();
@@ -156,7 +146,6 @@ public class CustomizePageView extends RelativeLayout {
         removeAllViews();
         final int count = tabItems.size();
 
-        Log.v("demo", "--setIndicator count--" + count);
         for (int i = 0; i < count; i++) {
 
             // indicator title
@@ -179,7 +168,6 @@ public class CustomizePageView extends RelativeLayout {
                 tabView.setIcon(iconResId);
             }
 
-            Log.v("demo", "--add view--");
             addView(tabView);
 
         }

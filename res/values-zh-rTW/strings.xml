@@ -641,6 +641,7 @@
     <string name="str_buffering">正在緩衝…</string>
     <string name="str_safe_protected">安全防護</string>
     <string name="str_reset_device">重置設備功能</string>
+    <string name="str_restart_device">重啟設備功能</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
     <string name="dev_alarm_sound_tips">報警聲音關閉後，當發生報警時，設備將不發出聲音 。</string>

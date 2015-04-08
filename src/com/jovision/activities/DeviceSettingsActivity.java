@@ -2,6 +2,7 @@
 package com.jovision.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -74,6 +76,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     private int power;
     public String descript;
     public static String fullno;
+	public String timezones;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,57 @@ public class DeviceSettingsActivity extends BaseActivity implements
             // new Thread(new
             // TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
         }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.dev_settings_main);
+		Bundle extras = getIntent().getExtras();
+		activity = this;
+		if (null == extras) {
+			finish();
+			return;
+		}
+		myHandler = new MyHandler();
+		window = extras.getInt("window");
+		deviceIndex = extras.getInt("deviceIndex");
+		isadmin = extras.getBoolean("isadmin");
+		descript = extras.getString("descript");
+		fullno = extras.getString("fullno");
+		power = extras.getInt("power");
+		streamMap = (HashMap<String, String>) extras
+				.getSerializable("streamMap");
+		deviceList = CacheUtil.getDevList();
+		boolean update_flag = extras.getBoolean("updateflag");//如果播放界面没取到码流数据，再取一遍
+		funcParamArray = new String[10];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
+		if (0 != deviceList.size()) {
+			device = deviceList.get(deviceIndex);
+		}
+		// mainListener.onMainAction(100,
+		// 0, window, deviceIndex);
+		InitViews();
+		if (null == waitingDialog) {
+			waitingDialog = new ProgressDialog(this);
+			waitingDialog.setCancelable(false);
+			waitingDialog
+			.setMessage(getResources().getString(R.string.waiting));
+			if (!update_flag) {
+				waitingDialog.show();
+				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+						JVNetConst.JVN_STREAM_INFO);
+				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+				.start();
+			}
+			// waitingDialog.show();
+			// 获取当前设置
+			// 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
+					// Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+			// JVNetConst.JVN_STREAM_INFO, null);
+			// Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+			// JVNetConst.JVN_STREAM_INFO);
+			// new Thread(new
+			// TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
+		}
 
     }
 
@@ -142,8 +196,30 @@ public class DeviceSettingsActivity extends BaseActivity implements
         ResolveStreamInfo(streamMap);
     }
 
-    @Override
-    public void onHandler(int what, int arg1, int arg2, Object obj) {
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (null != streamMap.get("timezone") && "".equals(MySharedPreference.getString("TIMEZONE"))) {
+			int index = Integer.valueOf(streamMap
+					.get("timezone"));
+			mainListener.onMainAction(JVNetConst.RC_EXTEND,
+					JVNetConst.TIME_ZONE,0,0,0,getString(R.string.str_timezone)
+					+ "("
+					+ getResources().getStringArray(
+							R.array.time_zone)[12 - index]
+									+ ")");
+			timezones = getResources().getStringArray(
+					R.array.time_zone)[12 - index];
+		}else if (!"".equals(MySharedPreference.getString("TIMEZONE"))) {
+			mainListener.onMainAction(JVNetConst.RC_EXTEND,
+					JVNetConst.TIME_ZONE,0,0,0,getString(R.string.str_timezone)
+					+ "("+MySharedPreference.getString("TIMEZONE")+ ")");
+			timezones = MySharedPreference.getString("TIMEZONE");
+		}
+	}
+	@Override
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
         // TODO Auto-generated method stub
         switch (what) {
@@ -226,32 +302,42 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
                         String allStr = obj.toString();
 
-                        MyLog.v("Alarm", "文本数据--" + allStr);
-                        try {
-                            JSONObject dataObj = new JSONObject(allStr);
-                            int flag = dataObj.getInt("flag");
-                            switch (flag) {
-                                case JVNetConst.JVN_GET_USERINFO: {
-                                    dismissDialog();
-                                    int extend_type = dataObj.getInt("extend_type");
-                                    if (Consts.EX_ACCOUNT_MODIFY == extend_type) {
-                                        // --修改设备的用户名密码，只要走回调就修改成功了
-                                        mainListener.onMainAction(
-                                                JVNetConst.JVN_GET_USERINFO, 0, 0,
-                                                Consts.DEV_MOD_USERINFO, 0, null);
-                                    }
-                                    break;
-                                }
-                                case JVNetConst.JVN_STREAM_INFO:
-                                    myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
-                                    HashMap<String, String> map = ConfigUtil
-                                            .genMsgMap(dataObj.getString("msg"));
-                                    // streamMap = map;
-                                    ResolveStreamInfo(map);
-
-                                    if (null != streamMap.get("timezone")) {
-                                        int index = Integer.valueOf(streamMap
-                                                .get("timezone"));
+				MyLog.v("Alarm", "文本数据--" + allStr);
+				try {
+					JSONObject dataObj = new JSONObject(allStr);
+					int flag = dataObj.getInt("flag");
+					switch (flag) {
+					case JVNetConst.JVN_GET_USERINFO: {
+						dismissDialog();
+						int extend_type = dataObj.getInt("extend_type");
+						if (Consts.EX_ACCOUNT_MODIFY == extend_type) {
+							// --修改设备的用户名密码，只要走回调就修改成功了
+							mainListener.onMainAction(
+									JVNetConst.JVN_GET_USERINFO, 0, 0,
+									Consts.DEV_MOD_USERINFO, 0,null);
+						}
+						break;
+					}
+					case JVNetConst.JVN_STREAM_INFO://码流
+						myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
+						HashMap<String, String> map = ConfigUtil
+								.genMsgMap(dataObj.getString("msg"));
+						// streamMap = map;
+						ResolveStreamInfo(map);
+						if (null != map.get("timezone")) {
+							int index = Integer.valueOf(map
+									.get("timezone"));
+							mainListener.onMainAction(JVNetConst.RC_EXTEND,
+									JVNetConst.TIME_ZONE,0,0,0,getString(R.string.str_timezone)
+									+ "("
+									+ getResources().getStringArray(
+											R.array.time_zone)[12 - index]
+													+ ")");
+						}
+						break;
+					default:
+						break;
+					}
 
                                         mainListener.onMainAction(JVNetConst.RC_EXTEND,
                                                 JVNetConst.TIME_ZONE, 0, 0, 0,
@@ -556,45 +642,55 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
                     int sendPower = 0x04 | power;
 
-                    MyLog.e("power-send", "" + power);
-                    // 2014-12-25 修改设备用户名密码
-                    // //CALL_TEXT_DATA: 165, 0, 81,
-                    // {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
-                    Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
-                            Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY, power,
-                            0, 0, paramByte, paramByte.length);
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-                break;
-            case Consts.DEV_SETTINGS_ALARMTIME:// 防护时间段
-                currentMenu.setText(R.string.str_protected_time);
-                DevSettingsAlarmTimeFragment alarmTimeFragment = new DevSettingsAlarmTimeFragment();
-                FragmentTransaction transaction = getSupportFragmentManager()
-                        .beginTransaction();
-                // Replace whatever is in the fragment_container
-                // view
-                // with this
-                // fragment,
-                // and add the transaction to the back stack so the
-                // user
-                // can
-                // navigate back
-                JSONObject paramObject = null;
-                try {
-                    paramObject = new JSONObject(params);
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    if (paramObject == null) {
-                        paramObject = new JSONObject();
-                    }
-                    try {
-                        paramObject.put("st", "00:00");
-                        paramObject.put("et", "23:59");
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+			}
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("START_TIME",
+					paramObject.optString("st", "00:00"));
+			bundle1.putString("END_TIME", paramObject.optString("et", "23:59"));
+			alarmTimeFragment.setArguments(bundle1);
+			transaction.replace(R.id.fragment_container, alarmTimeFragment);
+			// transaction.addToBackStack(null);
+			transaction.remove(deviceSettingsMainFragment);
+			fragment_tag = 1;
+			// Commit the transaction
+			transaction.commitAllowingStateLoss();
+			break;
+		case Consts.DEV_RESET_DEVICE: // 重置设备功能
+			Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
+					Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_RESTORE,
+					Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+			setResult(Consts.PLAY_DEVSET_RESPONSE);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			finish();
+			break;
+		case Consts.DEV_RESTART_DEVICE: // 重启设备功能
+			 Jni.sendSuperBytes(window,
+                     JVNetConst.JVN_RSP_TEXTDATA, true,
+                     Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_REBOOT,
+                     Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+			setResult(Consts.PLAY_DEVSET_RESPONSE);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			finish();
+			break;
+		case JVNetConst.TIME_ZONE:
+			Intent timeIntent  = new Intent(DeviceSettingsActivity.this,JVTimeZoneActivity.class);
+			Log.i("TAG",timezones+"ddddddd");
+			timeIntent.putExtra("timezone", timezones);
+			timeIntent.putExtra("window", window);
+			startActivity(timeIntent);
+			break;
+		default:
+			break;
+		}
+	}
 
                 }
                 Bundle bundle1 = new Bundle();
@@ -677,33 +773,35 @@ public class DeviceSettingsActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            switch (fragment_tag) {
-                case 0:
-                    finish();
-                    break;
-                case 1:
-                    currentMenu.setText(R.string.str_audio_monitor);
-                    // onBackPressed();
-                    deviceSettingsMainFragment = new DeviceSettingsMainFragment();
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString("KEY_PARAM", initDevParamObject.toString());
-                    deviceSettingsMainFragment.setArguments(bundle1);
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = getSupportFragmentManager()
-                            .beginTransaction();
-                    ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-                            .commitAllowingStateLoss();
-                    fragment_tag = 0;
-                    break;
-                default:
-                    break;
-            }
-        }
-        return true;
-    }
+	class MyHandler extends Handler {
+		@Override
+		public void dispatchMessage(Message msg) {
+			String strDescString = "";
+			switch (msg.what) {
+			case Consts.DEV_ALARAM_SOUND:
+			case Consts.DEV_SETTINGS_ALARM:
+				strDescString = getResources().getString(
+						R.string.str_setdev_params_timeout);
+				
+				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+						JVNetConst.JVN_STREAM_INFO);
+				
+				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+				.start();// by lkp这地方不知道为啥屏蔽了。先放开吧
+				return;
+			case JVNetConst.JVN_STREAM_INFO:
+				strDescString = getResources().getString(
+						R.string.str_setdev_params_timeout);// str_getdev_params_timeout
+				break;
+			default:
+				break;
+			}
+			if (waitingDialog != null && waitingDialog.isShowing())
+				waitingDialog.dismiss();
+			showTextToast(strDescString);
+			finish();
+		}
+	}
 
     class MyHandler extends Handler {
         @Override
@@ -940,7 +1038,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
             alarmTime0 = map.get("alarmTime0");// alarmTime0
             funcParamArray[Consts.DEV_SETTINGS_ALARMTIME] = alarmTime0;
-
             String alarmsound_enable = map.get("bAlarmSound");
             funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;
 
@@ -1027,4 +1124,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
         return 0;
 
     }
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MySharedPreference.putString("TIMEZONE", "");
+	}
 }

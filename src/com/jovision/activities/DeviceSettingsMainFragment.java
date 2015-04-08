@@ -63,7 +63,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private String startTime = "", endTime = "";
     private String startHour = "", startMin = "";
     private String endHour = "", endMin = "";
-    private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
+    private RelativeLayout functionlayout0, functionlayout1, functionlayout2, functionlayout3,
             functionlayout4, functionlayout5, functionlayout6, functionlayout7, functionlayout8;
     private RelativeLayout functiontips1, functiontips2, functiontips3,
             functiontips6;
@@ -89,6 +89,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private ImageView device_password_cancleI;
     private ImageView dialog_cancle_img;
 
+    // 云存储
+    private ImageView func_cloudsw;
+    private int func_cloud_enabled = -1;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -113,12 +117,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
         if (parent != null) {
             parent.removeView(rootView);
         }
+        // 云存储
+        func_cloudsw = (ImageView) rootView.findViewById(R.id.function_switch_01);
+
         func_swalert = (ImageView) rootView
                 .findViewById(R.id.function_switch_11);
         func_swmotion = (ImageView) rootView
                 .findViewById(R.id.function_switch_21);
         funcAlaramSound = (ImageView) rootView
                 .findViewById(R.id.function_switch_31);
+        functionlayout0 = (RelativeLayout) rootView
+                .findViewById(R.id.funclayout0);
         functionlayout1 = (RelativeLayout) rootView
                 .findViewById(R.id.funclayout1);
         functionlayout2 = (RelativeLayout) rootView
@@ -146,6 +155,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
         funtion_titile_71 = (TextView) rootView
                 .findViewById(R.id.funtion_titile_71);
 
+        func_cloudsw.setOnClickListener(this);
         func_swalert.setOnClickListener(this);
         func_swmotion.setOnClickListener(this);
         funcAlaramSound.setOnClickListener(this);
@@ -173,6 +183,19 @@ public class DeviceSettingsMainFragment extends Fragment implements
             } else {
                 functionlayout6.setVisibility(View.GONE);
                 functiontips6.setVisibility(View.GONE);
+            }
+
+            // 云存储服务
+            functionlayout0.setVisibility(View.GONE);
+            func_cloud_enabled = paramObject.optInt("bCloudEnabled", -1);
+            if (0 == func_cloud_enabled) {
+                func_cloudsw
+                        .setBackgroundResource(R.drawable.morefragment_normal_icon);
+            } else if (1 == func_cloud_enabled) {
+                func_cloudsw
+                        .setBackgroundResource(R.drawable.morefragment_selector_icon);
+            } else {
+                functionlayout0.setVisibility(View.GONE);
             }
 
             alarm_way_flag = paramObject.optInt("alarmWay", -1);
@@ -343,6 +366,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.function_switch_01:
+                if (func_cloud_enabled == 1) {
+                    // 打开--->关闭
+                    mListener.OnFuncEnabled(Consts.DEV_SETTINGS_CLOUD, 0);
+                } else if (func_cloud_enabled == 0) {
+                    // 关闭--->打开
+                    mListener.OnFuncEnabled(Consts.DEV_SETTINGS_CLOUD, 1);
+                } else {
+                    // 隐藏
+                }
+                break;
             case R.id.function_switch_11:
                 if (func_alert_enabled == 1) {
                     // 打开--->关闭
@@ -799,5 +833,58 @@ public class DeviceSettingsMainFragment extends Fragment implements
             toast.setText(msg);
         }
         toast.show();
+    }
+
+    @Override
+    public void onFuncAction(int func_index, int nowFlag, int destFlag) {
+        // TODO Auto-generated method stub
+        if (func_cloud_enabled == 1) {
+            // 打开--->关闭
+            // Log.e("Alarm",
+            // "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
+            if (func_cloud_enabled == destFlag) {
+                Log.e("Alarm", "middle Don't need to change");
+                return;
+            }
+            func_cloud_enabled = 0;
+            func_cloudsw
+                    .setBackgroundResource(R.drawable.morefragment_normal_icon);
+            // String text = getResources().getString(
+            // R.string.str_mdenabled_close_ok);
+            // Toast.makeText(getActivity(), text,
+            // Toast.LENGTH_SHORT)
+            // .show();
+            showTextToast(
+                    getActivity().getApplicationContext(),
+                    R.string.cloud_close_succ);
+            // Log.e("Alarm",
+            // "after func_motion_enabled:"+func_motion_enabled);
+        } else if (func_cloud_enabled == 0) {
+            // 关闭--->打开
+            if (func_cloud_enabled == destFlag) {
+                Log.e("Alarm", "middle Don't need to change");
+                return;
+            }
+            func_cloud_enabled = 1;
+            func_cloudsw
+                    .setBackgroundResource(R.drawable.morefragment_selector_icon);
+            // String text = getResources().getString(
+            // R.string.str_mdenabled_open_ok);
+            // Toast.makeText(getActivity(), text,
+            // Toast.LENGTH_SHORT)
+            // .show();
+            showTextToast(
+                    getActivity().getApplicationContext(),
+                    R.string.cloud_open_succ);
+        } else {
+            // 隐藏
+            // String text = getResources().getString(
+            // R.string.str_operation_failed);
+            // Toast.makeText(getActivity(), text,
+            // Toast.LENGTH_SHORT)
+            // .show();
+            showTextToast(getActivity(),
+                    R.string.str_operation_failed);
+        }
     }
 }

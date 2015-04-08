@@ -102,7 +102,7 @@ public class CustomizePageView extends RelativeLayout {
      * Interface for a callback when the item has been touched.
      */
     public interface OnTabTouchedListener {
-        public boolean onItemTouch(int position, View v, MotionEvent event);
+        public boolean onItemTouch(int position, String tag, View v, MotionEvent event);
     }
 
     /**
@@ -123,7 +123,8 @@ public class CustomizePageView extends RelativeLayout {
         public boolean onTouch(View v, MotionEvent event) {
             TabView tabView = (TabView) v;
             final int newTouched = tabView.mIndex;
-            return mTabTouchedListener.onItemTouch(newTouched, v, event);
+            final String tag = tabView.mMark;
+            return mTabTouchedListener.onItemTouch(newTouched, tag, v, event);
         }
     };
 
@@ -148,19 +149,21 @@ public class CustomizePageView extends RelativeLayout {
 
         for (int i = 0; i < count; i++) {
 
-            // indicator title
+            // title
             CharSequence title = tabItems.get(i).get("item_text");
             if (title == null) {
                 title = EMPTY_TITLE;
             }
 
-            // indicator icon
+            // icon
             int iconResId = Integer.parseInt(tabItems.get(i).get("item_image"));
 
-            // addTab(i, title, iconResId);
+            // tag
+            String tag = tabItems.get(i).get("item_tag");
 
             final TabView tabView = new TabView(getContext());
             tabView.mIndex = i;
+            tabView.mMark = tag;
             tabView.setOnTouchListener(mItemTouchListener);
             tabView.setText(title);
 
@@ -180,6 +183,7 @@ public class CustomizePageView extends RelativeLayout {
     // ---------------------------------------------------
     private class TabView extends LinearLayout {
         private int mIndex;
+        private String mMark;
         private ImageView mImageView;
         private TextView mTextView;
 

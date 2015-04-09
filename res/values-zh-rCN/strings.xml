@@ -284,8 +284,8 @@
     <string name="str_exiting_now">正在断开,请等待…</string>
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <!-- 设备管理 -->
-      <string name="str_new_add_device">选择添加设备</string>
-      <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
+    <string name="str_new_add_device">选择添加设备</string>
+    <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
     <string name="net_errors">可能原因：\n1.路由器密码错误；\n2.无法从路由器获取IP地址，请检查路由器；\n3.手机Wi-Fi功能异常.</string>

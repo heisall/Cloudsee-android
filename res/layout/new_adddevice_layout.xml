@@ -21,13 +21,24 @@
             android:id="@+id/new_adddevice_et"
             style="@style/my_edittext_style"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/erweimaLayout"
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:hint="@string/str_new_add_device_edit_hint"
             android:singleLine="true"
-            android:textCursorDrawable="@drawable/new_adddevice_cursor" >
+            android:textCursorDrawable="@drawable/new_adddevice_cursor" 
+            android:textSize="18sp">
         </EditText>
+
+        <ImageButton
+            android:id="@+id/editimg_clearn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/new_adddevice_close"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/erweimaLayout"
+            android:visibility="gone"
+             />
 
         <RelativeLayout
             android:id="@+id/erweimaLayout"
@@ -38,8 +49,8 @@
 
             <ImageView
                 android:id="@+id/tab_icon"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:padding="4dp"
                 android:src="@drawable/newadddevice_erweima" />
@@ -60,7 +71,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-         />
+        android:layout_marginRight="5dp" />
 
 </LinearLayout>

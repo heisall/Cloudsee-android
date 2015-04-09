@@ -186,7 +186,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
             }
 
             // 云存储服务
-            functionlayout0.setVisibility(View.GONE);
+//            functionlayout0.setVisibility(View.GONE);
             func_cloud_enabled = paramObject.optInt("bCloudEnabled", -1);
             if (0 == func_cloud_enabled) {
                 func_cloudsw

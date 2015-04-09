@@ -705,6 +705,7 @@
     <string name="str_alarm_setting_tips4">We suggest modify device administrator is password to avoid leakage of privacy.</string>
     <string name="str_alarm_setting_tips5">After reset device will restore factory Settings</string>
     <string name="str_alarm_setting_tips6">重启后设备将重新启动。</string>
+    <string name="str_alarm_setting_tips7">可以设置你所在的时区。</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>

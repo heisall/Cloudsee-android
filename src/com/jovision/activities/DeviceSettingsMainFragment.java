@@ -66,7 +66,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private RelativeLayout functionlayout0, functionlayout1, functionlayout2, functionlayout3,
             functionlayout4, functionlayout5, functionlayout6, functionlayout7, functionlayout8;
     private RelativeLayout functiontips1, functiontips2, functiontips3,
-            functiontips6;
+            functiontips6,functiontips7;
     private TextView alarmTime0TextView, funtion_titile_71;
     private int power = 0;
 
@@ -149,6 +149,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
         functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
         functiontips3 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_03);
         functiontips6 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_06);
+        functiontips7 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_07);
 
         alarmTime0TextView = (TextView) rootView
                 .findViewById(R.id.funtion_titile_32);
@@ -605,6 +606,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
                     case JVNetConst.TIME_ZONE:
                         // TODO
                         funtion_titile_71.setText(Content);
+                        if (1 == ex_type) {
+                        	functionlayout7.setVisibility(View.GONE);
+                        	functiontips7.setVisibility(View.GONE);
+						}
                         break;
                     case JVNetConst.RC_EX_MD:
                         if (ex_type == JVNetConst.EX_MD_SUBMIT) {

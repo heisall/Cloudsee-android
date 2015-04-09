@@ -101,7 +101,8 @@
     <color name="morefragment_color6">#FD8E35</color>
     <color name="morefragment_color7">#FF565B</color>
     <color name="morefragment_version">#2F84DF</color>
-    <color name="morefragment">#EBEAEB</color>
+    <color name="morefragment">#EBEBEB</color>
+     <color name="dev_setting">#FCFCFC</color>
     <!-- 视频播放 -->
     <color name="play_divider">#D9D9D9</color>
     <color name="play_color">#1eFFFFFF</color>

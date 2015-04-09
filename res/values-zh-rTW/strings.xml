@@ -706,6 +706,7 @@
     <string name="str_alarm_setting_tips5">重置後設備將恢復出廠設置。</string>
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
     <string name="str_alarm_setting_tips6">重啟後設備將重新啟動。</string>
+    <string name="str_alarm_setting_tips7">可以設置妳所在的時區。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
     <string name="str_setdev_params_timeout">設置設備參數超時</string>

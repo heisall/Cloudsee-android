@@ -165,7 +165,8 @@
     </style>
     <!-- 自定义edittext nihy -->
     <style name="my_edittext_style" parent="@android:style/Widget.EditText">
-        <!--  背景 -->
+
+        <!-- 背景 -->
         <item name="android:background">@drawable/new_adddevice_edit_bg</item>
     </style>
 

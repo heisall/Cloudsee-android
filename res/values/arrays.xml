@@ -236,7 +236,7 @@
         <item>unknown</item>
         <item>unknown</item>
     </string-array>
-    <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识-->
+    <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
     <string-array name="array_tabs_sequence">
         <item>a</item>
         <item>b</item>

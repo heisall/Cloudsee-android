@@ -192,10 +192,9 @@
         android:id="@+id/ytspeedseekbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-         >
+        android:layout_marginTop="5dp" >
 
         <TextView
             android:id="@+id/yt_speedstr"
@@ -205,7 +204,6 @@
             android:layout_centerVertical="true"
             android:text="@string/yt_speed"
             android:textColor="@color/black" />
-
 
         <SeekBar
             android:id="@+id/ytspeedseekbar"

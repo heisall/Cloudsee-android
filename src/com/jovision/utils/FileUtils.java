@@ -16,9 +16,21 @@ public class FileUtils {
     /**
 	 */
     private int FILESIZE = 4 * 1024;
+    private final static boolean LOOP_WRITE_FILE = true;
+    private onDownloadListener downLoadListener = null;
 
     public String getSDPATH() {
         return SDPATH;
+    }
+
+    public interface onDownloadListener {
+        public void onRealTimeDownloadSize(int RTSize);
+
+        public void onDownLoadFinished();
+    }
+
+    public void setOnDownloadListener(onDownloadListener listenter) {
+        downLoadListener = listenter;
     }
 
     public FileUtils() {
@@ -29,6 +41,9 @@ public class FileUtils {
 
     public File createSDFile(String fileName) throws IOException {
         File file = new File(SDPATH + fileName);
+        if (file.exists()) {
+            file.delete();
+        }
         file.createNewFile();
         return file;
     }
@@ -56,6 +71,9 @@ public class FileUtils {
             int len = 0;
             while ((len = input.read(buffer)) != -1) {
                 output.write(buffer, 0, len); // 在这里使用另一个重载，防止流写入的问题.
+                if (null != downLoadListener) {
+                    downLoadListener.onRealTimeDownloadSize(len);
+                }
             }
             output.flush();
         } catch (Exception e) {

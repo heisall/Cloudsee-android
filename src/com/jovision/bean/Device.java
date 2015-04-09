@@ -47,7 +47,13 @@ public class Device {
 
     private boolean isHelperEnabled;
     /** 设备类型 */
-    private int type;// 云视通端定义 4：家用设备 其他值 非家用
+    private int type;// 云视通端定义 如下常量及含义
+    // public static final int DEVICE_TYPE_UNKOWN = -1;
+    // public static final int DEVICE_TYPE_DVR = 0x01;
+    // public static final int DEVICE_TYPE_950 = 0x02;
+    // public static final int DEVICE_TYPE_951 = 0x03;
+    // public static final int DEVICE_TYPE_IPC = 0x04;
+    // public static final int DEVICE_TYPE_NVR = 0x05;
 
     /** 设备类型 */
     private int deviceType;// 服务端定义 2：家用设备 其他值 非家用
@@ -105,6 +111,8 @@ public class Device {
     private int shortConnRes = -1;// 设备短连接返回值
 
     private int ytSpeed = 0;// 2015.4.3设备云台转速
+
+    private int cloudEnabled = 0; // 云存储服务开关
 
     public Device() {
         channelList = new MyList<Channel>(1);
@@ -268,7 +276,7 @@ public class Device {
             object.put("serverState", serverState);
             object.put("alarmSwitch", alarmSwitch);
             object.put("oldDevice", oldDevice);
-
+            object.put("cloudEnabled", cloudEnabled);// 云存储
             try {
                 ArrayList<Channel> list = channelList.toList();
                 int size = list.size();
@@ -359,6 +367,7 @@ public class Device {
             dev.setChannelList(Channel.fromJsonArray(
                     ConfigUtil.getString(object, "channelList"), dev));
 
+            dev.setCloudEnabled(ConfigUtil.getInt(object, "cloudEnabled"));// 云存储
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -635,4 +644,11 @@ public class Device {
         this.ytSpeed = ytSpeed;
     }
 
+    public int getCloudEnabled() {
+        return this.cloudEnabled;
+    }
+
+    public void setCloudEnabled(int enabled) {
+        this.cloudEnabled = enabled;
+    }
 }

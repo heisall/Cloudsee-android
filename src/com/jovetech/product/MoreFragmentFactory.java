@@ -10,7 +10,7 @@ public class MoreFragmentFactory implements IFragmentFactory {
     @Override
     public Fragment newInstance() {
         // TODO Auto-generated method stub
-//        return new MoreFragment();
+        // return new MoreFragment();
         return new JVMoreFragment();
     }
 

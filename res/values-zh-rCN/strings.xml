@@ -280,6 +280,7 @@
     <string name="str_updating">正在下载更新软件</string>
     <string name="str_change_zoom">变倍</string>
     <string name="str_change_focus">变焦</string>
+    <string name="yt_speed">速度</string>
     <string name="str_exiting_now">正在断开,请等待…</string>
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <!-- 设备管理 -->
@@ -565,6 +566,12 @@
     <string name="protect_open_fail">安全防护打开失败</string>
     <string name="protect_close_succ">安全防护关闭成功</string>
     <string name="protect_close_fail">安全防护关闭失败</string>
+    <string name="cloud_open_succ">云存储服务打开成功</string>
+    <string name="cloud_open_fail">云存储服务打开失败</string>
+    <string name="cloud_close_succ">云存储服务关闭成功</string>
+    <string name="cloud_close_fail">云存储服务关闭失败</string>
+    <string name="cloud_serv_open">开启云存储服务</string>
+    <string name="cloud_serv_close">关闭云存储服务</string>
     <string name="device_offline">设备离线不能执行此操作</string>
     <string name="device_offlines">设备离线</string>
     <string name="device_model">型号</string>
@@ -641,6 +648,7 @@
     <string name="str_buffering">正在缓冲…</string>
     <string name="str_safe_protected">安全防护</string>
     <string name="str_reset_device">重置设备功能</string>
+    <string name="str_restart_device">重启设备功能</string>
     <string name="dev_alarm_sound">启动报警声音</string>
     <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音.</string>
     <string name="str_reset_sure">确定重置设备吗?</string>
@@ -714,6 +722,8 @@
     <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <string name="str_tpush_autostart_tips_v5">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心\"->\"授权管理\"->\"自启动应用管理\"界面，将本软件手动添加到自启动应用中</string>
     <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
+    <!-- 云存储 -->
+    <string name="str_cloud_serv_func">云存储服务</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

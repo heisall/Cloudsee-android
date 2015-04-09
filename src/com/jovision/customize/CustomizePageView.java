@@ -1,11 +1,8 @@
-package com.jovision.customize;
 
-import java.util.List;
-import java.util.Map;
+package com.jovision.customize;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +14,11 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 自定义面板上的自定义元素布局
- * 
  */
 public class CustomizePageView extends RelativeLayout {
 
@@ -67,7 +66,6 @@ public class CustomizePageView extends RelativeLayout {
     protected void onLayout(boolean paramBoolean, int paramInt1, int paramInt2,
             int paramInt3, int paramInt4) {
         int childCount = getChildCount();
-        Log.e("childCount", childCount + "");
         int itemMarginTop;
         for (int i = 0; i < childCount; ++i) {
             View childView = getChildAt(i);
@@ -87,12 +85,6 @@ public class CustomizePageView extends RelativeLayout {
                     + this.mItemMarginVerticalAverage;
             int right = left + childWidth;
             int bottom = top + childHeight;
-            Log.v("demo", "--------------------");
-            Log.v("demo", "---i5---" + left);
-            Log.v("demo", "---i6---" + top);
-            Log.v("demo", "---i7---" + right);
-            Log.v("demo", "---i8---" + bottom);
-            Log.v("demo", "--------------------");
             getChildAt(i).layout(left, top, right, bottom);
         }
     }
@@ -110,7 +102,7 @@ public class CustomizePageView extends RelativeLayout {
      * Interface for a callback when the item has been touched.
      */
     public interface OnTabTouchedListener {
-        public boolean onItemTouch(int position, View v, MotionEvent event);
+        public boolean onItemTouch(int position, String tag, View v, MotionEvent event);
     }
 
     /**
@@ -131,7 +123,8 @@ public class CustomizePageView extends RelativeLayout {
         public boolean onTouch(View v, MotionEvent event) {
             TabView tabView = (TabView) v;
             final int newTouched = tabView.mIndex;
-            return mTabTouchedListener.onItemTouch(newTouched, v, event);
+            final String tag = tabView.mMark;
+            return mTabTouchedListener.onItemTouch(newTouched, tag, v, event);
         }
     };
 
@@ -141,12 +134,10 @@ public class CustomizePageView extends RelativeLayout {
      * @param tabItems
      */
     public void setIndicator(List<Map<String, String>> tabItems) {
-        Log.v("demo", "--setIndicator--");
         if (tabItems == null || tabItems.size() <= 0) {
             return;
         }
 
-        Log.v("demo", "--setIndicator success--");
         this.tabItems = tabItems;
 
         notifyDataSetChanged();
@@ -156,22 +147,23 @@ public class CustomizePageView extends RelativeLayout {
         removeAllViews();
         final int count = tabItems.size();
 
-        Log.v("demo", "--setIndicator count--" + count);
         for (int i = 0; i < count; i++) {
 
-            // indicator title
+            // title
             CharSequence title = tabItems.get(i).get("item_text");
             if (title == null) {
                 title = EMPTY_TITLE;
             }
 
-            // indicator icon
+            // icon
             int iconResId = Integer.parseInt(tabItems.get(i).get("item_image"));
 
-            // addTab(i, title, iconResId);
+            // tag
+            String tag = tabItems.get(i).get("item_tag");
 
             final TabView tabView = new TabView(getContext());
             tabView.mIndex = i;
+            tabView.mMark = tag;
             tabView.setOnTouchListener(mItemTouchListener);
             tabView.setText(title);
 
@@ -179,7 +171,6 @@ public class CustomizePageView extends RelativeLayout {
                 tabView.setIcon(iconResId);
             }
 
-            Log.v("demo", "--add view--");
             addView(tabView);
 
         }
@@ -192,6 +183,7 @@ public class CustomizePageView extends RelativeLayout {
     // ---------------------------------------------------
     private class TabView extends LinearLayout {
         private int mIndex;
+        private String mMark;
         private ImageView mImageView;
         private TextView mTextView;
 

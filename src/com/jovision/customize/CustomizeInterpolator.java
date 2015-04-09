@@ -1,10 +1,10 @@
+
 package com.jovision.customize;
 
 import android.view.animation.Interpolator;
 
 /**
  * 自定义插值器-用于Tab indicator中间的Plus Tab按钮对应的界面
- * 
  */
 public class CustomizeInterpolator implements Interpolator {
     private float a;

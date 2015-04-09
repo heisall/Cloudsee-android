@@ -7,9 +7,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
@@ -40,6 +43,10 @@ public class JVRebandContactActivity extends BaseActivity {
     private RelativeLayout rebindnickname;
     private TextView reband_nickname_text;
     private ImageView nickImageView;
+    private RelativeLayout rebandall;
+    private RelativeLayout rebandhasused;
+    private TextView tv_sur_flow_value;
+    // private TextView tv_sur_flow;
 
     private String showPhone = "";
     private String showEmail = "";
@@ -105,6 +112,21 @@ public class JVRebandContactActivity extends BaseActivity {
         showEmail = intent.getStringExtra("email");
         showNickname = intent.getStringExtra("nickname");
         more_name = intent.getStringExtra("username");
+
+        // AlarmTask task = new AlarmTask();
+        // Integer[] params = new Integer[3];
+        // if (!MySharedPreference.getBoolean(
+        // Consts.MORE_ALARMSWITCH, true)) {// 1是关//
+        // // 0是开
+        // params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+        // } else {
+        // params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+        // }
+        // task.execute(params);
+
+        CheckUserFlowTask task = new CheckUserFlowTask();
+        String[] params = new String[3];
+        task.execute(params);
     }
 
     @Override
@@ -127,6 +149,11 @@ public class JVRebandContactActivity extends BaseActivity {
         rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
         rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
         linear = (LinearLayout) findViewById(R.id.lin);
+        rebandall = (RelativeLayout) findViewById(R.id.rebind_all);
+        rebandhasused = (RelativeLayout) findViewById(R.id.rebind_hasused);
+        tv_sur_flow_value = (TextView) findViewById(R.id.tv_surplus_flow_value);
+        tv_sur_flow_value.setText("0.0M");
+        // rebandhasusedtext = (TextView)findViewById(R.id.reband_hasused_text);
 
         MySharedPreference.putString("NICKNAMEBBS", "");
         if (!"".equals(showNickname)) {
@@ -160,6 +187,9 @@ public class JVRebandContactActivity extends BaseActivity {
         rebindphoneLayout.setOnClickListener(myOnClickListener);
         rebindmaiLayout.setOnClickListener(myOnClickListener);
         rebindnickname.setOnClickListener(myOnClickListener);
+        rebandall.setOnClickListener(myOnClickListener);
+        rebandhasused.setOnClickListener(myOnClickListener);
+
     }
 
     OnClickListener myOnClickListener = new OnClickListener() {
@@ -235,6 +265,15 @@ public class JVRebandContactActivity extends BaseActivity {
                     startActivity(intentPhone);
                     break;
 
+                case R.id.rebind_all:
+                    // TODO
+                    Log.i("TAG", "NIHAO");
+                    break;
+
+                case R.id.rebind_hasused:
+                    // TODO
+                    Log.i("TAG", "NIHAO");
+                    break;
                 default:
                     break;
             }
@@ -318,5 +357,38 @@ public class JVRebandContactActivity extends BaseActivity {
     @Override
     protected void freeMe() {
 
+    }
+
+    class CheckUserFlowTask extends AsyncTask<String, Integer, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... arg0) {
+            // TODO Auto-generated method stub
+            int ret = DeviceUtil.getUserSurFlow();
+            return ret;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dismissDialog();
+            if (result < 0) {
+                showTextToast("查询剩余流量失败" + result);
+            }
+            else {
+                double flow_mb = result / 1024;
+                tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+            createDialog(0, true);
+        }
     }
 }

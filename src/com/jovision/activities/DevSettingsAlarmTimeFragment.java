@@ -132,7 +132,7 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 
     @Override
     public void onMainAction(int packet_type, int packet_subtype, int ex_type,
-            int func_index, int destFlag,String Content) {
+            int func_index, int destFlag, String Content) {
         // TODO Auto-generated method stub
         mListener.OnAlarmTimeSavedResult(0);
     }
@@ -151,5 +151,11 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
             toast.setText(msg);
         }
         toast.show();
+    }
+
+    @Override
+    public void onFuncAction(int func_index, int nowFlag, int destFlag) {
+        // TODO Auto-generated method stub
+
     }
 }

@@ -24,6 +24,8 @@ public class Consts {
     public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
     // 测试服务器
     public static boolean TEST_SERVER = false;// true 测试服务器， false 正式服务器
+    // 国外服务器
+    public static boolean FOREIGN_SERVER = false;// true 国外服务器， false 国内服务器
 
     /**************************** 华丽的分割线 ******************************/
     public static int CURRENT_LAN = -1;// 当前语言
@@ -335,7 +337,7 @@ public class Consts {
     public static final String MORE_GCS_SWITCH = "GCS_SWITCH"; // 工程商入住开关
 
     public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
-
+    public static final String MORE_FOREIGNSWITCH = "FOREIGNSWITCH"; // 国外服务器开关
     public static final String MORE_ALARMMSG = "AlarmMsg"; // 报警信息
     public static final String MORE_VERSION = "Version"; // 版本
     public static final String MORE_DEVICESHARE = "DEVICE_SHARE"; // 设备分享
@@ -345,9 +347,7 @@ public class Consts {
 
     /** 更多 list菜单每个item对应的属性标志 **/
     public static final String[] moreListItemFlag = new String[] {
-            MORE_HELP, /*
-                        * 0 帮助
-                        */
+            MORE_HELP, /* 0 帮助 */
             MORE_REMEMBER, /* 1 自动登陆 */
             MORE_ALARMSWITCH, /* 2 警告信息推送 */
             MORE_ALARMMSG, /* 3报警信息 */
@@ -364,8 +364,9 @@ public class Consts {
             MORE_LITTLEHELP, /* 14 小助手 */
             MORE_BROADCAST, /* 15广播 */
             MORE_TESTSWITCH, /* 16 测试开关 */
+            MORE_FOREIGNSWITCH, /* 17 国外服务器开关 */
             MORE_VERSION
-            /* 17 版本 */
+            /* 18 版本 */
     };
 
     /********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
@@ -626,9 +627,9 @@ public class Consts {
     public static final int PLAY_BACK_DOWNLOAD = 0x74;// 远程回放视频下载
 
     /** 视频播放进设备设置 */
-    public static final int PLAY_DEVSET_REQUSET = 0x75;// 远程回放视频下载
+    public static final int PLAY_DEVSET_REQUSET = 0x75;// 视频播放进设备设置
     /** 设备设置回视频播放 */
-    public static final int PLAY_DEVSET_RESPONSE = 0x76;// 远程回放视频下载
+    public static final int PLAY_DEVSET_RESPONSE = 0x76;// 设备设置回视频播放
     /** 设备设置回视频播放 */
     public static final int TAB_WEBVIEW_BACK = 0x77;// tab页卡webview返回事件
 
@@ -672,6 +673,9 @@ public class Consts {
     /*********************** 以下是状态变量key的声明 ********************************/
 
     /** 账号sdk是否初始化的key */
+
+    /** 云台速度 key */
+    public static final String YT_SPEED_KEY = "_yt_speed";// 云台速度 key
 
     /** 云视通sdk是否初始化的key */
     public static final String KEY_SHOW_GUID = "ShowGuide";
@@ -811,10 +815,12 @@ public class Consts {
     public static final int THUMBNAIL_HEIGHT = 120;
 
     // 报警设置功能索引
+    public static final int DEV_SETTINGS_CLOUD = 0x00; // 云存储
     public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
     public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
     public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
     public static final int DEV_RESET_DEVICE = 0x04; // 设备重置
+    public static final int DEV_RESTART_DEVICE = 0x07; // 设备重置
     public static final int DEV_MOD_USERINFO = 0x05; // 修改用户名密码
     public static final int DEV_ALARAM_SOUND = 0x06; // 设备报警声音
     /** 手动注销标志key */
@@ -827,4 +833,7 @@ public class Consts {
     public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
     public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
     public static final int NEW_BBS = 0x99992;// 外设菜单单击事件
+
+    /* 流量统计 */
+    public static final String KEY_CLOUD_VOD_SIZE = "CLOUD_VOD_SIZE";
 }

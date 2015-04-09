@@ -4,58 +4,26 @@
     android:layout_height="wrap_content"
     android:background="@color/tab_bg_color" >
 
-    <ImageView
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_centerHorizontal="true"
-        android:background="@color/line" />
-
     <RelativeLayout
         android:id="@+id/tabsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/line"
         android:layout_centerHorizontal="true"
         android:background="@color/tab_bg_color" >
 
         <ImageView
             android:id="@+id/tab_icon"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_centerHorizontal="true"
             android:padding="4dp"
             android:src="@drawable/mydevice_devicenormal_icon" />
-
-        <RelativeLayout
-            android:id="@+id/tab_info"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignRight="@+id/tab_icon"
-            android:visibility="gone" >
-
-            <ImageView
-                android:id="@+id/tab_info_icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/morefragment_new" />
-
-            <TextView
-                android:id="@+id/tab_info_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="2dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="9sp" />
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/tab_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tab_icon"
+            android:layout_below="@id/tab_icon"
             android:layout_centerHorizontal="true"
             android:textSize="11sp"
             android:visibility="gone" />

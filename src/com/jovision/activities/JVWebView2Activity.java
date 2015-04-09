@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -91,8 +92,10 @@ public class JVWebView2Activity extends BaseActivity implements
     private TextView linkParams;
     private ImageView playImgView;
     private RelativeLayout playBar;
-    private ImageView pause;
-    private ImageView fullScreen;
+    private ImageView pause;// 暂停
+    private ImageView captureScreen;// 抓拍
+    public MediaPlayer mediaPlayer = new MediaPlayer();
+    private ImageView fullScreen;// 全屏
     private WebView webView;
     private LinearLayout linkSetting;
     private EditText minCache;
@@ -232,11 +235,13 @@ public class JVWebView2Activity extends BaseActivity implements
                             playBar.setVisibility(View.GONE);
                             if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
                                 linkSetting.setVisibility(View.GONE);
+                                linkParams.setVisibility(View.GONE);
                             }
                         } else {
                             playBar.setVisibility(View.VISIBLE);
                             if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
                                 linkSetting.setVisibility(View.VISIBLE);
+                                linkParams.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -464,7 +469,7 @@ public class JVWebView2Activity extends BaseActivity implements
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
                 JVWebView2Activity.this, 8000);
-
+        PlayUtil.setContext(JVWebView2Activity.this);
         /** topBar **/
         topBar = (RelativeLayout) findViewById(R.id.topbarh);
         leftBtn = (Button) findViewById(R.id.btn_left);
@@ -524,11 +529,13 @@ public class JVWebView2Activity extends BaseActivity implements
         playBar = (RelativeLayout) findViewById(R.id.playbar);
         linkSpeed = (TextView) findViewById(R.id.linkspeed);
         pause = (ImageView) findViewById(R.id.pause);
+        captureScreen = (ImageView) findViewById(R.id.capturescreen);// 抓拍
         fullScreen = (ImageView) findViewById(R.id.fullscreen);
         webView = (WebView) findViewById(R.id.webview);
 
         linkSpeed.setOnClickListener(myOnClickListener);
         pause.setOnClickListener(myOnClickListener);
+        captureScreen.setOnClickListener(myOnClickListener);
         fullScreen.setOnClickListener(myOnClickListener);
         playImgView.setOnClickListener(myOnClickListener);
 
@@ -903,6 +910,19 @@ public class JVWebView2Activity extends BaseActivity implements
                     }
                     break;
                 }
+                case R.id.capturescreen: {
+                    if (hasSDCard(5, true) && playChannel.isConnected()) {
+                        boolean captureRes = PlayUtil.capture(playChannel.getIndex());
+                        if (captureRes) {
+                            PlayUtil.prepareAndPlay(mediaPlayer, true);
+                            showTextToast(Consts.CAPTURE_PATH);
+                            MyLog.e("capture", "success");
+                        } else {
+                            showTextToast(R.string.str_capture_error);
+                        }
+                    }
+                    break;
+                }
                 case R.id.fullscreen: {// 全屏
                     if (playChannel.isConnected()) {
                         if (fullScreenFlag) {
@@ -1018,6 +1038,13 @@ public class JVWebView2Activity extends BaseActivity implements
 
     @Override
     protected void freeMe() {
+        try {
+            if (null != mediaPlayer) {
+                mediaPlayer.release();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

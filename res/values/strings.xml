@@ -280,6 +280,7 @@
     <string name="str_updating">Downloading update software</string>
     <string name="str_change_zoom">Zoom</string>
     <string name="str_change_focus">Focus</string>
+    <string name="yt_speed">Speed</string>
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <!-- 设备管理 -->
@@ -565,6 +566,12 @@
     <string name="protect_open_fail">Failed to enable Security Protection.</string>
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
+    <string name="cloud_open_succ">云存储服务打开成功</string>
+    <string name="cloud_open_fail">云存储服务打开失败</string>
+    <string name="cloud_close_succ">云存储服务关闭成功</string>
+    <string name="cloud_close_fail">云存储服务关闭失败</string>
+    <string name="cloud_serv_open">开启云存储服务</string>
+    <string name="cloud_serv_close">关闭云存储服务</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
     <string name="device_offlines">Device offline</string>
     <string name="device_model">Model</string>
@@ -641,6 +648,7 @@
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
+    <string name="str_restart_device">重启设备功能</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="dev_alarm_sound">Startup the alarm sound</string>
     <string name="dev_alarm_sound_tips">If alarm sound is turned off, the device will not sound when alarming.</string>
@@ -714,6 +722,8 @@
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
+    <!-- 云存储 -->
+    <string name="str_cloud_serv_func">云存储服务</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">Upload photos</string>
     <string name="select_to_upload">Selecting photos</string>

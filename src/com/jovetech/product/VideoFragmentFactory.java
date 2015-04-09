@@ -10,7 +10,7 @@ public class VideoFragmentFactory implements IFragmentFactory {
     @Override
     public Fragment newInstance() {
         // TODO Auto-generated method stub
-//        return new VideoSquareFragment();
+        // return new VideoSquareFragment();
         return new JVVideoFragment();
     }
 

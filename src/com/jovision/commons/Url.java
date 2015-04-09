@@ -40,10 +40,15 @@ public class Url {
     // public static String SHORTSERVERIP = "58.56.19.187";
     // public static String LONGSERVERIP = "58.56.19.187";
 
-    public static String SHORTSERVERIP = Consts.TEST_SERVER ? "58.56.19.187"
-            : ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
-                    : "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
-    public static String LONGSERVERIP = Consts.TEST_SERVER ? "58.56.19.187"
-            : ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
-                    : "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
+    public static String SHORTSERVERIP = Consts.FOREIGN_SERVER ? "98.126.77.202"
+            : Consts.TEST_SERVER ? "58.56.19.187"
+                    : ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
+                            : "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
+    public static String LONGSERVERIP = Consts.FOREIGN_SERVER ? "98.126.77.202"
+            : Consts.TEST_SERVER ? "58.56.19.187"
+                    : ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
+                            : "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
+
+    // if (MySharedPreference
+    // .getBoolean(Consts.MORE_FOREIGNSWITCH)) {
 }

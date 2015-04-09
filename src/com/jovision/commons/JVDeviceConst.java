@@ -274,6 +274,9 @@ public class JVDeviceConst {
     public static final int SET_ONLINE_STATUS = 3004;
     public static final int SET_ONLINE_STATUS_RESPONSE = 3005;
 
+    public static final int PUSH_DEVICE_CLOUD_INFO_REQ = 2061;// 云存储
+    public static final int PUSH_DEVICE_CLOUD_INFO_RESP = 2062;// 云存储
+
     public static final int PUSH_DEVICE_MODIFY_INFO = 3006;
     public static final int PUSH_DEVICE_MODIFY_INFO_RESPONSE = 3007;
 
@@ -532,4 +535,9 @@ public class JVDeviceConst {
     public static final String JK_WEB_GCS_URL = "gcsurl";
     public static final String JK_WEB_GCS_FLAG = "gcsf";
 
+    // 云存储
+    public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5214;
+    public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5215;
+    public static final String JK_VAS_FLOW = "vflow";
+    public static final String JK_CLOUD_STORAGE_FLOW = "csf";
 }

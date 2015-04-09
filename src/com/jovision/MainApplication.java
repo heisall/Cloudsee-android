@@ -107,8 +107,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
         // intent.setClass(this, MainService.class);
         // startService(intent);
         MyLog.init(Consts.LOG_PATH);
-        MyLog.enableFile(false);
-        MyLog.enableLogcat(false);
+        MyLog.enableFile(true);
+        MyLog.enableLogcat(true);
 
         // 注册网络切换广播
         registerDateTransReceiver();
@@ -668,6 +668,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
             if (itemFlag.equals(Consts.MORE_LITTLEHELP)
                     || itemFlag.equals(Consts.MORE_BROADCAST)
                     || itemFlag.equals(Consts.MORE_TESTSWITCH)
+                    || itemFlag.equals(Consts.MORE_FOREIGNSWITCH)
                     || itemFlag.equals(Consts.MORE_VERSION)) {
                 item.setDismiss(true);
             }
@@ -703,7 +704,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
             /** 显示圆形按钮 **/
             if (itemFlag.equals(Consts.MORE_REMEMBER)
-                    // || itemFlag.equals(Consts.MORE_ALARMSWITCH)
+                    || itemFlag.equals(Consts.MORE_FOREIGNSWITCH)
                     || itemFlag.equals(Consts.MORE_TESTSWITCH)
                     || itemFlag.equals(Consts.MORE_PLAYMODE)
                     || itemFlag.equals(Consts.MORE_LITTLEHELP)

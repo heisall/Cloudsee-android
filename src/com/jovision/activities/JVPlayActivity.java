@@ -34,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -79,6 +81,7 @@ public class JVPlayActivity extends PlayActivity implements
 
     private GestureDetector mGestureDetector;
 
+    private int currentYTSpeed = 0;// 当前云台速度
     private boolean isQuit;
     private boolean isBlockUi;
 
@@ -594,6 +597,19 @@ public class JVPlayActivity extends PlayActivity implements
                     if (null != jobj) {
                         channel.getParent().setType(type);
                         if (Consts.DEVICE_TYPE_IPC == type
+                                || Consts.DEVICE_TYPE_NVR == type) {// 只有IPC和NVR才支持云台速度调整
+                            ytSeekLayout.setVisibility(View.VISIBLE);
+                            channel.getParent().setYtSpeed(
+                                    MySharedPreference.getInt(channel.getParent().getFullNo()
+                                            + Consts.YT_SPEED_KEY));
+                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
+                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
+                            MyLog.v("yt_speed", "normalData=" + channel.getParent().getYtSpeed());
+                        } else {
+                            ytSeekLayout.setVisibility(View.GONE);
+                        }
+
+                        if (Consts.DEVICE_TYPE_IPC == type
                                 || Consts.DEVICE_TYPE_DVR == type
                                 || Consts.DEVICE_TYPE_NVR == type) {
                             channel.getParent().setCard(false);
@@ -626,22 +642,6 @@ public class JVPlayActivity extends PlayActivity implements
 
                         newWidth = jobj.getInt("width");
                         newHeight = jobj.getInt("height");
-                        // if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
-                        // if (!Jni.disconnect(arg1)) {
-                        // loadingState(arg1, R.string.closed,
-                        // JVConst.PLAY_DIS_CONNECTTED);
-                        // }
-                        // if (ONE_SCREEN == currentScreen
-                        // && arg1 == lastClickIndex) {
-                        // if (!MySharedPreference
-                        // .getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
-                        // errorDialog(
-                        // Consts.DIALOG_NOT_SUPPORT04,
-                        // getResources().getString(
-                        // R.string.not_support_old));
-                        // }
-                        // }
-                        // }
 
                     }
                 } catch (JSONException e) {
@@ -907,27 +907,7 @@ public class JVPlayActivity extends PlayActivity implements
                                                 }
                                             }
                                         }
-                                        // String [] array =
-                                        // InfoJSON.split(";");
-                                        // for (int i = 0; i < array.length;
-                                        // i++) {
-                                        // if
-                                        // (null!=array[i]&&array[i].toString().substring(0,
-                                        // 2).equals("ID")) {
-                                        // idomap.put(i+"",
-                                        // array[i].toString().substring(3,
-                                        // array[i].toString().length()));
-                                        // Log.i("TAG",
-                                        // "获取用户名密码"+array[i].toString());
-                                        // Log.i("TAG",
-                                        // "前几位"+array[i].toString().substring(0,
-                                        // 2));
-                                        // }
-                                        // if
-                                        // (null!=array[i]&&array[i].toString().substring(0,
-                                        // 2).equals("ID")) {
-                                        // }
-                                        // }
+
                                     }
                                     break;
                                 }
@@ -948,6 +928,9 @@ public class JVPlayActivity extends PlayActivity implements
                                                         .get("motorspeed"))) {
                                             channel.getParent().setYtSpeed(
                                                     Integer.parseInt(dataMap.get("motorspeed")));
+                                            // ytSpeed.setText(channel.getParent().getYtSpeed()
+                                            // + "");
+                                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
                                             ytSpeed.setText(channel.getParent().getYtSpeed() + "");
                                             MyLog.v(TAG, "融合前--的代码,当前云台速度:"
                                                     + channel.getParent().getYtSpeed());
@@ -1008,12 +991,16 @@ public class JVPlayActivity extends PlayActivity implements
                                         // 融合后的代码，从码流信息里获取moveSpeed 云台速度字段
                                         if (null != streamMap.get("moveSpeed")
                                                 && !"".equalsIgnoreCase(streamMap
-                                                        .get("moveSpeed"))) {
+                                                        .get("moveSpeed"))
+                                                && channel.isSingleVoice()) {
                                             channel.getParent()
                                                     .setYtSpeed(
                                                             Integer.parseInt(streamMap
                                                                     .get("moveSpeed")));
+                                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
                                             ytSpeed.setText(channel.getParent().getYtSpeed() + "");
+                                            // ytSpeed.setText(channel.getParent().getYtSpeed()
+                                            // + "");
                                             MyLog.v(TAG, "融合后的代码,当前云台速度:"
                                                     + channel.getParent().getYtSpeed());
                                         } else {
@@ -1142,7 +1129,6 @@ public class JVPlayActivity extends PlayActivity implements
             }
 
             case Consts.CALL_CHAT_DATA: {
-                dismissDialog();
                 MyLog.i(TAG, "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2=" + arg2);
                 switch (arg2) {
                 // 语音数据
@@ -1153,7 +1139,7 @@ public class JVPlayActivity extends PlayActivity implements
 
                     // 同意语音请求
                     case JVNetConst.JVN_RSP_CHATACCEPT: {
-
+                        MyLog.v("tag-voiceCall", "主控同意对讲");
                         Channel channel = channelList.get(lastClickIndex);
                         if (channel.isSingleVoice()) {
                             showTextToast(R.string.voice_tips2);
@@ -1190,12 +1176,13 @@ public class JVPlayActivity extends PlayActivity implements
                         channel.setVoiceCall(true);
                         VOICECALLING = true;
                         voiceCallSelected(true);
-
+                        dismissDialog();
                         break;
                     }
 
                     // 暂停语音聊天
                     case JVNetConst.JVN_CMD_CHATSTOP: {
+                        MyLog.e("tag-voiceCall", "主控----不同意对讲");
                         if (realStop) {
                             realStop = false;
                         } else {
@@ -1203,7 +1190,7 @@ public class JVPlayActivity extends PlayActivity implements
                                     .getDrawable(R.drawable.video_talkback_icon));
                             showTextToast(R.string.has_calling);
                         }
-
+                        dismissDialog();
                         break;
                     }
                 }
@@ -1328,7 +1315,7 @@ public class JVPlayActivity extends PlayActivity implements
                                 Device device = channel.getParent();
                                 boolean enableTcp = device.getEnableTcpConnect() == 1 ? true
                                         : false;
-                                MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
+                                // MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
 
                                 // playStatistics
                                 // .setText(String
@@ -1369,6 +1356,7 @@ public class JVPlayActivity extends PlayActivity implements
                                                         : "P2P")
                                                 + "/"
                                                 + "enableTcp=" + enableTcp + "/"
+                                                + "devType=" + channel.getParent().getType() + "/"
                                         // + PlayUtil
                                         // .hasEnableHelper(channelList
                                         // .get(lastClickIndex)
@@ -1844,7 +1832,7 @@ public class JVPlayActivity extends PlayActivity implements
         left_btn_h.setOnClickListener(myOnClickListener);
         ht_fight.setOnClickListener(myOnClickListener);
         ht_motion.setOnClickListener(myOnClickListener);
-        ysSpeedSet.setOnClickListener(myOnClickListener);
+        // ysSpeedSet.setOnClickListener(myOnClickListener);
 
         selectScreenNum.setOnClickListener(myOnClickListener);
         currentMenu.setOnClickListener(myOnClickListener);
@@ -2060,8 +2048,53 @@ public class JVPlayActivity extends PlayActivity implements
         horfunc_talk_normal.setOnTouchListener(myOnTouchListener);
         verPlayBarLayout.setVisibility(View.VISIBLE);
 
+        ytSeekBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        ytSeekBar.setMax(255);
         changeWindow(currentScreen);
     }
+
+    /**
+     * 远程回放进度条拖动事件
+     */
+    OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
+
+        @Override
+        public void onProgressChanged(SeekBar arg0, int currentProgress, boolean arg2) {
+            try {
+                if (currentProgress <= 3) {// 云台速度范围3-255
+                    currentProgress = 3;
+                }
+                currentYTSpeed = currentProgress;
+                MyLog.v("yt_speed", "onProgressChanged=" + currentProgress + "--" + currentYTSpeed);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar arg0) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar arg0) {
+            try {
+                Channel channel = channelList.get(lastClickIndex);
+                channel.getParent().setYtSpeed(currentYTSpeed);
+                ytSeekBar.setProgress(currentYTSpeed);
+                ytSpeed.setText(currentYTSpeed + "");
+                if (!channel.isSingleVoice()) {// 非单向对讲，家用设备
+                    MySharedPreference.putInt(
+                            channel.getParent().getFullNo() + Consts.YT_SPEED_KEY, channel
+                                    .getParent().getYtSpeed());
+                }
+                MyLog.e("yt_speed", "onStopTrackingTouch=" + currentYTSpeed);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     private class MyPagerAdapter extends PagerAdapter {
 
@@ -2392,7 +2425,7 @@ public class JVPlayActivity extends PlayActivity implements
 
                 boolean enableTcp = device.getEnableTcpConnect() == 1 ? true
                         : false;
-                MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
+                // MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
 
                 if (null != ssid
                         && channel.getParent().getFullNo()
@@ -2743,14 +2776,14 @@ public class JVPlayActivity extends PlayActivity implements
             // case R.id.yt_cancle:
             //
             // break;
-                case R.id.setspeed: {// 设置云台速度
-                    /** 云台速度调整命令 **/
-                    int speed = Integer.parseInt(ytSpeed.getText().toString());
-                    // PlayUtil.setYTSpeed(lastClickIndex, speed);
-                    channel.getParent().setYtSpeed(speed);
-
-                    break;
-                }
+            // case R.id.setspeed: {// 设置云台速度
+            // /** 云台速度调整命令 **/
+            // int speed = Integer.parseInt(ytSpeed.getText().toString());
+            // // PlayUtil.setYTSpeed(lastClickIndex, speed);
+            // channel.getParent().setYtSpeed(speed);
+            //
+            // break;
+            // }
 
                 case R.id.devicepwd_nameet_cancle:
 
@@ -3067,6 +3100,7 @@ public class JVPlayActivity extends PlayActivity implements
                     break;
                 case R.id.funclayout:// AP功能列表对讲功能
                 case R.id.voicecall:// 语音对讲
+                    MyLog.v("tag-voiceCall", "按钮点击");
                     voiceCall(channel);
                     if (istalk) {
                         istalk = false;
@@ -3075,17 +3109,22 @@ public class JVPlayActivity extends PlayActivity implements
                         function.setVisibility(View.VISIBLE);
                         talk_eachother.setVisibility(View.GONE);
                     }
+
                     break;
                 case R.id.talk_cancel:
-                    voiceCall(channel);
-                    talkMethod();
-                    voiceCallSelected(false);
-                    function.setVisibility(View.VISIBLE);
-                    talk_eachother.setVisibility(View.GONE);
-                    istalk = false;
-                    if (Consts.PLAY_AP == playFlag) {
-                        horfunc_talk.setVisibility(View.GONE);
-                        ishonfunctalk = false;
+                    if (null != proDialog && proDialog.isShowing()) {
+                        MyLog.v(TAG, "频繁点击对讲" + proDialog + "" + proDialog.isShowing());
+                    } else {
+                        voiceCall(channel);
+                        talkMethod();
+                        voiceCallSelected(false);
+                        function.setVisibility(View.VISIBLE);
+                        talk_eachother.setVisibility(View.GONE);
+                        istalk = false;
+                        if (Consts.PLAY_AP == playFlag) {
+                            horfunc_talk.setVisibility(View.GONE);
+                            ishonfunctalk = false;
+                        }
                     }
                     break;
                 case R.id.bottom_but7:
@@ -3192,7 +3231,12 @@ public class JVPlayActivity extends PlayActivity implements
                 showTextToast(R.string.not_support_this_func);
             } else {
                 if (channelList.get(lastClickIndex).isVoiceCall()) {
+                    MyLog.e("tag-voiceCall", "发---停止对讲命令");
+                    if (!channelList.get(lastClickIndex).isSingleVoice()) {
+                        createDialog("", false);
+                    }
                     stopVoiceCall(lastClickIndex);
+                    handler.sendEmptyMessageDelayed(Consts.WHAT_DIALOG_CLOSE, 2 * 1000);
                     Jni.pauseAudio(lastClickIndex);
                     channelList.get(lastClickIndex).setVoiceCall(false);
                     realStop = true;
@@ -3204,17 +3248,13 @@ public class JVPlayActivity extends PlayActivity implements
                 } else {
                     JVPlayActivity.AUDIO_SINGLE = channelList.get(
                             lastClickIndex).isSingleVoice();
-                    if (null != proDialog && proDialog.isShowing()) {
-                        MyLog.v(TAG, "频繁点击对讲");
-                    } else {
-                        createDialog("", false);
-                        startVoiceCall(lastClickIndex,
-                                channelList.get(lastClickIndex));
-                        if (Consts.PLAY_AP == playFlag) {
-                            functionListAdapter.selectIndex = 1;
-                        }
+                    createDialog("", false);
+                    MyLog.v("tag-voiceCall", "发----请求对讲命令");
+                    startVoiceCall(lastClickIndex,
+                            channelList.get(lastClickIndex));
+                    if (Consts.PLAY_AP == playFlag) {
+                        functionListAdapter.selectIndex = 1;
                     }
-
                 }
             }
 
@@ -3254,32 +3294,6 @@ public class JVPlayActivity extends PlayActivity implements
     public void onBackPressed() {
         backMethod(true);
     }
-
-    // @Override
-    // public boolean onKeyDown(int keyCode, KeyEvent event) {
-    // if(keyCode == KeyEvent.KEYCODE_MENU){
-    // if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
-    // 横屏
-    // if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
-    // horPlayBarLayout.setVisibility(View.GONE);
-    // } else {
-    // horPlayBarLayout.setVisibility(View.VISIBLE);
-    // }
-    // } else {
-    // if (ONE_SCREEN == currentScreen) {
-    // if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
-    // verPlayBarLayout.setVisibility(View.GONE);
-    // } else {
-    // verPlayBarLayout.setVisibility(View.VISIBLE);
-    // }
-    // }
-    // }
-    // return false;
-    // }else if(keyCode == KeyEvent.KEYCODE_BACK){
-    // backMethod(true);
-    // }
-    // return super.onKeyDown(keyCode, event);
-    // }
 
     boolean backFunc = false;
 

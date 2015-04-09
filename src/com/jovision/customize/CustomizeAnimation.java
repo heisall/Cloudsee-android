@@ -1,3 +1,4 @@
+
 package com.jovision.customize;
 
 import android.view.animation.AccelerateInterpolator;
@@ -9,14 +10,12 @@ import android.view.animation.TranslateAnimation;
 
 /**
  * 自定义动画
- * 
  */
 public class CustomizeAnimation {
     /**
      * Plus Tab按下后页面进入动画
      * 
-     * @param offset
-     *            动画之间的间隔
+     * @param offset 动画之间的间隔
      * @return 动画集
      */
     public static AnimationSet enterAnimation(long offset) {
@@ -41,8 +40,7 @@ public class CustomizeAnimation {
     /**
      * Plus 页面关闭时的动画
      * 
-     * @param offset
-     *            动画之间的间隔
+     * @param offset 动画之间的间隔
      * @return 动画集
      */
     public static AnimationSet exitAnimation(long offset) {

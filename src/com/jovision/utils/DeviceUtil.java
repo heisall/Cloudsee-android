@@ -1702,6 +1702,93 @@ public class DeviceUtil {
         return res;
     }
 
+    public static int saveCloudSettings(int settingTag, int flag,
+            String loginUserName, String dGuid) {
+        // 参数例子：{"mid":4,"mt":3006,"pv":"1.0","lpt":7,"sid":"5c9995471e60dad582a253feef0b2e98","username":"juyang","dguid":"A228142816","dinfo":{"tfss":0}}
+        // {"username":"juyang","lpt":1,"pv":"1.0","dinfo":{"tfss":0},"mt":3006,"dguid":"A228142816"}
+        JSONObject paramObj = new JSONObject();
+        String saveKey = "";
+        // try {
+        // switch (settingTag) {
+        // case JVDeviceConst.DEVICE_NICK_NAME_SWITCH:// 修改昵称
+        // // 安全防护开关
+        // paramObj.put(JVDeviceConst.JK_DEVICE_NAME, dName);// 0关 1开
+        // break;
+        // case JVDeviceConst.DEVICE_ALARTM_TIME_SWITCH:// 防护时间段
+        // saveKey = JVDeviceConst.JK_ALARM_TIME;
+        // // 安全防护开关
+        // paramObj.put(JVDeviceConst.JK_ALARM_TIME, dName);// 0关 1开
+        // break;
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        int res = -1;
+        JSONObject jObj = new JSONObject();
+        try {
+            jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+                    JVDeviceConst.PUSH_DEVICE_CLOUD_INFO_REQ);// mt
+            jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+                    JVDeviceConst.PROTO_VERSION);// pv
+            jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+                    JVDeviceConst.DEV_INFO_PRO);// lpt
+            jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
+            jObj.put(JVDeviceConst.JK_CLOUD_STORAGE_FLAG, flag);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        MyLog.v("saveSettings---request", jObj.toString());
+
+        // 返回值范例：
+        /**
+         * {"mt":3007,"rt":5,"mid":1}
+         */
+
+        // 接收返回数据
+        // byte[] resultStr = new byte[512];
+        // int error = JVACCOUNT
+        // .GetResponseByRequestDevicePersistConnectionServer(
+        // jObj.toString(), resultStr);
+        // if (0 == error) {
+        // String result = new String(resultStr);
+        String requesRes = JVACCOUNT
+                .GetResponseByRequestDeviceShortConnectionServerV2(jObj
+                        .toString());
+
+        JSONObject respObject = null;
+        try {
+            respObject = new JSONObject(requesRes);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        int ret = respObject.optInt("result", -1);
+        if (ret == 0) {
+            String result = respObject.optString("resp", "");
+            MyLog.v("saveSettings--result--", result);
+
+            if (null != result && !"".equalsIgnoreCase(result)) {
+                try {
+                    JSONObject temObj = new JSONObject(result);
+                    if (null != temObj) {
+                        // int mt =
+                        // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+                        res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+                        // ，其他失败
+                        // int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // if (res == 0 && !"".equals(saveKey)) {
+        // saveToDB(loginUserName, dGuid, saveKey, dName);
+        // }
+        return res;
+    }
+
     /**
      * 2014-03-10 保存配置（写到数据库）
      */
@@ -3684,4 +3771,68 @@ public class DeviceUtil {
         return webUrl;
     }
 
+    /**
+     * 获取剩余流量
+     */
+    public static int getUserSurFlow() {
+        MyList<Channel> pointList = new MyList<Channel>(1);
+        JSONObject jObj = new JSONObject();
+        try {
+            jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+                    JVDeviceConst.JK_CLOUD_STORAGE_FLOW_LEFT);
+            jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+                    JVDeviceConst.PROTO_VERSION);
+            jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+                    JVDeviceConst.VAS_PROCESS);
+            jObj.put(JVDeviceConst.JK_SESSION_ID, JVACCOUNT.GetSession());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        MyLog.v("getUserSurFlow---request", jObj.toString());
+        // byte[] resultStr = new byte[1024 * 30];
+        // int error =
+        // JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+        // jObj.toString(), resultStr);
+        //
+        // if (0 == error) {
+        // String result = new String(resultStr);
+        String requesRes = JVACCOUNT
+                .GetResponseByRequestDeviceShortConnectionServerV2(jObj
+                        .toString());
+
+        JSONObject respObject = null;
+        try {
+            respObject = new JSONObject(requesRes);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        int ret = respObject.optInt("result", -1);
+        if (ret == 0) {
+            String result = respObject.optString("resp", "");
+            MyLog.v("getUserSurFlow---result", result);
+
+            if (null != result && !"".equalsIgnoreCase(result)) {
+                try {
+                    JSONObject temObj = new JSONObject(result);
+                    if (null != temObj) {
+                        // int mt =
+                        // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+                        int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+
+                        if (0 != rt) {// 获取失败
+                            return -100;
+                        } else {// 获取成功
+                            return temObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW);
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return -101;
+    }
 }

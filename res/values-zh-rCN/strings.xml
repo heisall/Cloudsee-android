@@ -284,6 +284,8 @@
     <string name="str_exiting_now">正在断开,请等待…</string>
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <!-- 设备管理 -->
+      <string name="str_new_add_device">选择添加设备</string>
+      <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
     <string name="net_errors">可能原因：\n1.路由器密码错误；\n2.无法从路由器获取IP地址，请检查路由器；\n3.手机Wi-Fi功能异常.</string>
@@ -727,6 +729,8 @@
     <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">云存储服务</string>
+    <string name="str_cloud_state">云存储</string>
+    <string name="str_cloud_query_error_1">查询用户使用详情失败</string>  
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

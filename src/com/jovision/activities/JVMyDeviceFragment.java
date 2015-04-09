@@ -1267,6 +1267,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                         intentPlay.putExtra("DeviceIndex", arg1);
                         intentPlay.putExtra("ChannelofChannel", dev
                                 .getChannelList().toList().get(0).getChannel());
+                        // 设备分组
+                        intentPlay.putExtra("DeviceGroup", dev.getGid());
                         mActivity.startActivity(intentPlay);
                     }
 

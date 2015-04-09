@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:id="@+id/new_adddevice_et"
+            style="@style/my_edittext_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/erweimaLayout"
+            android:layout_toLeftOf="@+id/erweimaLayout"
+            android:hint="@string/str_new_add_device_edit_hint"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/new_adddevice_cursor" >
+        </EditText>
+
+        <RelativeLayout
+            android:id="@+id/erweimaLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/tab_bg_color" >
+
+            <ImageView
+                android:id="@+id/tab_icon"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_centerHorizontal="true"
+                android:padding="4dp"
+                android:src="@drawable/newadddevice_erweima" />
+
+            <TextView
+                android:id="@+id/tab_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tab_icon"
+                android:layout_centerHorizontal="true"
+                android:text="扫一扫"
+                android:textSize="11sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/add_device_wv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+         />
+
+</LinearLayout>

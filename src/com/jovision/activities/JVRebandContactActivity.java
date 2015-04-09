@@ -23,11 +23,15 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -359,13 +363,13 @@ public class JVRebandContactActivity extends BaseActivity {
 
     }
 
-    class CheckUserFlowTask extends AsyncTask<String, Integer, Integer> {
+    class CheckUserFlowTask extends AsyncTask<String, Integer, String> {
 
         @Override
-        protected Integer doInBackground(String... arg0) {
+        protected String doInBackground(String... arg0) {
             // TODO Auto-generated method stub
-            int ret = DeviceUtil.getUserSurFlow();
-            return ret;
+            String resJson = DeviceUtil.getUserSurFlow();
+            return resJson;
         }
 
         @Override
@@ -374,14 +378,32 @@ public class JVRebandContactActivity extends BaseActivity {
         }
 
         @Override
-        protected void onPostExecute(Integer result) {
+        protected void onPostExecute(String result) {
             dismissDialog();
-            if (result < 0) {
-                showTextToast("查询剩余流量失败" + result);
-            }
-            else {
-                double flow_mb = result / 1024;
-                tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");
+            JSONObject resObj;
+            try {
+                resObj = new JSONObject(result);
+
+                int ret = resObj.optInt(JVDeviceConst.JK_RESULT);
+                if (ret < 0) {
+                    showTextToast(R.string.str_cloud_query_error_1 + ret);
+                }
+                else {
+                    int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
+                    if(fee_type == 0){
+                        //单位M                   
+                        double flow_mb =resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0)/1024;
+                        tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");                    
+                    }
+                    else if(fee_type == 1){
+                        //单位元
+                        double flow_money =resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0);
+                        tv_sur_flow_value.setText(String.valueOf(flow_money) + "元");                     
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
 

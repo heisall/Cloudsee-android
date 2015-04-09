@@ -1,10 +1,12 @@
 
 package com.jovision.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,6 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
@@ -27,15 +28,15 @@ import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.bean.Device;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
-
 import java.util.ArrayList;
 
+@SuppressLint("NewApi")
 public class MyDeviceListAdapter extends BaseAdapter {
     private ArrayList<Device> deviceList;
     private BaseFragment mfragment;
     private LayoutInflater inflater;
     public boolean showDelete = false;
-
+    private Context context_;
     private int[] devResArray = {
             R.drawable.device_bg_1,
             R.drawable.device_bg_2, R.drawable.device_bg_3,
@@ -49,6 +50,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
     };
 
     public MyDeviceListAdapter(Context con, BaseFragment fragment) {
+        context_ = con;
         mfragment = fragment;
         inflater = (LayoutInflater) fragment.getActivity().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
@@ -135,9 +137,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
                         .findViewById(R.id.offline_edit_l);
                 deviceHolder.editDevIVL = (LinearLayout) convertView
                         .findViewById(R.id.mydevice_edit_l);
-                deviceHolder.devnicknameL = (TextView) convertView
-                        .findViewById(R.id.dev_nickname_l);
-
+//                deviceHolder.devnicknameL = (TextView) convertView
+//                        .findViewById(R.id.dev_nickname_l);
+                //云存储状态
+                deviceHolder.tv_dev_cloud_state_L  = (TextView) convertView
+                        .findViewById(R.id.tv_dev_cloud_state_l);
+                deviceHolder.tv_dev_cloud_state_R  = (TextView) convertView
+                        .findViewById(R.id.tv_dev_cloud_state_r);    
+                
                 deviceHolder.mydeviceParentR = (FrameLayout) convertView
                         .findViewById(R.id.mydevice_parent_r);
                 deviceHolder.devLayoutR = (RelativeLayout) convertView
@@ -164,8 +171,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
                         .findViewById(R.id.offline_edit_r);
                 deviceHolder.editDevIVR = (LinearLayout) convertView
                         .findViewById(R.id.mydevice_edit_r);
-                deviceHolder.devnicknameR = (TextView) convertView
-                        .findViewById(R.id.dev_nickname_r);
+//                deviceHolder.devnicknameR = (TextView) convertView
+//                        .findViewById(R.id.dev_nickname_r);
 
                 convertView.setTag(deviceHolder);
             } else {
@@ -175,15 +182,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
             if (2 == deviceList.get(position * 2).getIsDevice()) {
                 deviceHolder.devNameL.setText(deviceList.get(position * 2)
                         .getNickName());
-                deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
-                        .getNickName());
+//                deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
+//                        .getNickName());
             } else {
                 deviceHolder.devNameL.setText(deviceList.get(position * 2)
                         .getNickName());
                 // + "-"
                 // + deviceList.get(position * 2).getOnlineStateNet());
-                deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
-                        .getNickName());
+//                deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
+//                        .getNickName());
             }
             // TODO
             deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
@@ -250,6 +257,20 @@ public class MyDeviceListAdapter extends BaseAdapter {
                     deviceHolder.devOnlineImgL
                             .setImageResource(R.drawable.deviceoffline);
                 }
+                //云存储状态
+                if (deviceList.get(position * 2).getOnlineStateNet() == 1) {
+                    Drawable draw_cloud_on = context_.getResources().getDrawable(R.drawable.cloud_state_on);
+                    draw_cloud_on.setBounds(0, 0, draw_cloud_on.getMinimumWidth(), draw_cloud_on.getMinimumHeight());
+                    deviceHolder.tv_dev_cloud_state_L.setCompoundDrawables(draw_cloud_on, null, null, null);
+                }else if(deviceList.get(position * 2).getOnlineStateNet() == 0){
+                    Drawable draw_cloud_off = context_.getResources().getDrawable(R.drawable.cloud_state_off);
+                    draw_cloud_off.setBounds(0, 0, draw_cloud_off.getMinimumWidth(), draw_cloud_off.getMinimumHeight());
+                    deviceHolder.tv_dev_cloud_state_L.setCompoundDrawables(draw_cloud_off, null, null, null);                    
+                }else{
+                    //不显示
+                    deviceHolder.tv_dev_cloud_state_L.setVisibility(View.INVISIBLE);
+                }
+                
             }
             int lastL = (position * 2) % 4;
             int lastR = (position * 2 + 1) % 4;
@@ -307,6 +328,19 @@ public class MyDeviceListAdapter extends BaseAdapter {
                             deviceHolder.offline_edit_r
                                     .setVisibility(View.GONE);
                         }
+                        //云存储状态
+                        if (deviceList.get(position * 2).getOnlineStateNet() == 1) {
+                            Drawable draw_cloud_on = context_.getResources().getDrawable(R.drawable.cloud_state_on);
+                            draw_cloud_on.setBounds(0, 0, draw_cloud_on.getMinimumWidth(), draw_cloud_on.getMinimumHeight());
+                            deviceHolder.tv_dev_cloud_state_R.setCompoundDrawables(draw_cloud_on, null, null, null);
+                        }else if(deviceList.get(position * 2).getOnlineStateNet() == 0){
+                            Drawable draw_cloud_off = context_.getResources().getDrawable(R.drawable.cloud_state_off);
+                            draw_cloud_off.setBounds(0, 0, draw_cloud_off.getMinimumWidth(), draw_cloud_off.getMinimumHeight());
+                            deviceHolder.tv_dev_cloud_state_R.setCompoundDrawables(draw_cloud_off, null, null, null);                    
+                        }else{
+                            //不显示
+                            deviceHolder.tv_dev_cloud_state_R.setVisibility(View.INVISIBLE);
+                        }                        
                     }
                 }
             }
@@ -337,15 +371,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
                 if (2 == deviceList.get(position * 2 + 1).getIsDevice()) {
                     deviceHolder.devNameR.setText(deviceList.get(
                             position * 2 + 1).getNickName());
-                    deviceHolder.devnicknameR.setText(deviceList.get(
-                            position * 2 + 1).getNickName());
+//                    deviceHolder.devnicknameR.setText(deviceList.get(
+//                            position * 2 + 1).getNickName());
                 } else {
                     deviceHolder.devNameR.setText(deviceList.get(
                             position * 2 + 1).getNickName());
                     // + "-"
                     // + deviceList.get(position * 2 + 1).getOnlineStateNet());
-                    deviceHolder.devnicknameR.setText(deviceList.get(
-                            position * 2 + 1).getNickName());
+//                    deviceHolder.devnicknameR.setText(deviceList.get(
+//                            position * 2 + 1).getNickName());
                 }
 
                 // TODO
@@ -510,8 +544,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
         LinearLayout editDevIVL;
         ImageView devOnlineImgL;
         ImageView devWifiImgL;
-        TextView devnicknameL;
-
+//        TextView devnicknameL;
+        TextView tv_dev_cloud_state_L;
+        TextView tv_dev_cloud_state_R;
         FrameLayout mydeviceParentR;
         RelativeLayout offline_edit_r;
         RelativeLayout devLayoutR;
@@ -525,7 +560,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
         LinearLayout editDevIVR;
         ImageView devOnlineImgR;
         ImageView devWifiImgR;
-        TextView devnicknameR;
+//        TextView devnicknameR;
     }
 
     protected void dialog(final int position) {

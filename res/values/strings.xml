@@ -726,6 +726,8 @@
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">云存储服务</string>
+    <string name="str_cloud_state">云存储</string>
+    <string name="str_cloud_query_error_1">查询用户使用详情失败</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">Upload photos</string>
     <string name="select_to_upload">Selecting photos</string>

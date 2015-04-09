@@ -726,6 +726,8 @@
     <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">云存储服务</string>
+    <string name="str_cloud_state">云存储</string>
+    <string name="str_cloud_query_error_1">查询用户使用详情失败</string>  
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

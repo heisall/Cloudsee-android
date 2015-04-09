@@ -69,7 +69,7 @@
     <permission
         android:name="getui.permission.GetuiService.第三方包名"
         android:protectionLevel="normal" >
-    </permission>
+    </permission>
     -->
     <permission
         android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp"
@@ -620,7 +620,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-
         <service
             android:name="com.jovision.CoreService"
             android:enabled="true" >
@@ -654,7 +653,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <!-- 微信回调activity -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.jovetech.CloudSee.temp.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -720,7 +719,7 @@
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"
@@ -781,6 +780,10 @@
             android:process=":pushservice" />
 
         <!-- 个推SDK配置结束 -->
+        <activity
+            android:name="com.jovision.activities.NewAdddeviceActivity"
+            android:label="@string/title_activity_new_adddevice" >
+        </activity>
     </application>
 
 </manifest>

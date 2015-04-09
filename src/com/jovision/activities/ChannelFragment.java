@@ -173,7 +173,8 @@ public class ChannelFragment extends BaseFragment {
                     intentPlay.putExtra("DeviceIndex", deviceIndex);
                     // [Neo] 实际上是 int channel
                     intentPlay.putExtra("ChannelofChannel", arg1);
-
+                    // 设备分组
+                    intentPlay.putExtra("DeviceGroup", deviceList.get(deviceIndex).getGid());
                     mActivity.startActivity(intentPlay);
                     // }
 

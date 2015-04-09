@@ -1,15 +1,6 @@
 
 package com.jovision.activities;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -42,6 +33,15 @@ import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.FileUtils.onDownloadListener;
 import com.jovision.utils.HttpDownloader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 public class CustomDialogActivity extends BaseActivity implements
         android.view.View.OnClickListener, onDownloadListener {

@@ -225,13 +225,14 @@
     </string-array>
     <!-- 中间自定义面板中的元素 -->
     <string-array name="array_customize_board">
-        <item>Alarm Setting</item>
+        <item>Alarm Message</item>
         <item>unknown</item>
         <item>unknown</item>
     </string-array>
     <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
+    <!-- 具体的tag名称和Consts.java中的名称一致 -->
     <string-array name="array_customize_item_tag">
-        <item>AlarmSwitch</item>
+        <item>AlarmMsg</item>
         <item>unknown</item>
         <item>unknown</item>
     </string-array>

@@ -21,10 +21,11 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
+import com.jovision.activities.AlarmInfoActivity;
 import com.jovision.activities.AlarmSettingsActivity;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVWebViewActivity;
 import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
+import com.jovision.activities.JVWebViewActivity;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -43,6 +44,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         OnTabTouchedListener {
 
     protected static final String TAG = "CustomizeBoard";
+    private MainApplication mApplication;
     private BaseActivity mActivity;
     private ImageView mClose;
     private LinearLayout mPanelHolder;
@@ -60,6 +62,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     public CustomizeBoard(Activity activity) {
         super(activity);
         mActivity = (BaseActivity) activity;
+        mApplication = (MainApplication) mActivity.getApplication();
 
         try {
             mListener = (OnFuncActionListener) activity;
@@ -215,6 +218,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
 
     /**
      * 通过元素的标记获取相应的图片
+     * 
      * @param tag 标记
      * @return iconResId 图片资源
      */
@@ -222,12 +226,14 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         int iconResId = R.drawable.customize_item_no_image;
         if (tag.equals(Consts.MORE_ALARMSWITCH)) {// 报警设置
             iconResId = R.drawable.tabbar_compose_camera;
+        } else if (tag.equals(Consts.MORE_ALARMMSG)) {// 报警消息
+            iconResId = R.drawable.tabbar_compose_weibo;
         } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
             iconResId = R.drawable.tabbar_compose_idea;
         } else if (tag.equals("unknown")) {// 未知
             iconResId = R.drawable.tabbar_compose_photo;
         }
-        
+
         return iconResId;
     }
 
@@ -237,6 +243,8 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     private void clickItemEvents(String tag) {
         if (tag.equals(Consts.MORE_ALARMSWITCH)) {// 报警设置
             alarmSwitch();
+        } else if (tag.equals(Consts.MORE_ALARMMSG)) {// 报警消息
+            alarmMsg();
         } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
             gcsurl();
         } else if (tag.equals("unknown")) {// 未知
@@ -264,6 +272,26 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
             Intent intent = new Intent(mActivity,
                     AlarmSettingsActivity.class);
             mActivity.startActivity(intent);
+        }
+    }
+    
+    /**
+     * 报警消息
+     */
+    private void alarmMsg() {
+        boolean localFlag = Boolean.valueOf(mActivity.statusHashMap
+                .get(Consts.LOCAL_LOGIN));
+        if (localFlag) {
+            mActivity.showTextToast(R.string.more_nologin);
+        } else {
+            if (!ConfigUtil.isConnected(mActivity)) {
+                mActivity.alertNetDialog();
+            } else {
+                mApplication.setNewPushCnt(0);
+                Intent intent = new Intent(mActivity,
+                        AlarmInfoActivity.class);
+                mActivity.startActivity(intent);
+            }
         }
     }
 

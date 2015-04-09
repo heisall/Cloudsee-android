@@ -603,6 +603,7 @@ public class JVPlayActivity extends PlayActivity implements
                                     MySharedPreference.getInt(channel.getParent().getFullNo()
                                             + Consts.YT_SPEED_KEY));
                             ytSeekBar.setProgress(channel.getParent().getYtSpeed());
+                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
                             MyLog.v("yt_speed", "normalData=" + channel.getParent().getYtSpeed());
                         } else {
                             ytSeekLayout.setVisibility(View.GONE);
@@ -930,6 +931,7 @@ public class JVPlayActivity extends PlayActivity implements
                                             // ytSpeed.setText(channel.getParent().getYtSpeed()
                                             // + "");
                                             ytSeekBar.setProgress(channel.getParent().getYtSpeed());
+                                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
                                             MyLog.v(TAG, "融合前--的代码,当前云台速度:"
                                                     + channel.getParent().getYtSpeed());
                                         }
@@ -996,6 +998,7 @@ public class JVPlayActivity extends PlayActivity implements
                                                             Integer.parseInt(streamMap
                                                                     .get("moveSpeed")));
                                             ytSeekBar.setProgress(channel.getParent().getYtSpeed());
+                                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
                                             // ytSpeed.setText(channel.getParent().getYtSpeed()
                                             // + "");
                                             MyLog.v(TAG, "融合后的代码,当前云台速度:"
@@ -2058,7 +2061,7 @@ public class JVPlayActivity extends PlayActivity implements
         @Override
         public void onProgressChanged(SeekBar arg0, int currentProgress, boolean arg2) {
             try {
-                if (currentProgress <= 3) {
+                if (currentProgress <= 3) {// 云台速度范围3-255
                     currentProgress = 3;
                 }
                 currentYTSpeed = currentProgress;
@@ -2079,6 +2082,7 @@ public class JVPlayActivity extends PlayActivity implements
                 Channel channel = channelList.get(lastClickIndex);
                 channel.getParent().setYtSpeed(currentYTSpeed);
                 ytSeekBar.setProgress(currentYTSpeed);
+                ytSpeed.setText(currentYTSpeed + "");
                 if (!channel.isSingleVoice()) {// 非单向对讲，家用设备
                     MySharedPreference.putInt(
                             channel.getParent().getFullNo() + Consts.YT_SPEED_KEY, channel

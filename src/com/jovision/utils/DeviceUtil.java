@@ -153,6 +153,8 @@ public class DeviceUtil {
                                                 .optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
                                         dev.setOnlineStateNet(obj
                                                 .optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
+                                        //云存储开关
+                                        dev.setCloudEnabled(obj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLAG, 0));                                        
                                         deviceList.add(dev);
 
                                         // 同步map,也算是初始化
@@ -3774,7 +3776,7 @@ public class DeviceUtil {
     /**
      * 获取剩余流量
      */
-    public static int getUserSurFlow() {
+    public static String getUserSurFlow() {
         MyList<Channel> pointList = new MyList<Channel>(1);
         JSONObject jObj = new JSONObject();
         try {
@@ -3807,32 +3809,30 @@ public class DeviceUtil {
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
+        JSONObject resObj = null;
         int ret = respObject.optInt("result", -1);
         if (ret == 0) {
             String result = respObject.optString("resp", "");
-            MyLog.v("getUserSurFlow---result", result);
-
+            MyLog.v("getUserSurFlow---result", result);         
             if (null != result && !"".equalsIgnoreCase(result)) {
                 try {
-                    JSONObject temObj = new JSONObject(result);
-                    if (null != temObj) {
-                        // int mt =
-                        // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-                        int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
-
-                        if (0 != rt) {// 获取失败
-                            return -100;
-                        } else {// 获取成功
-                            return temObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW);
-                        }
-
-                    }
+                    resObj = new JSONObject(result);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-
-        return -101;
+        else{
+            if(resObj == null){
+                resObj = new JSONObject();
+                try {
+                    resObj.put(JVDeviceConst.JK_RESULT, ret);
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null==resObj?"":resObj.toString();
     }
 }

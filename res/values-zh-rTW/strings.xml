@@ -570,8 +570,8 @@
     <string name="cloud_open_fail">云存储服务打开失败</string>
     <string name="cloud_close_succ">云存储服务关闭成功</string>
     <string name="cloud_close_fail">云存储服务关闭失败</string>
-    <string name="cloud_serv_open">开启云存储服务</string> 
-    <string name="cloud_serv_close">关闭云存储服务</string>     
+    <string name="cloud_serv_open">开启云存储服务</string>
+    <string name="cloud_serv_close">关闭云存储服务</string>
     <string name="device_offline">設備離線不能執行此操作</string>
     <string name="device_offlines">設備離線</string>
     <string name="device_model">型號</string>
@@ -723,7 +723,7 @@
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
     <string name="str_tpush_autostart_tips_v6">爲保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心"->\"授權管理\"->\"自啟動管理\"界面，將本軟件設置爲允許自動啟動</string>
     <!-- 云存储 -->
-    <string name="str_cloud_serv_func">雲存儲服務</string>      
+    <string name="str_cloud_serv_func">雲存儲服務</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

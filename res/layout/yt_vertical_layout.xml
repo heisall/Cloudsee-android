@@ -193,14 +193,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp" >
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="4dp" >
+
+        <TextView
+            android:id="@+id/yt_speedstr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/yt_speed"
+            android:textColor="@color/black" />
 
         <SeekBar
             android:id="@+id/ytspeedseekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/yt_speed" />
+            android:layout_toLeftOf="@+id/yt_speed"
+            android:layout_toRightOf="@+id/yt_speedstr" />
 
         <TextView
             android:id="@+id/yt_speed"
@@ -208,7 +220,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="@string/yt_speed"
             android:textColor="@color/black" />
     </RelativeLayout>
 
@@ -229,6 +240,5 @@
             android:layout_width="40dp"
             android:layout_height="40dp" />
     </LinearLayout>
-    <!-- http://blog.csdn.net/saintswordsman/article/details/5248233/ -->
 
 </LinearLayout>

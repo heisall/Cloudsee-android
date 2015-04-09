@@ -1701,27 +1701,28 @@ public class DeviceUtil {
         }
         return res;
     }
+
     public static int saveCloudSettings(int settingTag, int flag,
             String loginUserName, String dGuid) {
         // 参数例子：{"mid":4,"mt":3006,"pv":"1.0","lpt":7,"sid":"5c9995471e60dad582a253feef0b2e98","username":"juyang","dguid":"A228142816","dinfo":{"tfss":0}}
         // {"username":"juyang","lpt":1,"pv":"1.0","dinfo":{"tfss":0},"mt":3006,"dguid":"A228142816"}
         JSONObject paramObj = new JSONObject();
         String saveKey = "";
-//      try {
-//          switch (settingTag) {
-//          case JVDeviceConst.DEVICE_NICK_NAME_SWITCH:// 修改昵称
-//              // 安全防护开关
-//              paramObj.put(JVDeviceConst.JK_DEVICE_NAME, dName);// 0关 1开
-//              break;
-//          case JVDeviceConst.DEVICE_ALARTM_TIME_SWITCH:// 防护时间段
-//              saveKey = JVDeviceConst.JK_ALARM_TIME;
-//              // 安全防护开关
-//              paramObj.put(JVDeviceConst.JK_ALARM_TIME, dName);// 0关 1开
-//              break;
-//          }
-//      } catch (Exception e) {
-//          e.printStackTrace();
-//      }
+        // try {
+        // switch (settingTag) {
+        // case JVDeviceConst.DEVICE_NICK_NAME_SWITCH:// 修改昵称
+        // // 安全防护开关
+        // paramObj.put(JVDeviceConst.JK_DEVICE_NAME, dName);// 0关 1开
+        // break;
+        // case JVDeviceConst.DEVICE_ALARTM_TIME_SWITCH:// 防护时间段
+        // saveKey = JVDeviceConst.JK_ALARM_TIME;
+        // // 安全防护开关
+        // paramObj.put(JVDeviceConst.JK_ALARM_TIME, dName);// 0关 1开
+        // break;
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
         int res = -1;
         JSONObject jObj = new JSONObject();
         try {
@@ -1782,11 +1783,12 @@ public class DeviceUtil {
             }
         }
 
-//      if (res == 0 && !"".equals(saveKey)) {
-//          saveToDB(loginUserName, dGuid, saveKey, dName);
-//      }
+        // if (res == 0 && !"".equals(saveKey)) {
+        // saveToDB(loginUserName, dGuid, saveKey, dName);
+        // }
         return res;
     }
+
     /**
      * 2014-03-10 保存配置（写到数据库）
      */
@@ -3768,6 +3770,7 @@ public class DeviceUtil {
         }
         return webUrl;
     }
+
     /**
      * 获取剩余流量
      */

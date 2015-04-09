@@ -570,8 +570,8 @@
     <string name="cloud_open_fail">云存储服务打开失败</string>
     <string name="cloud_close_succ">云存储服务关闭成功</string>
     <string name="cloud_close_fail">云存储服务关闭失败</string>
-    <string name="cloud_serv_open">开启云存储服务</string> 
-    <string name="cloud_serv_close">关闭云存储服务</string>     
+    <string name="cloud_serv_open">开启云存储服务</string>
+    <string name="cloud_serv_close">关闭云存储服务</string>
     <string name="device_offline">设备离线不能执行此操作</string>
     <string name="device_offlines">设备离线</string>
     <string name="device_model">型号</string>

@@ -136,6 +136,7 @@ public abstract class PlayActivity extends BaseActivity implements
     // protected Button ysSpeedSet;// 云台速度调整按钮
     protected RelativeLayout ytSeekLayout;// 云台速度布局
     protected SeekBar ytSeekBar;// 云台速度seekbar
+    protected TextView ytSpeed;// 当前云台速度
 
     /** layout 下 */
     protected Button capture;// 抓拍
@@ -471,6 +472,7 @@ public abstract class PlayActivity extends BaseActivity implements
         // 云台速度调整按钮
         ytSeekLayout = (RelativeLayout) ytLayout.findViewById(R.id.ytspeedseekbarlayout);// 云台速度调整布局
         ytSeekBar = (SeekBar) ytLayout.findViewById(R.id.ytspeedseekbar);// 云台速度调整seekbar
+        ytSpeed = (TextView) ytLayout.findViewById(R.id.yt_speed);// 云台速度值
         autoimage.setOnClickListener(imageOnClickListener);
         zoomIn.setOnClickListener(imageOnClickListener);
         zoomout.setOnClickListener(imageOnClickListener);

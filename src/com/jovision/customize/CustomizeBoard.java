@@ -23,8 +23,8 @@ import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.activities.AlarmSettingsActivity;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVWebViewActivity;
 import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
+import com.jovision.activities.JVWebViewActivity;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -215,6 +215,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
 
     /**
      * 通过元素的标记获取相应的图片
+     * 
      * @param tag 标记
      * @return iconResId 图片资源
      */
@@ -227,7 +228,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         } else if (tag.equals("unknown")) {// 未知
             iconResId = R.drawable.tabbar_compose_photo;
         }
-        
+
         return iconResId;
     }
 

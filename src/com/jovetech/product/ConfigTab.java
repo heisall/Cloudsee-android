@@ -14,7 +14,7 @@ public class ConfigTab implements ITabItem {
 
     @Override
     public int getDrawable() {
-        return R.drawable.tab_message_selector;
+        return R.drawable.tab_videomanage_selector;
     }
 
     @Override

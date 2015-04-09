@@ -576,14 +576,13 @@ public class DeviceSettingsMainFragment extends Fragment implements
         retext = (TextView) view.findViewById(R.id.retext);
 
         if (0 == dialogflag) {
-            retext.setText(getResources().getString(R.string.str_reset_device));
+            retext.setText(getResources().getString(R.string.str_reset_sure));
         } else if (1 == dialogflag) {
-            retext.setText(getResources().getString(R.string.str_restart_device));
+            retext.setText(getResources().getString(R.string.str_restart_sure));
         }
         resetCancel.setOnClickListener(this);
         resetCompleted.setOnClickListener(this);
         resetDialog.show();
-
     }
 
     @Override

@@ -1,13 +1,10 @@
 
 package com.jovision.activities;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -20,6 +17,7 @@ public class JVNewAddDeviceActivity extends BaseActivity {
     private Drawable imgEnable;
     WebView add_device_wv;
     String url = "http://test.cloudsee.net/mobile/";
+
     // String url="http://baidu.com";
 
     @Override

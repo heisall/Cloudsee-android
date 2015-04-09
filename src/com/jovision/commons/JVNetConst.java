@@ -204,5 +204,6 @@ public final class JVNetConst {
     public final static byte RC_GETPARAM = (byte) 0x02;
     public final static byte RC_SETPARAM = (byte) 0x03;
     public final static byte RC_EX_NETWORK = (byte) 0x02;
+    public final static byte RC_SETSYSTEMTIME = (byte) 0x0A;
     public final static byte EX_WIFI_AP_CONFIG = (byte) 0x0B; // 针对新AP配置方式，获取到手机端配置的AP信息，便立即返回
 }

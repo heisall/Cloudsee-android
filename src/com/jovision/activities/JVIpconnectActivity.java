@@ -205,7 +205,7 @@ public class JVIpconnectActivity extends BaseActivity {
                 tcpImageView.setImageResource(R.drawable.ipc_normal);
             } else {
                 isTcpchose = true;
-                tcpImageView.setImageResource(R.drawable.ipc_selector);
+                tcpImageView.setImageResource(R.drawable.morefragment_selector_icon);
             }
             if (0 == editDevice.getPort()) {
                 ipconnect_port.setText("9101");
@@ -436,7 +436,7 @@ public class JVIpconnectActivity extends BaseActivity {
                     break;
                 case R.id.tcp_layout:
                     if (!isTcpchose) {
-                        tcpImageView.setImageResource(R.drawable.ipc_selector);
+                        tcpImageView.setImageResource(R.drawable.morefragment_selector_icon);
                         isTcpchose = true;
                     } else {
                         tcpImageView.setImageResource(R.drawable.ipc_normal);

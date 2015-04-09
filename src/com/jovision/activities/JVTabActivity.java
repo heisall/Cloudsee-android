@@ -63,15 +63,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-// -------------customize start-----------
-// -------------customize end-------------
-// -------------customize start-----------
-// -------------customize end-------------
 //-------------customize start-----------
 //import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 //-------------customize end-------------
-// -------------customize start-----------
-// -------------customize end-------------
 
 public class JVTabActivity extends ShakeActivity implements
 
@@ -131,8 +125,9 @@ public class JVTabActivity extends ShakeActivity implements
     private Map<Character, BaseFragment> mFragmentsMap;
     private Map<Character, ITabItem> mTabsMap;
 
-    private int mIndicatorCount = 5;
     private char mIndicatorSequence[];
+    // 最后一个Tab的位置
+    private int mLastTabPosition;
 
     // -------------customize end----------------
 
@@ -364,13 +359,13 @@ public class JVTabActivity extends ShakeActivity implements
             if (countshow + countbbs > 0) {
                 // -------------customize start--------------
                 // mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
-                mIndicator.updateIndicator(4, 0, true, countshow + countbbs);
+                mIndicator.updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
                 // -------------customize end --------------
             } else {
                 // -------------customize start--------------
                 // mIndicator.updateIndicator(3, 0, false, countshow +
                 // countbbs);
-                mIndicator.updateIndicator(4, 0, false, countshow + countbbs);
+                mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow + countbbs);
                 // -------------customize end --------------
             }
         }
@@ -493,13 +488,13 @@ public class JVTabActivity extends ShakeActivity implements
                         // mIndicator
                         // .updateIndicator(3, 0, true, countshow + countbbs);
                         mIndicator
-                                .updateIndicator(4, 0, true, countshow + countbbs);
+                                .updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
                         // -------------customize end----------------
                     } else {
                         // -------------customize start--------------
                         // mIndicator.updateIndicator(3, 0, false, countshow
                         // + countbbs);
-                        mIndicator.updateIndicator(4, 0, false, countshow
+                        mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow
                                 + countbbs);
                         // -------------customize end----------------
                     }
@@ -623,13 +618,13 @@ public class JVTabActivity extends ShakeActivity implements
                         // mIndicator
                         // .updateIndicator(3, 0, true, countshow + countbbs);
                         mIndicator
-                                .updateIndicator(4, 0, true, countshow + countbbs);
+                                .updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
                         // -------------customize end --------------
                     } else {
                         // -------------customize start--------------
                         // mIndicator.updateIndicator(3, 0, false, countshow
                         // + countbbs);
-                        mIndicator.updateIndicator(4, 0, false, countshow
+                        mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow
                                 + countbbs);
                         // -------------customize end --------------
                     }
@@ -743,7 +738,7 @@ public class JVTabActivity extends ShakeActivity implements
             // manager.beginTransaction()
             // .replace(R.id.tab_fragment, mFragments[0]).commit();
             manager.beginTransaction()
-                    .replace(R.id.tab_fragment, getFragmentByTag('a')).commit();
+                    .replace(R.id.tab_fragment, getFragmentByTag(mIndicatorSequence[0])).commit();
             // -------------customize end--------------
         } else {
             MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
@@ -925,13 +920,13 @@ public class JVTabActivity extends ShakeActivity implements
                         // mIndicator
                         // .updateIndicator(3, 0, true, countshow + countbbs);
                         mIndicator
-                                .updateIndicator(4, 0, true, countshow + countbbs);
+                                .updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
                         // -------------customize end --------------
                     } else {
                         // -------------customize start--------------
                         // mIndicator.updateIndicator(3, 0, false, countshow
                         // + countbbs);
-                        mIndicator.updateIndicator(4, 0, false, countshow
+                        mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow
                                 + countbbs);
                         // -------------customize end----------------
                     }
@@ -990,12 +985,12 @@ public class JVTabActivity extends ShakeActivity implements
             if (countshow + result > 0) {
                 // -------------customize start--------------
                 // mIndicator.updateIndicator(3, 0, true, countshow + result);
-                mIndicator.updateIndicator(4, 0, true, countshow + result);
+                mIndicator.updateIndicator(mLastTabPosition, 0, true, countshow + result);
                 // -------------customize end --------------
             } else {
                 // -------------customize start--------------
                 // mIndicator.updateIndicator(3, 0, false, countshow + result);
-                mIndicator.updateIndicator(4, 0, false, countshow + result);
+                mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow + result);
                 // -------------customize end --------------
             }
         }
@@ -1045,6 +1040,7 @@ public class JVTabActivity extends ShakeActivity implements
         List<ITabItem> tabItems = new ArrayList<ITabItem>();
 
         mIndicatorSequence = getIndicatorSequence();
+        mLastTabPosition = mIndicatorSequence.length - 1;
         for (int i = 0; i < mIndicatorSequence.length; i++) {
             initFramentsAndTabs(mIndicatorSequence[i]);
             tabItems.add(getTabByTag(mIndicatorSequence[i]));
@@ -1111,10 +1107,15 @@ public class JVTabActivity extends ShakeActivity implements
     public char[] getIndicatorSequence() {
         String indicatorSeq = MySharedPreference
                 .getString("indicator_sequence");
-        if (EMPTY.equals(indicatorSeq)) {
+        // 检测是否使用保存起来的tabs顺序来显示tabs
+        boolean isUseSavedTabsSeq = getResources().getBoolean(R.bool.use_saved_tabs_seq);
+        if (EMPTY.equals(indicatorSeq) || !isUseSavedTabsSeq) {
             StringBuffer sbstr = new StringBuffer();
-            for (int i = 0; i < mIndicatorCount; i++) {
-                sbstr.append((char) (i + 97));
+            // 默认的Tabs的顺序
+            String tabsDefSeq[] = getResources().getStringArray(
+                    R.array.array_tabs_sequence);
+            for (int i = 0, length = tabsDefSeq.length; i < length; i++) {
+                sbstr.append(tabsDefSeq[i]);
             }
             indicatorSeq = sbstr.toString();
             // 保存选项卡配置

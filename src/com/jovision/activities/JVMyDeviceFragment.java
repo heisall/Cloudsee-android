@@ -373,17 +373,21 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     }
                     break;
                 case R.id.btn_right:
-                    initPop();
-                    // 点击按钮时，pop显示状态，显示中就消失，否则显示
-                    if (popupWindow.isShowing()) {
-                        popupWindow.dismiss();
-                    } else {
-                        // 显示在below正下方
-                        popupWindow.showAsDropDown(view,
-                                (mActivity.disMetrics.widthPixels / 2), 10);
-                    }
-                    myDLAdapter.setShowDelete(false);
-                    myDLAdapter.notifyDataSetChanged();
+                    Intent newAddDevIntent = new Intent();
+                    newAddDevIntent.setClass(mActivity, JVNewAddDeviceActivity.class);
+                    mActivity.startActivity(newAddDevIntent);
+
+                    // initPop();
+                    // // 点击按钮时，pop显示状态，显示中就消失，否则显示
+                    // if (popupWindow.isShowing()) {
+                    // popupWindow.dismiss();
+                    // } else {
+                    // // 显示在below正下方
+                    // popupWindow.showAsDropDown(view,
+                    // (mActivity.disMetrics.widthPixels / 2), 10);
+                    // }
+                    // myDLAdapter.setShowDelete(false);
+                    // myDLAdapter.notifyDataSetChanged();
                     break;
                 case R.id.device_nameet_cancle:
                     device_nameet.setText("");

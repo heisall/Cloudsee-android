@@ -24,6 +24,8 @@ public class Consts {
     public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
     // 测试服务器
     public static boolean TEST_SERVER = false;// true 测试服务器， false 正式服务器
+    // 国外服务器
+    public static boolean FOREIGN_SERVER = false;// true 国外服务器， false 国内服务器
 
     /**************************** 华丽的分割线 ******************************/
     public static int CURRENT_LAN = -1;// 当前语言
@@ -672,6 +674,9 @@ public class Consts {
 
     /** 账号sdk是否初始化的key */
 
+    /** 云台速度 key */
+    public static final String YT_SPEED_KEY = "_yt_speed";// 云台速度 key
+
     /** 云视通sdk是否初始化的key */
     public static final String KEY_SHOW_GUID = "ShowGuide";
     public static final String KEY_INIT_ACCOUNT_SDK = "initAccountSdk";
@@ -828,7 +833,7 @@ public class Consts {
     public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
     public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
     public static final int NEW_BBS = 0x99992;// 外设菜单单击事件
-    
-    /*流量统计*/
-    public static final String KEY_CLOUD_VOD_SIZE = "CLOUD_VOD_SIZE";    
+
+    /* 流量统计 */
+    public static final String KEY_CLOUD_VOD_SIZE = "CLOUD_VOD_SIZE";
 }

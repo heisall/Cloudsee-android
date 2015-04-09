@@ -369,6 +369,8 @@ public class CustomizeIconTabIndicator extends LinearLayout {
         RelativeLayout rlty = (RelativeLayout) tabView
                 .findViewById(R.id.tab_info);
 
+        // 最后一个Tab的位置
+        int lastPosition = mIndicators.length - 1;
         switch (whitch) {
             case 1: {// 报警消息条数,这个屏蔽掉，因为换位置了，避免出错，重新定义个值
                 // tabInfoText.setText(String.valueOf(msgCount));
@@ -380,16 +382,18 @@ public class CustomizeIconTabIndicator extends LinearLayout {
                 // }
                 break;
             }
-            case 4: {// 更多功能，新
-                if (show) {
-                    rlty.setVisibility(View.VISIBLE);
-                    tabView.setInfoText(count + "");
-                } else {
-                    rlty.setVisibility(View.GONE);
-                    tabView.setInfoText(EMPTY_TITLE);
+            default:
+                if (whitch == lastPosition) {// 更多功能，新
+                    if (show) {
+                        rlty.setVisibility(View.VISIBLE);
+                        tabView.setInfoText(count + "");
+                    } else {
+                        rlty.setVisibility(View.GONE);
+                        tabView.setInfoText(EMPTY_TITLE);
+                    }
+                    break;
                 }
                 break;
-            }
         }
 
     }

@@ -53,6 +53,8 @@ public class JVWelcomeActivity extends BaseActivity {
     protected void initSettings() {
         Consts.TEST_SERVER = MySharedPreference.getBoolean(
                 Consts.MORE_TESTSWITCH, false);// true 测试服务器 ; false 正式服务器
+        Consts.FOREIGN_SERVER = MySharedPreference.getBoolean(
+                Consts.MORE_FOREIGNSWITCH, false);// true 国外服务器 ; false 国内服务器
 
         ConfigUtil.getJNIVersion();
         ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);

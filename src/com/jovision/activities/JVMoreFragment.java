@@ -680,44 +680,56 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                             }
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_TESTSWITCH)) {
-                            // 测试服务器开关
-                            MySharedPreference.putString("ChannelIP", "");
-                            MySharedPreference.putString("OnlineIP", "");
-                            MySharedPreference.putString("ChannelIP_en", "");
-                            MySharedPreference.putString("OnlineIP_en", "");
-
                             if (MySharedPreference
-                                    .getBoolean(Consts.MORE_TESTSWITCH)) {
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_TESTSWITCH, false);
+                                    .getBoolean(Consts.MORE_FOREIGNSWITCH)) {
+                                MyLog.e(TAG, "can not open together");
                             } else {
-                                // MySharedPreference.clearAll();
-                                // 打开测试开关要关闭记住密码功能
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_TESTSWITCH, true);
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_REMEMBER, false);
+                                // 测试服务器开关
+                                MySharedPreference.putString("ChannelIP", "");
+                                MySharedPreference.putString("OnlineIP", "");
+                                MySharedPreference.putString("ChannelIP_en", "");
+                                MySharedPreference.putString("OnlineIP_en", "");
+
+                                if (MySharedPreference
+                                        .getBoolean(Consts.MORE_TESTSWITCH)) {
+                                    MySharedPreference.putBoolean(
+                                            Consts.MORE_TESTSWITCH, false);
+                                } else {
+                                    // MySharedPreference.clearAll();
+                                    // 打开测试开关要关闭记住密码功能
+                                    MySharedPreference.putBoolean(
+                                            Consts.MORE_TESTSWITCH, true);
+                                    MySharedPreference.putBoolean(
+                                            Consts.MORE_REMEMBER, false);
+                                }
                             }
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_FOREIGNSWITCH)) {
-                            // 测试服务器开关
-                            MySharedPreference.putString("ChannelIP", "");
-                            MySharedPreference.putString("OnlineIP", "");
-                            MySharedPreference.putString("ChannelIP_en", "");
-                            MySharedPreference.putString("OnlineIP_en", "");
 
                             if (MySharedPreference
-                                    .getBoolean(Consts.MORE_FOREIGNSWITCH)) {
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_FOREIGNSWITCH, false);
+                                    .getBoolean(Consts.MORE_TESTSWITCH)) {
+                                MyLog.e(TAG, "can not open together");
                             } else {
-                                // MySharedPreference.clearAll();
-                                // 打开国外服务器开关要关闭记住密码功能
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_FOREIGNSWITCH, true);
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_REMEMBER, false);
+                                // 国外服务器开关
+                                MySharedPreference.putString("ChannelIP", "");
+                                MySharedPreference.putString("OnlineIP", "");
+                                MySharedPreference.putString("ChannelIP_en", "");
+                                MySharedPreference.putString("OnlineIP_en", "");
+
+                                if (MySharedPreference
+                                        .getBoolean(Consts.MORE_FOREIGNSWITCH)) {
+                                    MySharedPreference.putBoolean(
+                                            Consts.MORE_FOREIGNSWITCH, false);
+                                } else {
+                                    // MySharedPreference.clearAll();
+                                    // 打开国外服务器开关要关闭记住密码功能
+                                    MySharedPreference.putBoolean(
+                                            Consts.MORE_FOREIGNSWITCH, true);
+                                    MySharedPreference.putBoolean(
+                                            Consts.MORE_REMEMBER, false);
+                                }
                             }
+
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_VERSION)) {
                             // 版本号

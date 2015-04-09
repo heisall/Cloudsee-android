@@ -14,7 +14,7 @@ public class VideoTab implements ITabItem {
 
     @Override
     public int getDrawable() {
-        return R.drawable.tab_videomanage_selector;
+        return R.drawable.tab_message_selector;
     }
 
     @Override

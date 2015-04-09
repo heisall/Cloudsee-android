@@ -13,9 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-// -------------customize start-----------
 import android.view.Gravity;
-// -------------customize end-------------
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +27,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovetech.product.ConfigFragmentFactory;
 import com.jovetech.product.CustomizeFragmentFactory;
 import com.jovetech.product.IFragmentFactory;
-// -------------customize start-----------
 import com.jovetech.product.ITabItem;
-// -------------customize end-------------
 import com.jovetech.product.MoreFragmentFactory;
 import com.jovetech.product.MyDeviceFragmentFactory;
 import com.jovetech.product.VideoFragmentFactory;
@@ -39,9 +35,6 @@ import com.jovision.Consts;
 import com.jovision.Global;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
-//-------------customize start-----------
-//import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
-//-------------customize end-------------
 import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
@@ -51,11 +44,9 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.TPushTips;
-// -------------customize start-----------
 import com.jovision.customize.CustomizeBoard;
 import com.jovision.customize.CustomizeIconTabIndicator;
 import com.jovision.customize.CustomizeIconTabIndicator.OnTabSelectedListener;
-// -------------customize end-------------
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
@@ -72,6 +63,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+//-------------customize start-----------
+//import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
+//-------------customize end-------------
 
 public class JVTabActivity extends ShakeActivity implements
 
@@ -87,9 +81,9 @@ public class JVTabActivity extends ShakeActivity implements
     private int countshow;
     private int countbbs;
     private OnMainListener mainListener;
-//-------------customize start-----------
-//    private BaseFragment mFragments[] = new BaseFragment[4];
-//-------------customize end-------------
+    // -------------customize start-----------
+    // private BaseFragment mFragments[] = new BaseFragment[4];
+    // -------------customize end-------------
     private String showGcsStr;
 
     private ViewPager viewpager;
@@ -119,21 +113,23 @@ public class JVTabActivity extends ShakeActivity implements
 
     private ImageView local_gone;
 
-// -------------customize start---------------
-//    JVFragmentIndicator mIndicator;
-// -------------customize end---------------
+    // -------------customize start---------------
+    // JVFragmentIndicator mIndicator;
+    // -------------customize end---------------
     private MainApplication mApp;
-    
-// -------------customize start---------------
+
+    // -------------customize start---------------
     private static final CharSequence EMPTY = "";
     private CustomizeIconTabIndicator mIndicator;
     private Map<Character, IFragmentFactory> mFactoryMap;
     private Map<Character, BaseFragment> mFragmentsMap;
     private Map<Character, ITabItem> mTabsMap;
 
-    private int mIndicatorCount = 5;
     private char mIndicatorSequence[];
-// -------------customize end----------------
+    // 最后一个Tab的位置
+    private int mLastTabPosition;
+
+    // -------------customize end----------------
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -361,53 +357,55 @@ public class JVTabActivity extends ShakeActivity implements
                 }
             }
             if (countshow + countbbs > 0) {
-// -------------customize start--------------
-//                mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
-                mIndicator.updateIndicator(4, 0, true, countshow + countbbs);
-// -------------customize end  --------------
+                // -------------customize start--------------
+                // mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
+                mIndicator.updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
+                // -------------customize end --------------
             } else {
-// -------------customize start--------------
-//                mIndicator.updateIndicator(3, 0, false, countshow + countbbs);
-                mIndicator.updateIndicator(4, 0, false, countshow + countbbs);
-// -------------customize end  --------------
+                // -------------customize start--------------
+                // mIndicator.updateIndicator(3, 0, false, countshow +
+                // countbbs);
+                mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow + countbbs);
+                // -------------customize end --------------
             }
         }
 
-// -------------customize start--------------
-//        Intent intent = getIntent();
-//        int index = intent.getIntExtra("tabIndex", -1);
-//
-//        if (-1 != index) {
-//            currentIndex = index;
-//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-//            if (null != manager) {
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.tab_fragment, mFragments[currentIndex])
-//                        .commit();
-//            } else {
-//                MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
-//                this.finish();
-//            }
-// -------------customize end--------------
+        // -------------customize start--------------
+        // Intent intent = getIntent();
+        // int index = intent.getIntExtra("tabIndex", -1);
+        //
+        // if (-1 != index) {
+        // currentIndex = index;
+        // android.support.v4.app.FragmentManager manager =
+        // getSupportFragmentManager();
+        // if (null != manager) {
+        // getSupportFragmentManager().beginTransaction()
+        // .replace(R.id.tab_fragment, mFragments[currentIndex])
+        // .commit();
+        // } else {
+        // MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
+        // this.finish();
+        // }
+        // -------------customize end--------------
 
-            // if (currentIndex == 1) {
-            // int cnt = mApp.getNewPushCnt();
-            // if (cnt > 0) {
-            // mApp.setNewPushCnt(0);
-            // mIndicator.updateIndicator(1, 0, false);
-            // }
-            // } else {
-            // int cnt = mApp.getNewPushCnt();
-            // if (cnt > 0) {
-            // mIndicator.updateIndicator(1, cnt, true);
-            // } else {
-            // mIndicator.updateIndicator(1, 0, false);
-            // }
-            // }
-// -------------customize start--------------
-//            MyLog.v(TAG, "onResume----X");
-//        }
-// -------------customize end----------------
+        // if (currentIndex == 1) {
+        // int cnt = mApp.getNewPushCnt();
+        // if (cnt > 0) {
+        // mApp.setNewPushCnt(0);
+        // mIndicator.updateIndicator(1, 0, false);
+        // }
+        // } else {
+        // int cnt = mApp.getNewPushCnt();
+        // if (cnt > 0) {
+        // mIndicator.updateIndicator(1, cnt, true);
+        // } else {
+        // mIndicator.updateIndicator(1, 0, false);
+        // }
+        // }
+        // -------------customize start--------------
+        // MyLog.v(TAG, "onResume----X");
+        // }
+        // -------------customize end----------------
     }
 
     @Override
@@ -417,10 +415,10 @@ public class JVTabActivity extends ShakeActivity implements
 
     @Override
     public void onBackPressed() {
-// -------------customize start--------------
-//      BaseFragment currentFrag = mFragments[currentIndex];
-      BaseFragment currentFrag = getFragmentByTag(currentIndex);
-// -------------customize end----------------
+        // -------------customize start--------------
+        // BaseFragment currentFrag = mFragments[currentIndex];
+        BaseFragment currentFrag = getFragmentByTag(currentIndex);
+        // -------------customize end----------------
         if (null != currentFrag) {
             ((IHandlerLikeNotify) currentFrag).onNotify(Consts.WHAT_TAB_BACK,
                     0, 0, null);
@@ -486,19 +484,19 @@ public class JVTabActivity extends ShakeActivity implements
                         }
                     }
                     if (countshow + countbbs > 0) {
-// -------------customize start--------------
-//                        mIndicator
-//                                .updateIndicator(3, 0, true, countshow + countbbs);
+                        // -------------customize start--------------
+                        // mIndicator
+                        // .updateIndicator(3, 0, true, countshow + countbbs);
                         mIndicator
-                                .updateIndicator(4, 0, true, countshow + countbbs);
-// -------------customize end----------------
+                                .updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
+                        // -------------customize end----------------
                     } else {
-// -------------customize start--------------
-//                        mIndicator.updateIndicator(3, 0, false, countshow
-//                                + countbbs);
-                        mIndicator.updateIndicator(4, 0, false, countshow
+                        // -------------customize start--------------
+                        // mIndicator.updateIndicator(3, 0, false, countshow
+                        // + countbbs);
+                        mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow
                                 + countbbs);
-// -------------customize end----------------
+                        // -------------customize end----------------
                     }
                 }
 
@@ -530,10 +528,10 @@ public class JVTabActivity extends ShakeActivity implements
                     e.printStackTrace();
                 }
 
-// -------------customize start--------------
-//                BaseFragment currentFrag = mFragments[currentIndex];
+                // -------------customize start--------------
+                // BaseFragment currentFrag = mFragments[currentIndex];
                 BaseFragment currentFrag = getFragmentByTag(currentIndex);
-// -------------customize end----------------
+                // -------------customize end----------------
                 if (null != currentFrag) {
                     ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
                             obj);
@@ -554,10 +552,10 @@ public class JVTabActivity extends ShakeActivity implements
                 // mIndicator.updateIndicator(1, cnt, show);
                 // }
                 // mIndicator.updateIndicator(3, 0, true);
-// -------------customize start--------------
-//                BaseFragment currentFrag = mFragments[currentIndex];
+                // -------------customize start--------------
+                // BaseFragment currentFrag = mFragments[currentIndex];
                 BaseFragment currentFrag = getFragmentByTag(currentIndex);
-// -------------customize end----------------
+                // -------------customize end----------------
                 if (null != currentFrag) {
                     ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
                             obj);
@@ -616,27 +614,27 @@ public class JVTabActivity extends ShakeActivity implements
                         }
                     }
                     if (countshow + countbbs > 0) {
-// -------------customize start--------------
-//                        mIndicator
-//                                .updateIndicator(3, 0, true, countshow + countbbs);
+                        // -------------customize start--------------
+                        // mIndicator
+                        // .updateIndicator(3, 0, true, countshow + countbbs);
                         mIndicator
-                                .updateIndicator(4, 0, true, countshow + countbbs);
-// -------------customize end  --------------
+                                .updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
+                        // -------------customize end --------------
                     } else {
-// -------------customize start--------------
-//                        mIndicator.updateIndicator(3, 0, false, countshow
-//                                + countbbs);
-                        mIndicator.updateIndicator(4, 0, false, countshow
+                        // -------------customize start--------------
+                        // mIndicator.updateIndicator(3, 0, false, countshow
+                        // + countbbs);
+                        mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow
                                 + countbbs);
-// -------------customize end  --------------
+                        // -------------customize end --------------
                     }
                 }
                 break;
             default:
-// -------------customize start--------------
-//                BaseFragment currentFrag = mFragments[currentIndex];
+                // -------------customize start--------------
+                // BaseFragment currentFrag = mFragments[currentIndex];
                 BaseFragment currentFrag = getFragmentByTag(currentIndex);
-// -------------customize end----------------
+                // -------------customize end----------------
                 if (null != currentFrag) {
                     ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
                             obj);
@@ -650,10 +648,10 @@ public class JVTabActivity extends ShakeActivity implements
         MySharedPreference.init(getApplication());
         ConfigUtil.getJNIVersion();
         Intent intent = getIntent();
-// -------------customize start--------------
-//        currentIndex = intent.getIntExtra("tabIndex", 0);
+        // -------------customize start--------------
+        // currentIndex = intent.getIntExtra("tabIndex", 0);
         currentIndex = intent.getIntExtra("tabIndex", 'a');
-// -------------customize end----------------
+        // -------------customize end----------------
         localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
     }
 
@@ -666,10 +664,10 @@ public class JVTabActivity extends ShakeActivity implements
         local_gone = (ImageView) findViewById(R.id.local_gone);
         viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
         viewpager.setOnPageChangeListener(JVTabActivity.this);
-// -------------customize start--------------
-//        mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
-//        JVFragmentIndicator.setIndicator(currentIndex);
-// -------------customize end----------------
+        // -------------customize start--------------
+        // mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
+        // JVFragmentIndicator.setIndicator(currentIndex);
+        // -------------customize end----------------
 
         Boolean local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
         if (local) {
@@ -711,13 +709,13 @@ public class JVTabActivity extends ShakeActivity implements
             }
         }
 
-// -------------customize start------------
-//      mFragments[0] = new JVMyDeviceFragment();
-//      mFragments[1] = new JVVideoFragment();
-//      mFragments[2] = new JVDeviceManageFragment();
-//      mFragments[3] = new JVMoreFragment();
-// -------------customize end--------------
-        
+        // -------------customize start------------
+        // mFragments[0] = new JVMyDeviceFragment();
+        // mFragments[1] = new JVVideoFragment();
+        // mFragments[2] = new JVDeviceManageFragment();
+        // mFragments[3] = new JVMoreFragment();
+        // -------------customize end--------------
+
         if (!MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
             ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
             ll_dot.setVisibility(View.GONE);
@@ -728,20 +726,20 @@ public class JVTabActivity extends ShakeActivity implements
             viewpager.setAdapter(adp);
             MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
         }
-// -------------customize start------------
-// ## 此处原有的indicator操作移动到了最下方
+        // -------------customize start------------
+        // ## 此处原有的indicator操作移动到了最下方
         // 初始化自定义的tabs view
         initCustomizeViews();
-// -------------customize end--------------
+        // -------------customize end--------------
 
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         if (null != manager) {
-// -------------customize start------------
-//            manager.beginTransaction()
-//                     .replace(R.id.tab_fragment, mFragments[0]).commit();
+            // -------------customize start------------
+            // manager.beginTransaction()
+            // .replace(R.id.tab_fragment, mFragments[0]).commit();
             manager.beginTransaction()
-                   .replace(R.id.tab_fragment, getFragmentByTag('a')).commit();
-// -------------customize end--------------
+                    .replace(R.id.tab_fragment, getFragmentByTag(mIndicatorSequence[0])).commit();
+            // -------------customize end--------------
         } else {
             MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
             this.finish();
@@ -918,19 +916,19 @@ public class JVTabActivity extends ShakeActivity implements
                         }
                     }
                     if (countshow > 0) {
-// -------------customize start--------------
-//                        mIndicator
-//                                .updateIndicator(3, 0, true, countshow + countbbs);
+                        // -------------customize start--------------
+                        // mIndicator
+                        // .updateIndicator(3, 0, true, countshow + countbbs);
                         mIndicator
-                                .updateIndicator(4, 0, true, countshow + countbbs);
-// -------------customize end --------------
+                                .updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
+                        // -------------customize end --------------
                     } else {
-// -------------customize start--------------
-//                        mIndicator.updateIndicator(3, 0, false, countshow
-//                                + countbbs);
-                        mIndicator.updateIndicator(4, 0, false, countshow
+                        // -------------customize start--------------
+                        // mIndicator.updateIndicator(3, 0, false, countshow
+                        // + countbbs);
+                        mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow
                                 + countbbs);
-// -------------customize end----------------
+                        // -------------customize end----------------
                     }
                 }
                 break;
@@ -985,15 +983,15 @@ public class JVTabActivity extends ShakeActivity implements
             statusHashMap.put("GETNUM", "hasget");
             onNotify(Consts.NEW_BBS, result, 0, null);
             if (countshow + result > 0) {
-// -------------customize start--------------
-//                mIndicator.updateIndicator(3, 0, true, countshow + result);
-                mIndicator.updateIndicator(4, 0, true, countshow + result);
-// -------------customize end  --------------
+                // -------------customize start--------------
+                // mIndicator.updateIndicator(3, 0, true, countshow + result);
+                mIndicator.updateIndicator(mLastTabPosition, 0, true, countshow + result);
+                // -------------customize end --------------
             } else {
-// -------------customize start--------------
-//                mIndicator.updateIndicator(3, 0, false, countshow + result);
-                mIndicator.updateIndicator(4, 0, false, countshow + result);
-// -------------customize end  --------------
+                // -------------customize start--------------
+                // mIndicator.updateIndicator(3, 0, false, countshow + result);
+                mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow + result);
+                // -------------customize end --------------
             }
         }
 
@@ -1008,6 +1006,7 @@ public class JVTabActivity extends ShakeActivity implements
         }
 
     }
+
     //
     // @Override
     // public void onActivityResult(int requestCode, int resultCode, Intent
@@ -1016,9 +1015,9 @@ public class JVTabActivity extends ShakeActivity implements
     // super.onActivityResult(requestCode, resultCode, data);
     // }
 
-// ---------------------------------------------------------------------
-// ## customize 
-// ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // ## customize
+    // ---------------------------------------------------------------------
     private void initCustomizeViews() {
         mFactoryMap = new HashMap<Character, IFragmentFactory>();
         mFragmentsMap = new HashMap<Character, BaseFragment>();
@@ -1034,12 +1033,14 @@ public class JVTabActivity extends ShakeActivity implements
 
     /**
      * 初始化Tabs
+     * 
      * @return tabs
      */
     private List<ITabItem> initTabs() {
         List<ITabItem> tabItems = new ArrayList<ITabItem>();
 
         mIndicatorSequence = getIndicatorSequence();
+        mLastTabPosition = mIndicatorSequence.length - 1;
         for (int i = 0; i < mIndicatorSequence.length; i++) {
             initFramentsAndTabs(mIndicatorSequence[i]);
             tabItems.add(getTabByTag(mIndicatorSequence[i]));
@@ -1106,10 +1107,15 @@ public class JVTabActivity extends ShakeActivity implements
     public char[] getIndicatorSequence() {
         String indicatorSeq = MySharedPreference
                 .getString("indicator_sequence");
-        if (EMPTY.equals(indicatorSeq)) {
+        // 检测是否使用保存起来的tabs顺序来显示tabs
+        boolean isUseSavedTabsSeq = getResources().getBoolean(R.bool.use_saved_tabs_seq);
+        if (EMPTY.equals(indicatorSeq) || !isUseSavedTabsSeq) {
             StringBuffer sbstr = new StringBuffer();
-            for (int i = 0; i < mIndicatorCount; i++) {
-                sbstr.append((char) (i + 97));
+            // 默认的Tabs的顺序
+            String tabsDefSeq[] = getResources().getStringArray(
+                    R.array.array_tabs_sequence);
+            for (int i = 0, length = tabsDefSeq.length; i < length; i++) {
+                sbstr.append(tabsDefSeq[i]);
             }
             indicatorSeq = sbstr.toString();
             // 保存选项卡配置
@@ -1122,8 +1128,7 @@ public class JVTabActivity extends ShakeActivity implements
     /**
      * 初始化工厂,保存tabs和fragments
      * 
-     * @param tag
-     *            标记
+     * @param tag 标记
      * @return fragment factory
      */
     private void initFramentsAndTabs(char tag) {
@@ -1131,27 +1136,27 @@ public class JVTabActivity extends ShakeActivity implements
 
         if (!mFactoryMap.containsKey(tag)) {
             switch (tag) {
-            case 'a':
-                fragmentFactory = new MyDeviceFragmentFactory();
-                break;
-            case 'b':
-                fragmentFactory = new VideoFragmentFactory();
-                break;
-            case 'c':
-                fragmentFactory = new CustomizeFragmentFactory();
-                break;
-            case 'd':
-                fragmentFactory = new ConfigFragmentFactory();
-                break;
-            case 'e':
-                fragmentFactory = new MoreFragmentFactory();
-                break;
-            case 'g':
-                break;
-            case 'h':
-                break;
-            default:
-                MyLog.v(TAG, "--default tab--");
+                case 'a':
+                    fragmentFactory = new MyDeviceFragmentFactory();
+                    break;
+                case 'b':
+                    fragmentFactory = new VideoFragmentFactory();
+                    break;
+                case 'c':
+                    fragmentFactory = new CustomizeFragmentFactory();
+                    break;
+                case 'd':
+                    fragmentFactory = new ConfigFragmentFactory();
+                    break;
+                case 'e':
+                    fragmentFactory = new MoreFragmentFactory();
+                    break;
+                case 'g':
+                    break;
+                case 'h':
+                    break;
+                default:
+                    MyLog.v(TAG, "--default tab--");
             }
             // 保存工厂
             mFactoryMap.put(tag, fragmentFactory);
@@ -1171,13 +1176,14 @@ public class JVTabActivity extends ShakeActivity implements
 
     /**
      * 通过标记获取Fragment
+     * 
      * @param mark fragment对应的标记
      */
     private BaseFragment getFragmentByTag(int mark) {
         char charTag = (char) mark;
         return mFragmentsMap.get(charTag);
     }
-    
+
     /**
      * 通过标记获取Tab
      */
@@ -1187,17 +1193,17 @@ public class JVTabActivity extends ShakeActivity implements
     }
 
     /**
-     * 原有的indicator选择操作.
-     * 因为牵扯到的一些其它的业务,所以保留.在initIndicatorListener会调用
+     * 原有的indicator选择操作. 因为牵扯到的一些其它的业务,所以保留.在initIndicatorListener会调用
+     * 
      * @param v
      * @param which
      */
     public void oldTabIndicate(View v, int which) {
         try {
-//            currentIndex = which;
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.tab_fragment, mFragments[which])
-//                    .commit();
+            // currentIndex = which;
+            // getSupportFragmentManager().beginTransaction()
+            // .replace(R.id.tab_fragment, mFragments[which])
+            // .commit();
             switch (which) {
                 case 0:
                     if (!page2

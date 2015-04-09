@@ -34,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -79,6 +81,7 @@ public class JVPlayActivity extends PlayActivity implements
 
     private GestureDetector mGestureDetector;
 
+    private int currentYTSpeed = 0;// 当前云台速度
     private boolean isQuit;
     private boolean isBlockUi;
 
@@ -594,6 +597,19 @@ public class JVPlayActivity extends PlayActivity implements
                     if (null != jobj) {
                         channel.getParent().setType(type);
                         if (Consts.DEVICE_TYPE_IPC == type
+                                || Consts.DEVICE_TYPE_NVR == type) {// 只有IPC和NVR才支持云台速度调整
+                            ytSeekLayout.setVisibility(View.VISIBLE);
+                            channel.getParent().setYtSpeed(
+                                    MySharedPreference.getInt(channel.getParent().getFullNo()
+                                            + Consts.YT_SPEED_KEY));
+                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
+                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
+                            MyLog.v("yt_speed", "normalData=" + channel.getParent().getYtSpeed());
+                        } else {
+                            ytSeekLayout.setVisibility(View.GONE);
+                        }
+
+                        if (Consts.DEVICE_TYPE_IPC == type
                                 || Consts.DEVICE_TYPE_DVR == type
                                 || Consts.DEVICE_TYPE_NVR == type) {
                             channel.getParent().setCard(false);
@@ -626,22 +642,6 @@ public class JVPlayActivity extends PlayActivity implements
 
                         newWidth = jobj.getInt("width");
                         newHeight = jobj.getInt("height");
-                        // if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
-                        // if (!Jni.disconnect(arg1)) {
-                        // loadingState(arg1, R.string.closed,
-                        // JVConst.PLAY_DIS_CONNECTTED);
-                        // }
-                        // if (ONE_SCREEN == currentScreen
-                        // && arg1 == lastClickIndex) {
-                        // if (!MySharedPreference
-                        // .getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
-                        // errorDialog(
-                        // Consts.DIALOG_NOT_SUPPORT04,
-                        // getResources().getString(
-                        // R.string.not_support_old));
-                        // }
-                        // }
-                        // }
 
                     }
                 } catch (JSONException e) {
@@ -907,27 +907,7 @@ public class JVPlayActivity extends PlayActivity implements
                                                 }
                                             }
                                         }
-                                        // String [] array =
-                                        // InfoJSON.split(";");
-                                        // for (int i = 0; i < array.length;
-                                        // i++) {
-                                        // if
-                                        // (null!=array[i]&&array[i].toString().substring(0,
-                                        // 2).equals("ID")) {
-                                        // idomap.put(i+"",
-                                        // array[i].toString().substring(3,
-                                        // array[i].toString().length()));
-                                        // Log.i("TAG",
-                                        // "获取用户名密码"+array[i].toString());
-                                        // Log.i("TAG",
-                                        // "前几位"+array[i].toString().substring(0,
-                                        // 2));
-                                        // }
-                                        // if
-                                        // (null!=array[i]&&array[i].toString().substring(0,
-                                        // 2).equals("ID")) {
-                                        // }
-                                        // }
+
                                     }
                                     break;
                                 }
@@ -948,6 +928,9 @@ public class JVPlayActivity extends PlayActivity implements
                                                         .get("motorspeed"))) {
                                             channel.getParent().setYtSpeed(
                                                     Integer.parseInt(dataMap.get("motorspeed")));
+                                            // ytSpeed.setText(channel.getParent().getYtSpeed()
+                                            // + "");
+                                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
                                             ytSpeed.setText(channel.getParent().getYtSpeed() + "");
                                             MyLog.v(TAG, "融合前--的代码,当前云台速度:"
                                                     + channel.getParent().getYtSpeed());
@@ -1008,12 +991,16 @@ public class JVPlayActivity extends PlayActivity implements
                                         // 融合后的代码，从码流信息里获取moveSpeed 云台速度字段
                                         if (null != streamMap.get("moveSpeed")
                                                 && !"".equalsIgnoreCase(streamMap
-                                                        .get("moveSpeed"))) {
+                                                        .get("moveSpeed"))
+                                                && channel.isSingleVoice()) {
                                             channel.getParent()
                                                     .setYtSpeed(
                                                             Integer.parseInt(streamMap
                                                                     .get("moveSpeed")));
+                                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
                                             ytSpeed.setText(channel.getParent().getYtSpeed() + "");
+                                            // ytSpeed.setText(channel.getParent().getYtSpeed()
+                                            // + "");
                                             MyLog.v(TAG, "融合后的代码,当前云台速度:"
                                                     + channel.getParent().getYtSpeed());
                                         } else {
@@ -1369,6 +1356,7 @@ public class JVPlayActivity extends PlayActivity implements
                                                         : "P2P")
                                                 + "/"
                                                 + "enableTcp=" + enableTcp + "/"
+                                                + "devType=" + channel.getParent().getType() + "/"
                                         // + PlayUtil
                                         // .hasEnableHelper(channelList
                                         // .get(lastClickIndex)
@@ -1844,7 +1832,7 @@ public class JVPlayActivity extends PlayActivity implements
         left_btn_h.setOnClickListener(myOnClickListener);
         ht_fight.setOnClickListener(myOnClickListener);
         ht_motion.setOnClickListener(myOnClickListener);
-        ysSpeedSet.setOnClickListener(myOnClickListener);
+        // ysSpeedSet.setOnClickListener(myOnClickListener);
 
         selectScreenNum.setOnClickListener(myOnClickListener);
         currentMenu.setOnClickListener(myOnClickListener);
@@ -2060,8 +2048,53 @@ public class JVPlayActivity extends PlayActivity implements
         horfunc_talk_normal.setOnTouchListener(myOnTouchListener);
         verPlayBarLayout.setVisibility(View.VISIBLE);
 
+        ytSeekBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        ytSeekBar.setMax(255);
         changeWindow(currentScreen);
     }
+
+    /**
+     * 远程回放进度条拖动事件
+     */
+    OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
+
+        @Override
+        public void onProgressChanged(SeekBar arg0, int currentProgress, boolean arg2) {
+            try {
+                if (currentProgress <= 3) {// 云台速度范围3-255
+                    currentProgress = 3;
+                }
+                currentYTSpeed = currentProgress;
+                MyLog.v("yt_speed", "onProgressChanged=" + currentProgress + "--" + currentYTSpeed);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar arg0) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar arg0) {
+            try {
+                Channel channel = channelList.get(lastClickIndex);
+                channel.getParent().setYtSpeed(currentYTSpeed);
+                ytSeekBar.setProgress(currentYTSpeed);
+                ytSpeed.setText(currentYTSpeed + "");
+                if (!channel.isSingleVoice()) {// 非单向对讲，家用设备
+                    MySharedPreference.putInt(
+                            channel.getParent().getFullNo() + Consts.YT_SPEED_KEY, channel
+                                    .getParent().getYtSpeed());
+                }
+                MyLog.e("yt_speed", "onStopTrackingTouch=" + currentYTSpeed);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     private class MyPagerAdapter extends PagerAdapter {
 
@@ -2743,14 +2776,14 @@ public class JVPlayActivity extends PlayActivity implements
             // case R.id.yt_cancle:
             //
             // break;
-                case R.id.setspeed: {// 设置云台速度
-                    /** 云台速度调整命令 **/
-                    int speed = Integer.parseInt(ytSpeed.getText().toString());
-                    // PlayUtil.setYTSpeed(lastClickIndex, speed);
-                    channel.getParent().setYtSpeed(speed);
-
-                    break;
-                }
+            // case R.id.setspeed: {// 设置云台速度
+            // /** 云台速度调整命令 **/
+            // int speed = Integer.parseInt(ytSpeed.getText().toString());
+            // // PlayUtil.setYTSpeed(lastClickIndex, speed);
+            // channel.getParent().setYtSpeed(speed);
+            //
+            // break;
+            // }
 
                 case R.id.devicepwd_nameet_cancle:
 

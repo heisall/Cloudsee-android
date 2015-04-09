@@ -1,7 +1,5 @@
-package com.jovision.activities;
 
-import java.io.File;
-import java.io.FileOutputStream;
+package com.jovision.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,87 +29,90 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class JVRebandContactActivity extends BaseActivity {
 
-	private TextView rebandPhone;
-	private TextView rebandEmail;
-	private ImageView rebandHeadImg;
-	private LinearLayout linear;
-	private RelativeLayout rebindphoneLayout;
-	private RelativeLayout rebindmaiLayout;
-	private RelativeLayout rebindnickname;
-	private TextView reband_nickname_text;
-	private ImageView nickImageView;
-	private RelativeLayout rebandall;
-	private RelativeLayout rebandhasused;
-	private TextView tv_sur_flow_value;
-//	private TextView tv_sur_flow;
+    private TextView rebandPhone;
+    private TextView rebandEmail;
+    private ImageView rebandHeadImg;
+    private LinearLayout linear;
+    private RelativeLayout rebindphoneLayout;
+    private RelativeLayout rebindmaiLayout;
+    private RelativeLayout rebindnickname;
+    private TextView reband_nickname_text;
+    private ImageView nickImageView;
+    private RelativeLayout rebandall;
+    private RelativeLayout rebandhasused;
+    private TextView tv_sur_flow_value;
+    // private TextView tv_sur_flow;
 
-	private String showPhone = "";
-	private String showEmail = "";
-	private String showNickname = "";
+    private String showPhone = "";
+    private String showEmail = "";
+    private String showNickname = "";
 
-	// 设置头像
+    // 设置头像
 
-	private String more_name;// 用户名
-	private popw popupWindow; // 声明PopupWindow对象；
-	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
-	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
-	private static final int PHOTO_REQUEST_CUT = 3;// 结果
-	// 存放头像的文件夹
-	File file;
-	// 旧头像文件
-	File tempFile;
-	// 新头像文件
-	File newFile;
+    private String more_name;// 用户名
+    private popw popupWindow; // 声明PopupWindow对象；
+    private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
+    private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
+    private static final int PHOTO_REQUEST_CUT = 3;// 结果
+    // 存放头像的文件夹
+    File file;
+    // 旧头像文件
+    File tempFile;
+    // 新头像文件
+    File newFile;
 
-	// popupWindow滑出布局
+    // popupWindow滑出布局
 
-	@Override
-	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
+    @Override
+    public void onHandler(int what, int arg1, int arg2, Object obj) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
+    @Override
+    public void onNotify(int what, int arg1, int arg2, Object obj) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		if (tempFile.exists()) {
-			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ more_name + ".jpg");
-			rebandHeadImg.setImageBitmap(bitmap);
-		}
-		if (!"".equals(MySharedPreference.getString("REBINDPHONE"))
-				&& null != MySharedPreference.getString("REBINDPHONE")) {
-			rebandPhone.setText(MySharedPreference.getString("REBINDPHONE"));
-		}
-		if (!"".equals(MySharedPreference.getString("REBINDEMAIL"))
-				&& null != MySharedPreference.getString("REBINDEMAIL")) {
-			rebandEmail.setText(MySharedPreference.getString("REBINDEMAIL"));
-		}
-		if (!"".equals(MySharedPreference.getString("NICKNAMEBBS"))) {
-			reband_nickname_text.setText(MySharedPreference
-					.getString("NICKNAMEBBS"));
-			nickImageView.setVisibility(View.GONE);
-		}
-		super.onResume();
-	}
+    @Override
+    protected void onResume() {
+        if (tempFile.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+                    + more_name + ".jpg");
+            rebandHeadImg.setImageBitmap(bitmap);
+        }
+        if (!"".equals(MySharedPreference.getString("REBINDPHONE"))
+                && null != MySharedPreference.getString("REBINDPHONE")) {
+            rebandPhone.setText(MySharedPreference.getString("REBINDPHONE"));
+        }
+        if (!"".equals(MySharedPreference.getString("REBINDEMAIL"))
+                && null != MySharedPreference.getString("REBINDEMAIL")) {
+            rebandEmail.setText(MySharedPreference.getString("REBINDEMAIL"));
+        }
+        if (!"".equals(MySharedPreference.getString("NICKNAMEBBS"))) {
+            reband_nickname_text.setText(MySharedPreference
+                    .getString("NICKNAMEBBS"));
+            nickImageView.setVisibility(View.GONE);
+        }
+        super.onResume();
+    }
 
-	@Override
-	protected void initSettings() {
-		// TODO Auto-generated method stub
+    @Override
+    protected void initSettings() {
+        // TODO Auto-generated method stub
 
-		Intent intent = getIntent();
-		showPhone = intent.getStringExtra("phone");
-		showEmail = intent.getStringExtra("email");
-		showNickname = intent.getStringExtra("nickname");
-		more_name = intent.getStringExtra("username");
-		
+        Intent intent = getIntent();
+        showPhone = intent.getStringExtra("phone");
+        showEmail = intent.getStringExtra("email");
+        showNickname = intent.getStringExtra("nickname");
+        more_name = intent.getStringExtra("username");
+
         // AlarmTask task = new AlarmTask();
         // Integer[] params = new Integer[3];
         // if (!MySharedPreference.getBoolean(
@@ -122,243 +123,243 @@ public class JVRebandContactActivity extends BaseActivity {
         // params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
         // }
         // task.execute(params);
-		
-		CheckUserFlowTask task = new CheckUserFlowTask();
-		String[] params = new String[3];
-		task.execute(params);
-	}
 
-	@Override
-	protected void initUi() {
-		// TODO Auto-generated method stub
-		setContentView(R.layout.rebandcontact);
+        CheckUserFlowTask task = new CheckUserFlowTask();
+        String[] params = new String[3];
+        task.execute(params);
+    }
 
-		leftBtn = (Button) findViewById(R.id.btn_left);
-		rightBtn = (Button) findViewById(R.id.btn_right);
-		rightBtn.setVisibility(View.GONE);
-		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(getResources().getString(R.string.rebindcontact));
+    @Override
+    protected void initUi() {
+        // TODO Auto-generated method stub
+        setContentView(R.layout.rebandcontact);
 
-		nickImageView = (ImageView) findViewById(R.id.rebindnicknameimg);
-		reband_nickname_text = (TextView) findViewById(R.id.reband_nickname_text);
-		rebindnickname = (RelativeLayout) findViewById(R.id.rebind_nickname);
-		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
-		rebandPhone = (TextView) findViewById(R.id.reband_phone_text);
-		rebandHeadImg = (ImageView) findViewById(R.id.reband_hand_img);
-		rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
-		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
-		linear = (LinearLayout) findViewById(R.id.lin);
-		rebandall = (RelativeLayout)findViewById(R.id.rebind_all);
-		rebandhasused = (RelativeLayout)findViewById(R.id.rebind_hasused);
-		tv_sur_flow_value = (TextView)findViewById(R.id.tv_surplus_flow_value);
-		tv_sur_flow_value.setText("0.0M");
-//		rebandhasusedtext = (TextView)findViewById(R.id.reband_hasused_text);
+        leftBtn = (Button) findViewById(R.id.btn_left);
+        rightBtn = (Button) findViewById(R.id.btn_right);
+        rightBtn.setVisibility(View.GONE);
+        currentMenu = (TextView) findViewById(R.id.currentmenu);
+        currentMenu.setText(getResources().getString(R.string.rebindcontact));
 
-		MySharedPreference.putString("NICKNAMEBBS", "");
-		if (!"".equals(showNickname)) {
-			reband_nickname_text.setText(showNickname);
-			nickImageView.setVisibility(View.GONE);
-		} else {
-			reband_nickname_text.setText(getResources().getString(
-					R.string.rebindnicknamenull));
-		}
+        nickImageView = (ImageView) findViewById(R.id.rebindnicknameimg);
+        reband_nickname_text = (TextView) findViewById(R.id.reband_nickname_text);
+        rebindnickname = (RelativeLayout) findViewById(R.id.rebind_nickname);
+        rebandEmail = (TextView) findViewById(R.id.reband_email_text);
+        rebandPhone = (TextView) findViewById(R.id.reband_phone_text);
+        rebandHeadImg = (ImageView) findViewById(R.id.reband_hand_img);
+        rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
+        rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
+        linear = (LinearLayout) findViewById(R.id.lin);
+        rebandall = (RelativeLayout) findViewById(R.id.rebind_all);
+        rebandhasused = (RelativeLayout) findViewById(R.id.rebind_hasused);
+        tv_sur_flow_value = (TextView) findViewById(R.id.tv_surplus_flow_value);
+        tv_sur_flow_value.setText("0.0M");
+        // rebandhasusedtext = (TextView)findViewById(R.id.reband_hasused_text);
 
-		if (showPhone.equals("nophone")) {
-			rebandPhone
-			.setText(getResources().getString(R.string.rebindhasnot));
-		} else {
-			rebandPhone.setText(showPhone);
-		}
-		if (showEmail.equals("noemail")) {
-			rebandEmail
-			.setText(getResources().getString(R.string.rebindhasnot));
-		} else {
-			rebandEmail.setText(showEmail);
-		}
-		JVACCOUNT.GetAccountInfo();
-		file = new File(Consts.HEAD_PATH);
-		MobileUtil.createDirectory(file);
-		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
-		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
+        MySharedPreference.putString("NICKNAMEBBS", "");
+        if (!"".equals(showNickname)) {
+            reband_nickname_text.setText(showNickname);
+            nickImageView.setVisibility(View.GONE);
+        } else {
+            reband_nickname_text.setText(getResources().getString(
+                    R.string.rebindnicknamenull));
+        }
 
-		rebandHeadImg.setOnClickListener(myOnClickListener);
-		leftBtn.setOnClickListener(myOnClickListener);
-		rebindphoneLayout.setOnClickListener(myOnClickListener);
-		rebindmaiLayout.setOnClickListener(myOnClickListener);
-		rebindnickname.setOnClickListener(myOnClickListener);
-		rebandall.setOnClickListener(myOnClickListener);
-		rebandhasused.setOnClickListener(myOnClickListener);
+        if (showPhone.equals("nophone")) {
+            rebandPhone
+                    .setText(getResources().getString(R.string.rebindhasnot));
+        } else {
+            rebandPhone.setText(showPhone);
+        }
+        if (showEmail.equals("noemail")) {
+            rebandEmail
+                    .setText(getResources().getString(R.string.rebindhasnot));
+        } else {
+            rebandEmail.setText(showEmail);
+        }
+        JVACCOUNT.GetAccountInfo();
+        file = new File(Consts.HEAD_PATH);
+        MobileUtil.createDirectory(file);
+        tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
+        newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 
-	}
+        rebandHeadImg.setOnClickListener(myOnClickListener);
+        leftBtn.setOnClickListener(myOnClickListener);
+        rebindphoneLayout.setOnClickListener(myOnClickListener);
+        rebindmaiLayout.setOnClickListener(myOnClickListener);
+        rebindnickname.setOnClickListener(myOnClickListener);
+        rebandall.setOnClickListener(myOnClickListener);
+        rebandhasused.setOnClickListener(myOnClickListener);
 
-	OnClickListener myOnClickListener = new OnClickListener() {
+    }
 
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.btn_left:
-				finish();
-				break;
-			case R.id.pop_outside:
-				popupWindow.dismiss();
-				break;
-			case R.id.rebind_nickname:
-				if (View.GONE == nickImageView.getVisibility()) {
-					showTextToast(R.string.edit_pass_not);
-				} else {
-					Intent nickIntent = new Intent(
-							JVRebandContactActivity.this,
-							JVRebandNickActivity.class);
-					nickIntent.putExtra("phone", showPhone);
-					nickIntent.putExtra("email", showEmail);
-					nickIntent.putExtra("username", more_name);
-					startActivity(nickIntent);
-				}
-				break;
-			case R.id.reband_hand_img:
-				StatService.trackCustomEvent(
-						JVRebandContactActivity.this,
-						"census_moreheadimg",
-						JVRebandContactActivity.this.getResources().getString(
-								R.string.census_moreheadimg));
-				popupWindow = new popw(JVRebandContactActivity.this,
-						myOnClickListener);
-				popupWindow.setBackgroundDrawable(null);
-				popupWindow.setOutsideTouchable(true);
-				popupWindow.showAtLocation(linear, Gravity.BOTTOM
-						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-				break;
+    OnClickListener myOnClickListener = new OnClickListener() {
 
-			case R.id.btn_pick_photo: {
-				popupWindow.dismiss();
-				Intent intent = new Intent(Intent.ACTION_PICK, null);
-				intent.setDataAndType(
-						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-				startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-				break;
-			}
-			case R.id.btn_take_photo:
-				// 调用系统的拍照功能
-				popupWindow.dismiss();
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				// 指定调用相机拍照后照片的储存路径
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-				startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
-				break;
-			case R.id.btn_cancel:
-				popupWindow.dismiss();
-				break;
-			case R.id.rebind_phone:
-				Intent intentEmail = new Intent(JVRebandContactActivity.this,
-						JVRebandPhoneorEmailActivity.class);
-				intentEmail.putExtra("PhoneEmail", "Phone");
-				intentEmail.putExtra("isphone", 1);
-				startActivity(intentEmail);
-				break;
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_left:
+                    finish();
+                    break;
+                case R.id.pop_outside:
+                    popupWindow.dismiss();
+                    break;
+                case R.id.rebind_nickname:
+                    if (View.GONE == nickImageView.getVisibility()) {
+                        showTextToast(R.string.edit_pass_not);
+                    } else {
+                        Intent nickIntent = new Intent(
+                                JVRebandContactActivity.this,
+                                JVRebandNickActivity.class);
+                        nickIntent.putExtra("phone", showPhone);
+                        nickIntent.putExtra("email", showEmail);
+                        nickIntent.putExtra("username", more_name);
+                        startActivity(nickIntent);
+                    }
+                    break;
+                case R.id.reband_hand_img:
+                    StatService.trackCustomEvent(
+                            JVRebandContactActivity.this,
+                            "census_moreheadimg",
+                            JVRebandContactActivity.this.getResources().getString(
+                                    R.string.census_moreheadimg));
+                    popupWindow = new popw(JVRebandContactActivity.this,
+                            myOnClickListener);
+                    popupWindow.setBackgroundDrawable(null);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.showAtLocation(linear, Gravity.BOTTOM
+                            | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+                    break;
 
-			case R.id.rebind_mail:
-				Intent intentPhone = new Intent(JVRebandContactActivity.this,
-						JVRebandPhoneorEmailActivity.class);
-				intentPhone.putExtra("PhoneEmail", "Email");
-				intentPhone.putExtra("isphone", 0);
-				startActivity(intentPhone);
-				break;
+                case R.id.btn_pick_photo: {
+                    popupWindow.dismiss();
+                    Intent intent = new Intent(Intent.ACTION_PICK, null);
+                    intent.setDataAndType(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                    break;
+                }
+                case R.id.btn_take_photo:
+                    // 调用系统的拍照功能
+                    popupWindow.dismiss();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // 指定调用相机拍照后照片的储存路径
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+                    startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
+                    break;
+                case R.id.btn_cancel:
+                    popupWindow.dismiss();
+                    break;
+                case R.id.rebind_phone:
+                    Intent intentEmail = new Intent(JVRebandContactActivity.this,
+                            JVRebandPhoneorEmailActivity.class);
+                    intentEmail.putExtra("PhoneEmail", "Phone");
+                    intentEmail.putExtra("isphone", 1);
+                    startActivity(intentEmail);
+                    break;
 
-			case R.id.rebind_all:
-				//TODO
-				Log.i("TAG", "NIHAO");
-				break;
+                case R.id.rebind_mail:
+                    Intent intentPhone = new Intent(JVRebandContactActivity.this,
+                            JVRebandPhoneorEmailActivity.class);
+                    intentPhone.putExtra("PhoneEmail", "Email");
+                    intentPhone.putExtra("isphone", 0);
+                    startActivity(intentPhone);
+                    break;
 
-			case R.id.rebind_hasused:
-				//TODO
-				Log.i("TAG", "NIHAO");
-				break;
-			default:
-				break;
-			}
-		}
-	};
+                case R.id.rebind_all:
+                    // TODO
+                    Log.i("TAG", "NIHAO");
+                    break;
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case PHOTO_REQUEST_TAKEPHOTO:
-			if (resultCode == -1) {
-				startPhotoZoom(Uri.fromFile(newFile), 300);
-			}
-			break;
+                case R.id.rebind_hasused:
+                    // TODO
+                    Log.i("TAG", "NIHAO");
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
-		case PHOTO_REQUEST_GALLERY:
-			if (data != null)
-				startPhotoZoom(data.getData(), 300);
-			break;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PHOTO_REQUEST_TAKEPHOTO:
+                if (resultCode == -1) {
+                    startPhotoZoom(Uri.fromFile(newFile), 300);
+                }
+                break;
 
-		case PHOTO_REQUEST_CUT:
-			if (data != null)
-				setPicToView(data);
-			break;
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+            case PHOTO_REQUEST_GALLERY:
+                if (data != null)
+                    startPhotoZoom(data.getData(), 300);
+                break;
 
-	private void startPhotoZoom(Uri uri, int size) {
-		Intent intent = new Intent("com.android.camera.action.CROP");
-		intent.setDataAndType(uri, "image/*");
-		// crop为true是设置在开启的intent中设置显示的view可以剪裁
-		intent.putExtra("crop", "true");
+            case PHOTO_REQUEST_CUT:
+                if (data != null)
+                    setPicToView(data);
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
-		// aspectX aspectY 是宽高的比例
-		intent.putExtra("aspectX", 1);
-		intent.putExtra("aspectY", 1);
+    private void startPhotoZoom(Uri uri, int size) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // crop为true是设置在开启的intent中设置显示的view可以剪裁
+        intent.putExtra("crop", "true");
 
-		// outputX,outputY 是剪裁图片的宽高
-		intent.putExtra("outputX", size);
-		intent.putExtra("outputY", size);
-		intent.putExtra("return-data", true);
-		startActivityForResult(intent, PHOTO_REQUEST_CUT);
-	}
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
 
-	// 将进行剪裁后的图片显示到UI界面上
-	private void setPicToView(Intent picdata) {
-		Bundle bundle = picdata.getExtras();
-		if (bundle != null) {
-			Bitmap photo = bundle.getParcelable("data");
-			saveBitmap(photo);
-			Drawable drawable = new BitmapDrawable(photo);
-			rebandHeadImg.setBackgroundDrawable(drawable);
-		}
-	}
+        // outputX,outputY 是剪裁图片的宽高
+        intent.putExtra("outputX", size);
+        intent.putExtra("outputY", size);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, PHOTO_REQUEST_CUT);
+    }
 
-	public void saveBitmap(Bitmap bm) {
-		if (null == bm) {
-			return;
-		}
-		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
-		if (f.exists()) {
-			f.delete();
-		}
-		try {
-			FileOutputStream out = new FileOutputStream(f);
-			bm.compress(Bitmap.CompressFormat.PNG, 90, out);
-			out.flush();
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    // 将进行剪裁后的图片显示到UI界面上
+    private void setPicToView(Intent picdata) {
+        Bundle bundle = picdata.getExtras();
+        if (bundle != null) {
+            Bitmap photo = bundle.getParcelable("data");
+            saveBitmap(photo);
+            Drawable drawable = new BitmapDrawable(photo);
+            rebandHeadImg.setBackgroundDrawable(drawable);
+        }
+    }
 
-	}
+    public void saveBitmap(Bitmap bm) {
+        if (null == bm) {
+            return;
+        }
+        File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	@Override
-	protected void saveSettings() {
+    }
 
-	}
+    @Override
+    protected void saveSettings() {
 
-	@Override
-	protected void freeMe() {
+    }
 
-	}
-	
-	class CheckUserFlowTask extends AsyncTask<String, Integer, Integer> {
+    @Override
+    protected void freeMe() {
+
+    }
+
+    class CheckUserFlowTask extends AsyncTask<String, Integer, Integer> {
 
         @Override
         protected Integer doInBackground(String... arg0) {
@@ -366,6 +367,7 @@ public class JVRebandContactActivity extends BaseActivity {
             int ret = DeviceUtil.getUserSurFlow();
             return ret;
         }
+
         @Override
         protected void onCancelled() {
             super.onCancelled();
@@ -374,18 +376,19 @@ public class JVRebandContactActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Integer result) {
             dismissDialog();
-            if(result < 0 ){
-                showTextToast("查询剩余流量失败"+result);
+            if (result < 0) {
+                showTextToast("查询剩余流量失败" + result);
             }
-            else{
-                double flow_mb = result/1024;
-                tv_sur_flow_value.setText(String.valueOf(flow_mb)+"M");
+            else {
+                double flow_mb = result / 1024;
+                tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");
             }
         }
+
         @Override
         protected void onPreExecute() {
             // 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
             createDialog(0, true);
-        }        
-	}
+        }
+    }
 }

@@ -4,18 +4,10 @@
     android:layout_height="wrap_content"
     android:background="@color/tab_bg_color" >
 
-    <ImageView
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_centerHorizontal="true"
-        android:background="@color/line" />
-
     <RelativeLayout
         android:id="@+id/tabsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line"
         android:layout_centerHorizontal="true"
         android:background="@color/tab_bg_color" >
 
@@ -23,7 +15,6 @@
             android:id="@+id/tab_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/line"
             android:layout_centerHorizontal="true"
             android:padding="4dp"
             android:src="@drawable/mydevice_devicenormal_icon" />
@@ -32,7 +23,7 @@
             android:id="@+id/tab_info"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_alignRight="@+id/tab_icon" >
+            android:layout_alignRight="@id/tab_icon" >
 
             <ImageView
                 android:id="@+id/tab_info_img"
@@ -55,7 +46,7 @@
             android:id="@+id/tab_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tab_icon"
+            android:layout_below="@id/tab_icon"
             android:layout_centerHorizontal="true"
             android:textSize="11sp" />
     </RelativeLayout>

@@ -223,5 +223,18 @@
         <item>通知時鈴聲提醒</item>
         <item>通知時振動提醒</item>
     </string-array>
+    <!-- 中间自定义面板中的元素 -->
+    <string-array name="array_customize_board">
+        <item>報警消息</item>
+        <item>未知</item>
+        <item>未知</item>
+    </string-array>
+    <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
+    <!-- 具体的tag名称和Consts.java中的名称一致 -->
+    <string-array name="array_customize_item_tag">
+        <item>AlarmMsg</item>
+        <item>unknown</item>
+        <item>unknown</item>
+    </string-array>
 
 </resources>

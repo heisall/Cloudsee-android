@@ -650,7 +650,7 @@
     <string name="str_reset_device">重置設備功能</string>
     <string name="str_restart_device">重啟設備功能</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
-     <string name="str_restart_sure">確定重啟設備嗎?</string>
+    <string name="str_restart_sure">確定重啟設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
     <string name="dev_alarm_sound_tips">報警聲音關閉後，當發生報警時，設備將不發出聲音 。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
@@ -705,7 +705,7 @@
     <string name="str_all_day">全天</string>
     <string name="str_alarm_setting_tips5">重置後設備將恢復出廠設置。</string>
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
-      <string name="str_alarm_setting_tips6">重啟後設備將重新啟動。</string>
+    <string name="str_alarm_setting_tips6">重啟後設備將重新啟動。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
     <string name="str_setdev_params_timeout">設置設備參數超時</string>

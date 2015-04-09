@@ -274,7 +274,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
             mActivity.startActivity(intent);
         }
     }
-    
+
     /**
      * 报警消息
      */

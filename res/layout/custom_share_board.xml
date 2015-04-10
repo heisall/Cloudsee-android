@@ -21,28 +21,41 @@
         android:background="@android:color/white"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/share_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/umeng_socialize_share_title"
-            android:textSize="18sp" />
-
-        <View
-            android:id="@+id/divider_line"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/divider" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="18dp"
+                android:text="@string/umeng_socialize_share_title"
+                android:textSize="22sp" />
+
+            <!-- 取消 -->
+
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="18dp"
+                android:layout_alignBottom="@id/share_text"
+                android:scaleType="fitXY"
+                android:src="@drawable/cloud_cancleed" />
+        </RelativeLayout>
 
         <!-- 分享平台 -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:layoutAnimation="@anim/custom_share_layout_animation"
             android:orientation="horizontal" >
 
@@ -67,11 +80,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/umeng_socialize_share_to_wx"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -95,11 +108,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/umeng_socialize_share_to_friends"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -123,11 +136,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/umeng_socialize_share_to_sina"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -151,26 +164,13 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/umeng_socialize_share_to_sina"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
         </LinearLayout>
-        <!-- 取消 -->
-
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/custom_share_cancel_selector"
-            android:gravity="center"
-            android:text="@string/umeng_socialize_share_btn_cancel"
-            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

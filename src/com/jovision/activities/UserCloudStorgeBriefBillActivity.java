@@ -108,24 +108,24 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                 }
                 else {
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
-                    if(fee_type == 0){
-                        //单位M                   
-                        double flow_mb =resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0)/1024;
-                        tv_charge_left_value.setText(String.valueOf(flow_mb) + "M");                    
+                    if (fee_type == 0) {
+                        // 单位M
+                        double flow_mb = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0) / 1024;
+                        tv_charge_left_value.setText(String.valueOf(flow_mb) + "M");
                     }
-                    else if(fee_type == 1){
-                        //单位元
-                        double flow_money =resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0);
-                        tv_charge_left_value.setText(String.valueOf(flow_money) + "元");                     
+                    else if (fee_type == 1) {
+                        // 单位元
+                        double flow_money = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0);
+                        tv_charge_left_value.setText(String.valueOf(flow_money) + "元");
                     }
                     max = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE, 0);
                     progress = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE_USE, 0);
                     mAbProgressBar.setMax(max);
-                    int left = max - progress;                                  
+                    int left = max - progress;
                     double left_pct = 0;
-                    if(left > 0 && left<=max){
-                        double db_pct = (double)left/(double)max;
-                        left_pct = db_pct*100;
+                    if (left > 0 && left <= max) {
+                        double db_pct = (double) left / (double) max;
+                        left_pct = db_pct * 100;
                         mAbProgressBar.setProgress(left);
                     }
                     tv_free_left_top_pct.setText(left_pct + "%");

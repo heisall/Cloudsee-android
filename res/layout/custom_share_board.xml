@@ -42,9 +42,9 @@
                 android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/share_text"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="18dp"
-                android:layout_alignBottom="@id/share_text"
                 android:scaleType="fitXY"
                 android:src="@drawable/cloud_cancleed" />
         </RelativeLayout>

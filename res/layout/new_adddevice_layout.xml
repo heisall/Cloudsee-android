@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/tab_bg_color"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <include
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:background="@color/tab_bg_color" >
+        android:background="@color/white" >
 
         <EditText
             android:id="@+id/new_adddevice_et"
@@ -35,8 +35,8 @@
             android:id="@+id/editimg_clearn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_margin="5dp"
             android:layout_centerInParent="true"
+            android:layout_margin="5dp"
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:background="@drawable/new_adddevice_close"
             android:visibility="gone" />
@@ -65,14 +65,14 @@
                 android:text="扫一扫"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="11sp" />
-            
+
             <ImageView
                 android:id="@+id/save_icon"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/cloud_plused" 
-                android:visibility="gone"/>
+                android:src="@drawable/cloud_plused"
+                android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -80,7 +80,7 @@
         android:id="@+id/add_device_wv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 </LinearLayout>

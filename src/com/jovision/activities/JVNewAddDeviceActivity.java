@@ -2,9 +2,6 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
-<<<<<<< HEAD
-=======
-import android.app.DownloadManager.Request;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

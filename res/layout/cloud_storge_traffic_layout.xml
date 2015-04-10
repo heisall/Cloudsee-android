@@ -64,9 +64,9 @@
                 android:id="@+id/tv_free_left_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:singleLine="true"
                 android:text="赠送剩余"
-                android:gravity="center"
                 android:textColor="@color/cloud_traffic_title"
                 android:textSize="@dimen/cloud_text_max_size" />
 
@@ -82,13 +82,14 @@
                 android:textSize="@dimen/cloud_text_large_size" />
         </RelativeLayout>
     </LinearLayout>
-    <FrameLayout 
-        android:layout_height="260dp"
+
+    <FrameLayout
         android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="16dp"
-        >
-        <com.jovision.views.CircleProgressBar 
+        android:layout_marginTop="16dp" >
+
+        <com.jovision.views.CircleProgressBar
             android:id="@+id/circleProgressBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

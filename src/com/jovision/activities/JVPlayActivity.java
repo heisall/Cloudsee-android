@@ -1193,7 +1193,8 @@ public class JVPlayActivity extends PlayActivity implements
                                     .getDrawable(R.drawable.video_talkback_icon));
                             showTextToast(R.string.has_calling);
                         }
-                        dismissDialog();
+                        handler.sendMessageDelayed(handler.obtainMessage(Consts.WHAT_DIALOG_CLOSE),
+                                1000);
                         break;
                     }
                 }
@@ -3254,6 +3255,7 @@ public class JVPlayActivity extends PlayActivity implements
                     if (!channelList.get(lastClickIndex).isSingleVoice()) {
                         createDialog("", false);
                     }
+                    closeTextToast();
                     stopVoiceCall(lastClickIndex);
                     handler.sendEmptyMessageDelayed(Consts.WHAT_DIALOG_CLOSE, 2 * 1000);
                     Jni.pauseAudio(lastClickIndex);

@@ -471,6 +471,7 @@ public class JVWebView2Activity extends BaseActivity implements
     @Override
     protected void initUi() {
         setContentView(R.layout.webview2_layout);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
                 JVWebView2Activity.this, 8000);
@@ -744,6 +745,7 @@ public class JVWebView2Activity extends BaseActivity implements
 
         loadFailed = false;
         webView.loadUrl(url);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
     /**
@@ -778,7 +780,7 @@ public class JVWebView2Activity extends BaseActivity implements
                         }
                     });
         }
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
     /**
@@ -1490,19 +1492,20 @@ public class JVWebView2Activity extends BaseActivity implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //
-        // if (playChannel.isConnected()) {
-        // if (fullScreenFlag) {
-        // fullScreenFlag = false;
-        // fullScreen.setImageDrawable(getResources().getDrawable(
-        // R.drawable.full_screen_icon));
-        // } else {
-        // fullScreenFlag = true;
-        // fullScreen.setImageDrawable(getResources().getDrawable(
-        // R.drawable.notfull_screen_icon));
-        // }
-        // setSurfaceSize(fullScreenFlag);
-        // }
+        MyLog.v("Webview2configuration", "转屏了");
+        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if (playChannel.isConnected()) {
+            if (fullScreenFlag) {
+                fullScreenFlag = false;
+                fullScreen.setImageDrawable(getResources().getDrawable(
+                        R.drawable.full_screen_icon));
+            } else {
+                fullScreenFlag = true;
+                fullScreen.setImageDrawable(getResources().getDrawable(
+                        R.drawable.notfull_screen_icon));
+            }
+            setSurfaceSize(fullScreenFlag);
+        }
     }
 
 }

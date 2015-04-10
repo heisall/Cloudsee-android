@@ -592,22 +592,36 @@ public class JVWebViewActivity extends BaseActivity {
                             imageTempUri = Uri.fromFile(new File(
                                     Consts.BBSIMG_PATH, System.currentTimeMillis()
                                             + Consts.IMAGE_JPG_KIND));
-                            // 从相册取相片
-                            Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
-                            it_photo.addCategory(Intent.CATEGORY_OPENABLE);
-                            // 设置数据类型
-                            it_photo.setType("image/*");
-                            // 设置返回方式
-                            // intent.putExtra("return-data", true);
-                            it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
-                            // 设置截图
-                            // it_photo.putExtra("crop", "true");
-                            // it_photo.putExtra("scale", true);
-                            // 跳转至系统功能
+                            // // 从相册取相片
+                            // Intent it_photo = new Intent(
+                            // Intent.ACTION_PICK,
+                            // android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//new
+                            // Intent(Intent.ACTION_GET_CONTENT);
+                            // it_photo.addCategory(Intent.CATEGORY_OPENABLE);
+                            // // 设置数据类型
+                            // it_photo.setType("image/*");
+                            // // 设置返回方式
+                            // // intent.putExtra("return-data", true);
+                            // it_photo.putExtra(MediaStore.EXTRA_OUTPUT,
+                            // imageTempUri);
+                            //
+                            // // 设置截图
+                            // // it_photo.putExtra("crop", "true");
+                            // // it_photo.putExtra("scale", true);
+                            // // 跳转至系统功能
+
+                            // startActivityForResult(it_photo,
+                            // REQUEST_CODE_IMAGE_SELECTE);
+
                             view.setVisibility(View.GONE);
                             initDialog.dismiss();
-                            startActivityForResult(it_photo,
-                                    REQUEST_CODE_IMAGE_SELECTE);
+                            Intent intent;
+                            // 此方法兼容5.0以上系统
+                            intent = new Intent(
+                                    Intent.ACTION_PICK,
+                                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, REQUEST_CODE_IMAGE_SELECTE);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -692,6 +706,7 @@ public class JVWebViewActivity extends BaseActivity {
         actualimagecursor.moveToFirst();
         String img_path = actualimagecursor
                 .getString(actual_image_column_index);
+        MyLog.v("FileFromUri", "uri=" + uri + "----img_path=" + img_path);
         file = new File(img_path);
         return file;
     }

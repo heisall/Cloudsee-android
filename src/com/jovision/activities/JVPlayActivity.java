@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -113,6 +112,8 @@ public class JVPlayActivity extends PlayActivity implements
     private final int FOUR_SCREEN = 4;// 四屏
     private final int NINE_SCREEN = 9;// 九屏
     private final int SIXTEEN_SCREEN = 16;// 十六屏
+
+    private String connWay = "";// 连接方式
 
     private int startWindowIndex;
 
@@ -1192,7 +1193,8 @@ public class JVPlayActivity extends PlayActivity implements
                                     .getDrawable(R.drawable.video_talkback_icon));
                             showTextToast(R.string.has_calling);
                         }
-                        dismissDialog();
+                        handler.sendMessageDelayed(handler.obtainMessage(Consts.WHAT_DIALOG_CLOSE),
+                                1000);
                         break;
                     }
                 }
@@ -1359,6 +1361,7 @@ public class JVPlayActivity extends PlayActivity implements
                                                 + "/"
                                                 + "enableTcp=" + enableTcp + "/"
                                                 + "devType=" + channel.getParent().getType() + "/"
+                                                + "connWay=" + connWay + "/"
                                         // + PlayUtil
                                         // .hasEnableHelper(channelList
                                         // .get(lastClickIndex)
@@ -2348,6 +2351,7 @@ public class JVPlayActivity extends PlayActivity implements
             if (1 == channel.getVipLevel()) {
                 // showTextToast("vip==1流媒体连接");
                 MyLog.e(TAG, "vip == 1 ,流媒体");
+                connWay = "RTMP";
                 connect = Jni.connectRTMP(channel.getIndex(),
                         channel.getRtmpUrl(), channel.getSurface(), false,
                         fullPath);
@@ -2435,6 +2439,10 @@ public class JVPlayActivity extends PlayActivity implements
                         && channel.getParent().getFullNo()
                                 .equalsIgnoreCase(ssid)) {
                     MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
+                    if (lastClickIndex == channel.getIndex()) {
+                        connWay = "AP";
+                    }
+
                     connect = Jni
                             .connect(
                                     channel.getIndex(),
@@ -2481,7 +2489,9 @@ public class JVPlayActivity extends PlayActivity implements
                             number = -1;
                         }
                     }
-
+                    if (lastClickIndex == channel.getIndex()) {
+                        connWay = number + "-" + conIp;
+                    }
                     if (isPlayDirectly) {
                         connect = Jni
                                 .connect(
@@ -3060,7 +3070,8 @@ public class JVPlayActivity extends PlayActivity implements
                     break;
                 case R.id.bottom_but3:
                 case R.id.capture:// 抓拍
-                    // String time = "1:2015-05-01 11:11:11";
+                    // String time = "2:01/01/2015 11:11:11";
+                    // String time = "1:2015-01-01 11:11:11";
                     // Jni.sendSuperBytes(lastClickIndex,
                     // JVNetConst.JVN_RSP_TEXTDATA, false,
                     // time.getBytes().length, JVNetConst.RC_SETSYSTEMTIME, 0,
@@ -3244,6 +3255,7 @@ public class JVPlayActivity extends PlayActivity implements
                     if (!channelList.get(lastClickIndex).isSingleVoice()) {
                         createDialog("", false);
                     }
+                    closeTextToast();
                     stopVoiceCall(lastClickIndex);
                     handler.sendEmptyMessageDelayed(Consts.WHAT_DIALOG_CLOSE, 2 * 1000);
                     Jni.pauseAudio(lastClickIndex);

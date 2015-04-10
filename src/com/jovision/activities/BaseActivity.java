@@ -331,6 +331,18 @@ public abstract class BaseActivity extends FragmentActivity implements
     }
 
     /**
+     * 关闭统消息
+     * 
+     * @param context
+     * @param id
+     */
+    public void closeTextToast() {
+        if (null != toast) {
+            toast.cancel();
+        }
+    }
+
+    /**
      * 获取状态栏高度
      * 
      * @param activity

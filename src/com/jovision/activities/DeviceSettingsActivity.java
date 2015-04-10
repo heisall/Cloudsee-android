@@ -166,10 +166,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
                     JVNetConst.TIME_ZONE, 0, 0, 0, getString(R.string.str_timezone)
                             + "(" + MySharedPreference.getString("TIMEZONE") + ")");
             timezones = MySharedPreference.getString("TIMEZONE");
-        }else {
-        	   mainListener.onMainAction(JVNetConst.RC_EXTEND,
-                       JVNetConst.TIME_ZONE, 1, 0, 0, null);
-		}
+        } else {
+            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                    JVNetConst.TIME_ZONE, 1, 0, 0, null);
+        }
     }
 
     @Override
@@ -1088,12 +1088,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
     }
 
-        @Override
-        protected void onDestroy() {
-        	// TODO Auto-generated method stub
-        	super.onDestroy();
-        	MySharedPreference.putString("TIMEZONE", "");
-        }
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        MySharedPreference.putString("TIMEZONE", "");
+    }
+
     class CloudSwitchTask extends AsyncTask<String, Integer, Integer> {
         // 可变长的输入参数，与AsyncTask.exucute()对应
         @Override

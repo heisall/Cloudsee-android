@@ -66,7 +66,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private RelativeLayout functionlayout0, functionlayout1, functionlayout2, functionlayout3,
             functionlayout4, functionlayout5, functionlayout6, functionlayout7, functionlayout8;
     private RelativeLayout functiontips1, functiontips2, functiontips3,
-            functiontips6,functiontips7;
+            functiontips6, functiontips7;
     private TextView alarmTime0TextView, funtion_titile_71;
     private int power = 0;
 
@@ -187,7 +187,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
             }
 
             // 云存储服务
-//            functionlayout0.setVisibility(View.GONE);
+            // functionlayout0.setVisibility(View.GONE);
             func_cloud_enabled = paramObject.optInt("bCloudEnabled", -1);
             if (0 == func_cloud_enabled) {
                 func_cloudsw
@@ -607,9 +607,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
                         // TODO
                         funtion_titile_71.setText(Content);
                         if (1 == ex_type) {
-                        	functionlayout7.setVisibility(View.GONE);
-                        	functiontips7.setVisibility(View.GONE);
-						}
+                            functionlayout7.setVisibility(View.GONE);
+                            functiontips7.setVisibility(View.GONE);
+                        }
                         break;
                     case JVNetConst.RC_EX_MD:
                         if (ex_type == JVNetConst.EX_MD_SUBMIT) {

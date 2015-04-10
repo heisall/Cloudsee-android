@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <include
@@ -11,23 +12,23 @@
         layout="@layout/top_bar_layout" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp" >
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@color/white" >
 
         <EditText
             android:id="@+id/new_adddevice_et"
             style="@style/my_edittext_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/erweimaLayout"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:hint="@string/str_new_add_device_edit_hint"
             android:singleLine="true"
             android:textCursorDrawable="@drawable/new_adddevice_cursor"
-            android:textSize="18sp" >
+            android:textSize="15sp" >
         </EditText>
 
         <ImageButton
@@ -35,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_margin="5dp"
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:background="@drawable/new_adddevice_close"
             android:visibility="gone" />
@@ -44,14 +46,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/tab_bg_color" >
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" >
 
             <ImageView
                 android:id="@+id/tab_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:padding="4dp"
                 android:src="@drawable/newadddevice_erweima" />
 
             <TextView
@@ -61,7 +63,16 @@
                 android:layout_below="@id/tab_icon"
                 android:layout_centerHorizontal="true"
                 android:text="扫一扫"
+                android:textColor="@color/more_fragment_color2"
                 android:textSize="11sp" />
+
+            <ImageView
+                android:id="@+id/save_icon"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/cloud_plused"
+                android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -69,7 +80,7 @@
         android:id="@+id/add_device_wv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 </LinearLayout>

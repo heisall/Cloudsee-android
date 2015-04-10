@@ -1006,6 +1006,17 @@ public abstract class PlayActivity extends BaseActivity implements
                 voiceCallSelected(false);
                 stopVoiceCall(channel.getIndex());
             }
+            // 云台功能如果显示，则先关闭云台
+            if (View.VISIBLE == ytLayout.getVisibility()) {
+                ytLayout.setVisibility(View.GONE);
+                if (bigScreen) {
+                    playFunctionList.setVisibility(View.VISIBLE);
+                } else {
+                    playFunctionList.setVisibility(View.GONE);
+                }
+            }
+
+            // dddd
             AUDIO_SINGLE = false;// 单向对讲标志
             VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
             VOICECALLING = false;// 对讲功能已经开启

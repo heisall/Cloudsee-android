@@ -284,6 +284,8 @@
     <string name="str_exiting_now">正在斷開,請等待…</string>
     <string name="str_no_response_data">網路連接異常，請重新登錄.</string>
     <!-- 設備管理 -->
+    <string name="str_new_add_device">選擇添加設備</string>
+    <string name="str_new_add_device_edit_hint">請輸入雲視通賬號</string>
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">連接網路超時，請檢查.</string>
     <string name="net_errors">可能原因：\n1.路由器密碼錯誤；\n2.無法從路由器獲取IP地址，請檢查路由器；\n3.手機wifi功能異常.</string>
@@ -728,7 +730,8 @@
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">雲存儲服務</string>
     <string name="str_cloud_state">雲存儲</string>
-    <string name="str_cloud_query_error_1">查詢用戶使用詳情失敗</string>     
+    <string name="str_cloud_query_error_1">查詢用戶使用詳情失敗</string>
+    <string name="str_cloud_query_title">剩余流量</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

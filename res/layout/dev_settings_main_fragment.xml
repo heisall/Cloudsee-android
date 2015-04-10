@@ -80,8 +80,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:background="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -147,8 +147,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:background="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -230,8 +230,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:background="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -714,8 +714,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:background="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout

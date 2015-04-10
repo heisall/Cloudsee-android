@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -128,9 +127,9 @@ public class JVRebandContactActivity extends BaseActivity {
         // }
         // task.execute(params);
 
-        CheckUserFlowTask task = new CheckUserFlowTask();
-        String[] params = new String[3];
-        task.execute(params);
+        // CheckUserFlowTask task = new CheckUserFlowTask();
+        // String[] params = new String[3];
+        // task.execute(params);
     }
 
     @Override
@@ -157,6 +156,7 @@ public class JVRebandContactActivity extends BaseActivity {
         rebandhasused = (RelativeLayout) findViewById(R.id.rebind_hasused);
         tv_sur_flow_value = (TextView) findViewById(R.id.tv_surplus_flow_value);
         tv_sur_flow_value.setText("0.0M");
+        tv_sur_flow_value.setVisibility(View.INVISIBLE);
         // rebandhasusedtext = (TextView)findViewById(R.id.reband_hasused_text);
 
         MySharedPreference.putString("NICKNAMEBBS", "");
@@ -271,12 +271,13 @@ public class JVRebandContactActivity extends BaseActivity {
 
                 case R.id.rebind_all:
                     // TODO
-                    Log.i("TAG", "NIHAO");
+                    Intent intent1 = new Intent(JVRebandContactActivity.this,
+                            UserCloudStorgeBriefBillActivity.class);
+                    startActivity(intent1);
                     break;
 
                 case R.id.rebind_hasused:
                     // TODO
-                    Log.i("TAG", "NIHAO");
                     break;
                 default:
                     break;
@@ -390,15 +391,15 @@ public class JVRebandContactActivity extends BaseActivity {
                 }
                 else {
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
-                    if(fee_type == 0){
-                        //单位M                   
-                        double flow_mb =resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0)/1024;
-                        tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");                    
+                    if (fee_type == 0) {
+                        // 单位M
+                        double flow_mb = resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0) / 1024;
+                        tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");
                     }
-                    else if(fee_type == 1){
-                        //单位元
-                        double flow_money =resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0);
-                        tv_sur_flow_value.setText(String.valueOf(flow_money) + "元");                     
+                    else if (fee_type == 1) {
+                        // 单位元
+                        double flow_money = resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0);
+                        tv_sur_flow_value.setText(String.valueOf(flow_money) + "元");
                     }
                 }
             } catch (JSONException e) {

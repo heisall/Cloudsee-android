@@ -252,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="剩余流量"
+                android:text="@string/str_cloud_query_title"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 

@@ -885,12 +885,13 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     }
                 });
     }
-    
+
     // ------------------------------------------------
     // ## (工程商入驻、社区)公共入口
     // ------------------------------------------------
     /**
      * 扩展功能面板调用的时候, 重新传递activity
+     * 
      * @param pActivity
      */
     public void reconfigActivity(BaseActivity pActivity) {
@@ -902,8 +903,10 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     + "must implement OnFuncEnabledListener");
         }
     }
+
     /**
      * 工程商入驻
+     * 
      * @param pActivity 扩展功能面板调用时传值,当前fragment调用传null
      * @return
      */
@@ -949,8 +952,10 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             }
         }
     }
+
     /**
      * 进入社区
+     * 
      * @param pActivity 扩展功能面板调用时传值,当前fragment调用传null
      * @return
      */
@@ -1025,6 +1030,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             }
         }
     }
+
     // ---------------------------END----------------------------------
 
     @Override

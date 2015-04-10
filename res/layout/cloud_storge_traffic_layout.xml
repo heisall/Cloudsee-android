@@ -2,64 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cloud_traffic_color_2"
-     >
-    
+    android:background="@color/cloud_traffic_color_2" >
+
     <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/top_bar"
-        layout="@layout/top_bar_layout" />
-    <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="4dp"
-        android:layout_below="@id/top_bar"
+        layout="@layout/top_bar_layout" />
+
+    <LinearLayout
         android:id="@+id/lly_top_tips"
-        >
-        <RelativeLayout 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="12dp"
-            android:layout_weight="1"    
-            >
-            <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_charge_left_title"
-            android:text = "剩余充值流量"
-            android:textSize="@dimen/cloud_text_max_size"
-            android:singleLine="true"
-            android:textColor="@color/cloud_traffic_title"
-                />
-            <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/cloud_text_large_size"
-            android:singleLine="true"
-            android:id="@+id/tv_charge_left"
-            android:layout_below="@id/tv_charge_left_title"
-            android:text = "- -"
-            android:layout_centerInParent="true"
-            android:textColor="@color/cloud_traffic_value"
-                />            
-        </RelativeLayout>
-        <View 
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/cloud_traffic_divider"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="13dp"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_bar"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="12dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="12dp" >
+
+            <TextView
+                android:id="@+id/tv_charge_left_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="剩余充值流量"
+                android:textColor="@color/cloud_traffic_title"
+                android:textSize="@dimen/cloud_text_max_size" />
+
+            <TextView
+                android:id="@+id/tv_charge_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_charge_left_title"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="- -"
+                android:textColor="@color/cloud_traffic_value"
+                android:textSize="@dimen/cloud_text_large_size" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:background="@color/cloud_traffic_divider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="12dp" >
 
             <TextView
                 android:id="@+id/tv_free_left_title"
@@ -81,47 +80,47 @@
                 android:textColor="@color/cloud_traffic_value"
                 android:textSize="@dimen/cloud_text_large_size" />
         </RelativeLayout>
-                
     </LinearLayout>
-    <FrameLayout 
-        android:layout_height="230dp"
+
+    <FrameLayout
         android:layout_width="230dp"
+        android:layout_height="230dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="12dp"
-        >
-        <com.jovision.views.CircleProgressBar 
+        android:layout_marginTop="12dp" >
+
+        <com.jovision.views.CircleProgressBar
             android:id="@+id/circleProgressBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        
-       <RelativeLayout
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:clickable="true" >
 
             <TextView
                 android:id="@+id/tv_left_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textSize="@dimen/cloud_text_mid_size"
                 android:singleLine="true"
                 android:text="赠送剩余"
-                android:textColor="@color/cloud_traffic_title" />
+                android:textColor="@color/cloud_traffic_title"
+                android:textSize="@dimen/cloud_text_mid_size" />
 
             <TextView
                 android:id="@+id/tv_free_left_cir_pct"
-                android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_left_title"
                 android:layout_centerHorizontal="true"
-                android:textSize="52sp"
+                android:layout_marginTop="6dp"
                 android:text="- -"
                 android:textColor="@color/cloud_traffic_circle_fill"
+                android:textSize="52sp"
                 android:textStyle="normal" />
-
-        </RelativeLayout>        
+        </RelativeLayout>
     </FrameLayout>
+
 </RelativeLayout>

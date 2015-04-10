@@ -1194,10 +1194,9 @@ public class JVTabActivity extends ShakeActivity implements
         char charTag = (char) mark;
         return mTabsMap.get(charTag);
     }
-    
+
     /**
-     * 获取最后一个Tab的对应的fragment(其实就是获取更多对应的fragment)
-     * 这个功能在中间扩展功能中使用
+     * 获取最后一个Tab的对应的fragment(其实就是获取更多对应的fragment) 这个功能在中间扩展功能中使用
      */
     public BaseFragment getLastFragment() {
         return mFragmentsMap.get(mLastTabTag);

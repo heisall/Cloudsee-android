@@ -1,13 +1,18 @@
 
 package com.jovision.activities;
 
+import android.annotation.SuppressLint;
+import android.app.DownloadManager.Request;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,7 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@SuppressLint("SetJavaScriptEnabled")
 public class JVNewAddDeviceActivity extends BaseActivity {
     EditText new_adddevice_et;
     ImageButton editimg_clearn;
@@ -23,8 +34,9 @@ public class JVNewAddDeviceActivity extends BaseActivity {
     private Drawable imgEnable;
     WebView add_device_wv;
     String url = "http://test.cloudsee.net/mobile/";
-
-    // String url="http://baidu.com";
+    // String url ="https://www.baidu.com/";
+    Boolean isLoadUrl = false;
+    private Handler mHandler = new Handler();
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -64,9 +76,41 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         new_adddevice_et.setOnFocusChangeListener(new FocusChangeListenerImpl());
         // webview显示设备内容
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
+        add_device_wv.getSettings().setJavaScriptEnabled(true);
+        add_device_wv.requestFocus(View.FOCUS_DOWN);
+        add_device_wv.setWebViewClient(myWebviewClient);
         add_device_wv.loadUrl(url);
+
     }
 
+    WebViewClient myWebviewClient = new WebViewClient() {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO 自动生成的方法存根
+            // 会一直执行
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description,
+                String failingUrl) {
+            // TODO 自动生成的方法存根
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
+            view.loadUrl(newurl);
+            String param_array[] = newurl.split("\\?");
+            HashMap<String, String> resMap;
+            resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+            String rtmp_url = resMap.get("device_type");
+            return true;
+
+        }
+
+    };
     OnClickListener myOnClickListener = new OnClickListener() {
 
         @Override

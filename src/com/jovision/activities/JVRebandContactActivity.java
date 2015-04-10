@@ -128,9 +128,9 @@ public class JVRebandContactActivity extends BaseActivity {
         // }
         // task.execute(params);
 
-//        CheckUserFlowTask task = new CheckUserFlowTask();
-//        String[] params = new String[3];
-//        task.execute(params);
+        // CheckUserFlowTask task = new CheckUserFlowTask();
+        // String[] params = new String[3];
+        // task.execute(params);
     }
 
     @Override

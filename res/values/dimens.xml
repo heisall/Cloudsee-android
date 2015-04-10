@@ -27,4 +27,5 @@
     <dimen name="cloud_text_mid_size">18sp</dimen>
     <dimen name="cloud_text_max_size">22sp</dimen>
     <dimen name="cloud_text_large_size">26sp</dimen>
+
 </resources>

@@ -252,7 +252,7 @@
                     android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
                     android:textSize="11sp"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

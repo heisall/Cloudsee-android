@@ -35,6 +35,7 @@
             android:id="@+id/editimg_clearn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+             android:layout_margin="5dp"
             android:layout_centerInParent="true"
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:background="@drawable/new_adddevice_close"
@@ -64,6 +65,14 @@
                 android:text="扫一扫"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="11sp" />
+            
+            <ImageView
+                android:id="@+id/save_icon"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/cloud_plused" 
+                android:visibility="gone"/>
         </RelativeLayout>
     </RelativeLayout>
 

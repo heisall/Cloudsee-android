@@ -3,6 +3,7 @@ package com.jovision.activities;
 
 import android.annotation.SuppressLint;
 import android.app.DownloadManager.Request;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -16,12 +17,15 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
+import com.tencent.stat.StatService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +34,8 @@ import java.util.Map;
 public class JVNewAddDeviceActivity extends BaseActivity {
     EditText new_adddevice_et;
     ImageButton editimg_clearn;
+    ImageView tab_icon, save_icon;
+    TextView tab_title;
     private boolean isHasFocus;
     private Drawable imgEnable;
     WebView add_device_wv;
@@ -72,6 +78,13 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         imgEnable = this.getResources().getDrawable(R.drawable.new_adddevice_close);
         new_adddevice_et = (EditText) findViewById(R.id.new_adddevice_et);
         editimg_clearn = (ImageButton) findViewById(R.id.editimg_clearn);
+        editimg_clearn.setOnClickListener(myOnClickListener);
+        tab_title = (TextView) findViewById(R.id.tab_title);
+        tab_icon = (ImageView) findViewById(R.id.tab_icon);
+        tab_icon.setOnClickListener(myOnClickListener);
+        // tab_title.setOnClickListener(myOnClickListener);
+        save_icon = (ImageView) findViewById(R.id.save_icon);
+        save_icon.setOnClickListener(myOnClickListener);
         new_adddevice_et.addTextChangedListener(new TextWatcherImpl());
         new_adddevice_et.setOnFocusChangeListener(new FocusChangeListenerImpl());
         // webview显示设备内容
@@ -119,6 +132,38 @@ public class JVNewAddDeviceActivity extends BaseActivity {
                 case R.id.btn_left:
                     JVNewAddDeviceActivity.this.finish();
                     break;
+                case R.id.tab_icon:
+                    StatService.trackCustomEvent(
+                            JVNewAddDeviceActivity.this,
+                            "Scan QR Code",
+                            JVNewAddDeviceActivity.this.getResources().getString(
+                                    R.string.census_scanqrcod));
+                    Intent addIntent = new Intent();
+                    addIntent.setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
+                    addIntent.putExtra("QR", true);
+                    JVNewAddDeviceActivity.this.startActivity(addIntent);
+
+                    break;
+                case R.id.editimg_clearn:
+                    new_adddevice_et.setText("");
+                    break;
+                case R.id.save_icon:
+                    Toast.makeText(JVNewAddDeviceActivity.this, "保存设备成功", Toast.LENGTH_SHORT)
+                            .show();
+                    break;
+            // case R.id.tab_title:
+            // StatService.trackCustomEvent(
+            // JVNewAddDeviceActivity.this,
+            // "Scan QR Code",
+            // JVNewAddDeviceActivity.this.getResources().getString(
+            // R.string.census_scanqrcod));
+            // Intent addIntent1 = new Intent();
+            // addIntent1.setClass(JVNewAddDeviceActivity.this,
+            // JVAddDeviceActivity.class);
+            // addIntent1.putExtra("QR", true);
+            // JVNewAddDeviceActivity.this.startActivity(addIntent1);
+            //
+            // break;
             }
         }
     };
@@ -128,8 +173,10 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         public void onFocusChange(View v, boolean hasFocus) {
             if (new_adddevice_et.getText().toString().length() >= 1) {
                 editimg_clearn.setVisibility(View.VISIBLE);
+                save_icon.setVisibility(View.VISIBLE);
             } else {
                 editimg_clearn.setVisibility(View.GONE);
+                save_icon.setVisibility(View.GONE);
             }
         }
 
@@ -141,8 +188,14 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
             if (new_adddevice_et.getText().toString().length() >= 1) {
                 editimg_clearn.setVisibility(View.VISIBLE);
+                save_icon.setVisibility(View.VISIBLE);
+                tab_title.setVisibility(View.GONE);
+                tab_icon.setVisibility(View.GONE);
             } else {
                 editimg_clearn.setVisibility(View.GONE);
+                save_icon.setVisibility(View.GONE);
+                tab_icon.setVisibility(View.VISIBLE);
+                tab_title.setVisibility(View.VISIBLE);
             }
         }
 

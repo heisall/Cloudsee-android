@@ -3060,6 +3060,11 @@ public class JVPlayActivity extends PlayActivity implements
                     break;
                 case R.id.bottom_but3:
                 case R.id.capture:// 抓拍
+                    // String time = "1:2015-05-01 11:11:11";
+                    // Jni.sendSuperBytes(lastClickIndex,
+                    // JVNetConst.JVN_RSP_TEXTDATA, false,
+                    // time.getBytes().length, JVNetConst.RC_SETSYSTEMTIME, 0,
+                    // 0, 0, time.getBytes(), time.getBytes().length);
                     /** 设备重启命令 **/
                     // Jni.sendSuperBytes(lastClickIndex,
                     // JVNetConst.JVN_RSP_TEXTDATA, true,

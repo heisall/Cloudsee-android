@@ -346,7 +346,7 @@ public class Jni {
      * @param uchType
      * @param isExtend
      * @param count
-     * @param type
+     * @param type true:extendtype false:packettype
      * @param p1
      * @param p2
      * @param p3

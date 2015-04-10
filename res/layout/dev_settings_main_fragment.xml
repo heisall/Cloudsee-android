@@ -29,8 +29,8 @@
 
                 <ImageView
                     android:id="@+id/funtion_image0"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -87,8 +87,8 @@
 
                 <ImageView
                     android:id="@+id/funtion_image1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
+                android:background="@color/dev_setting"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp" >
 
@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
+                android:background="@color/dev_setting"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp" >
 
@@ -313,7 +313,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
+                android:background="@color/dev_setting"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp" >
 
@@ -382,7 +382,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
+                android:background="@color/dev_setting"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp" >
 
@@ -393,7 +393,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/reset_device" />
+                    android:src="@drawable/time_zone" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -438,7 +438,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/str_alarm_setting_tips5"
+                    android:text="@string/str_alarm_setting_tips7"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -451,7 +451,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
+                android:background="@color/dev_setting"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp" >
 
@@ -462,7 +462,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/reset_device" />
+                    android:src="@drawable/restart_device" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -520,7 +520,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
+                android:background="@color/dev_setting"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp" >
 

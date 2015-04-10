@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -118,6 +119,7 @@ public class JVPlayActivity extends PlayActivity implements
     /** intent传递过来的设备和通道下标 */
     private int deviceIndex;
     private int channelOfChannel;
+    private String deviceGroup;// 设备分组
 
     private boolean needToast = false;
 
@@ -1681,6 +1683,8 @@ public class JVPlayActivity extends PlayActivity implements
             deviceIndex = intent.getIntExtra("DeviceIndex", 0);
             channelOfChannel = intent.getIntExtra("ChannelofChannel", 0);
             playFlag = intent.getIntExtra("PlayFlag", 0);
+            // 设备分组
+            deviceGroup = intent.getStringExtra("DeviceGroup");
 
             currentScreen = intent.getIntExtra("Screen", 1);
             if (Consts.PLAY_NORMAL == playFlag) {
@@ -3056,6 +3060,11 @@ public class JVPlayActivity extends PlayActivity implements
                     break;
                 case R.id.bottom_but3:
                 case R.id.capture:// 抓拍
+                    // String time = "1:2015-05-01 11:11:11";
+                    // Jni.sendSuperBytes(lastClickIndex,
+                    // JVNetConst.JVN_RSP_TEXTDATA, false,
+                    // time.getBytes().length, JVNetConst.RC_SETSYSTEMTIME, 0,
+                    // 0, 0, time.getBytes(), time.getBytes().length);
                     /** 设备重启命令 **/
                     // Jni.sendSuperBytes(lastClickIndex,
                     // JVNetConst.JVN_RSP_TEXTDATA, true,

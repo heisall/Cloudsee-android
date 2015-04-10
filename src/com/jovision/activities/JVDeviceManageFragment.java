@@ -205,6 +205,8 @@ public class JVDeviceManageFragment extends BaseFragment implements
             // [Neo] viewpager
             Bundle data = new Bundle();
             data.putInt("DeviceIndex", i);
+            // 设备分组
+            data.putString("DeviceGroup", manageDeviceList.get(i).getGid());
             ManageFragment fragment = new ManageFragment();
             fragment.setArguments(data);
             fragments.add(fragment);

@@ -45,6 +45,7 @@ public class ManageFragment extends BaseFragment {
 
     /** 构造参数 */
     private int deviceIndex;
+    private String deviceGroup;//设备分组
     private ArrayList<Device> deviceList;
     private Device device;
     public static int mScreenWidth;
@@ -73,6 +74,8 @@ public class ManageFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         bundle = getArguments();
         deviceIndex = bundle.getInt("DeviceIndex");
+        // 设备分组
+        deviceGroup = bundle.getString("DeviceGroup");
         deviceList = CacheUtil.getDevList();
         if (null != deviceList && 0 != deviceList.size()
                 && deviceIndex < deviceList.size()) {

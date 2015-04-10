@@ -2,11 +2,15 @@
 package com.jovision.activities;
 
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +18,8 @@ import com.jovetech.CloudSee.temp.R;
 
 public class JVNewAddDeviceActivity extends BaseActivity {
     EditText new_adddevice_et;
+    ImageButton editimg_clearn;
+    private boolean isHasFocus;
     private Drawable imgEnable;
     WebView add_device_wv;
     String url = "http://test.cloudsee.net/mobile/";
@@ -53,6 +59,9 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         leftBtn.setOnClickListener(myOnClickListener);
         imgEnable = this.getResources().getDrawable(R.drawable.new_adddevice_close);
         new_adddevice_et = (EditText) findViewById(R.id.new_adddevice_et);
+        editimg_clearn = (ImageButton) findViewById(R.id.editimg_clearn);
+        new_adddevice_et.addTextChangedListener(new TextWatcherImpl());
+        new_adddevice_et.setOnFocusChangeListener(new FocusChangeListenerImpl());
         // webview显示设备内容
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         add_device_wv.loadUrl(url);
@@ -69,6 +78,41 @@ public class JVNewAddDeviceActivity extends BaseActivity {
             }
         }
     };
+
+    private class FocusChangeListenerImpl implements OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (new_adddevice_et.getText().toString().length() >= 1) {
+                editimg_clearn.setVisibility(View.VISIBLE);
+            } else {
+                editimg_clearn.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    // 当输入结束后判断是否显示右边clean的图标
+    private class TextWatcherImpl implements TextWatcher {
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (new_adddevice_et.getText().toString().length() >= 1) {
+                editimg_clearn.setVisibility(View.VISIBLE);
+            } else {
+                editimg_clearn.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+    }
 
     @Override
     protected void saveSettings() {

@@ -20,14 +20,17 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.bean.Device;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
+
 import java.util.ArrayList;
 
 @SuppressLint("NewApi")
@@ -188,6 +191,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
             } else {
                 deviceHolder.devNameL.setText(deviceList.get(position * 2)
                         .getNickName());
+
+                if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
+                    deviceHolder.devNameL.setText(deviceList.get(position * 2)
+                            .getNickName()
+                            + "-"
+                            + deviceList.get(position * 2).getIp());
+                }
                 // + "-"
                 // + deviceList.get(position * 2).getOnlineStateNet());
                 // deviceHolder.devnicknameL.setText(deviceList.get(position *
@@ -390,6 +400,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
                 } else {
                     deviceHolder.devNameR.setText(deviceList.get(
                             position * 2 + 1).getNickName());
+
+                    if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
+                        deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
+                                .getNickName()
+                                + "-"
+                                + deviceList.get(position * 2 + 1).getIp());
+                    }
+
                     // + "-"
                     // + deviceList.get(position * 2 + 1).getOnlineStateNet());
                     // deviceHolder.devnicknameR.setText(deviceList.get(

@@ -868,7 +868,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                                         } else {
                                             sid = "";
                                         }
-
+                                        
                                         if ("false".equals(mActivity.statusHashMap
                                                 .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
                                             MyLog.e("Login", "初始化账号SDK失败");

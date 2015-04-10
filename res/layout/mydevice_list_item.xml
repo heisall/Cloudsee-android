@@ -67,7 +67,7 @@
                     android:drawableLeft="@drawable/cloud_state_off"
                     android:drawablePadding="2dp"
                     android:paddingTop="2dp"
-                    android:text="string/str_cloud_state"
+                    android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
                     android:textSize="11sp"
                     android:visibility="visible" />

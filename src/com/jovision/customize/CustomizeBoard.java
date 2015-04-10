@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
+import android.view.animation.LayoutAnimationController;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +59,8 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     private List<Map<String, String>> menuList = new ArrayList<Map<String, String>>();
 
     private OnFuncActionListener mListener;
+    // 布局中子元素的动画延时时间
+    private float mAnimationDelay = 0.1F;
 
     public CustomizeBoard(Activity activity) {
         super(activity);
@@ -126,7 +129,15 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
 
         mCustomizePageView.setVisibility(View.VISIBLE);// 显示面板上的元素
         mPanelHolder.setVisibility(View.VISIBLE);// 显示面板布局
-        mPanelHolder.startAnimation(CustomizeAnimation.enterAnimation(0L));// 开始动画
+        // mPanelHolder.startAnimation(CustomizeAnimation.enterAnimation(0L));
+        // 开始动画
+        // 得到一个LayoutAnimationController对象；
+        LayoutAnimationController lac = new LayoutAnimationController(
+                CustomizeAnimation.enterAnimation(0L));
+        // 设置控件显示间隔时间；
+        lac.setDelay(mAnimationDelay);
+        // 为ListView设置LayoutAnimationController属性；
+        mCustomizePageView.setLayoutAnimation(lac);
     }
 
     @Override
@@ -144,9 +155,46 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
 
     @Override
     public void dismiss() {
-        // 加载退出动画
-        final Animation exit = CustomizeAnimation.exitAnimation(0L);
-        exit.setAnimationListener(new AnimationListener() {
+        // // 加载退出动画
+        // final Animation exit = CustomizeAnimation.exitAnimation(0L);
+        // exit.setAnimationListener(new AnimationListener() {
+        //
+        // @Override
+        // public void onAnimationStart(Animation animation) {
+        // }
+        //
+        // @Override
+        // public void onAnimationEnd(Animation animation) {
+        // // 关闭popupwindow
+        // mPanelHolder.post(new Runnable() {
+        // @Override
+        // public void run() {
+        // CustomizeBoard.super.dismiss();
+        // }
+        // });
+        // }
+        //
+        // @Override
+        // public void onAnimationRepeat(Animation animation) {
+        // }
+        //
+        // });
+        // mPanelHolder.setVisibility(View.GONE);// 取出布局
+        // mPanelHolder.startAnimation(exit);// 开始退出动画
+        // 由于布局动画只在显示的时候加载,所以先隐藏再显示
+        mCustomizePageView.setVisibility(View.GONE);
+        mCustomizePageView.setVisibility(View.VISIBLE);
+        // 开始动画
+        // 得到一个LayoutAnimationController对象；
+        LayoutAnimationController lac = new LayoutAnimationController(
+                CustomizeAnimation.exitAnimation(0L));
+        // 设置控件显示的顺序；
+        lac.setOrder(LayoutAnimationController.ORDER_REVERSE);
+        // 设置控件显示间隔时间；
+        lac.setDelay(0.1F);
+        // 为ListView设置LayoutAnimationController属性；
+        mCustomizePageView.setLayoutAnimation(lac);
+        mCustomizePageView.setLayoutAnimationListener(new AnimationListener() {
 
             @Override
             public void onAnimationStart(Animation animation) {
@@ -168,8 +216,6 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
             }
 
         });
-        mPanelHolder.setVisibility(View.GONE);// 取出布局
-        mPanelHolder.startAnimation(exit);// 开始退出动画
     }
 
     // 元素是否已经被放大

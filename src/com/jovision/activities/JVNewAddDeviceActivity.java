@@ -1,13 +1,17 @@
 
 package com.jovision.activities;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,7 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.commons.MyLog;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class JVNewAddDeviceActivity extends BaseActivity {
     EditText new_adddevice_et;
     ImageButton editimg_clearn;
@@ -23,8 +29,8 @@ public class JVNewAddDeviceActivity extends BaseActivity {
     private Drawable imgEnable;
     WebView add_device_wv;
     String url = "http://test.cloudsee.net/mobile/";
-
-    // String url="http://baidu.com";
+    Boolean isLoadUrl  = false;
+    private Handler mHandler = new Handler();  
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -65,6 +71,56 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         // webview显示设备内容
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         add_device_wv.loadUrl(url);
+        add_device_wv.getSettings().setJavaScriptEnabled(true);
+        add_device_wv .requestFocus(View.FOCUS_DOWN);
+        add_device_wv.setWebViewClient(myWebviewClient);
+
+    }
+    WebViewClient myWebviewClient = new WebViewClient() {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO 自动生成的方法存根
+//            会一直执行
+            if (url != null && url.contains("demo")) {
+                isLoadUrl = true;
+                MyLog.e("new_url新的3333", url);
+              }  else {
+                  MyLog.e("new_url新的44444", url);
+              }
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description,
+                String failingUrl) {
+            // TODO 自动生成的方法存根
+            MyLog.e("new_url新的2222", url);
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if(!isLoadUrl){
+                isLoadUrl = true;
+                view.loadUrl(url);
+                MyLog.e("new_url新的1111", url);
+                }
+//                return true;
+                return super.shouldOverrideUrlLoading(view, url);
+
+        }
+
+    };
+
+    final class InJavaScriptLocalObj {
+
+        public void showSource(String html) {
+
+            System.out.println("====>html=" + html);
+
+        }
+
     }
 
     OnClickListener myOnClickListener = new OnClickListener() {

@@ -1,3 +1,4 @@
+
 package com.jovision.views;
 
 import android.annotation.SuppressLint;
@@ -13,9 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * 
- * Copyright (c) 2012 All rights reserved 
- * ProgressBar
+ * Copyright (c) 2012 All rights reserved ProgressBar
  */
 public class CircleProgressBar extends View {
 
@@ -186,5 +185,4 @@ public class CircleProgressBar extends View {
 		this.progress = 0;
 		this.invalidate();
 	}
-
 }

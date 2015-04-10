@@ -153,8 +153,9 @@ public class DeviceUtil {
                                                 .optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
                                         dev.setOnlineStateNet(obj
                                                 .optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
-                                        //云存储开关
-                                        dev.setCloudEnabled(obj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLAG, 0));                                        
+                                        // 云存储开关
+                                        dev.setCloudEnabled(obj.optInt(
+                                                JVDeviceConst.JK_CLOUD_STORAGE_FLAG, 0));
                                         deviceList.add(dev);
 
                                         // 同步map,也算是初始化
@@ -3813,7 +3814,7 @@ public class DeviceUtil {
         int ret = respObject.optInt("result", -1);
         if (ret == 0) {
             String result = respObject.optString("resp", "");
-            MyLog.v("getUserSurFlow---result", result);         
+            MyLog.v("getUserSurFlow---result", result);
             if (null != result && !"".equalsIgnoreCase(result)) {
                 try {
                     resObj = new JSONObject(result);
@@ -3822,8 +3823,8 @@ public class DeviceUtil {
                 }
             }
         }
-        else{
-            if(resObj == null){
+        else {
+            if (resObj == null) {
                 resObj = new JSONObject();
                 try {
                     resObj.put(JVDeviceConst.JK_RESULT, ret);
@@ -3833,6 +3834,6 @@ public class DeviceUtil {
                 }
             }
         }
-        return null==resObj?"":resObj.toString();
+        return null == resObj ? "" : resObj.toString();
     }
 }

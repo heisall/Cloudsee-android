@@ -540,8 +540,8 @@ public class JVDeviceConst {
     public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5215;
     public static final String JK_VAS_FLOW = "vflow";
     public static final String JK_CLOUD_STORAGE_FLOW = "csf";
-    public static final String JK_CLOUD_STORAGE_FFREE    =  "free";
+    public static final String JK_CLOUD_STORAGE_FFREE = "free";
     public static final String JK_CLOUD_STORAGE_FFREE_USE = "fuse";
-    public static final String JK_CLOUD_FEE_TYPE       =    "ftype";
-    
+    public static final String JK_CLOUD_FEE_TYPE = "ftype";
+
 }

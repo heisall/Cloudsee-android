@@ -21,8 +21,8 @@
             android:id="@+id/new_adddevice_et"
             style="@style/my_edittext_style"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/erweimaLayout"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:hint="@string/str_new_add_device_edit_hint"
             android:singleLine="true"
@@ -38,8 +38,8 @@
 
             <ImageView
                 android:id="@+id/tab_icon"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_centerHorizontal="true"
                 android:padding="4dp"
                 android:src="@drawable/newadddevice_erweima" />

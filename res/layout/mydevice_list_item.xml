@@ -64,13 +64,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/dev_name_l"
+                    android:drawableLeft="@drawable/cloud_state_off"
+                    android:drawablePadding="2dp"
                     android:paddingTop="2dp"
                     android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:visibility="visible"
-                    android:drawablePadding="2dp"
-                    android:drawableLeft="@drawable/cloud_state_off" />
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -240,19 +240,19 @@
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
-                                <TextView
+                <TextView
                     android:id="@+id/tv_dev_cloud_state_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/dev_name_r"
+                    android:drawableLeft="@drawable/cloud_state_off"
+                    android:drawablePadding="2dp"
                     android:paddingTop="2dp"
                     android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:visibility="visible"
-                    android:drawablePadding="2dp"
-                    android:drawableLeft="@drawable/cloud_state_off" />
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

@@ -45,7 +45,7 @@ public class ManageFragment extends BaseFragment {
 
     /** 构造参数 */
     private int deviceIndex;
-    private String deviceGroup;//设备分组
+    private String deviceGroup;// 设备分组
     private ArrayList<Device> deviceList;
     private Device device;
     public static int mScreenWidth;

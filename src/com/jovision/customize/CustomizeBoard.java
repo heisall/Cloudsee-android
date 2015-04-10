@@ -1,7 +1,6 @@
 
 package com.jovision.customize;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,8 +11,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
-import android.view.animation.LayoutAnimationController;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -25,11 +24,8 @@ import com.jovision.MainApplication;
 import com.jovision.activities.AlarmInfoActivity;
 import com.jovision.activities.AlarmSettingsActivity;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
-import com.jovision.activities.JVWebViewActivity;
-import com.jovision.commons.GetDemoTask;
-import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
+import com.jovision.activities.JVMoreFragment;
+import com.jovision.activities.JVTabActivity;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
 import com.jovision.utils.ConfigUtil;
 
@@ -47,6 +43,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     protected static final String TAG = "CustomizeBoard";
     private MainApplication mApplication;
     private BaseActivity mActivity;
+    private JVMoreFragment mLastFragment;
     private ImageView mClose;
     private LinearLayout mPanelHolder;
     private CustomizePageView mCustomizePageView;
@@ -58,21 +55,14 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     // 功能菜单列表
     private List<Map<String, String>> menuList = new ArrayList<Map<String, String>>();
 
-    private OnFuncActionListener mListener;
     // 布局中子元素的动画延时时间
     private float mAnimationDelay = 0.1F;
 
-    public CustomizeBoard(Activity activity) {
+    public CustomizeBoard(JVTabActivity activity) {
         super(activity);
         mActivity = (BaseActivity) activity;
+        mLastFragment = (JVMoreFragment) activity.getLastFragment();
         mApplication = (MainApplication) mActivity.getApplication();
-
-        try {
-            mListener = (OnFuncActionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + "must implement OnFuncEnabledListener");
-        }
 
         initDatas();
 
@@ -191,7 +181,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         // 设置控件显示的顺序；
         lac.setOrder(LayoutAnimationController.ORDER_REVERSE);
         // 设置控件显示间隔时间；
-        lac.setDelay(0.1F);
+        lac.setDelay(mAnimationDelay);
         // 为ListView设置LayoutAnimationController属性；
         mCustomizePageView.setLayoutAnimation(lac);
         mCustomizePageView.setLayoutAnimationListener(new AnimationListener() {
@@ -276,8 +266,9 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
             iconResId = R.drawable.tabbar_compose_weibo;
         } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
             iconResId = R.drawable.tabbar_compose_idea;
+        } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
+            iconResId = R.drawable.tabbar_compose_camera;
         } else if (tag.equals("unknown")) {// 未知
-            iconResId = R.drawable.tabbar_compose_photo;
         }
 
         return iconResId;
@@ -293,6 +284,8 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
             alarmMsg();
         } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
             gcsurl();
+        } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
+            bbsurl();
         } else if (tag.equals("unknown")) {// 未知
             Toast.makeText(mActivity, tag,
                     Toast.LENGTH_SHORT).show();
@@ -345,41 +338,14 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * 工程商入驻
      */
     private void gcsurl() {
-        if (!MySharedPreference
-                .getBoolean(Consts.MORE_GCSURL)) {
-            MySharedPreference.putBoolean(
-                    Consts.MORE_GCSURL, true);
-            mListener.OnFuncEnabled(0, 1);
-        }
-        if (!ConfigUtil.isConnected(mActivity)) {
-            mActivity.alertNetDialog();
-        } else {
-            if (null != ((BaseActivity) mActivity).statusHashMap
-                    .get(Consts.MORE_GCSURL)) {
-                Intent intentAD0 = new Intent(mActivity,
-                        JVWebViewActivity.class);
-                intentAD0
-                        .putExtra(
-                                "URL",
-                                ((BaseActivity) mActivity).statusHashMap
-                                        .get(Consts.MORE_GCSURL));
-                intentAD0.putExtra("title", -2);
-                mActivity.startActivity(intentAD0);
-            } else {
-                if ("false".equals(mActivity.statusHashMap
-                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-                    MyLog.e("Login", "初始化账号SDK失败");
-                    ConfigUtil
-                            .initAccountSDK(((MainApplication) mActivity
-                                    .getApplication()));// 初始化账号SDK
-                }
-                GetDemoTask UrlTask = new GetDemoTask(
-                        mActivity);
-                String[] demoParams = new String[3];
-                demoParams[1] = "0";
-                UrlTask.execute(demoParams);
-            }
-        }
+        mLastFragment.gcsurl(mActivity);
+    }
+
+    /**
+     * 小维社区
+     */
+    private void bbsurl() {
+        mLastFragment.bbsurl(mActivity);
     }
 
 }

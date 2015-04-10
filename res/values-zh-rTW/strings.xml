@@ -728,7 +728,8 @@
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">雲存儲服務</string>
     <string name="str_cloud_state">雲存儲</string>
-    <string name="str_cloud_query_error_1">查詢用戶使用詳情失敗</string>
+    <string name="str_cloud_query_error_1">查詢用戶使用詳情失敗</string>    
+    <string name="str_cloud_query_title">剩余流量</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

@@ -126,8 +126,10 @@ public class JVTabActivity extends ShakeActivity implements
     private Map<Character, ITabItem> mTabsMap;
 
     private char mIndicatorSequence[];
-    // 最后一个Tab的位置
+    // 最后一个Tab的位置(也就是更多的位置)
     private int mLastTabPosition;
+    // 最后位置的Tag(也就是更多的Tag)
+    private char mLastTabTag;
 
     // -------------customize end----------------
 
@@ -1041,6 +1043,7 @@ public class JVTabActivity extends ShakeActivity implements
 
         mIndicatorSequence = getIndicatorSequence();
         mLastTabPosition = mIndicatorSequence.length - 1;
+        mLastTabTag = mIndicatorSequence[mLastTabPosition];
         for (int i = 0; i < mIndicatorSequence.length; i++) {
             initFramentsAndTabs(mIndicatorSequence[i]);
             tabItems.add(getTabByTag(mIndicatorSequence[i]));
@@ -1190,6 +1193,14 @@ public class JVTabActivity extends ShakeActivity implements
     private ITabItem getTabByTag(int mark) {
         char charTag = (char) mark;
         return mTabsMap.get(charTag);
+    }
+    
+    /**
+     * 获取最后一个Tab的对应的fragment(其实就是获取更多对应的fragment)
+     * 这个功能在中间扩展功能中使用
+     */
+    public BaseFragment getLastFragment() {
+        return mFragmentsMap.get(mLastTabTag);
     }
 
     /**

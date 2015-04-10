@@ -39,7 +39,7 @@ public class CircleProgressBar extends View {
     private int[] arcColors = new int[] { 0xff7abf66, 0xff7abf66, 0xff7abf66,
             0xff7abf66 };
     
-	private int pathWidth = 35;
+	private int pathWidth = 40;
 
 	/** The width. */
 	private int width;
@@ -91,7 +91,7 @@ public class CircleProgressBar extends View {
 		}
 		this.width = getMeasuredWidth();
 		this.height = getMeasuredHeight();
-		this.radius = getMeasuredWidth() / 2 - pathWidth;
+		this.radius = getMeasuredWidth()/2 - pathWidth;
 
 		pathPaint.setColor(pathColor);
 		pathPaint.setStrokeWidth(pathWidth);
@@ -124,11 +124,12 @@ public class CircleProgressBar extends View {
 		fillArcPaint.setShader(sweepGradient);
 		fillArcPaint.setMaskFilter(mBlur);
 		fillArcPaint.setStrokeCap(Paint.Cap.ROUND);
-
+		fillArcPaint.setAntiAlias(true);  //消除锯齿
 		fillArcPaint.setStrokeWidth(pathWidth);
 		oval.set(this.width / 2 - radius, this.height / 2 - radius, this.width
 				/ 2 + radius, this.height / 2 + radius);
-		canvas.drawArc(oval, -90, ((float) progress / max) * 360, false,
+		//0是逆时针增长 -90是顺时针增长
+		canvas.drawArc(oval, 10, ((float) progress / max) * 360, false,
 				fillArcPaint);
 
 	}

@@ -2,7 +2,6 @@
 package com.jovision.customize;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,13 +20,10 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
-import com.jovision.activities.AlarmInfoActivity;
-import com.jovision.activities.AlarmSettingsActivity;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVMoreFragment;
 import com.jovision.activities.JVTabActivity;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
-import com.jovision.utils.ConfigUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -260,11 +256,11 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      */
     private int getItemImageByTag(String tag) {
         int iconResId = R.drawable.customize_item_no_image;
-        if (tag.equals(Consts.MORE_ALARMSWITCH)) {// 报警设置
+        if (tag.equals(Consts.MORE_SHOPURL)) {// 小维商城
             iconResId = R.drawable.tabbar_compose_camera;
-        } else if (tag.equals(Consts.MORE_ALARMMSG)) {// 报警消息
+        } else if (tag.equals(Consts.MORE_KNOWLEDGEURL)) {// 小维知道
             iconResId = R.drawable.tabbar_compose_weibo;
-        } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
+        } else if (tag.equals(Consts.MORE_GCSURL)) {// 小维工程
             iconResId = R.drawable.tabbar_compose_idea;
         } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
             iconResId = R.drawable.tabbar_compose_camera;
@@ -278,11 +274,11 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * 处理自定义面板上的元素的click事件
      */
     private void clickItemEvents(String tag) {
-        if (tag.equals(Consts.MORE_ALARMSWITCH)) {// 报警设置
-            alarmSwitch();
-        } else if (tag.equals(Consts.MORE_ALARMMSG)) {// 报警消息
-            alarmMsg();
-        } else if (tag.equals(Consts.MORE_GCSURL)) {// 工程商入驻
+        if (tag.equals(Consts.MORE_SHOPURL)) {// 小维商城
+            shopurl();
+        } else if (tag.equals(Consts.MORE_KNOWLEDGEURL)) {// 小维知道
+            knowledgeurl();
+        } else if (tag.equals(Consts.MORE_GCSURL)) {// 小维工程
             gcsurl();
         } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
             bbsurl();
@@ -299,39 +295,19 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     // ## 操作代码来自JVMoreFragment的listViewClick()
     // ------------------------------------------------------
     /**
-     * 报警设置
+     * 小维商城
      */
-    private void alarmSwitch() {
-        boolean localFlag = Boolean.valueOf(mActivity.statusHashMap
-                .get(Consts.LOCAL_LOGIN));
-        if (localFlag)// 本地登录
-        {
-            mActivity.showTextToast(R.string.more_nologin);
-        } else {
-            Intent intent = new Intent(mActivity,
-                    AlarmSettingsActivity.class);
-            mActivity.startActivity(intent);
-        }
+    private void shopurl() {
+        Toast.makeText(mActivity, "unknown",
+                Toast.LENGTH_SHORT).show();
     }
 
     /**
-     * 报警消息
+     * 小维知道
      */
-    private void alarmMsg() {
-        boolean localFlag = Boolean.valueOf(mActivity.statusHashMap
-                .get(Consts.LOCAL_LOGIN));
-        if (localFlag) {
-            mActivity.showTextToast(R.string.more_nologin);
-        } else {
-            if (!ConfigUtil.isConnected(mActivity)) {
-                mActivity.alertNetDialog();
-            } else {
-                mApplication.setNewPushCnt(0);
-                Intent intent = new Intent(mActivity,
-                        AlarmInfoActivity.class);
-                mActivity.startActivity(intent);
-            }
-        }
+    private void knowledgeurl() {
+        Toast.makeText(mActivity, "unknown",
+                Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -26,19 +26,18 @@
             android:layout_toLeftOf="@+id/erweimaLayout"
             android:hint="@string/str_new_add_device_edit_hint"
             android:singleLine="true"
-            android:textCursorDrawable="@drawable/new_adddevice_cursor" 
-            android:textSize="18sp">
+            android:textCursorDrawable="@drawable/new_adddevice_cursor"
+            android:textSize="18sp" >
         </EditText>
 
         <ImageButton
             android:id="@+id/editimg_clearn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/new_adddevice_close"
             android:layout_centerInParent="true"
             android:layout_toLeftOf="@+id/erweimaLayout"
-            android:visibility="gone"
-             />
+            android:background="@drawable/new_adddevice_close"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/erweimaLayout"

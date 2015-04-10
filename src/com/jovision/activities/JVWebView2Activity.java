@@ -4,6 +4,7 @@ package com.jovision.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.media.MediaPlayer;
@@ -175,7 +176,11 @@ public class JVWebView2Activity extends BaseActivity implements
             case Consts.CALL_NEW_PICTURE: {
                 pause.setImageDrawable(getResources().getDrawable(
                         R.drawable.video_stop_icon));
-                linkSpeed.setVisibility(View.VISIBLE);
+                if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
+                    linkSpeed.setVisibility(View.VISIBLE);
+                } else {
+                    linkSpeed.setVisibility(View.GONE);
+                }
                 loadingState(Consts.CALL_NEW_PICTURE);
                 break;
             }
@@ -1481,4 +1486,23 @@ public class JVWebView2Activity extends BaseActivity implements
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //
+        // if (playChannel.isConnected()) {
+        // if (fullScreenFlag) {
+        // fullScreenFlag = false;
+        // fullScreen.setImageDrawable(getResources().getDrawable(
+        // R.drawable.full_screen_icon));
+        // } else {
+        // fullScreenFlag = true;
+        // fullScreen.setImageDrawable(getResources().getDrawable(
+        // R.drawable.notfull_screen_icon));
+        // }
+        // setSurfaceSize(fullScreenFlag);
+        // }
+    }
+
 }

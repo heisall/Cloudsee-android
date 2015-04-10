@@ -392,15 +392,15 @@ public class JVRebandContactActivity extends BaseActivity {
                 }
                 else {
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
-                    if(fee_type == 0){
-                        //单位M                   
-                        double flow_mb =resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0)/1024;
-                        tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");                    
+                    if (fee_type == 0) {
+                        // 单位M
+                        double flow_mb = resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0) / 1024;
+                        tv_sur_flow_value.setText(String.valueOf(flow_mb) + "M");
                     }
-                    else if(fee_type == 1){
-                        //单位元
-                        double flow_money =resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0);
-                        tv_sur_flow_value.setText(String.valueOf(flow_money) + "元");                     
+                    else if (fee_type == 1) {
+                        // 单位元
+                        double flow_money = resObj.optInt(JVDeviceConst.JK_VAS_FLOW, 0);
+                        tv_sur_flow_value.setText(String.valueOf(flow_money) + "元");
                     }
                 }
             } catch (JSONException e) {

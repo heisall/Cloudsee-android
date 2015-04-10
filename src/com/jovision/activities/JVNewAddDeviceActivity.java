@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 =======
 import android.app.DownloadManager.Request;
 import android.content.Intent;
->>>>>>> bd61f6acadd73a29a4a762233ba75379832a07e6
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;

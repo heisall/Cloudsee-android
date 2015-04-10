@@ -34,7 +34,7 @@ public class JVNewAddDeviceActivity extends BaseActivity {
     private Drawable imgEnable;
     WebView add_device_wv;
     String url = "http://test.cloudsee.net/mobile/";
-//    String url ="https://www.baidu.com/";
+    // String url ="https://www.baidu.com/";
     Boolean isLoadUrl = false;
     private Handler mHandler = new Handler();
 
@@ -101,12 +101,12 @@ public class JVNewAddDeviceActivity extends BaseActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
-                view.loadUrl(newurl);
-                String param_array[] = newurl.split("\\?");
-                HashMap<String, String> resMap;
-                resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-                String rtmp_url = resMap.get("device_type");
-             return true;
+            view.loadUrl(newurl);
+            String param_array[] = newurl.split("\\?");
+            HashMap<String, String> resMap;
+            resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+            String rtmp_url = resMap.get("device_type");
+            return true;
 
         }
 

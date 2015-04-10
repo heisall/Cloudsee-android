@@ -29,8 +29,8 @@ public class JVNewAddDeviceActivity extends BaseActivity {
     private Drawable imgEnable;
     WebView add_device_wv;
     String url = "http://test.cloudsee.net/mobile/";
-    Boolean isLoadUrl  = false;
-    private Handler mHandler = new Handler();  
+    Boolean isLoadUrl = false;
+    private Handler mHandler = new Handler();
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -72,22 +72,23 @@ public class JVNewAddDeviceActivity extends BaseActivity {
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         add_device_wv.loadUrl(url);
         add_device_wv.getSettings().setJavaScriptEnabled(true);
-        add_device_wv .requestFocus(View.FOCUS_DOWN);
+        add_device_wv.requestFocus(View.FOCUS_DOWN);
         add_device_wv.setWebViewClient(myWebviewClient);
 
     }
+
     WebViewClient myWebviewClient = new WebViewClient() {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             // TODO 自动生成的方法存根
-//            会一直执行
+            // 会一直执行
             if (url != null && url.contains("demo")) {
                 isLoadUrl = true;
                 MyLog.e("new_url新的3333", url);
-              }  else {
-                  MyLog.e("new_url新的44444", url);
-              }
+            } else {
+                MyLog.e("new_url新的44444", url);
+            }
             super.onPageStarted(view, url, favicon);
         }
 
@@ -101,13 +102,13 @@ public class JVNewAddDeviceActivity extends BaseActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if(!isLoadUrl){
+            if (!isLoadUrl) {
                 isLoadUrl = true;
                 view.loadUrl(url);
                 MyLog.e("new_url新的1111", url);
-                }
-//                return true;
-                return super.shouldOverrideUrlLoading(view, url);
+            }
+            // return true;
+            return super.shouldOverrideUrlLoading(view, url);
 
         }
 

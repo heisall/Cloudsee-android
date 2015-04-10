@@ -128,9 +128,9 @@ public class JVRebandContactActivity extends BaseActivity {
         // }
         // task.execute(params);
 
-        CheckUserFlowTask task = new CheckUserFlowTask();
-        String[] params = new String[3];
-        task.execute(params);
+        // CheckUserFlowTask task = new CheckUserFlowTask();
+        // String[] params = new String[3];
+        // task.execute(params);
     }
 
     @Override
@@ -157,6 +157,7 @@ public class JVRebandContactActivity extends BaseActivity {
         rebandhasused = (RelativeLayout) findViewById(R.id.rebind_hasused);
         tv_sur_flow_value = (TextView) findViewById(R.id.tv_surplus_flow_value);
         tv_sur_flow_value.setText("0.0M");
+        tv_sur_flow_value.setVisibility(View.INVISIBLE);
         // rebandhasusedtext = (TextView)findViewById(R.id.reband_hasused_text);
 
         MySharedPreference.putString("NICKNAMEBBS", "");
@@ -271,12 +272,13 @@ public class JVRebandContactActivity extends BaseActivity {
 
                 case R.id.rebind_all:
                     // TODO
-                    Log.i("TAG", "NIHAO");
+                    Intent intent1 = new Intent(JVRebandContactActivity.this,
+                            UserCloudStorgeBriefBillActivity.class);
+                    startActivity(intent1);
                     break;
 
                 case R.id.rebind_hasused:
                     // TODO
-                    Log.i("TAG", "NIHAO");
                     break;
                 default:
                     break;

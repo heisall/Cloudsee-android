@@ -746,42 +746,8 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                             mActivity.startActivity(intentVersion);
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_GCSURL)) {
-                            // 2015.3.16 我要装监控改为工程商入驻
-                            if (!MySharedPreference
-                                    .getBoolean(Consts.MORE_GCSURL)) {
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_GCSURL, true);
-                                mListener.OnFuncEnabled(0, 1);
-                            }
-                            if (!ConfigUtil.isConnected(mActivity)) {
-                                mActivity.alertNetDialog();
-                            } else {
-                                if (null != ((BaseActivity) mActivity).statusHashMap
-                                        .get(Consts.MORE_GCSURL)) {
-                                    Intent intentAD0 = new Intent(mActivity,
-                                            JVWebViewActivity.class);
-                                    intentAD0
-                                            .putExtra(
-                                                    "URL",
-                                                    ((BaseActivity) mActivity).statusHashMap
-                                                            .get(Consts.MORE_GCSURL));
-                                    intentAD0.putExtra("title", -2);
-                                    mActivity.startActivity(intentAD0);
-                                } else {
-                                    if ("false".equals(mActivity.statusHashMap
-                                            .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-                                        MyLog.e("Login", "初始化账号SDK失败");
-                                        ConfigUtil
-                                                .initAccountSDK(((MainApplication) mActivity
-                                                        .getApplication()));// 初始化账号SDK
-                                    }
-                                    GetDemoTask UrlTask = new GetDemoTask(
-                                            mActivity);
-                                    String[] demoParams = new String[3];
-                                    demoParams[1] = "0";
-                                    UrlTask.execute(demoParams);
-                                }
-                            }
+                            // 工程商入驻
+                            gcsurl(null);
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_DEVICESHARE)) {
                             // 设备分享
@@ -825,68 +791,8 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                             }
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_BBS)) {
-                            if (!ConfigUtil.isConnected(mActivity)) {
-                                mActivity.alertNetDialog();
-                            } else {
-                                onNotify(Consts.NEW_BBS, 0, 0, null);
-                                if (null != ((BaseActivity) mActivity).statusHashMap
-                                        .get(Consts.MORE_BBSNUMURL)
-                                        && !"".equals(((BaseActivity) mActivity).statusHashMap
-                                                .get(Consts.MORE_BBSNUMURL))) {
-                                    Intent intentAD0 = new Intent(mActivity,
-                                            JVWebViewActivity.class);
-                                    intentAD0
-                                            .putExtra(
-                                                    "URL",
-                                                    ((BaseActivity) mActivity).statusHashMap
-                                                            .get(Consts.MORE_BBSNUMURL));
-                                    intentAD0.putExtra("title", -2);
-                                    mActivity.startActivity(intentAD0);
-                                    ((BaseActivity) mActivity).statusHashMap
-                                            .put(Consts.MORE_BBSNUMURL, "");
-                                } else {
-                                    if (null != ((BaseActivity) mActivity).statusHashMap
-                                            .get(Consts.MORE_BBS)) {
-                                        Intent intentAD0 = new Intent(
-                                                mActivity,
-                                                JVWebViewActivity.class);
-                                        intentAD0
-                                                .putExtra(
-                                                        "URL",
-                                                        ((BaseActivity) mActivity).statusHashMap
-                                                                .get(Consts.MORE_BBS));
-                                        intentAD0.putExtra("title", -2);
-                                        mActivity.startActivity(intentAD0);
-                                    } else {
-                                        String sid = "";
-                                        if (!Boolean
-                                                .valueOf(mActivity.statusHashMap
-                                                        .get(Consts.LOCAL_LOGIN))) {
-                                            String sessionResult = ConfigUtil
-                                                    .getSession();
-                                            sid = sessionResult;
-                                        } else {
-                                            sid = "";
-                                        }
-
-                                        if ("false".equals(mActivity.statusHashMap
-                                                .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-                                            MyLog.e("Login", "初始化账号SDK失败");
-                                            ConfigUtil
-                                                    .initAccountSDK(((MainApplication) mActivity
-                                                            .getApplication()));// 初始化账号SDK
-                                        }
-                                        adapter.setBBSNums(0);
-                                        adapter.notifyDataSetChanged();
-                                        GetDemoTask UrlTask2 = new GetDemoTask(
-                                                mActivity);
-                                        String[] demoParams2 = new String[3];
-                                        demoParams2[0] = sid;
-                                        demoParams2[1] = "3";
-                                        UrlTask2.execute(demoParams2);
-                                    }
-                                }
-                            }
+                            // 进入社区
+                            bbsurl(null);
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_SYSTEMMESSAGE)) {
                             // 系统消息
@@ -979,6 +885,153 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     }
                 });
     }
+
+    // ------------------------------------------------
+    // ## (工程商入驻、社区)公共入口
+    // ------------------------------------------------
+    /**
+     * 扩展功能面板调用的时候, 重新传递activity
+     * 
+     * @param pActivity
+     */
+    public void reconfigActivity(BaseActivity pActivity) {
+        mActivity = pActivity;
+        try {
+            mListener = (OnFuncActionListener) mActivity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + "must implement OnFuncEnabledListener");
+        }
+    }
+
+    /**
+     * 工程商入驻
+     * 
+     * @param pActivity 扩展功能面板调用时传值,当前fragment调用传null
+     * @return
+     */
+    public void gcsurl(BaseActivity pActivity) {
+        if (pActivity != null) {
+            reconfigActivity(pActivity);
+        }
+
+        // 2015.3.16 我要装监控改为工程商入驻
+        if (!MySharedPreference
+                .getBoolean(Consts.MORE_GCSURL)) {
+            MySharedPreference.putBoolean(
+                    Consts.MORE_GCSURL, true);
+            mListener.OnFuncEnabled(0, 1);
+        }
+        if (!ConfigUtil.isConnected(mActivity)) {
+            mActivity.alertNetDialog();
+        } else {
+            if (null != ((BaseActivity) mActivity).statusHashMap
+                    .get(Consts.MORE_GCSURL)) {
+                Intent intentAD0 = new Intent(mActivity,
+                        JVWebViewActivity.class);
+                intentAD0
+                        .putExtra(
+                                "URL",
+                                ((BaseActivity) mActivity).statusHashMap
+                                        .get(Consts.MORE_GCSURL));
+                intentAD0.putExtra("title", -2);
+                mActivity.startActivity(intentAD0);
+            } else {
+                if ("false".equals(mActivity.statusHashMap
+                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                    MyLog.e("Login", "初始化账号SDK失败");
+                    ConfigUtil
+                            .initAccountSDK(((MainApplication) mActivity
+                                    .getApplication()));// 初始化账号SDK
+                }
+                GetDemoTask UrlTask = new GetDemoTask(
+                        mActivity);
+                String[] demoParams = new String[3];
+                demoParams[1] = "0";
+                UrlTask.execute(demoParams);
+            }
+        }
+    }
+
+    /**
+     * 进入社区
+     * 
+     * @param pActivity 扩展功能面板调用时传值,当前fragment调用传null
+     * @return
+     */
+    public void bbsurl(BaseActivity pActivity) {
+        if (pActivity != null) {
+            reconfigActivity(pActivity);
+        }
+
+        if (!ConfigUtil.isConnected(mActivity)) {
+            mActivity.alertNetDialog();
+        } else {
+            onNotify(Consts.NEW_BBS, 0, 0, null);
+            if (null != ((BaseActivity) mActivity).statusHashMap
+                    .get(Consts.MORE_BBSNUMURL)
+                    && !"".equals(((BaseActivity) mActivity).statusHashMap
+                            .get(Consts.MORE_BBSNUMURL))) {
+                Intent intentAD0 = new Intent(mActivity,
+                        JVWebViewActivity.class);
+                intentAD0
+                        .putExtra(
+                                "URL",
+                                ((BaseActivity) mActivity).statusHashMap
+                                        .get(Consts.MORE_BBSNUMURL));
+                intentAD0.putExtra("title", -2);
+                mActivity.startActivity(intentAD0);
+                ((BaseActivity) mActivity).statusHashMap
+                        .put(Consts.MORE_BBSNUMURL, "");
+            } else {
+                if (null != ((BaseActivity) mActivity).statusHashMap
+                        .get(Consts.MORE_BBS)) {
+                    Intent intentAD0 = new Intent(
+                            mActivity,
+                            JVWebViewActivity.class);
+                    intentAD0
+                            .putExtra(
+                                    "URL",
+                                    ((BaseActivity) mActivity).statusHashMap
+                                            .get(Consts.MORE_BBS));
+                    intentAD0.putExtra("title", -2);
+                    mActivity.startActivity(intentAD0);
+                } else {
+                    String sid = "";
+                    if (!Boolean
+                            .valueOf(mActivity.statusHashMap
+                                    .get(Consts.LOCAL_LOGIN))) {
+                        String sessionResult = ConfigUtil
+                                .getSession();
+                        sid = sessionResult;
+                    } else {
+                        sid = "";
+                    }
+
+                    if ("false".equals(mActivity.statusHashMap
+                            .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                        MyLog.e("Login", "初始化账号SDK失败");
+                        ConfigUtil
+                                .initAccountSDK(((MainApplication) mActivity
+                                        .getApplication()));// 初始化账号SDK
+                    }
+                    // 为了扩展功能面板调用不报错, 添加if判断
+                    if (null != adapter) {
+                        adapter.setBBSNums(0);
+                        adapter.notifyDataSetChanged();
+                    }
+                    GetDemoTask UrlTask2 = new GetDemoTask(
+                            mActivity);
+                    String[] demoParams2 = new String[3];
+                    demoParams2[0] = sid;
+                    demoParams2[1] = "3";
+                    UrlTask2.execute(demoParams2);
+                }
+            }
+        }
+    }
+
+    // ---------------------------END----------------------------------
 
     @Override
     public void onNotify(int what, int arg1, int arg2, Object obj) {

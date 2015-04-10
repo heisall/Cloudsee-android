@@ -56,7 +56,7 @@
                     android:layout_alignParentTop="true"
                     android:text="@string/my_device"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/tv_dev_cloud_state_l"
@@ -67,7 +67,7 @@
                     android:paddingTop="2dp"
                     android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:visibility="visible"
                     android:drawablePadding="2dp"
                     android:drawableLeft="@drawable/cloud_state_off" />
@@ -238,7 +238,7 @@
                     android:layout_alignParentTop="true"
                     android:text="@string/my_device"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                                 <TextView
                     android:id="@+id/tv_dev_cloud_state_r"
@@ -249,7 +249,7 @@
                     android:paddingTop="2dp"
                     android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:visibility="visible"
                     android:drawablePadding="2dp"
                     android:drawableLeft="@drawable/cloud_state_off" />

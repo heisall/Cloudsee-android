@@ -731,6 +731,7 @@
     <string name="str_cloud_serv_func">云存储服务</string>
     <string name="str_cloud_state">云存储</string>
     <string name="str_cloud_query_error_1">查询用户使用详情失败</string>  
+    <string name="str_cloud_query_title">剩余流量</string>    
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

@@ -536,8 +536,8 @@ public class JVDeviceConst {
     public static final String JK_WEB_GCS_FLAG = "gcsf";
 
     // 云存储
-    public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5214;
-    public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5215;
+    public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5215;
+    public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5216;
     public static final String JK_VAS_FLOW = "vflow";
     public static final String JK_CLOUD_STORAGE_FLOW = "csf";
     public static final String JK_CLOUD_STORAGE_FFREE    =  "free";

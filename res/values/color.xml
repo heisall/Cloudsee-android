@@ -515,5 +515,12 @@
     <color name="tab_text_normal">#898989</color>
     <color name="tab_text_selected">#898989</color>
     <color name="customize_item_text_color">#ff828282</color>
-
+    
+    <!-- 云存储 -->
+    <color name="cloud_traffic_title">#828282</color>
+    <color name="cloud_traffic_value">#515252</color>   
+    <color name="cloud_traffic_color_1">#f8f6f6</color>
+    <color name="cloud_traffic_color_2">#e8e8e8</color> 
+    <color name="cloud_traffic_circle_fill">#7abf66</color>
+    <color name="cloud_traffic_divider">#cecccd</color>
 </resources>

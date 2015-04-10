@@ -1,7 +1,6 @@
 
 package com.jovision.activities;
 
-import android.app.SearchManager.OnCancelListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;

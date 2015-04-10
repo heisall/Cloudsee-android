@@ -2,7 +2,6 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager.Request;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -20,11 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JVNewAddDeviceActivity extends BaseActivity {

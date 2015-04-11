@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="18dp"
+                android:textColor="@color/gray"
                 android:text="@string/umeng_socialize_share_title"
                 android:textSize="22sp" />
 
@@ -46,7 +47,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="18dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/cloud_cancleed" />
+                android:src="@drawable/ytcancle_bg_selector" />
         </RelativeLayout>
 
         <!-- 分享平台 -->
@@ -83,6 +84,7 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
+                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_wx"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -111,6 +113,7 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
+                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_friends"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -139,6 +142,7 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
+                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_sina"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -167,6 +171,7 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
+                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_sina"
                     android:textSize="16sp" />
             </RelativeLayout>

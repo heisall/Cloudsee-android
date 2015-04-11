@@ -281,7 +281,7 @@
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@color/tab_bg_color"
-                        android:drawableTop="@drawable/video_record_1"
+                        android:drawableTop="@drawable/video_record_selector"
                         android:singleLine="true"
                         android:text="@string/str_video"
                         android:textColor="@color/play_tab_text"

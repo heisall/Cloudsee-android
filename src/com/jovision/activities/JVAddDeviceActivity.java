@@ -391,9 +391,8 @@ public class JVAddDeviceActivity extends BaseActivity {
             dismissDialog();
             if (0 == result) {
                 showTextToast(R.string.add_device_succ);
-                // Intent intent = new Intent();
-                // setResult(ADD_DEV_SUCCESS, intent);
-
+                Intent intent = new Intent();
+                setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
                 JVAddDeviceActivity.this.finish();
 
             } else {

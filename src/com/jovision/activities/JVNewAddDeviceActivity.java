@@ -22,13 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.utils.ConfigUtil;
 import com.tencent.stat.StatService;
 
 import java.util.HashMap;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class JVNewAddDeviceActivity extends BaseActivity {
+public class JVNewAddDeviceActivity extends ShakeActivity {
     EditText new_adddevice_et;
     ImageButton editimg_clearn;
     ImageView tab_icon, save_icon;
@@ -36,32 +37,29 @@ public class JVNewAddDeviceActivity extends BaseActivity {
     private boolean isHasFocus;
     private Drawable imgEnable;
     WebView add_device_wv;
-    String url = "http://test.cloudsee.net/mobile/";
+    String url = "http://www.cloudsee.net/mobile/nineBlock.action";
     // String url ="https://www.baidu.com/";
     Boolean isLoadUrl = false;
     private Handler mHandler = new Handler();
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onNotify(int what, int arg1, int arg2, Object obj) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void initSettings() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void initUi() {
-        // TODO Auto-generated method stub
+        super.initUi();
         setContentView(R.layout.new_adddevice_layout);
         leftBtn = (Button) findViewById(R.id.btn_left);
         alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
@@ -97,15 +95,12 @@ public class JVNewAddDeviceActivity extends BaseActivity {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO 自动生成的方法存根
-            // 会一直执行
             super.onPageStarted(view, url, favicon);
         }
 
         @Override
         public void onReceivedError(WebView view, int errorCode, String description,
                 String failingUrl) {
-            // TODO 自动生成的方法存根
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
 
@@ -115,12 +110,73 @@ public class JVNewAddDeviceActivity extends BaseActivity {
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
             resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-            String rtmp_url = resMap.get("device_type");
+            String deviceType = resMap.get("device_type");
+            if (null != deviceType) {
+                int devType = Integer.parseInt(deviceType);
+
+                switch (devType) {
+                    case Consts.NET_DEVICE_TYPE_OTHER:
+                    case Consts.NET_DEVICE_TYPE_YST_NUMBER: {// 云视通号添加
+                        StatService.trackCustomEvent(JVNewAddDeviceActivity.this,
+                                "Add by CloudSEE ID", JVNewAddDeviceActivity.this.getResources()
+                                        .getString(R.string.census_addcloudseeid));
+                        Intent addIntent = new Intent();
+                        addIntent.setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
+                        addIntent.putExtra("QR", false);
+                        JVNewAddDeviceActivity.this.startActivityForResult(addIntent,
+                                Consts.DEVICE_ADD_REQUEST);
+                        break;
+                    }
+                    case Consts.NET_DEVICE_TYPE_SOUND_WAVE: {// 声波配置添加
+                        StatService.trackCustomEvent(
+                                JVNewAddDeviceActivity.this,
+                                "SoundWave",
+                                JVNewAddDeviceActivity.this.getResources().getString(
+                                        R.string.census_soundwave));
+                        Intent intent = new Intent();
+                        intent.setClass(JVNewAddDeviceActivity.this, JVWaveSetActivity.class);
+                        JVNewAddDeviceActivity.this.startActivity(intent);
+                        break;
+                    }
+                    case Consts.NET_DEVICE_TYPE_AP_SET: {// AP设置添加
+                        StatService.trackCustomEvent(
+                                JVNewAddDeviceActivity.this,
+                                "Add Wi_Fi Device",
+                                JVNewAddDeviceActivity.this.getResources().getString(
+                                        R.string.census_addwifidev));
+                        JVNewAddDeviceActivity.this.startSearch(false);
+
+                        break;
+                    }
+                    case Consts.NET_DEVICE_TYPE_IPDOMAIN: {// IP 域名添加
+                        StatService.trackCustomEvent(JVNewAddDeviceActivity.this, "IP/DNS",
+                                JVNewAddDeviceActivity.this
+                                        .getResources().getString(R.string.census_ipdns));
+                        Intent intent = new Intent();
+                        intent.setClass(JVNewAddDeviceActivity.this, JVAddIpDeviceActivity.class);
+                        JVNewAddDeviceActivity.this.startActivityForResult(intent,
+                                Consts.DEVICE_ADD_REQUEST);
+                        break;
+                    }
+                }
+            }
+
             return true;
 
         }
 
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Consts.DEVICE_ADD_REQUEST) {
+            if (resultCode == Consts.DEVICE_ADD_SUCCESS_RESULT) {// 设备添加成功
+                JVNewAddDeviceActivity.this.finish();
+            }
+        }
+    }
+
     OnClickListener myOnClickListener = new OnClickListener() {
 
         @Override
@@ -210,13 +266,11 @@ public class JVNewAddDeviceActivity extends BaseActivity {
 
     @Override
     protected void saveSettings() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void freeMe() {
-        // TODO Auto-generated method stub
 
     }
 

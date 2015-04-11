@@ -53,14 +53,6 @@ public class JVAddDeviceActivity extends BaseActivity {
         switch (what) {
         // 广播回调
             case Consts.CALL_LAN_SEARCH: {
-                // PlayUtil.broadIp(obj,JVAddDeviceActivity.this);
-                // deviceList = CacheUtil.getDevList();
-                // MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" +
-                // arg1
-                // + ";arg2=" + arg1 + ";obj=" + obj.toString());
-                // MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
-                // + ";arg2=" + arg1 + ";obj=" + obj.toString());
-                // onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
                 JSONObject broadObj;
                 try {
                     broadObj = new JSONObject(obj.toString());
@@ -324,39 +316,7 @@ public class JVAddDeviceActivity extends BaseActivity {
                         if (null != addDevice) {
                             addRes = 0;
                         }
-                        // else {
-                        // addDevice = new Device("", 0, params[0],
-                        // Integer.parseInt(params[1]), userET.getText()
-                        // .toString(), pwdET.getText().toString(), false,
-                        // channelCount, 0);
-                        // addDevice =
-                        // DeviceUtil.getUserDeviceDetail(addDevice,statusHashMap
-                        // .get(Consts.KEY_USERNAME));
-                        // if (null != addDevice) {
-                        // addRes = 0;
-                        // }else{
-                        // addRes = -1;
-                        // }
-                        // }
-                        // addDevice = DeviceUtil.addDevice(
-                        // statusHashMap.get("KEY_USERNAME"), addDevice);
-                        // if (null != addDevice) {
-                        // addRes = 0;
-                        // }
-                        // if (0 <= addDevice.getChannelList().size()) {
-                        // if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
-                        // addDevice.getChannelList().size())) {
-                        // addDevice.setChannelList(DeviceUtil
-                        // .getDevicePointList(addDevice,
-                        // addDevice.getFullNo()));
-                        // addRes = 0;
-                        // } else {
-                        // DeviceUtil.unbindDevice(
-                        // statusHashMap.get(Consts.KEY_USERNAME),
-                        // addDevice.getFullNo());
-                        // addRes = -1;
-                        // }
-                        // }
+
                     }
                 }
                 MyLog.e(TAG, "addRes X = " + addRes);
@@ -365,13 +325,7 @@ public class JVAddDeviceActivity extends BaseActivity {
                     addDevice.setIp(ip);
                     addDevice.setPort(port);
                     deviceList.add(0, addDevice);
-                    // if (!localFlag) {
-                    // DeviceUtil.refreshDeviceState(
-                    // statusHashMap.get(Consts.KEY_USERNAME),
-                    // deviceList);
-                    // }
                     CacheUtil.saveDevList(deviceList);
-
                 }
 
             } catch (Exception e) {

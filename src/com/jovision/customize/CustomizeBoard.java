@@ -257,13 +257,13 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     private int getItemImageByTag(String tag) {
         int iconResId = R.drawable.customize_item_no_image;
         if (tag.equals(Consts.MORE_SHOPURL)) {// 小维商城
-            iconResId = R.drawable.tabbar_compose_camera;
+            iconResId = R.drawable.tabbar_compose_shop;
         } else if (tag.equals(Consts.MORE_KNOWLEDGEURL)) {// 小维知道
-            iconResId = R.drawable.tabbar_compose_weibo;
+            iconResId = R.drawable.tabbar_compose_knowledge;
         } else if (tag.equals(Consts.MORE_GCSURL)) {// 小维工程
-            iconResId = R.drawable.tabbar_compose_idea;
+            iconResId = R.drawable.tabbar_compose_engineering;
         } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
-            iconResId = R.drawable.tabbar_compose_camera;
+            iconResId = R.drawable.tabbar_compose_community;
         } else if (tag.equals("unknown")) {// 未知
         }
 

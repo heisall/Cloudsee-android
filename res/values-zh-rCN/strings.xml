@@ -651,6 +651,7 @@
     <string name="str_safe_protected">安全防护</string>
     <string name="str_reset_device">重置设备功能</string>
     <string name="str_restart_device">重启设备功能</string>
+    <string name="str_set_time">时间设置</string>
     <string name="dev_alarm_sound">启动报警声音</string>
     <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音.</string>
     <string name="str_restart_sure">确定重启设备吗?</string>
@@ -708,6 +709,7 @@
     <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置。</string>
     <string name="str_alarm_setting_tips6">重启后设备将重新启动。</string>
     <string name="str_alarm_setting_tips7">可以设置你所在的时区。</string>
+     <string name="str_alarm_setting_tips9">可以校准设备时间。</string>
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>

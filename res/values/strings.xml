@@ -651,6 +651,7 @@
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
     <string name="str_restart_device">重启设备功能</string>
+    <string name="str_set_time">时间设置</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="str_restart_sure">Are you sure to restart?</string>
     <string name="dev_alarm_sound">Startup the alarm sound</string>
@@ -708,6 +709,7 @@
     <string name="str_alarm_setting_tips5">After reset device will restore factory Settings</string>
     <string name="str_alarm_setting_tips6">重启后设备将重新启动。</string>
     <string name="str_alarm_setting_tips7">可以设置你所在的时区。</string>
+    <string name="str_alarm_setting_tips9">可以校准设备时间。</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>

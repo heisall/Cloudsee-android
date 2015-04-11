@@ -651,6 +651,7 @@
     <string name="str_safe_protected">安全防護</string>
     <string name="str_reset_device">重置設備功能</string>
     <string name="str_restart_device">重啟設備功能</string>
+    <string name="str_set_time">時間設置</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
     <string name="str_restart_sure">確定重啟設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
@@ -709,6 +710,7 @@
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
     <string name="str_alarm_setting_tips6">重啟後設備將重新啟動。</string>
     <string name="str_alarm_setting_tips7">可以設置妳所在的時區。</string>
+     <string name="str_alarm_setting_tips9">可以校準設備時間。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
     <string name="str_setdev_params_timeout">設置設備參數超時</string>

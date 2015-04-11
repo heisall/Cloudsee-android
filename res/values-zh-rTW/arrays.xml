@@ -69,27 +69,27 @@
     <string-array name="time_zone">
         <item>東十二區</item>
         <item>東十壹區</item>
-        <item>東十時區</item>
-        <item>東九時區</item>
-        <item>東八時區</item>
-        <item>東七時區</item>
-        <item>東六時區</item>
-        <item>東五時區</item>
-        <item>東四時區</item>
-        <item>東三時區</item>
-        <item>東二時區</item>
-        <item>東壹時區</item>
+        <item>東十區</item>
+        <item>東九區</item>
+        <item>東八區</item>
+        <item>東七區</item>
+        <item>東六區</item>
+        <item>東五區</item>
+        <item>東四區</item>
+        <item>東三區</item>
+        <item>東二區</item>
+        <item>東壹區</item>
         <item>中時區</item>
-        <item>西壹時區</item>
-        <item>西二時區</item>
-        <item>西三時區</item>
-        <item>西四時區</item>
-        <item>西五時區</item>
-        <item>西六時區</item>
-        <item>西七時區</item>
-        <item>西八時區</item>
-        <item>西九時區</item>
-        <item>西十時區</item>
+        <item>西壹區</item>
+        <item>西二區</item>
+        <item>西三區</item>
+        <item>西四區</item>
+        <item>西五區</item>
+        <item>西六區</item>
+        <item>西七區</item>
+        <item>西八區</item>
+        <item>西九區</item>
+        <item>西十區</item>
         <item>西十壹區</item>
         <item>西十二區</item>
     </string-array>

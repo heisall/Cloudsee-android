@@ -33,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="18dp"
-                android:textColor="@color/gray"
                 android:text="@string/umeng_socialize_share_title"
+                android:textColor="@color/gray"
                 android:textSize="22sp" />
 
             <!-- 取消 -->
@@ -84,8 +84,8 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_wx"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -113,8 +113,8 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_friends"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -142,8 +142,8 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_sina"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -171,8 +171,8 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:textColor="@color/gray"
                     android:text="@string/umeng_socialize_share_to_sina"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
         </LinearLayout>

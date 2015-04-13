@@ -2,6 +2,7 @@
 package com.jovision.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,11 @@ public class FuntionAdapter extends BaseAdapter {
     private boolean bigScreen = false;
     private int playFlag;
     private boolean bFromAlerm;
+    private Resources mResources;
 
     public FuntionAdapter(Context con, boolean flag, int playFlag) {
         mContext = con;
+        mResources = mContext.getResources();
         bigScreen = flag;
         this.playFlag = playFlag;
         inflater = (LayoutInflater) mContext
@@ -75,51 +78,20 @@ public class FuntionAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (null != functionList && 0 != functionList.size()
-                && position < functionList.size()) {
-            viewHolder.funtionTitle1.setText(functionList.get(position));
-        }
+        // -----------------customize start--------------------
+        // if (null != functionList && 0 != functionList.size()
+        // && position < functionList.size()) {
+        // viewHolder.funtionTitle1.setText(functionList.get(position));
+        // }
+        // -----------------customize end--------------------
 
         if (bigScreen) {// 大屏小dpi
-            if (2 == position) {
-                if (Consts.PLAY_AP == playFlag) {
-                    viewHolder.funcLayout.setVisibility(View.GONE);
-                }
-                viewHolder.funcLayout
-                        .setBackgroundResource(R.drawable.voice_normal_bg);
-                viewHolder.funtionImageView
-                        .setImageResource(R.drawable.voice_monitor_small_1);
-                viewHolder.funtionTitle2
-                        .setText(R.string.str_audio_monitor_tips);
-            } else if (0 == position) {
-                viewHolder.funtionArrow.setVisibility(View.VISIBLE);
-                viewHolder.funcLayout.setVisibility(View.VISIBLE);
-                viewHolder.funtionImageView
-                        .setImageResource(R.drawable.yt_controller);
-                viewHolder.funcLayout
-                        .setBackgroundResource(R.drawable.yt_normal_bg);
-                viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
-            } else if (1 == position) {
-                viewHolder.funcLayout.setVisibility(View.VISIBLE);
-                if (Consts.PLAY_AP == playFlag) {
-                    viewHolder.funtionArrow.setVisibility(View.GONE);
-                    viewHolder.funtionImageView
-                            .setImageResource(R.drawable.apv_call);
-                    viewHolder.funcLayout
-                            .setBackgroundResource(R.drawable.talk_normal_bg);
-                    viewHolder.funtionTitle1.setText(R.string.voice_call_ap);
-                    viewHolder.funtionTitle2
-                            .setText(R.string.voice_call_ap_tips);
-                } else {
-                    viewHolder.funcLayout
-                            .setBackgroundResource(R.drawable.remote_normal_bg);
-                    viewHolder.funtionImageView
-                            .setImageResource(R.drawable.remote_playback);
-                    viewHolder.funtionTitle2
-                            .setText(R.string.str_remote_playback_tips);
-                }
+            // -----------------customize start--------------------
+            // 当前不再区别大小屏
+            // 设置布局
+            deployListLayoutByTag(viewHolder, functionList.get(position));
+            // -----------------customize end--------------------
 
-            }
             if (selectIndex == position && selectIndex == 2) {
                 // viewHolder.funtionImageView
                 // .setImageResource(R.drawable.voice_monitor_small_2);
@@ -189,6 +161,61 @@ public class FuntionAdapter extends BaseAdapter {
         TextView funtionTitle1;
         TextView funtionTitle2;
         ImageView funtionArrow;
+    }
+
+    // -------------------------------------------------
+    // ## 根据不同的情况创建不同的布局
+    // -------------------------------------------------
+    private void deployListLayoutByTag(ViewHolder viewHolder, String pTag) {
+        char tag = pTag.charAt(0);
+        switch (tag) {
+            case 'a':// 云台控制
+                viewHolder.funtionTitle1.setText(R.string.str_yt_operate);
+                viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
+                viewHolder.funtionImageView.
+                        setImageResource(R.drawable.yt_controller);
+                viewHolder.funcLayout
+                        .setBackgroundResource(R.drawable.yt_normal_bg);
+                break;
+            case 'b':// 远程回放
+                viewHolder.funtionTitle1.setText(R.string.str_remote_playback);
+                viewHolder.funtionTitle2.setText(R.string.str_remote_playback_tips);
+                viewHolder.funcLayout
+                        .setBackgroundResource(R.drawable.remote_normal_bg);
+                viewHolder.funtionImageView
+                        .setImageResource(R.drawable.remote_playback);
+                break;
+            case 'c':// 设备设置
+                viewHolder.funtionTitle1.setText(R.string.str_audio_monitor);
+                viewHolder.funtionTitle2.setText(R.string.str_audio_monitor_tips);
+                viewHolder.funcLayout
+                        .setBackgroundResource(R.drawable.voice_normal_bg);
+                viewHolder.funtionImageView
+                        .setImageResource(R.drawable.voice_monitor_small_1);
+                break;
+            case 'd':// 语音对讲
+                viewHolder.funtionArrow.setVisibility(View.GONE);
+
+                viewHolder.funtionTitle1.setText(R.string.voice_call_ap);
+                viewHolder.funtionTitle2.setText(R.string.voice_call_ap_tips);
+                viewHolder.funtionImageView
+                        .setImageResource(R.drawable.apv_call);
+                viewHolder.funcLayout
+                        .setBackgroundResource(R.drawable.talk_normal_bg);
+                break;
+            case 'e':// 分享链接//TODO
+                viewHolder.funtionTitle1.setText(R.string.str_share_link);
+                viewHolder.funtionTitle2.setText(R.string.str_share_link_tips);
+                viewHolder.funtionImageView
+                        .setImageResource(R.drawable.function_share_link);
+                viewHolder.funcLayout
+                        .setBackgroundResource(R.drawable.share_link_normal_bg);
+                break;
+            case 'f':
+                break;
+            default:
+
+        }
     }
 
 }

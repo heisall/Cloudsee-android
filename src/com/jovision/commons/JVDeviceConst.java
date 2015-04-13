@@ -534,6 +534,8 @@ public class JVDeviceConst {
     public static final String JK_WEB_BBS_FLAG = "bbsf";
     public static final String JK_WEB_GCS_URL = "gcsurl";
     public static final String JK_WEB_GCS_FLAG = "gcsf";
+    public static final String JK_WEB_CLOUD_URL = "csurl";
+    public static final String JK_WEB_CLOUD_FLAG = "csf";
 
     // 云存储
     public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5215;

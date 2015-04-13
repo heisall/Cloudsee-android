@@ -358,6 +358,10 @@ public class Jni {
             boolean isExtend, int count, int type, int p1, int p2, int p3,
             byte[] data, int size);
 
+    public static native boolean sendPrimaryBytes(int window, byte data_type,
+            int packet_type, int packet_count, int extend_type, int extend_p1,
+            int extend_p2, int extend_p3, byte[] data, int size);
+
     /**
      * 发送音频数据 {@link JVSUDT#JVC_SendAudioData(int, byte, byte[], int)}
      * // [Neo] TODO 未验证

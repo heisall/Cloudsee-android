@@ -16,6 +16,7 @@
         <item>报警信息</item>
         <item>观看模式(单设备)</item>
         <item>设备分享</item>
+        <item>云服务开通</item>        
         <item>云视通指数</item>
         <item>工程商入驻</item>
         <item>进入社区</item>
@@ -37,6 +38,7 @@
         <item>报警信息</item>
         <item>观看模式(多设备)</item>
         <item>设备分享</item>
+        <item>云服务开通</item> 
         <item>云视通指数</item>
         <item>工程商入驻</item>
         <item>进入社区</item>
@@ -226,17 +228,17 @@
     <!-- 中间自定义面板中的元素 -->
     <string-array name="array_customize_board">
         <item>小维社区</item>
+        <item>小维知道</item>
         <item>小维商城</item>
         <item>小维工程</item>
-        <item>小维知道</item>
     </string-array>
     <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
     <!-- 具体的tag名称和Consts.java中的名称一致 -->
     <string-array name="array_customize_item_tag">
         <item>BBSURL</item>
-        <item>unknown</item>
+        <item>KNOWLEDGEURL</item>
+        <item>SHOPURL</item>
         <item>GCSURL</item>
-        <item>unknown</item>
     </string-array>
     <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
     <string-array name="array_tabs_sequence">
@@ -245,6 +247,23 @@
         <item>c</item>
         <item>d</item>
         <item>e</item>
+    </string-array>
+    <!-- 播放界面中相关功能.普通 -->
+    <string-array name="array_play_functions_common">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+    </string-array>
+    <!-- 播放界面中相关功能.AP -->
+    <string-array name="array_play_functions_ap">
+        <item>a</item>
+        <item>d</item>
+    </string-array>
+    <!-- 播放界面中相关功能.猫眼 -->
+    <string-array name="array_play_functions_cat">
+        <item>e</item>
+        <item>b</item>
+        <item>c</item>
     </string-array>
 
 </resources>

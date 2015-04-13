@@ -233,12 +233,11 @@
         <item>小维工程</item>
     </string-array>
     <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
-    <!-- 具体的tag名称和Consts.java中的名称一致 -->
     <string-array name="array_customize_item_tag">
-        <item>BBSURL</item>
-        <item>KNOWLEDGEURL</item>
-        <item>SHOPURL</item>
-        <item>GCSURL</item>
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
     </string-array>
     <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
     <string-array name="array_tabs_sequence">
@@ -247,23 +246,6 @@
         <item>c</item>
         <item>d</item>
         <item>e</item>
-    </string-array>
-    <!-- 播放界面中相关功能.普通 -->
-    <string-array name="array_play_functions_common">
-        <item>a</item>
-        <item>b</item>
-        <item>c</item>
-    </string-array>
-    <!-- 播放界面中相关功能.AP -->
-    <string-array name="array_play_functions_ap">
-        <item>a</item>
-        <item>d</item>
-    </string-array>
-    <!-- 播放界面中相关功能.猫眼 -->
-    <string-array name="array_play_functions_cat">
-        <item>e</item>
-        <item>b</item>
-        <item>c</item>
     </string-array>
 
 </resources>

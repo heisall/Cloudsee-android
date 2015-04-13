@@ -246,7 +246,7 @@ public abstract class PlayActivity extends BaseActivity implements
     // -----------------customize start--------------------
     // 设备分组
     protected String deviceGroup;
-
+    protected boolean isShareEnabled;
     // -----------------customize end----------------------
 
     @Override
@@ -818,7 +818,8 @@ public abstract class PlayActivity extends BaseActivity implements
             rightBtn.setVisibility(View.GONE);
             // -----------------customize start--------------------
         } else if ("C".equals(deviceGroup)) {
-            // 猫眼的场合，更改标题栏右上角的图标
+            // 猫眼的场合,更改标题栏右上角的图标.设置分享链接可用
+            isShareEnabled = true;
             rightBtn.setVisibility(View.VISIBLE);
             rightBtn.setBackgroundResource(R.drawable.share);
             // -----------------customize end----------------------
@@ -884,6 +885,9 @@ public abstract class PlayActivity extends BaseActivity implements
         }
 
         if (screen > 1 || !channel.isConnected()) {
+// -----------------customize start--------------------
+            isShareEnabled = false;
+// -----------------customize end----------------------
             rightBtn.setVisibility(View.GONE);
             right_btn_h.setVisibility(View.GONE);
             if (MySharedPreference.getBoolean("playhelp1")) {
@@ -929,7 +933,8 @@ public abstract class PlayActivity extends BaseActivity implements
             right_btn_h.setVisibility(View.GONE);
             // -----------------customize start--------------------
         } else if ("C".equals(deviceGroup)) {
-            // 猫眼的场合，更改标题栏右上角的图标
+            // 猫眼的场合,更改标题栏右上角的图标.设置分享链接可用
+            isShareEnabled = true;
             right_btn_h.setVisibility(View.VISIBLE);
             right_btn_h.setBackgroundResource(R.drawable.share);
             // -----------------customize end----------------------

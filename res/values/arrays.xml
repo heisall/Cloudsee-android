@@ -232,5 +232,22 @@
         <item>d</item>
         <item>e</item>
     </string-array>
+    <!-- 播放界面中相关功能.普通 -->
+    <string-array name="array_play_functions_common">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+    </string-array>
+    <!-- 播放界面中相关功能.AP -->
+    <string-array name="array_play_functions_ap">
+        <item>a</item>
+        <item>d</item>
+    </string-array>
+    <!-- 播放界面中相关功能.猫眼 -->
+    <string-array name="array_play_functions_cat">
+        <item>e</item>
+        <item>b</item>
+        <item>c</item>
+    </string-array>
 
 </resources>

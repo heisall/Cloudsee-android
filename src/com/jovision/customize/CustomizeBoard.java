@@ -18,8 +18,6 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.MainApplication;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVMoreFragment;
 import com.jovision.activities.JVTabActivity;
@@ -37,7 +35,6 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         OnTabTouchedListener {
 
     protected static final String TAG = "CustomizeBoard";
-    private MainApplication mApplication;
     private BaseActivity mActivity;
     private JVMoreFragment mLastFragment;
     private ImageView mClose;
@@ -58,7 +55,6 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         super(activity);
         mActivity = (BaseActivity) activity;
         mLastFragment = (JVMoreFragment) activity.getLastFragment();
-        mApplication = (MainApplication) mActivity.getApplication();
 
         initDatas();
 
@@ -254,17 +250,24 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * @param tag 标记
      * @return iconResId 图片资源
      */
-    private int getItemImageByTag(String tag) {
+    private int getItemImageByTag(String pTag) {
+        char tag = pTag.charAt(0);
         int iconResId = R.drawable.customize_item_no_image;
-        if (tag.equals(Consts.MORE_SHOPURL)) {// 小维商城
-            iconResId = R.drawable.tabbar_compose_shop;
-        } else if (tag.equals(Consts.MORE_KNOWLEDGEURL)) {// 小维知道
-            iconResId = R.drawable.tabbar_compose_knowledge;
-        } else if (tag.equals(Consts.MORE_GCSURL)) {// 小维工程
-            iconResId = R.drawable.tabbar_compose_engineering;
-        } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
-            iconResId = R.drawable.tabbar_compose_community;
-        } else if (tag.equals("unknown")) {// 未知
+        switch (tag) {
+            case 'a':// 小维社区
+                iconResId = R.drawable.tabbar_compose_community;
+                break;
+            case 'b':// 小维知道
+                iconResId = R.drawable.tabbar_compose_knowledge;
+                break;
+            case 'c':// 小维商城
+                iconResId = R.drawable.tabbar_compose_shop;
+                break;
+            case 'd':// 小维工程
+                iconResId = R.drawable.tabbar_compose_engineering;
+                break;
+            default:
+
         }
 
         return iconResId;
@@ -273,18 +276,23 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     /**
      * 处理自定义面板上的元素的click事件
      */
-    private void clickItemEvents(String tag) {
-        if (tag.equals(Consts.MORE_SHOPURL)) {// 小维商城
-            shopurl();
-        } else if (tag.equals(Consts.MORE_KNOWLEDGEURL)) {// 小维知道
-            knowledgeurl();
-        } else if (tag.equals(Consts.MORE_GCSURL)) {// 小维工程
-            gcsurl();
-        } else if (tag.equals(Consts.MORE_BBS)) {// 小维社区
-            bbsurl();
-        } else if (tag.equals("unknown")) {// 未知
-            Toast.makeText(mActivity, tag,
-                    Toast.LENGTH_SHORT).show();
+    private void clickItemEvents(String pTag) {
+        char tag = pTag.charAt(0);
+        switch (tag) {
+            case 'a':// 小维社区
+                bbsurl();
+                break;
+            case 'b':// 小维知道
+                knowledgeurl();
+                break;
+            case 'c':// 小维商城
+                shopurl();
+                break;
+            case 'd':// 小维工程
+                gcsurl();
+                break;
+            default:
+
         }
         // 关闭面板
         CustomizeBoard.super.dismiss();

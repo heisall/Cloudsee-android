@@ -19,6 +19,8 @@ import com.jovision.views.OnProgressListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 public class UserCloudStorgeBriefBillActivity extends BaseActivity implements OnClickListener {
 
     private TextView tv_charge_left_value;
@@ -109,9 +111,22 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                 else {
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
                     if (fee_type == 0) {
-                        // 单位M
-                        double flow_mb = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0) / 1024;
-                        tv_charge_left_value.setText(String.valueOf(flow_mb) + "M");
+                      //构造方法的字符格式这里如果小数不足2位,会以0补足.
+                        DecimalFormat decimalFormat=new DecimalFormat(".0");
+                        // 单位流量
+                        float flow_mb = (float)resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0) / (float)1024;
+                        float flow_gb = 0f;
+                        if(flow_mb > 1000){
+                            //大于1000M显示G
+                            flow_gb = flow_mb/(float)1024;
+                            String strFlowGB = decimalFormat.format(flow_gb);
+                            tv_charge_left_value.setText(strFlowGB + "G");
+                        }
+                        else{
+                            String strFlowMB = decimalFormat.format(flow_mb);
+                            tv_charge_left_value.setText(strFlowMB + "M");
+                        }
+                        
                     }
                     else if (fee_type == 1) {
                         // 单位元

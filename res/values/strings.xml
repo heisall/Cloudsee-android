@@ -734,6 +734,8 @@
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
+    <string name="str_alarm_storge_cloud">云存储报警</string>
+    <string name="str_alarm_storge_normal">普通报警</string>    
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">云存储服务</string>
     <string name="str_cloud_state">云存储</string>

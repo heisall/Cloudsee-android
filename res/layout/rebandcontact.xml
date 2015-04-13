@@ -129,7 +129,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp" >
+            android:layout_marginTop="10dp" >
 
             <TextView
                 android:id="@+id/hasband_phone"
@@ -165,7 +165,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@color/more_fragment_color4" />
     </LinearLayout>
 
@@ -181,7 +181,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp" >
+            android:layout_marginTop="10dp" >
 
             <TextView
                 android:id="@+id/hasband_email"
@@ -217,7 +217,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@color/more_fragment_color4" />
     </LinearLayout>
 
@@ -244,7 +244,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp" >
+            android:layout_marginTop="10dp" >
 
             <TextView
                 android:id="@+id/tv_surplus_flow"
@@ -280,7 +280,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@color/more_fragment_color4" />
     </LinearLayout>
 

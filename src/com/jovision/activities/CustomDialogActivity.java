@@ -45,7 +45,7 @@ import java.io.InputStream;
 
 public class CustomDialogActivity extends BaseActivity implements
         android.view.View.OnClickListener, onDownloadListener {
-    private static final int REPORT_LIMIT = 512 * 1024;
+    private static final int REPORT_LIMIT = 100 * 1024;
     private static final String TAG = "CustomDialogActivity";
     /** 查看按钮 **/
     private Button lookVideoBtn;

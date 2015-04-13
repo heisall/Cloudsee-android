@@ -1,6 +1,7 @@
 
 package com.jovision.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Stack;
 
+@SuppressLint("NewApi")
 public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
     private static final String TAG = "JVWebViewActivity";

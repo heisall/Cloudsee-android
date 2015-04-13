@@ -288,6 +288,8 @@
     <!-- 设备管理 -->
     <string name="str_new_add_device">选择添加设备</string>
     <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
+    <string name="str_new_add_device_confirm">确认</string>
+    <string name="str_new_add_device_tab_title">扫一扫</string>
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
     <string name="net_errors">可能原因：\n1.路由器密码错误；\n2.无法从路由器获取IP地址，请检查路由器；\n3.手机Wi-Fi功能异常.</string>
@@ -453,6 +455,7 @@
     <string name="get_device_failed">设备加载失败</string>
     <string name="search_device_failed">检索设备在线状态失败</string>
     <string name="press_screen_refresh">点击屏幕刷新</string>
+    <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，\n点击这里把它加进来吧~\n还没有设备？去逛一下~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
     <string name="alarm_level">报警级别</string>

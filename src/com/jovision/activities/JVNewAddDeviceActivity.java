@@ -2,15 +2,16 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
+import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -19,42 +20,85 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
+import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.PlayUtil;
 import com.tencent.stat.StatService;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JVNewAddDeviceActivity extends ShakeActivity {
-    EditText new_adddevice_et;
-    ImageButton editimg_clearn;
-    ImageView tab_icon, save_icon;
-    TextView tab_title;
-    private boolean isHasFocus;
-    private Drawable imgEnable;
-    WebView add_device_wv;
-    String url = "http://www.cloudsee.net/mobile/nineBlock.action";
-    // String url ="https://www.baidu.com/";
-    Boolean isLoadUrl = false;
-    private Handler mHandler = new Handler();
+    private static final String TAG = "JVNewAddDeviceActivity";
+
+    private EditText devNumET;
+    private ImageButton editimg_clearn;
+    private ImageView tab_icon, save_icon;
+    private TextView tab_title;
+    private WebView add_device_wv;
+    private String url = "http://www.cloudsee.net/mobile/nineBlock.action";
+    private ArrayList<Device> deviceList = new ArrayList<Device>();
+    private Device addDevice;
+    private boolean hasBroadIP = false;// 是否广播完IP
+    private int onLine = 0;
+    private String ip = "";
+    private int port = 0;
+    private int channelCount = -1;
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
+        switch (what) {
+        // 广播回调
+            case Consts.CALL_LAN_SEARCH: {
+                JSONObject broadObj;
+                try {
+                    broadObj = new JSONObject(obj.toString());
+                    if (0 == broadObj.optInt("timeout")) {
+                        String broadDevNum = broadObj.optString("gid")
+                                + broadObj.optInt("no");
+                        int netmod = broadObj.optInt("netmod");
+                        if (broadDevNum.equalsIgnoreCase(devNumET.getText()
+                                .toString())) {// 同一个设备
+                            // addDevice.setOnlineState(1);
+                            // addDevice.setIp(broadObj.optString("ip"));
+                            // addDevice.setPort(broadObj.optInt("port"));
+                            onLine = 1;
+                            ip = broadObj.optString("ip");
+                            port = broadObj.optInt("port");
+                            channelCount = broadObj.optInt("count");
+                        }
 
+                    } else if (1 == broadObj.optInt("timeout")) {
+                        hasBroadIP = true;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            }
+        }
     }
 
     @Override
     public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+        handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
     }
 
     @Override
     protected void initSettings() {
-
+        deviceList = CacheUtil.getDevList();
     }
 
     @Override
@@ -70,8 +114,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
         currentMenu.setText(R.string.str_new_add_device);
         leftBtn.setOnClickListener(myOnClickListener);
-        imgEnable = this.getResources().getDrawable(R.drawable.new_adddevice_close);
-        new_adddevice_et = (EditText) findViewById(R.id.new_adddevice_et);
+        devNumET = (EditText) findViewById(R.id.new_adddevice_et);
         editimg_clearn = (ImageButton) findViewById(R.id.editimg_clearn);
         editimg_clearn.setOnClickListener(myOnClickListener);
         tab_title = (TextView) findViewById(R.id.tab_title);
@@ -80,8 +123,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         // tab_title.setOnClickListener(myOnClickListener);
         save_icon = (ImageView) findViewById(R.id.save_icon);
         save_icon.setOnClickListener(myOnClickListener);
-        new_adddevice_et.addTextChangedListener(new TextWatcherImpl());
-        new_adddevice_et.setOnFocusChangeListener(new FocusChangeListenerImpl());
+        devNumET.addTextChangedListener(new TextWatcherImpl());
+        devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
         // webview显示设备内容
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         add_device_wv.getSettings().setJavaScriptEnabled(true);
@@ -198,11 +241,14 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
                     break;
                 case R.id.editimg_clearn:
-                    new_adddevice_et.setText("");
+                    devNumET.setText("");
                     break;
                 case R.id.save_icon:
-                    Toast.makeText(JVNewAddDeviceActivity.this, "保存设备成功", Toast.LENGTH_SHORT)
-                            .show();
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(JVNewAddDeviceActivity.this.getCurrentFocus()
+                                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    saveMethod(devNumET.getText().toString(), Consts.DEFAULT_USERNAME
+                            , Consts.DEFAULT_PASSWORD, devNumET.getText().toString());
                     break;
             // case R.id.tab_title:
             // StatService.trackCustomEvent(
@@ -224,7 +270,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private class FocusChangeListenerImpl implements OnFocusChangeListener {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (new_adddevice_et.getText().toString().length() >= 1) {
+            if (devNumET.getText().toString().length() >= 1) {
                 editimg_clearn.setVisibility(View.VISIBLE);
                 save_icon.setVisibility(View.VISIBLE);
             } else {
@@ -239,7 +285,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private class TextWatcherImpl implements TextWatcher {
         @Override
         public void afterTextChanged(Editable s) {
-            if (new_adddevice_et.getText().toString().length() >= 1) {
+            if (devNumET.getText().toString().length() >= 1) {
                 editimg_clearn.setVisibility(View.VISIBLE);
                 save_icon.setVisibility(View.VISIBLE);
                 tab_title.setVisibility(View.GONE);
@@ -272,6 +318,179 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     @Override
     protected void freeMe() {
 
+    }
+
+    /**
+     * 保存设备信息
+     * 
+     * @param devNum
+     * @param userName
+     * @param userPwd
+     */
+    public void saveMethod(String devNum, String userName, String userPwd,
+            String nickName) {
+        if (null == deviceList) {
+            deviceList = new ArrayList<Device>();
+        }
+        int size = deviceList.size();
+        if ("".equalsIgnoreCase(devNum)) {// 云视通号不可为空
+            showTextToast(R.string.login_str_device_ytnum_notnull);
+            return;
+        } else if (!ConfigUtil.checkYSTNum(devNum)) {// 验证云视通号是否合法
+            showTextToast(R.string.increct_yst_tips);
+            return;
+        } else if (!"".equals(nickName) && !ConfigUtil.checkNickName(nickName)) {// 昵称不合法
+            showTextToast(R.string.login_str_nike_name_order);
+            return;
+        } else if ("".equalsIgnoreCase(userName)) {// 用户名不可为空
+            showTextToast(R.string.login_str_device_account_notnull);
+            return;
+        } else if (!ConfigUtil.checkDeviceUsername(userName)) {// 用户名是否合法
+            showTextToast(R.string.login_str_device_account_error);
+            return;
+        } else if (!ConfigUtil.checkDevicePwd(userPwd)) {
+            showTextToast(R.string.login_str_device_pass_error);
+            return;
+        } else if (size >= 100
+                && !Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地多于100个设备不让再添加
+            showTextToast(R.string.str_device_most_count);
+            return;
+        } else {
+            // 判断一下是否已存在列表中
+            boolean find = false;
+            if (null != deviceList && 0 != deviceList.size()) {
+                for (Device dev : deviceList) {
+                    if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+                        find = true;
+                        break;
+                    }
+                }
+            }
+
+            if (find) {
+                devNumET.setText("");
+                showTextToast(R.string.str_device_exsit);
+                return;
+            }
+        }
+
+        AddDevTask task = new AddDevTask();
+        String[] strParams = new String[4];
+        strParams[0] = ConfigUtil.getGroup(devNum);
+        strParams[1] = String.valueOf(ConfigUtil.getYST(devNum));
+        strParams[2] = String.valueOf(2);
+        strParams[3] = nickName;
+        task.execute(strParams);
+    }
+
+    // 设置三种类型参数分别为String,Integer,String
+    class AddDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+        // 可变长的输入参数，与AsyncTask.exucute()对应
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            String nickName = params[3];
+            int addRes = -1;
+            boolean localFlag = Boolean.valueOf(statusHashMap
+                    .get(Consts.LOCAL_LOGIN));
+            try {
+                MyLog.e(TAG, "getChannelCount E = ");
+
+                // 非3G广播获取通道数量
+                if (PlayUtil.broadCast(JVNewAddDeviceActivity.this)) {
+                    int errorCount = 0;
+                    while (!hasBroadIP) {
+                        Thread.sleep(1000);
+                        errorCount++;
+                        if (errorCount >= 10) {
+                            break;
+                        }
+                    }
+                }
+
+                MyLog.e(TAG, "getChannelCount C1 = " + channelCount);
+                if (channelCount <= 0) {
+                    channelCount = Jni.getChannelCount(params[0],
+                            Integer.parseInt(params[1]),
+                            Integer.parseInt(params[2]));
+                }
+
+                MyLog.e(TAG, "getChannelCount C2 = " + channelCount);
+                if (channelCount <= 0) {
+                    channelCount = 4;
+                }
+
+                addDevice = new Device("", 0, params[0],
+                        Integer.parseInt(params[1]), Consts.DEFAULT_USERNAME,
+                        Consts.DEFAULT_PASSWORD, false,
+                        channelCount, 0, nickName);
+                // MyLog.v(TAG, "dev = " + addDev.toString());
+                if (null != addDevice) {
+                    if (localFlag) {// 本地添加
+                        addRes = 0;
+                        if (!"".equals(nickName)) {
+                            addDevice.setNickName(nickName);
+                        }
+                    } else {
+                        addDevice = DeviceUtil.addDevice2(addDevice,
+                                statusHashMap.get(Consts.KEY_USERNAME),
+                                nickName);
+                        if (null != addDevice) {
+                            addRes = 0;
+                        }
+
+                    }
+                }
+                MyLog.e(TAG, "addRes X = " + addRes);
+                if (0 == addRes) {
+                    addDevice.setOnlineStateLan(onLine);
+                    addDevice.setIp(ip);
+                    addDevice.setPort(port);
+                    deviceList.add(0, addDevice);
+                    CacheUtil.saveDevList(deviceList);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return addRes;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            // 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+            dismissDialog();
+            if (0 == result) {
+                showTextToast(R.string.add_device_succ);
+                JVNewAddDeviceActivity.this.finish();
+
+            } else {
+                showTextToast(R.string.add_device_failed);
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+            createDialog("", true);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        CacheUtil.saveDevList(deviceList);
+        this.finish();
+        super.onBackPressed();
     }
 
 }

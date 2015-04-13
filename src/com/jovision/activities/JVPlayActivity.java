@@ -3256,7 +3256,7 @@ public class JVPlayActivity extends PlayActivity implements
             } else {
                 if (channelList.get(lastClickIndex).isVoiceCall()) {
                     MyLog.e("tag-voiceCall", "发---停止对讲命令");
-                    if (!channelList.get(lastClickIndex).isSingleVoice()) {
+                    if (null != mobileQuality) {// 融合代码之后才有停止对讲的回调 2015.4.10 李伟
                         createDialog("", false);
                     }
                     closeTextToast();

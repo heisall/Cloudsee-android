@@ -96,8 +96,8 @@ public class PushAdapter extends BaseAdapter {
                     .findViewById(R.id.alarmimage);
             viewHolder.alarmTitle = (TextView) convertView
                     .findViewById(R.id.alarmmsg);
-            viewHolder.alarmFrom = (TextView) convertView
-                    .findViewById(R.id.alarmfrom);
+            viewHolder.tvAsf = (TextView) convertView
+                    .findViewById(R.id.tv_alarm_storge_flag);
             viewHolder.func1 = (Button) convertView.findViewById(R.id.func1);
             viewHolder.alarmLevel = (RatingBar) convertView
                     .findViewById(R.id.alarmlevel);
@@ -151,7 +151,19 @@ public class PushAdapter extends BaseAdapter {
                 }
 
             }
-
+            int asf = pushList.get(position).alarmSolution;
+            if(asf == 1){
+                //云存储报警
+                viewHolder.tvAsf.setText(mfragment.getActivity().getResources().getString(R.string.str_alarm_storge_cloud));
+                int cloud_color = mfragment.getActivity().getResources().getColor(R.color.welcome_blue);
+                viewHolder.tvAsf.setTextColor(cloud_color);
+            }
+            else{
+              //普通报警
+                int nromal_color = mfragment.getActivity().getResources().getColor(R.color.string_content);
+                viewHolder.tvAsf.setTextColor(nromal_color);                
+                viewHolder.tvAsf.setText(mfragment.getActivity().getResources().getString(R.string.str_alarm_storge_normal));
+            }
             if (deleteState) {// 删除按钮显示
                 viewHolder.deleteItem.setVisibility(View.VISIBLE);
             } else {
@@ -276,7 +288,8 @@ public class PushAdapter extends BaseAdapter {
         TextView messTime;
         ImageView alarmImg;
         TextView alarmTitle;
-        TextView alarmFrom;
+//        TextView alarmFrom;
+        TextView tvAsf;
         Button func1;
         RatingBar alarmLevel;
         // Button func2;

@@ -42,12 +42,12 @@
         <RelativeLayout
             android:id="@+id/relativeone"
             android:layout_width="match_parent"
-            android:layout_height="35dp" >
+            android:layout_height="40dp" >
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/more_fragment_color2" />
+                android:background="@color/morefragment" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="YYYY-MM-DD"
-                android:textColor="@color/more_fragment_color7"
+                android:textColor="@color/more_fragment_color2"
                 android:textSize="14sp" />
 
             <ImageView
@@ -71,13 +71,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/more_fragment_color2" />
+                android:background="@color/morefragment" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativetwo"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_below="@+id/relativeone" >
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="DD/MM/YYYY"
-                android:textColor="@color/more_fragment_color7"
+                android:textColor="@color/more_fragment_color2"
                 android:textSize="14sp" />
 
             <ImageView
@@ -103,13 +103,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/more_fragment_color2" />
+                android:background="@color/morefragment" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativethree"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_below="@+id/relativetwo" >
 
             <TextView
@@ -118,7 +118,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="MM/DD/YYYY"
-                android:textColor="@color/more_fragment_color7"
+                android:textColor="@color/more_fragment_color2"
                 android:textSize="14sp" />
 
             <ImageView
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/more_fragment_color2" />
+                android:background="@color/morefragment" />
         </RelativeLayout>
     </RelativeLayout>
 

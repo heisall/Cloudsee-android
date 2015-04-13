@@ -87,6 +87,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
     private LinearLayout deviceLayout; // 设备列表界面
     private RelativeLayout refreshLayout; // 设备加载失败界面
     private LinearLayout quickSetSV; // 快速配置界面
+    /** 新添添加设备引导界面 nihy */
+
     private Button quickSet;// 快速无限安装
     private ImageView quickinstall_img_bg;
     private Button addDevice;// 有线设备添加

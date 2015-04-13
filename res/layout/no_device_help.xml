@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/quickinstalllayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#F0F0F3"
     android:orientation="vertical" >
+
+    <!-- android:background="@color/white" -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:scrollbars="none"
-        android:visibility="visible" >
+        android:scrollbars="none" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible" >
+            android:visibility="gone" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,5 +84,35 @@
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0F0F3"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/no_device_lead_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@drawable/mydevice_error" />
+
+        <TextView
+            android:id="@+id/no_device_lead_text"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="@string/str_no_device_lead" />
+
+        <ImageView
+            android:id="@+id/no_device_lead_arrow"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/help_rightup_icon" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -176,7 +176,8 @@
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/fullscreen"
                         android:padding="9dp"
-                        android:src="@drawable/capture" />
+                        android:src="@drawable/capture"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/fullscreen"

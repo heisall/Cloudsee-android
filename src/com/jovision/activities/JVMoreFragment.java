@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -119,7 +118,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             R.drawable.morefragment_warmmessage_icon,
             R.drawable.alarm_info_icon, R.drawable.morefragment_setting_icon,
             R.drawable.morefragment_sharedevice_icon,
-            R.drawable.cloud_function,/*云服务*/
+            R.drawable.cloud_function,/* 云服务 */
             R.drawable.morefragment_data_icon,
             R.drawable.morefragment_install_icon, R.drawable.more_bbs,
             R.drawable.more_message, R.drawable.media_image,
@@ -753,11 +752,11 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_DEVICESHARE)) {
                             // 设备分享
-                        }else if(dataList.get(position).getItemFlag()
-                                .equals(Consts.MORE_CLOUD_SHOP)){//云服务开通
-                            //TODO
+                        } else if (dataList.get(position).getItemFlag()
+                                .equals(Consts.MORE_CLOUD_SHOP)) {// 云服务开通
+                            // TODO
                             cloudurl(mActivity);
-                        }else if (dataList.get(position).getItemFlag()
+                        } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_STATURL)) {
                             // 云视通指数
                             if (!MySharedPreference
@@ -1016,7 +1015,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             }
         }
     }
-    
+
     /**
      * 进入社区
      * 
@@ -1298,7 +1297,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     null);
             ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_CLOUD_SHOP,
                     null);
-            
+
             MySharedPreference.putBoolean("ISSHOW", false);
             MySharedPreference.putString("ACCOUNT", "");
             MyActivityManager.getActivityManager().popAllActivityExceptOne(

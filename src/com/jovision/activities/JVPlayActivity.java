@@ -41,6 +41,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovetech.product.IShare;
+import com.jovetech.product.Share;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ScreenAdapter;
@@ -60,6 +62,12 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.SinaShareContent;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMVideo;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,7 +80,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class JVPlayActivity extends PlayActivity implements
-        PlayWindowManager.OnUiListener {
+        PlayWindowManager.OnUiListener, IShare {
     private static final String TAG = "JVPlayActivity";
     private static final int DELAY_CHECK_SURFACE = 500;
     private static final int DELAY_DOUBLE_CHECKER = 500;
@@ -144,6 +152,10 @@ public class JVPlayActivity extends PlayActivity implements
     private boolean updateStreaminfoFlag = false;
     /** 基于断开视频不走回调加此list */
     private MyList<Message> msgList = new MyList<Message>(0);
+// -----------------customize start--------------------
+    private UMSocialService mController;
+    private Share mShare;
+// -----------------customize end----------------------
 
     @Override
     public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -1753,6 +1765,14 @@ public class JVPlayActivity extends PlayActivity implements
             // + ", channel/index = "
             // + channelList.get(startWindowIndex).getChannel() + "/"
             // + channelList.get(startWindowIndex).getIndex());
+// -----------------customize start--------------------
+            mShare = Share.getInstance(this);
+            mController = mShare.getShareController();
+            // 配置需要分享的相关平台
+            mShare.configPlatforms();
+            // 设置分享的内容
+            mShare.setShareContent();
+// -----------------customize end----------------------
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2894,8 +2914,7 @@ public class JVPlayActivity extends PlayActivity implements
                     // -----------------customize start--------------------
                     if ("C".equals(deviceGroup)) {
                         // TODO
-                        Toast.makeText(JVPlayActivity.this,
-                                "--猫眼分享--", Toast.LENGTH_SHORT).show();
+                        mShare.openSharePane();
                         break;
                     }
                     // -----------------customize end----------------------
@@ -4113,7 +4132,11 @@ public class JVPlayActivity extends PlayActivity implements
                 // -----------------customize start--------------------
                 if ("C".equals(deviceGroup)) {
                     // TODO 分享链接
-                    showTextToast(R.string.str_share_link);
+                    if (isShareEnabled) {
+                        mShare.openSharePane();
+                    } else {
+                        showTextToast(R.string.str_wait_connect);
+                    }
                 } else {
                     // -----------------customize end----------------------
                     if (allowThisFuc(false)) {
@@ -4162,6 +4185,10 @@ public class JVPlayActivity extends PlayActivity implements
     protected void onActivityResult(int requestCode, int responseCode,
             Intent arg2) {
         super.onActivityResult(requestCode, responseCode, arg2);
+// -----------------customize start--------------------
+        /** 使用SSO授权必须添加如下代码 */
+        mShare.setAuthorizeCallBack(requestCode, responseCode, arg2);
+// -----------------customize end----------------------
         if (Consts.PLAY_DEVSET_REQUSET == requestCode
                 && Consts.PLAY_DEVSET_RESPONSE == responseCode) {
             this.finish();
@@ -4874,6 +4901,48 @@ public class JVPlayActivity extends PlayActivity implements
                 break;
         }
         return name;
+    }
+
+    /**
+     * 分享设置 //TODO
+     *
+     */
+    @Override
+    public void setShareContent() {
+        // 分享图标
+        UMImage urlImage = new UMImage(this, R.drawable.share_logo);
+
+        // 分享链接地址
+        String urlLink = "http://www.cloudsee.net/mobile/default.action";
+        // 分享标题
+        String title = "视频广场";
+        // 分享内容
+        String videoContent = getString(R.string.umeng_socialize_share_video_content);
+
+        // 设置微信分享的内容
+        WeiXinShareContent weixinContent = new WeiXinShareContent();
+        weixinContent.setShareContent(videoContent);
+        weixinContent.setTitle(title);
+        weixinContent.setTargetUrl(urlLink);
+        weixinContent.setShareMedia(urlImage);
+        mController.setShareMedia(weixinContent);
+
+        // 设置朋友圈分享的内容
+        CircleShareContent circleContent = new CircleShareContent();
+        circleContent.setShareContent(videoContent);
+        circleContent.setTitle(title);
+        circleContent.setTargetUrl(urlLink);
+        circleContent.setShareMedia(urlImage);
+        mController.setShareMedia(circleContent);
+
+        // 设置新浪微博分享的内容
+        SinaShareContent sinaContent = new SinaShareContent();
+        sinaContent.setShareContent(videoContent);
+        sinaContent.setTitle(title);
+        sinaContent.setTargetUrl(urlLink);
+        sinaContent.setShareImage(urlImage);
+        mController.setShareMedia(sinaContent);
+
     }
 
 }

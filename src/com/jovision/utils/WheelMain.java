@@ -1,17 +1,16 @@
 
 package com.jovision.utils;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
-import android.util.Log;
 import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.NumericWheelAdapter;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.views.WheelView;
+
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 public class WheelMain {
 

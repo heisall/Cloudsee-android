@@ -1,12 +1,8 @@
 
 package com.jovision.activities;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +16,9 @@ import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.views.TimePopView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class JVSetTimeActivity extends BaseActivity {
 

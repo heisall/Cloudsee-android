@@ -1,12 +1,12 @@
 
 package com.jovision.utils;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import android.util.Log;
 
 public class TimeUtil {
     public static String TIME = "06:00:00--08:00:00";

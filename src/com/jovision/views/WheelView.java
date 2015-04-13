@@ -19,14 +19,6 @@
 
 package com.jovision.views;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.adapters.WheelAdapter;
-import com.jovision.utils.OnWheelChangedListener;
-import com.jovision.utils.OnWheelScrollListener;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -48,6 +40,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
+
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.adapters.WheelAdapter;
+import com.jovision.utils.OnWheelChangedListener;
+import com.jovision.utils.OnWheelScrollListener;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Numeric wheel view.

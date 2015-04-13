@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -34,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovetech.product.IShare;
+import com.jovetech.product.Share;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Channel;
@@ -45,16 +46,11 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
-import com.jovision.views.CustomShareBoard;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
-import com.umeng.socialize.sso.SinaSsoHandler;
-import com.umeng.socialize.sso.UMSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
@@ -65,16 +61,15 @@ import java.util.HashMap;
 import java.util.Timer;
 
 public class JVWebView2Activity extends BaseActivity implements
-        PlayWindowManager.OnUiListener {
+        PlayWindowManager.OnUiListener, IShare {
 
     private static final String TAG = "JVWebView2Activity";
 
     /** umeng share **/
-    private static final String DESCRIPTOR = "com.umeng.share";
-    private final UMSocialService mController = UMServiceFactory
-            .getUMSocialService(DESCRIPTOR);
     private boolean mIsShare;
+    private UMSocialService mController;
     private UMVideo mWeixinVideo, mCircleVideo, mWeiboVideo;
+    private Share mShare;
 
     /** topBar **/
     private RelativeLayout topBar;
@@ -422,10 +417,12 @@ public class JVWebView2Activity extends BaseActivity implements
         mIsShare = checkShareEnabled(url);
         if (mIsShare) {
             MyLog.v(TAG, "share is enable");
+            mShare = Share.getInstance(this);
+            mController = mShare.getShareController();
             // 配置需要分享的相关平台
-            configPlatforms();
+            mShare.configPlatforms();
             // 设置分享的内容
-            setShareContent();
+            mShare.setShareContent();
         }
     }
 
@@ -538,8 +535,8 @@ public class JVWebView2Activity extends BaseActivity implements
         captureScreen = (ImageView) findViewById(R.id.capturescreen);// 抓拍
         fullScreen = (ImageView) findViewById(R.id.fullscreen);
         webView = (WebView) findViewById(R.id.webview);
-
         linkSpeed.setOnClickListener(myOnClickListener);
+        linkSpeed.setVisibility(View.GONE);
         pause.setOnClickListener(myOnClickListener);
         captureScreen.setOnClickListener(myOnClickListener);
         fullScreen.setOnClickListener(myOnClickListener);
@@ -956,7 +953,7 @@ public class JVWebView2Activity extends BaseActivity implements
                     if (mIsShare) {
                         if (playChannel.isConnected()) {
                             MyLog.v(TAG, "open share pane");
-                            openSharePane();
+                            mShare.openSharePane();
                         } else {
                             showTextToast(R.string.str_wait_connect);
                         }
@@ -1326,54 +1323,11 @@ public class JVWebView2Activity extends BaseActivity implements
     }
 
     /**
-     * @功能描述 : 打开自定义的分享面板</br>
-     * @return
-     */
-    private void openSharePane() {
-        CustomShareBoard shareBoard = new CustomShareBoard(this);
-        shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,
-                0, 0);
-    }
-
-    /**
-     * @功能描述 : 配置分享平台参数</br>
-     * @return
-     */
-    private void configPlatforms() {
-        // 添加新浪SSO授权
-        mController.getConfig().setSsoHandler(new SinaSsoHandler());
-
-        // 添加微信、微信朋友圈平台
-        addWXPlatform();
-    }
-
-    /**
-     * @功能描述 : 添加微信平台分享</br>
-     * @return
-     */
-    private void addWXPlatform() {
-        // 微信开发平台注册应用的AppID
-        String appId = "wx21141328bd509074";
-        String appSecret = "f9172781187afc8853803f681ab668bf";
-        // 添加微信平台
-        UMWXHandler wxHandler = new UMWXHandler(this, appId, appSecret);
-        wxHandler.addToSocialSDK();
-        // 设置不显示提示：大于32k 压缩图片
-        wxHandler.showCompressToast(false);
-
-        // 支持微信朋友圈
-        UMWXHandler wxCircleHandler = new UMWXHandler(this, appId, appSecret);
-        wxCircleHandler.setToCircle(true);
-        wxCircleHandler.addToSocialSDK();
-        // 设置不显示提示：大于32k 压缩图片
-        wxCircleHandler.showCompressToast(false);
-    }
-
-    /**
      * @功能描述 : 根据不同的平台设置不同的分享内容</br>
      * @return
      */
-    private void setShareContent() {
+    @Override
+    public void setShareContent() {
         // 视频图标
         UMImage urlImage = new UMImage(this, R.drawable.share_logo);
 
@@ -1417,12 +1371,6 @@ public class JVWebView2Activity extends BaseActivity implements
         sinaContent.setShareMedia(mWeiboVideo);
         mController.setShareMedia(sinaContent);
 
-        // 关闭默认的Toast提示,回避Toast重复问题
-        mController.getConfig().closeToast();
-        /*
-         * 关闭新浪微博分享时的获取地理位置功能 原因是友盟不支持多语言,定位失败的Toast被写死在了代码里
-         */
-        mController.getConfig().setDefaultShareLocation(false);
     }
 
     /**
@@ -1483,11 +1431,7 @@ public class JVWebView2Activity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         /** 使用SSO授权必须添加如下代码 */
-        UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+        mShare.setAuthorizeCallBack(requestCode, resultCode, data);
     }
 
     @Override

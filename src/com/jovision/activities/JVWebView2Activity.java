@@ -535,8 +535,8 @@ public class JVWebView2Activity extends BaseActivity implements
         captureScreen = (ImageView) findViewById(R.id.capturescreen);// 抓拍
         fullScreen = (ImageView) findViewById(R.id.fullscreen);
         webView = (WebView) findViewById(R.id.webview);
-
         linkSpeed.setOnClickListener(myOnClickListener);
+        linkSpeed.setVisibility(View.GONE);
         pause.setOnClickListener(myOnClickListener);
         captureScreen.setOnClickListener(myOnClickListener);
         fullScreen.setOnClickListener(myOnClickListener);

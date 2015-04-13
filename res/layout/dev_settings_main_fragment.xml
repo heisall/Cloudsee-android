@@ -494,7 +494,7 @@
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
             </RelativeLayout>
-            
+
             <!-- 校准时间功能 -->
 
             <RelativeLayout

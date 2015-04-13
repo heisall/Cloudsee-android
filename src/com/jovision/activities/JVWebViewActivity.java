@@ -252,7 +252,7 @@ public class JVWebViewActivity extends BaseActivity {
                         JVWebViewActivity.this.finish();
                     } else if (newUrl.contains("video")
                             || newUrl.contains("viewmode")) {// 是否含有视频
-
+                        MyLog.v("plazza--urlbefore", newUrl);
                         String param_array[] = newUrl.split("\\?");
                         HashMap<String, String> resMap;
                         resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
@@ -364,6 +364,7 @@ public class JVWebViewActivity extends BaseActivity {
 
                 if (0 == rt) {
                     paramMap.put("rtmpurl", rtmpUrl);
+                    MyLog.v("plazza--url", rtmpUrl);
                     handler.sendMessage(handler.obtainMessage(
                             Consts.WHAT_DEMO_URL_SUCCESS, 0, 0, paramMap));
                 } else {

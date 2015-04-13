@@ -714,7 +714,7 @@
     <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置。</string>
     <string name="str_alarm_setting_tips6">重启后设备将重新启动。</string>
     <string name="str_alarm_setting_tips7">可以设置你所在的时区。</string>
-     <string name="str_alarm_setting_tips9">可以校准设备时间。</string>
+    <string name="str_alarm_setting_tips9">可以校准设备时间。</string>
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>
@@ -722,7 +722,7 @@
     <string name="str_computre_time1"> 结束时间不能小于开始时间</string>
     <string name="str_computre_time3"> 开始时间不能等于结束时间</string>
     <string name="str_setting_time">设置时间</string>
-     <string name="str_setting_time_success">时间设置成功</string>
+    <string name="str_setting_time_success">时间设置成功</string>
     <string name="str_setting_submittime">设置</string>
     <string name="str_disconnect_resp_timeout">断开连接超时</string>
     <string name="str_operation_success">操作成功</string>

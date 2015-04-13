@@ -195,6 +195,7 @@ public final class JVNetConst {
     public final static byte RC_EX_ALARM = (byte) 0x07;
     public final static byte RC_EXTEND = (byte) 0x06;
     public final static byte TIME_ZONE = (byte) 0x05;
+    public final static byte SET_TIME = (byte) 0x09;
     public final static byte EX_STORAGE_REFRESH = (byte) 0x01;
     public final static byte EX_STORAGE_REC_ON = (byte) 0x02;
     public final static byte EX_STORAGE_REC_OFF = (byte) 0x03;

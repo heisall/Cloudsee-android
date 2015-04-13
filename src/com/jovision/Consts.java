@@ -353,7 +353,10 @@ public class Consts {
     public static final String MORE_SHOWMEDIA = "SHOW_MEDIA"; // 察看图像
     public static final String MORE_FEEDBACK = "FEED_BACK"; // 反馈
     public static final String MORE_UPDATE = "UPDATE"; // 更新
-
+    
+    //云服务开通(商城)
+    public static final String MORE_CLOUD_SHOP = "CLOUD_SHOP"; // 云视通服务开通
+    
     /** 更多 list菜单每个item对应的属性标志 **/
     public static final String[] moreListItemFlag = new String[] {
             MORE_HELP, /* 0 帮助 */
@@ -362,6 +365,7 @@ public class Consts {
             MORE_ALARMMSG, /* 3报警信息 */
             MORE_PLAYMODE, /* 4 观看模式 */
             MORE_DEVICESHARE, /* 5设备分享 */
+            MORE_CLOUD_SHOP,/*云服务开通*/
             MORE_STATURL, /* 6 云视通指数 */
             MORE_GCSURL, /* 7 工程商入住 */
             MORE_BBS, /* 8进入社区 */

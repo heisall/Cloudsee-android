@@ -206,6 +206,29 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                                 Consts.TAB_PLAZZA_RELOAD_URL, 0, 0, demoUrl);
                     }
                     break;
+                case 6://云服务开通
+                    String cloudurl = webUrl.getCloudUrl();
+                    if (null != cloudurl && !cloudurl.equals("")) {
+                        Intent intentAD2 = new Intent(mContext,
+                                JVWebViewActivity.class);
+                        if(cloudurl.contains("?")){
+                            cloudurl = cloudurl+"&sid="+sid;
+                        }
+                        else{
+                            cloudurl = cloudurl+"?sid="+sid;
+                        }
+                        ((BaseActivity) mContext).statusHashMap.put(
+                                Consts.MORE_CLOUD_SHOP, cloudurl);
+
+                        Log.i("TAG", cloudurl);
+                        intentAD2.putExtra("URL", cloudurl);
+                        intentAD2.putExtra("title", -2);
+                        mContext.startActivity(intentAD2);
+                    } else {
+                        ((BaseActivity) mContext)
+                                .showTextToast(R.string.str_video_load_failed);
+                    }                    
+                    break;
                 default:
                     break;
             }

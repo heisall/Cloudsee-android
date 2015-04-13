@@ -816,13 +816,13 @@ public abstract class PlayActivity extends BaseActivity implements
         if (Consts.PLAY_AP == playFlag) {
             playHelp.setVisibility(View.GONE);
             rightBtn.setVisibility(View.GONE);
-// -----------------customize start--------------------
+            // -----------------customize start--------------------
         } else if ("C".equals(deviceGroup)) {
             // 猫眼的场合,更改标题栏右上角的图标.设置分享链接可用
             isShareEnabled = true;
             rightBtn.setVisibility(View.VISIBLE);
             rightBtn.setBackgroundResource(R.drawable.share);
-// -----------------customize end----------------------
+            // -----------------customize end----------------------
         } else {
             // 录像模式
             rightBtn.setTextSize(8);
@@ -931,13 +931,13 @@ public abstract class PlayActivity extends BaseActivity implements
         if (Consts.PLAY_AP == playFlag) {
             playHelp.setVisibility(View.GONE);
             right_btn_h.setVisibility(View.GONE);
-// -----------------customize start--------------------
+            // -----------------customize start--------------------
         } else if ("C".equals(deviceGroup)) {
             // 猫眼的场合,更改标题栏右上角的图标.设置分享链接可用
             isShareEnabled = true;
             right_btn_h.setVisibility(View.VISIBLE);
             right_btn_h.setBackgroundResource(R.drawable.share);
-// -----------------customize end----------------------
+            // -----------------customize end----------------------
         } else {
             // 录像模式
             right_btn_h.setTextSize(8);

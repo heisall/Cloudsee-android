@@ -35,9 +35,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.jovetech.CloudSee.temp.R;
@@ -2911,13 +2911,13 @@ public class JVPlayActivity extends PlayActivity implements
                 }
                 case R.id.btn_right: {// 右边按钮----录像切换或者猫眼分享
                     closePopWindow();
-// -----------------customize start--------------------
+                    // -----------------customize start--------------------
                     if ("C".equals(deviceGroup)) {
                         // TODO
                         mShare.openSharePane();
                         break;
                     }
-// -----------------customize end----------------------
+                    // -----------------customize end----------------------
                     if (allowThisFuc(false)) {
                         try {
                             createDialog("", true);
@@ -4129,7 +4129,7 @@ public class JVPlayActivity extends PlayActivity implements
                 // }
 
             } else if (0 == arg2) {// 云台 或 分享链接
-// -----------------customize start--------------------
+                // -----------------customize start--------------------
                 if ("C".equals(deviceGroup)) {
                     // TODO 分享链接
                     if (isShareEnabled) {
@@ -4138,7 +4138,7 @@ public class JVPlayActivity extends PlayActivity implements
                         showTextToast(R.string.str_wait_connect);
                     }
                 } else {
-// -----------------customize end----------------------
+                    // -----------------customize end----------------------
                     if (allowThisFuc(false)) {
                         showPTZ();
                     } else {

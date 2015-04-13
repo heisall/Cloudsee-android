@@ -50,7 +50,7 @@
             android:layout_marginRight="10dp" >
 
             <ImageView
-                android:id="@+id/tab_icon"
+                android:id="@+id/tab_erweima_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
@@ -60,27 +60,64 @@
                 android:id="@+id/tab_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tab_icon"
+                android:layout_below="@id/tab_erweima_icon"
                 android:layout_centerHorizontal="true"
-                android:text="扫一扫"
+                android:text="@string/str_new_add_device_tab_title"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="11sp" />
 
-            <ImageView
+            <Button
                 android:id="@+id/save_icon"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/cloud_plused"
+                android:background="@drawable/add_newdevice_confirm__bg"
+                android:text="@string/str_new_add_device_confirm"
+                android:textColor="@color/white"
+                android:textSize="15sp"
                 android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 
     <WebView
         android:id="@+id/add_device_wv"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
+
+    <LinearLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/loadingbars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/loadingweb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/demo_loading"
+            android:textColor="@color/more_fragment_color2"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/loadfailedlayout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        layout="@layout/load_failed_layout"
+        android:visibility="gone" >
+    </include>
 
 </LinearLayout>

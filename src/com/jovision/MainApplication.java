@@ -715,7 +715,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
             if ((itemFlag.equals(Consts.MORE_STATURL) && !MySharedPreference
                     .getBoolean(Consts.MORE_STATURL))
                     || (itemFlag.equals(Consts.MORE_SYSTEMMESSAGE) && !MySharedPreference
-                            .getBoolean(Consts.MORE_SYSTEMMESSAGE))) {
+                            .getBoolean(Consts.MORE_SYSTEMMESSAGE))
+                            ||(itemFlag.equals(Consts.MORE_CLOUD_SHOP) && !MySharedPreference
+                                    .getBoolean(Consts.MORE_CLOUD_SHOP))) {
                 item.setIsnew(true);
             }
             /** 设置alarm信息 **/
@@ -733,7 +735,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
             }
             /** 显示空白栏 **/
-            if (itemFlag.equals(Consts.MORE_STATURL)
+            if (itemFlag.equals(Consts.MORE_CLOUD_SHOP)
                     || itemFlag.equals(Consts.MORE_UPDATE)
                     || itemFlag.equals(Consts.MORE_LITTLEHELP)) {
                 item.setShowWhiteBlock(true);

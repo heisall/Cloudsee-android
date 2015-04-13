@@ -243,6 +243,11 @@ public abstract class PlayActivity extends BaseActivity implements
     protected Drawable normalRecordDrawableTop = null;
 
     // protected RelativeLayout mainfunctionLayout;
+    // -----------------customize start--------------------
+    // 设备分组
+    protected String deviceGroup;
+
+    // -----------------customize end----------------------
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -437,14 +442,34 @@ public abstract class PlayActivity extends BaseActivity implements
         horfunc_talk_down = (ImageView) findViewById(R.id.horfunc_talk_down);
 
         playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);
-        functionList.add(getResources().getString(R.string.str_yt_operate));
-        functionList
-                .add(getResources().getString(R.string.str_remote_playback));
-        functionList.add(getResources().getString(R.string.str_audio_monitor));
+        // -----------------customize start--------------------
+        // functionList.add(getResources().getString(R.string.str_yt_operate));
+        // functionList
+        // .add(getResources().getString(R.string.str_remote_playback));
+        // functionList.add(getResources().getString(R.string.str_audio_monitor));
+        // -----------------customize end-----------------------
         functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
                 playFlag);
+        // -----------------customize start--------------------
+        String functions[];// 功能数组
+        if ("C".equals(deviceGroup)) {
+            functions = getResources()
+                    .getStringArray(R.array.array_play_functions_cat);
+        } else {
+            if (Consts.PLAY_AP == playFlag) {
+                functions = getResources()
+                        .getStringArray(R.array.array_play_functions_ap);
+            } else {
+                functions = getResources()
+                        .getStringArray(R.array.array_play_functions_common);
+            }
+        }
+        for (int i = 0, length = functions.length; i < length; i++) {
+            functionList.add(functions[i]);
+        }
         functionListAdapter.setData(functionList);
         playFunctionList.setAdapter(functionListAdapter);
+        // -----------------customize end----------------------
 
         if (bigScreen) {
             playFunctionList.setVisibility(View.VISIBLE);

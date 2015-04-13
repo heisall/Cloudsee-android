@@ -62,10 +62,11 @@
 
             <TextView
                 android:id="@+id/tv_free_left_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:singleLine="true"
-                android:text="本月赠送流量剩余"
+                android:text="赠送剩余"
                 android:textColor="@color/cloud_traffic_title"
                 android:textSize="@dimen/cloud_text_max_size" />
 
@@ -83,10 +84,10 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="230dp"
-        android:layout_height="230dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="12dp" >
+        android:layout_marginTop="16dp" >
 
         <com.jovision.views.CircleProgressBar
             android:id="@+id/circleProgressBar"

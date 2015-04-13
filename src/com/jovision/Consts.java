@@ -222,6 +222,13 @@ public class Consts {
 
     public static final int WHAT_DUMMY = 0x04;
 
+    /******************************** 添加设备类型 ***********************************/
+    public static final int NET_DEVICE_TYPE_YST_NUMBER = 1;// 云视通号添加设备
+    public static final int NET_DEVICE_TYPE_SOUND_WAVE = 2;// 声波配置
+    public static final int NET_DEVICE_TYPE_AP_SET = 3;// AP配置
+    public static final int NET_DEVICE_TYPE_IPDOMAIN = 4;// IP,域名添加
+    public static final int NET_DEVICE_TYPE_OTHER = 5;// 其他
+
     /********************************* 　以下修改设备用户名密码需要的宏定义　 ***************************************/
     public static final int SECRET_KEY = 0x1053564A;
     public static final int MAX_ACCOUNT = 13;
@@ -329,6 +336,8 @@ public class Consts {
     public static final String MORE_BBSNUM = "BBSNUM"; // 论坛未读消息数量
     public static final int MORE_BBSNUMNOTY = 0x999991; // 论坛未读消息数量
     public static final String MORE_BBSNUMURL = "BBSNUMURL"; // 论坛未读消息数量
+    public static final String MORE_SHOPURL = "SHOPURL"; // 小维商城
+    public static final String MORE_KNOWLEDGEURL = "KNOWLEDGEURL"; // 小维知道
 
     public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
     // public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关
@@ -645,6 +654,12 @@ public class Consts {
 
     /** 社区图片上传成功 */
     public static final int BBS_IMG_UPLOAD_SUCCESS = 0x81;// 小维社区发帖图片上传成功
+
+    /** 设备添加请求 */
+    public static final int DEVICE_ADD_REQUEST = 0x82;// 设备添加请求
+
+    /** 设备添加结果 */
+    public static final int DEVICE_ADD_SUCCESS_RESULT = 0x83;// 设备添加结果
 
     /** 设备接口对应值 **/
     public static final int STORAGEMODE_NORMAL = 1;// 手动录像

@@ -120,7 +120,6 @@ public class JVPlayActivity extends PlayActivity implements
     /** intent传递过来的设备和通道下标 */
     private int deviceIndex;
     private int channelOfChannel;
-    private String deviceGroup;// 设备分组
 
     private boolean needToast = false;
 
@@ -1762,6 +1761,12 @@ public class JVPlayActivity extends PlayActivity implements
      * 设置标题
      */
     private void setTitle() {
+        // -----------------customize start--------------------
+        if ("C".equals(deviceGroup)) {
+            selectScreenNum.setVisibility(View.GONE);
+            // TODO
+        }
+        // -----------------customize end----------------------
         if (Consts.PLAY_AP == playFlag) {
             currentMenu.setText(R.string.video_check);
             selectScreenNum.setVisibility(View.GONE);
@@ -1769,7 +1774,6 @@ public class JVPlayActivity extends PlayActivity implements
                     .getChannelName());
             currentMenu_h.setText(channelList.get(lastClickIndex)
                     .getChannelName());
-
         } else {
             currentMenu.setText(R.string.str_video_play);
             selectScreenNum.setVisibility(View.VISIBLE);
@@ -3252,7 +3256,7 @@ public class JVPlayActivity extends PlayActivity implements
             } else {
                 if (channelList.get(lastClickIndex).isVoiceCall()) {
                     MyLog.e("tag-voiceCall", "发---停止对讲命令");
-                    if (!channelList.get(lastClickIndex).isSingleVoice()) {
+                    if (null != mobileQuality) {// 融合代码之后才有停止对讲的回调 2015.4.10 李伟
                         createDialog("", false);
                     }
                     closeTextToast();
@@ -4102,11 +4106,16 @@ public class JVPlayActivity extends PlayActivity implements
                 // .getDrawable(R.drawable.video_monitor_ico));
                 // }
 
-            } else if (0 == arg2) {// 云台
-                if (allowThisFuc(false)) {
-                    showPTZ();
+            } else if (0 == arg2) {// 云台 或 分享链接
+                if ("C".equals(deviceGroup)) {
+                    // TODO 分享链接
+                    showTextToast(R.string.str_share_link);
                 } else {
-                    functionListAdapter.selectIndex = -1;
+                    if (allowThisFuc(false)) {
+                        showPTZ();
+                    } else {
+                        functionListAdapter.selectIndex = -1;
+                    }
                 }
 
             } else if (1 == arg2) {// 远程回放 或 对讲

@@ -1,6 +1,7 @@
 
 package com.jovision.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -243,6 +244,8 @@ public class JVAddIpDeviceActivity extends BaseActivity {
                 // .getString(R.string.add_device_succ)
                 // + resolvedIp
                 // + ";count:" + broadChannelCount);
+                Intent intent = new Intent();
+                setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
                 JVAddIpDeviceActivity.this.finish();
             } else {
                 showTextToast(R.string.add_device_failed);

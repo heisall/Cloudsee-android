@@ -12,7 +12,8 @@ public class WebUrl {
     private int bbsSwitch;// (论坛开关 0屏蔽 1开启)
     private String gcsUrl;// (我是工程商url)
     private int gcsSwitch;// (我是工程商开关 0屏蔽 1开启)
-
+    private String cloudUrl=null;//云服务
+    private int cloudSwitch;//云服务标志
     public String getDemoUrl() {
         return demoUrl;
     }
@@ -65,6 +66,14 @@ public class WebUrl {
         this.gcsSwitch = gcsSwitch;
     }
 
+    public int getCloudSwitch() {
+        return cloudSwitch;
+    }
+
+    public void setCloudSwitch(int cloudSwitch) {
+        this.cloudSwitch = cloudSwitch;
+    }
+    
     public void setCustUrl(String custUrl) {
         this.custUrl = custUrl;
     }
@@ -92,5 +101,11 @@ public class WebUrl {
     public void setGcsUrl(String gcsUrl) {
         this.gcsUrl = gcsUrl;
     }
+    public String getCloudUrl() {
+        return cloudUrl;
+    }
 
+    public void setCloudUrl(String cloudUrl) {
+        this.cloudUrl = cloudUrl;
+    }
 }

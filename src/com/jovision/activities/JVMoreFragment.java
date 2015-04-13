@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -118,6 +119,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             R.drawable.morefragment_warmmessage_icon,
             R.drawable.alarm_info_icon, R.drawable.morefragment_setting_icon,
             R.drawable.morefragment_sharedevice_icon,
+            R.drawable.cloud_function,/*云服务*/
             R.drawable.morefragment_data_icon,
             R.drawable.morefragment_install_icon, R.drawable.more_bbs,
             R.drawable.more_message, R.drawable.media_image,
@@ -751,7 +753,11 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_DEVICESHARE)) {
                             // 设备分享
-                        } else if (dataList.get(position).getItemFlag()
+                        }else if(dataList.get(position).getItemFlag()
+                                .equals(Consts.MORE_CLOUD_SHOP)){//云服务开通
+                            //TODO
+                            cloudurl(mActivity);
+                        }else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_STATURL)) {
                             // 云视通指数
                             if (!MySharedPreference
@@ -953,6 +959,64 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
         }
     }
 
+    /**
+     * 云服务开通
+     * 
+     * @param pActivity 扩展功能面板调用时传值,当前fragment调用传null
+     * @return
+     */
+    public void cloudurl(BaseActivity pActivity) {
+        if (pActivity != null) {
+            reconfigActivity(pActivity);
+        }
+        String sid = "";
+        if (!Boolean
+                .valueOf(mActivity.statusHashMap
+                        .get(Consts.LOCAL_LOGIN))) {
+            String sessionResult = ConfigUtil
+                    .getSession();
+            sid = sessionResult;
+        } else {
+            sid = "";
+        }
+        if (!MySharedPreference
+                .getBoolean(Consts.MORE_CLOUD_SHOP)) {
+            MySharedPreference.putBoolean(
+                    Consts.MORE_CLOUD_SHOP, true);
+            mListener.OnFuncEnabled(0, 1);
+        }
+        if (!ConfigUtil.isConnected(mActivity)) {
+            mActivity.alertNetDialog();
+        } else {
+            if (null != ((BaseActivity) mActivity).statusHashMap
+                    .get(Consts.MORE_CLOUD_SHOP)) {
+                Intent intentAD0 = new Intent(mActivity,
+                        JVWebViewActivity.class);
+                intentAD0
+                        .putExtra(
+                                "URL",
+                                ((BaseActivity) mActivity).statusHashMap
+                                        .get(Consts.MORE_CLOUD_SHOP));
+                intentAD0.putExtra("title", -2);
+                mActivity.startActivity(intentAD0);
+            } else {
+                if ("false".equals(mActivity.statusHashMap
+                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                    MyLog.e("Login", "初始化账号SDK失败");
+                    ConfigUtil
+                            .initAccountSDK(((MainApplication) mActivity
+                                    .getApplication()));// 初始化账号SDK
+                }
+                GetDemoTask UrlTask = new GetDemoTask(
+                        mActivity);
+                String[] demoParams = new String[3];
+                demoParams[0] = sid;
+                demoParams[1] = "6";
+                UrlTask.execute(demoParams);
+            }
+        }
+    }
+    
     /**
      * 进入社区
      * 
@@ -1232,6 +1296,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     null);
             ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_DEMOURL,
                     null);
+            ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_CLOUD_SHOP,
+                    null);
+            
             MySharedPreference.putBoolean("ISSHOW", false);
             MySharedPreference.putString("ACCOUNT", "");
             MyActivityManager.getActivityManager().popAllActivityExceptOne(

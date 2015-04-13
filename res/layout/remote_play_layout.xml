@@ -145,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/video_record_selector"
+            android:drawableLeft="@drawable/video_record"
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:text="@string/str_video"

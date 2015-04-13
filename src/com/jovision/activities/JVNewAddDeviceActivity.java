@@ -3,14 +3,22 @@ package com.jovision.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,19 +26,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
+import com.jovision.MainApplication;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.tencent.stat.StatService;
+import com.umeng.common.Log;
 
 import org.json.JSONObject;
 
@@ -40,13 +53,20 @@ import java.util.HashMap;
 @SuppressLint("SetJavaScriptEnabled")
 public class JVNewAddDeviceActivity extends ShakeActivity {
     private static final String TAG = "JVNewAddDeviceActivity";
-
     private EditText devNumET;
-    private ImageButton editimg_clearn;
-    private ImageView tab_icon, save_icon;
-    private TextView tab_title;
-    private WebView add_device_wv;
-    private String url = "http://www.cloudsee.net/mobile/nineBlock.action";
+    ImageButton editimg_clearn;
+    ImageView tab_icon, save_icon;
+    TextView tab_title;
+    WebView add_device_wv;
+    // String url = "http://test.cloudsee.net/mobile/";
+    String url = "http://www.cloudsee.net/mobile/nineBlock.action";
+    // String url ="https://www.baidu.com/";
+    Boolean isLoadUrlfail = false;
+    Boolean isLoadUrlFinish = false;
+    private RelativeLayout loadFailedLayout;
+    private LinearLayout loadinglayout;
+    private ImageView reloadImgView, loadingBar;
+
     private ArrayList<Device> deviceList = new ArrayList<Device>();
     private Device addDevice;
     private boolean hasBroadIP = false;// 是否广播完IP
@@ -127,10 +147,18 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
         // webview显示设备内容
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
-        add_device_wv.getSettings().setJavaScriptEnabled(true);
         add_device_wv.requestFocus(View.FOCUS_DOWN);
         add_device_wv.setWebViewClient(myWebviewClient);
+        loadingBar = (ImageView) findViewById(R.id.loadingbars);
+        loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
+        loadinglayout.setVisibility(View.VISIBLE);
         add_device_wv.loadUrl(url);
+        // 网络加载不成功状态
+        loadFailedLayout = (RelativeLayout)
+                findViewById(R.id.loadfailedlayout);
+        loadFailedLayout.setVisibility(View.GONE);
+        reloadImgView = (ImageView) findViewById(R.id.refreshimg);
+        reloadImgView.setOnClickListener(myOnClickListener);
 
     }
 
@@ -138,18 +166,50 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // MyLog.e("添加设备", "页面开始加载");
             super.onPageStarted(view, url, favicon);
+            if (!MySharedPreference.getBoolean("webfirst")) {
+                MySharedPreference.putBoolean("webfirst", true);
+                loadinglayout.setVisibility(View.VISIBLE);
+                add_device_wv.setVisibility(View.GONE);
+                loadingBar.setAnimation(AnimationUtils.loadAnimation(
+                        JVNewAddDeviceActivity.this, R.anim.rotate));
+            }
         }
 
         @Override
         public void onReceivedError(WebView view, int errorCode, String description,
                 String failingUrl) {
+            // MyLog.e("添加设备", "页面加载失败");
+            isLoadUrlfail = true;
+            loadFailedLayout.setVisibility(View.VISIBLE);
+            add_device_wv.setVisibility(View.GONE);
+            loadinglayout.setVisibility(View.GONE);
+            JVNewAddDeviceActivity.this.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
 
         @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO 自动生成的方法存根
+            // MyLog.e("添加设备", "页面开始完成");
+            if (isLoadUrlfail) {// 加载失败
+                // MyLog.e("添加设备", "页面开始完成失败");
+                loadFailedLayout.setVisibility(View.VISIBLE);
+                add_device_wv.setVisibility(View.GONE);
+                loadinglayout.setVisibility(View.GONE);
+            } else {
+                loadinglayout.setVisibility(View.GONE);
+                add_device_wv.setVisibility(View.VISIBLE);
+                loadFailedLayout.setVisibility(View.GONE);
+            }
+            super.onPageFinished(view, url);
+        }
+
+        @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
-            view.loadUrl(newurl);
+            MyLog.e("添加设备", "点击了!!!!!!!!!");
+            // view.loadUrl(newurl);
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
             resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
@@ -249,6 +309,31 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     saveMethod(devNumET.getText().toString(), Consts.DEFAULT_USERNAME
                             , Consts.DEFAULT_PASSWORD, devNumET.getText().toString());
+                    break;
+                case R.id.refreshimg:
+                    if (ConfigUtil.isConnected(JVNewAddDeviceActivity.this)) {
+                        MyLog.e("添加设备", "判断手机是否联网成功");
+                        loadFailedLayout.setVisibility(View.GONE);
+                        JVNewAddDeviceActivity.this.statusHashMap
+                                .put(Consts.HAS_LOAD_DEMO, "false");
+                        loadinglayout.setVisibility(View.VISIBLE);
+                        loadingBar.setAnimation(AnimationUtils.loadAnimation(
+                                JVNewAddDeviceActivity.this, R.anim.rotate));
+                        isLoadUrlfail = false;
+                        if (null == url || "".equalsIgnoreCase(url)) {
+                            if ("false".equals(JVNewAddDeviceActivity.this.statusHashMap
+                                    .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                                MyLog.e("Login", "初始化账号SDK失败");
+                                ConfigUtil
+                                        .initAccountSDK(((MainApplication) JVNewAddDeviceActivity.this
+                                                .getApplication()));// 初始化账号SDK
+                            }
+                        }
+                        add_device_wv.loadUrl(url);
+                    } else {
+                        MyLog.e("添加设备", "判断手机是否联网失败");
+                        JVNewAddDeviceActivity.this.alertNetDialog();
+                    }
                     break;
             // case R.id.tab_title:
             // StatService.trackCustomEvent(

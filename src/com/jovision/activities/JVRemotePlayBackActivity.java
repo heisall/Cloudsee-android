@@ -122,6 +122,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
             case Consts.CALL_STAT_REPORT: {// 每秒状态回调
                 int left = 0;
+                MyLog.v(TAG,
+                        "CALL_STAT_REPORT-" + obj.toString());
                 try {
                     if (null != obj) {
                         JSONArray array = new JSONArray(obj.toString());
@@ -129,17 +131,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
                         int size = array.length();
                         if (size > 0) {
                             object = array.getJSONObject(0);
-                            left = object.getInt("left");
-                            // MyLog.v(TAG,
-                            // "stat-" + ": fps: "
-                            // + object.getDouble("decoder_fps") + "+"
-                            // + object.getDouble("jump_fps") + "/"
-                            // + object.getDouble("network_fps")
-                            // + ", left = " + left);
-
+                            // left = object.getInt("left");
                             playbackData.setText(String.format("%.1fk/%.1fk",
                                     object.getDouble("kbps"),
-                                    object.getDouble("audio_kbps")));
+                                    object.getDouble("audio_network_fps")));
                         }
                     }
                 } catch (JSONException e) {

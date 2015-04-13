@@ -345,6 +345,8 @@ public abstract class PlayActivity extends BaseActivity implements
         fullScreen = (ImageView) findViewById(R.id.fullscreen);
         playBackFullScreen = (ImageView) findViewById(R.id.playbackfullscreen);
         linkMode.setVisibility(View.VISIBLE);
+        fullScreen.setVisibility(View.GONE);
+        playBackFullScreen.setVisibility(View.GONE);
 
         linkState = (TextView) findViewById(R.id.playstate);// 连接文字
         loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
@@ -814,6 +816,12 @@ public abstract class PlayActivity extends BaseActivity implements
         if (Consts.PLAY_AP == playFlag) {
             playHelp.setVisibility(View.GONE);
             rightBtn.setVisibility(View.GONE);
+            // -----------------customize start--------------------
+        } else if ("C".equals(deviceGroup)) {
+            // 猫眼的场合，更改标题栏右上角的图标
+            rightBtn.setVisibility(View.VISIBLE);
+            rightBtn.setBackgroundResource(R.drawable.share);
+            // -----------------customize end----------------------
         } else {
             // 录像模式
             rightBtn.setTextSize(8);
@@ -919,6 +927,12 @@ public abstract class PlayActivity extends BaseActivity implements
         if (Consts.PLAY_AP == playFlag) {
             playHelp.setVisibility(View.GONE);
             right_btn_h.setVisibility(View.GONE);
+            // -----------------customize start--------------------
+        } else if ("C".equals(deviceGroup)) {
+            // 猫眼的场合，更改标题栏右上角的图标
+            right_btn_h.setVisibility(View.VISIBLE);
+            right_btn_h.setBackgroundResource(R.drawable.share);
+            // -----------------customize end----------------------
         } else {
             // 录像模式
             right_btn_h.setTextSize(8);
@@ -1034,11 +1048,7 @@ public abstract class PlayActivity extends BaseActivity implements
             // 云台功能如果显示，则先关闭云台
             if (View.VISIBLE == ytLayout.getVisibility()) {
                 ytLayout.setVisibility(View.GONE);
-                if (bigScreen) {
-                    playFunctionList.setVisibility(View.VISIBLE);
-                } else {
-                    playFunctionList.setVisibility(View.GONE);
-                }
+                playFunctionList.setVisibility(View.VISIBLE);
             }
 
             // dddd

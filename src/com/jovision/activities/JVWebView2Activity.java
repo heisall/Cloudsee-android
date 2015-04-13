@@ -543,6 +543,7 @@ public class JVWebView2Activity extends BaseActivity implements
         pause.setOnClickListener(myOnClickListener);
         captureScreen.setOnClickListener(myOnClickListener);
         fullScreen.setOnClickListener(myOnClickListener);
+        fullScreen.setVisibility(View.GONE);
         playImgView.setOnClickListener(myOnClickListener);
 
         setSurfaceSize(false);

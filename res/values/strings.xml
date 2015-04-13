@@ -719,7 +719,9 @@
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
+    <string name="str_setting_time_success">时间设置成功</string>
     <string name="str_setting_time">Setting Time</string>
+    <string name="str_setting_submittime">Setting</string>
     <string name="str_mdenabled_open_ok">The motion detecting open success</string>
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>

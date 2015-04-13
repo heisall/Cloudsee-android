@@ -2,6 +2,7 @@
 package com.jovision.views;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +29,10 @@ public class TimePopView extends PopupWindow {
 	public ImageView relativeOne_img;
 	public ImageView relativeTwo_img;
 	public ImageView relativeThree_img;
-	private RelativeLayout relativeOne;
-	private RelativeLayout relativeTwo;
-	private RelativeLayout relativeThree;
+	public RelativeLayout relativeOne;
+	public RelativeLayout relativeTwo;
+	public RelativeLayout relativeThree;
 	public TextView Currenttype;
-
 
 	public TimePopView(Activity context, OnClickListener itemsOnClick,int type) {
 		super(context);

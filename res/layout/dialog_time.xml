@@ -113,8 +113,9 @@
                 android:background="#bebebe" />
 
             <ImageView
+                android:id="@+id/selector_line"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/wheel_selector_bg" />
         </RelativeLayout>

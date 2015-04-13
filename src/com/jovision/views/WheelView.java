@@ -41,6 +41,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -72,7 +73,7 @@ public class WheelView extends View {
 		0x00FFFFFF, 0x00AAAAAA };
 
 	/** Additional items height (is added to standard text item height) */
-	private static final int ADDITIONAL_ITEM_HEIGHT = 25;
+	private static final int ADDITIONAL_ITEM_HEIGHT = 20;//25
 
 	/** Text size */
 	public int TEXT_SIZE;
@@ -419,15 +420,16 @@ public class WheelView extends View {
 		if (itemsPaint == null) {
 			itemsPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
 					| Paint.FAKE_BOLD_TEXT_FLAG);
-			// itemsPaint.density = getResources().getDisplayMetrics().density;
-			itemsPaint.setTextSize(TEXT_SIZE);
+			itemsPaint.density = getResources().getDisplayMetrics().density;
+			Log.i("TAG", "SSSSSSSSSSSSSSSSS"+itemsPaint.density);
+			itemsPaint.setTextSize(TEXT_SIZE*itemsPaint.density);
 		}
 
 		if (valuePaint == null) {
 			valuePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
 					| Paint.FAKE_BOLD_TEXT_FLAG | Paint.DITHER_FLAG);
-			// valuePaint.density = getResources().getDisplayMetrics().density;
-			valuePaint.setTextSize(TEXT_SIZE+5);
+			 valuePaint.density = getResources().getDisplayMetrics().density;
+			valuePaint.setTextSize((TEXT_SIZE+5)*valuePaint.density);
 			valuePaint.setShadowLayer(0.1f, 0, 0.1f, 0xFFC0C0C0);
 		}
 
@@ -587,7 +589,7 @@ public class WheelView extends View {
 		} else {
 			itemsWidth = 0;
 		}
-		itemsWidth += ADDITIONAL_ITEMS_SPACE; // make it some more
+		itemsWidth += ADDITIONAL_ITEMS_SPACE*getResources().getDisplayMetrics().density; // make it some more
 
 		labelWidth = 0;
 		if (label != null && label.length() > 0) {

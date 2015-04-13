@@ -1,6 +1,5 @@
 package com.jovision.utils;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -10,6 +9,7 @@ import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.NumericWheelAdapter;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.views.WheelView;
 
 public class WheelMain {
@@ -75,13 +75,24 @@ public class WheelMain {
 		wv_year = (WheelView) view.findViewById(R.id.year);
 		wv_year.setAdapter(new NumericWheelAdapter(START_YEAR, END_YEAR));// 设置"年"的显示数据
 		wv_year.setCyclic(true);// 可循环滚动
-		wv_year.setCurrentItem(year - START_YEAR);// 初始化时显示的数据
+		if (-1 != MySharedPreference.getInt("year")) {
+			wv_year.setCurrentItem(MySharedPreference.getInt("year"));// 初始化时显示的数据
+		}else {
+			wv_year.setCurrentItem(year - START_YEAR);// 初始化时显示的数据
+		}
+
 
 		// 月
 		wv_month = (WheelView) view.findViewById(R.id.month);
 		wv_month.setAdapter(new NumericWheelAdapter(1, 12));
 		wv_month.setCyclic(true);
-		wv_month.setCurrentItem(month);
+		if (-1 != MySharedPreference.getInt("month")) {
+			wv_month.setCurrentItem( MySharedPreference.getInt("month"));
+		}else {
+			wv_month.setCurrentItem(month);
+		}
+
+
 
 		// 日
 		wv_day = (WheelView) view.findViewById(R.id.day);
@@ -91,14 +102,22 @@ public class WheelMain {
 		wv_hours = (WheelView)view.findViewById(R.id.hour);
 		wv_hours.setAdapter(new NumericWheelAdapter(0, 23));
 		wv_hours.setCyclic(true);
-		wv_hours.setCurrentItem(hour);
+		if (-1 != MySharedPreference.getInt("hour")) {
+			wv_hours.setCurrentItem(MySharedPreference.getInt("hour"));
+		}else {
+			wv_hours.setCurrentItem(hour);
+		}
+
 
 		//分
 		wv_mins = (WheelView)view.findViewById(R.id.minute);
 		wv_mins.setAdapter(new NumericWheelAdapter(0, 59));
 		wv_mins.setCyclic(true);
-		wv_mins.setCurrentItem(mins);
-
+		if (-1 != MySharedPreference.getInt("mins")) {
+			wv_mins.setCurrentItem(MySharedPreference.getInt("mins"));
+		}else {
+			wv_mins.setCurrentItem(mins);
+		}
 		// 判断大小月及是否闰年,用来确定"日"的数据
 		if (list_big.contains(String.valueOf(month + 1))) {
 			wv_day.setAdapter(new NumericWheelAdapter(1, 31));
@@ -111,7 +130,12 @@ public class WheelMain {
 			else
 				wv_day.setAdapter(new NumericWheelAdapter(1, 28));
 		}
-		wv_day.setCurrentItem(day - 1);
+		if (-1 != MySharedPreference.getInt("day")) {
+			wv_day.setCurrentItem(MySharedPreference.getInt("day"));
+		}else {	wv_day.setCurrentItem(day - 1);
+		}
+
+
 
 		// 添加"年"监听
 		OnWheelChangedListener wheelListener_year = new OnWheelChangedListener() {
@@ -158,8 +182,8 @@ public class WheelMain {
 		// 根据屏幕密度来指定选择器字体的大小
 		int textSize = 0;
 
-		textSize = 30;
-
+		textSize = 15;
+		
 		wv_day.TEXT_SIZE = textSize;
 		wv_month.TEXT_SIZE = textSize;
 		wv_year.TEXT_SIZE = textSize;
@@ -170,6 +194,11 @@ public class WheelMain {
 
 	public String getTime(int Count) {
 		StringBuffer sb = new StringBuffer();
+		MySharedPreference.putInt("year", wv_year.getCurrentItem());
+		MySharedPreference.putInt("month", wv_month.getCurrentItem());
+		MySharedPreference.putInt("day", wv_day.getCurrentItem());
+		MySharedPreference.putInt("hour", wv_hours.getCurrentItem());
+		MySharedPreference.putInt("mins", wv_mins.getCurrentItem());
 		if (0 == Count) {
 			sb.append((wv_day.getCurrentItem() + 1)).append("/")
 			.append((wv_month.getCurrentItem() + 1)).append("/")

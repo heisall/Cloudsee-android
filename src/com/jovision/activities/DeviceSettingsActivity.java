@@ -149,6 +149,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		Log.i("TAG", streamMap.toString());
 		if (null != streamMap.get("timezone")
 				&& "".equals(MySharedPreference.getString("TIMEZONE"))) {
 			int index = Integer.valueOf(streamMap

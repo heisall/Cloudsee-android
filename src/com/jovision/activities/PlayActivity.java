@@ -243,10 +243,11 @@ public abstract class PlayActivity extends BaseActivity implements
     protected Drawable normalRecordDrawableTop = null;
 
     // protected RelativeLayout mainfunctionLayout;
-// -----------------customize start--------------------
+    // -----------------customize start--------------------
     // 设备分组
     protected String deviceGroup;
-// -----------------customize end----------------------
+
+    // -----------------customize end----------------------
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -344,6 +345,8 @@ public abstract class PlayActivity extends BaseActivity implements
         fullScreen = (ImageView) findViewById(R.id.fullscreen);
         playBackFullScreen = (ImageView) findViewById(R.id.playbackfullscreen);
         linkMode.setVisibility(View.VISIBLE);
+        fullScreen.setVisibility(View.GONE);
+        playBackFullScreen.setVisibility(View.GONE);
 
         linkState = (TextView) findViewById(R.id.playstate);// 连接文字
         loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
@@ -441,19 +444,19 @@ public abstract class PlayActivity extends BaseActivity implements
         horfunc_talk_down = (ImageView) findViewById(R.id.horfunc_talk_down);
 
         playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);
-// -----------------customize start--------------------
-//        functionList.add(getResources().getString(R.string.str_yt_operate));
-//        functionList
-//                .add(getResources().getString(R.string.str_remote_playback));
-//        functionList.add(getResources().getString(R.string.str_audio_monitor));
-// -----------------customize end-----------------------
+        // -----------------customize start--------------------
+        // functionList.add(getResources().getString(R.string.str_yt_operate));
+        // functionList
+        // .add(getResources().getString(R.string.str_remote_playback));
+        // functionList.add(getResources().getString(R.string.str_audio_monitor));
+        // -----------------customize end-----------------------
         functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
                 playFlag);
-// -----------------customize start--------------------
+        // -----------------customize start--------------------
         String functions[];// 功能数组
         if ("C".equals(deviceGroup)) {
             functions = getResources()
-                            .getStringArray(R.array.array_play_functions_cat);
+                    .getStringArray(R.array.array_play_functions_cat);
         } else {
             if (Consts.PLAY_AP == playFlag) {
                 functions = getResources()
@@ -468,7 +471,7 @@ public abstract class PlayActivity extends BaseActivity implements
         }
         functionListAdapter.setData(functionList);
         playFunctionList.setAdapter(functionListAdapter);
-// -----------------customize end----------------------
+        // -----------------customize end----------------------
 
         if (bigScreen) {
             playFunctionList.setVisibility(View.VISIBLE);
@@ -1033,11 +1036,7 @@ public abstract class PlayActivity extends BaseActivity implements
             // 云台功能如果显示，则先关闭云台
             if (View.VISIBLE == ytLayout.getVisibility()) {
                 ytLayout.setVisibility(View.GONE);
-                if (bigScreen) {
-                    playFunctionList.setVisibility(View.VISIBLE);
-                } else {
-                    playFunctionList.setVisibility(View.GONE);
-                }
+                playFunctionList.setVisibility(View.VISIBLE);
             }
 
             // dddd

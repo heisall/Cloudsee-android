@@ -598,8 +598,8 @@ public class JVPlayActivity extends PlayActivity implements
                     int type = jobj.optInt("device_type");
                     if (null != jobj) {
                         channel.getParent().setType(type);
-                        if (Consts.DEVICE_TYPE_IPC == type
-                                || Consts.DEVICE_TYPE_NVR == type) {// 只有IPC和NVR才支持云台速度调整
+                        if (Consts.DEVICE_TYPE_IPC == type) {// 2015.4.13
+                                                             // 只有IPC才支持云台速度调整
                             ytSeekLayout.setVisibility(View.VISIBLE);
                             channel.getParent().setYtSpeed(
                                     MySharedPreference.getInt(channel.getParent().getFullNo()
@@ -1247,7 +1247,7 @@ public class JVPlayActivity extends PlayActivity implements
 
             case Consts.CALL_STAT_REPORT: {
                 try {
-                    // MyLog.e(Consts.TAG_PLAY, obj.toString());
+                    MyLog.e(Consts.TAG_PLAY, obj.toString());
                     JSONArray array = new JSONArray(obj.toString());
                     JSONObject object = null;
 

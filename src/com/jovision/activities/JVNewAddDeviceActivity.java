@@ -149,7 +149,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
-            view.loadUrl(newurl);
+            // view.loadUrl(newurl);
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
             resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);

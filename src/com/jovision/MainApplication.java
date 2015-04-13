@@ -716,8 +716,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
                     .getBoolean(Consts.MORE_STATURL))
                     || (itemFlag.equals(Consts.MORE_SYSTEMMESSAGE) && !MySharedPreference
                             .getBoolean(Consts.MORE_SYSTEMMESSAGE))
-                            ||(itemFlag.equals(Consts.MORE_CLOUD_SHOP) && !MySharedPreference
-                                    .getBoolean(Consts.MORE_CLOUD_SHOP))) {
+                    || (itemFlag.equals(Consts.MORE_CLOUD_SHOP) && !MySharedPreference
+                            .getBoolean(Consts.MORE_CLOUD_SHOP))) {
                 item.setIsnew(true);
             }
             /** 设置alarm信息 **/

@@ -13,63 +13,60 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package com.jovision.adapters;
 
 /**
  * The simple Array wheel adapter
  * 
- * @param <T>
- *            the element type
+ * @param <T> the element type
  */
 public class ArrayWheelAdapter<T> implements WheelAdapter {
 
-	/** The default items length */
-	public static final int DEFAULT_LENGTH = -1;
+    /** The default items length */
+    public static final int DEFAULT_LENGTH = -1;
 
-	// items
-	private T items[];
-	// length
-	private int length;
+    // items
+    private T items[];
+    // length
+    private int length;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param items
-	 *            the items
-	 * @param length
-	 *            the max items length
-	 */
-	public ArrayWheelAdapter(T items[], int length) {
-		this.items = items;
-		this.length = length;
-	}
+    /**
+     * Constructor
+     * 
+     * @param items the items
+     * @param length the max items length
+     */
+    public ArrayWheelAdapter(T items[], int length) {
+        this.items = items;
+        this.length = length;
+    }
 
-	/**
-	 * Contructor
-	 * 
-	 * @param items
-	 *            the items
-	 */
-	public ArrayWheelAdapter(T items[]) {
-		this(items, DEFAULT_LENGTH);
-	}
+    /**
+     * Contructor
+     * 
+     * @param items the items
+     */
+    public ArrayWheelAdapter(T items[]) {
+        this(items, DEFAULT_LENGTH);
+    }
 
-	@Override
-	public String getItem(int index) {
-		if (index >= 0 && index < items.length) {
-			return items[index].toString();
-		}
-		return null;
-	}
+    @Override
+    public String getItem(int index) {
+        if (index >= 0 && index < items.length) {
+            return items[index].toString();
+        }
+        return null;
+    }
 
-	@Override
-	public int getItemsCount() {
-		return items.length;
-	}
+    @Override
+    public int getItemsCount() {
+        return items.length;
+    }
 
-	@Override
-	public int getMaximumLength() {
-		return length;
-	}
+    @Override
+    public int getMaximumLength() {
+        return length;
+    }
 
 }

@@ -47,6 +47,8 @@ public class JVAddDeviceActivity extends BaseActivity {
     private String ip = "";
     private int port = 0;
     int channelCount = -1;
+    /** 传递过来的云视通账号 nihy */
+    private String devNumET_cloudseeId = "";
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -92,6 +94,7 @@ public class JVAddDeviceActivity extends BaseActivity {
     @Override
     protected void initSettings() {
         Intent intent = getIntent();
+        devNumET_cloudseeId = intent.getStringExtra("devNumET_cloudseeid");
         deviceList = CacheUtil.getDevList();
         qrAdd = intent.getBooleanExtra("QR", false);
         if (qrAdd) {
@@ -125,6 +128,7 @@ public class JVAddDeviceActivity extends BaseActivity {
         nickET = (EditText) findViewById(R.id.nick_et);
         saveBtn = (Button) findViewById(R.id.save_btn);
 
+        devNumET.setText(devNumET_cloudseeId);
         userET.setText(Consts.DEFAULT_USERNAME);
         pwdET.setText(Consts.DEFAULT_PASSWORD);
         saveBtn.setBackgroundResource(R.drawable.blue_bg);

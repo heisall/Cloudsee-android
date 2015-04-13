@@ -286,6 +286,8 @@
     <!-- 设备管理 -->
     <string name="str_new_add_device">选择添加设备</string>
     <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
+    <string name="str_new_add_device_confirm">确认</string>
+    <string name="str_new_add_device_tab_title">扫一扫</string>
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
@@ -451,6 +453,7 @@
     <string name="get_device_failed">Device loaded failed</string>
     <string name="search_device_failed">Check Device Online status failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
+    <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，\n点击这里把它加进来吧~\n还没有设备？去逛一下~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
     <string name="alarm_level">Alarm Level</string>

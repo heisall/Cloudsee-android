@@ -3751,7 +3751,7 @@ public class DeviceUtil {
                             webUrl.setGcsUrl(temObj
                                     .optString(JVDeviceConst.JK_WEB_GCS_URL));
                             webUrl.setCloudUrl(temObj
-                                    .optString(JVDeviceConst.JK_WEB_CLOUD_URL));//云服务
+                                    .optString(JVDeviceConst.JK_WEB_CLOUD_URL));// 云服务
 
                             webUrl.setDemoSwitch(temObj
                                     .optInt(JVDeviceConst.JK_WEB_DEMO_FLAG));
@@ -3764,7 +3764,7 @@ public class DeviceUtil {
                             webUrl.setGcsSwitch(temObj
                                     .optInt(JVDeviceConst.JK_WEB_GCS_FLAG));
                             webUrl.setCloudSwitch(temObj
-                                    .optInt(JVDeviceConst.JK_WEB_CLOUD_FLAG));//云服务
+                                    .optInt(JVDeviceConst.JK_WEB_CLOUD_FLAG));// 云服务
                         } else {
                             webUrl = null;
                         }

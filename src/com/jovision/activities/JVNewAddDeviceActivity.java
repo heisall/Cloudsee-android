@@ -3,19 +3,12 @@ package com.jovision.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.AnimationUtils;
@@ -29,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -43,7 +35,6 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.tencent.stat.StatService;
-import com.umeng.common.Log;
 
 import org.json.JSONObject;
 
@@ -55,7 +46,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private static final String TAG = "JVNewAddDeviceActivity";
     private EditText devNumET;
     ImageButton editimg_clearn;
-    ImageView tab_icon, save_icon;
+    ImageView tab_icon;
+    Button save_icon;
     TextView tab_title;
     WebView add_device_wv;
     // String url = "http://test.cloudsee.net/mobile/";
@@ -138,10 +130,10 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         editimg_clearn = (ImageButton) findViewById(R.id.editimg_clearn);
         editimg_clearn.setOnClickListener(myOnClickListener);
         tab_title = (TextView) findViewById(R.id.tab_title);
-        tab_icon = (ImageView) findViewById(R.id.tab_icon);
+        tab_icon = (ImageView) findViewById(R.id.tab_erweima_icon);
         tab_icon.setOnClickListener(myOnClickListener);
         // tab_title.setOnClickListener(myOnClickListener);
-        save_icon = (ImageView) findViewById(R.id.save_icon);
+        save_icon = (Button) findViewById(R.id.save_icon);
         save_icon.setOnClickListener(myOnClickListener);
         devNumET.addTextChangedListener(new TextWatcherImpl());
         devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
@@ -288,7 +280,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 case R.id.btn_left:
                     JVNewAddDeviceActivity.this.finish();
                     break;
-                case R.id.tab_icon:
+                case R.id.tab_erweima_icon:
                     StatService.trackCustomEvent(
                             JVNewAddDeviceActivity.this,
                             "Scan QR Code",
@@ -309,6 +301,11 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     saveMethod(devNumET.getText().toString(), Consts.DEFAULT_USERNAME
                             , Consts.DEFAULT_PASSWORD, devNumET.getText().toString());
+                    Intent addDeviceIntent = new Intent();
+                    addDeviceIntent
+                            .setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
+                    addDeviceIntent.putExtra("devNumET_cloudseeid", devNumET.getText().toString());
+                    JVNewAddDeviceActivity.this.startActivity(addDeviceIntent);
                     break;
                 case R.id.refreshimg:
                     if (ConfigUtil.isConnected(JVNewAddDeviceActivity.this)) {

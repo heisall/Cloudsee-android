@@ -149,6 +149,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        Log.i("TAG", streamMap.toString());
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
@@ -169,6 +170,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
         } else {
             mainListener.onMainAction(JVNetConst.RC_EXTEND,
                     JVNetConst.TIME_ZONE, 1, 0, 0, null);
+        }
+
+        if (null != streamMap.get("MobileQuality")) {
+            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                    JVNetConst.SET_TIME, 1, 0, 0, null);
+        } else {
+            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                    JVNetConst.SET_TIME, 2, 0, 0, null);
         }
     }
 
@@ -668,12 +677,19 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 finish();
                 break;
             case JVNetConst.TIME_ZONE:
+                MySharedPreference.putString("TIMEZONE", "");
                 Intent timeIntent = new Intent(DeviceSettingsActivity.this,
                         JVTimeZoneActivity.class);
-                Log.i("TAG", timezones + "ddddddd");
                 timeIntent.putExtra("timezone", timezones);
                 timeIntent.putExtra("window", window);
                 startActivity(timeIntent);
+                break;
+            case JVNetConst.SET_TIME:
+                Intent timesIntent = new Intent(DeviceSettingsActivity.this,
+                        JVSetTimeActivity.class);
+                timesIntent.putExtra("timetype", params);
+                timesIntent.putExtra("window", window);
+                startActivity(timesIntent);
                 break;
             default:
                 break;
@@ -1086,13 +1102,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
         }
         return 0;
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        MySharedPreference.putString("TIMEZONE", "");
     }
 
     class CloudSwitchTask extends AsyncTask<String, Integer, Integer> {

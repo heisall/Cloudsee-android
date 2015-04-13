@@ -206,16 +206,16 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                                 Consts.TAB_PLAZZA_RELOAD_URL, 0, 0, demoUrl);
                     }
                     break;
-                case 6://云服务开通
+                case 6:// 云服务开通
                     String cloudurl = webUrl.getCloudUrl();
                     if (null != cloudurl && !cloudurl.equals("")) {
                         Intent intentAD2 = new Intent(mContext,
                                 JVWebViewActivity.class);
-                        if(cloudurl.contains("?")){
-                            cloudurl = cloudurl+"&sid="+sid;
+                        if (cloudurl.contains("?")) {
+                            cloudurl = cloudurl + "&sid=" + sid;
                         }
-                        else{
-                            cloudurl = cloudurl+"?sid="+sid;
+                        else {
+                            cloudurl = cloudurl + "?sid=" + sid;
                         }
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_CLOUD_SHOP, cloudurl);
@@ -227,7 +227,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     } else {
                         ((BaseActivity) mContext)
                                 .showTextToast(R.string.str_video_load_failed);
-                    }                    
+                    }
                     break;
                 default:
                     break;

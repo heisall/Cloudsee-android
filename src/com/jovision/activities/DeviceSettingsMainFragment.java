@@ -42,6 +42,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private String devicename;
     private int channelIndex;// 窗口
     protected Toast toast;
+    private int timeType;// 时间格式 0三种格式，1两种格式
     private int dialogflag; // 0表示重置设备，1表示重启设备;
 
     public interface OnFuncActionListener {
@@ -64,7 +65,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
     private String startHour = "", startMin = "";
     private String endHour = "", endMin = "";
     private RelativeLayout functionlayout0, functionlayout1, functionlayout2, functionlayout3,
-            functionlayout4, functionlayout5, functionlayout6, functionlayout7, functionlayout8;
+            functionlayout4, functionlayout5, functionlayout6, functionlayout7, functionlayout8,
+            funclayout9;
     private RelativeLayout functiontips1, functiontips2, functiontips3,
             functiontips6, functiontips7;
     private TextView alarmTime0TextView, funtion_titile_71;
@@ -144,6 +146,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
                 .findViewById(R.id.funclayout7);
         functionlayout8 = (RelativeLayout) rootView
                 .findViewById(R.id.funclayout8);
+        funclayout9 = (RelativeLayout) rootView
+                .findViewById(R.id.funclayout9);
 
         functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
         functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
@@ -166,6 +170,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
         functionlayout6.setOnClickListener(this);
         functionlayout7.setOnClickListener(this);
         functionlayout8.setOnClickListener(this);
+        funclayout9.setOnClickListener(this);
 
         Bundle data = getArguments();// 获得从activity中传递过来的值
 
@@ -434,7 +439,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
                 ResetDialog();
                 break;
             case R.id.funclayout6:
-                // TODO
                 break;
             case R.id.funclayout4:
                 if (DeviceSettingsActivity.isadmin) {
@@ -462,6 +466,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
             case R.id.funclayout8:
                 dialogflag = 1;
                 ResetDialog();
+                break;
+            case R.id.funclayout9:
+                mListener.OnFuncSelected(JVNetConst.SET_TIME,
+                        timeType + "");
                 break;
             default:
                 break;
@@ -603,8 +611,15 @@ public class DeviceSettingsMainFragment extends Fragment implements
                 break;
             case JVNetConst.RC_EXTEND: {
                 switch (packet_subtype) {
+                    case JVNetConst.SET_TIME:
+                        if (1 == ex_type) {
+                            // TODO
+                            timeType = 0;
+                        } else {
+                            timeType = 1;
+                        }
+                        break;
                     case JVNetConst.TIME_ZONE:
-                        // TODO
                         funtion_titile_71.setText(Content);
                         if (1 == ex_type) {
                             functionlayout7.setVisibility(View.GONE);
@@ -841,7 +856,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
     @Override
     public void onFuncAction(int func_index, int nowFlag, int destFlag) {
-        // TODO Auto-generated method stub
         if (func_cloud_enabled == 1) {
             // 打开--->关闭
             // Log.e("Alarm",

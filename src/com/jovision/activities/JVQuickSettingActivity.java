@@ -1142,7 +1142,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
                 // intent.setClass(JVQuickSettingActivity.this,
                 // JVLoginActivity.class);
                 // JVQuickSettingActivity.this.startActivity(intent);
-
+                Intent intent = new Intent();
+                setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
                 JVQuickSettingActivity.this.finish();
                 break;
             // case Consts.CALL_QUERY_DEVICE: {// 广播到设备IP
@@ -1603,6 +1604,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
                     // WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     quickSetDeviceImg.setVisibility(View.VISIBLE);
                 } else if (2 == result) {
+                    Intent intent = new Intent();
+                    setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
                     JVQuickSettingActivity.this.finish();
                 } else {
                     handler.sendMessage(handler.obtainMessage(
@@ -1885,6 +1888,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
                     task.execute(params);
                     break;
                 case R.id.quickSetDeviceImg:
+                    Intent intent = new Intent();
+                    setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
                     JVQuickSettingActivity.this.finish();
                     break;
             }

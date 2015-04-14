@@ -744,8 +744,8 @@
     <string name="str_cloud_query_error_1">查询用户使用详情失败</string>
     <string name="str_cloud_query_title">剩余流量</string>
     <string name="str_cloud_charge_left">充值流量剩余</string>
-    <string name="str_cloud_free_left">赠送剩余</string>  
-    <string name="str_report_flow_ok">上报成功</string>  
+    <string name="str_cloud_free_left">赠送剩余</string>
+    <string name="str_report_flow_ok">上报成功</string>
     <string name="str_report_flow_failed">上报失败</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>

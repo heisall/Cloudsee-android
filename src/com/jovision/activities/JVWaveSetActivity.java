@@ -6,6 +6,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
@@ -857,7 +858,9 @@ public class JVWaveSetActivity extends BaseActivity {
                 showTextToast(R.string.add_device_succ);
 
                 if (!hasNewDevice()) {
-                    finish();
+                    Intent intent = new Intent();
+                    setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
+                    JVWaveSetActivity.this.finish();
                 }
 
             } else {

@@ -1777,6 +1777,10 @@ public class DeviceUtil {
                         // int mt =
                         // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
                         res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+                        if(res == 0){
+                            int ipc_ret = saveCloudSettingsToIPC(dGuid);
+                            return ipc_ret;
+                        }
                         // ，其他失败
                         // int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
                     }
@@ -1791,7 +1795,91 @@ public class DeviceUtil {
         // }
         return res;
     }
+    public static int saveCloudSettingsToIPC(String dGuid) {
+        // 参数例子：{"mid":4,"mt":3006,"pv":"1.0","lpt":7,"sid":"5c9995471e60dad582a253feef0b2e98","username":"juyang","dguid":"A228142816","dinfo":{"tfss":0}}
+        // {"username":"juyang","lpt":1,"pv":"1.0","dinfo":{"tfss":0},"mt":3006,"dguid":"A228142816"}
+        JSONObject paramObj = new JSONObject();
+        String saveKey = "";
+        // try {
+        // switch (settingTag) {
+        // case JVDeviceConst.DEVICE_NICK_NAME_SWITCH:// 修改昵称
+        // // 安全防护开关
+        // paramObj.put(JVDeviceConst.JK_DEVICE_NAME, dName);// 0关 1开
+        // break;
+        // case JVDeviceConst.DEVICE_ALARTM_TIME_SWITCH:// 防护时间段
+        // saveKey = JVDeviceConst.JK_ALARM_TIME;
+        // // 安全防护开关
+        // paramObj.put(JVDeviceConst.JK_ALARM_TIME, dName);// 0关 1开
+        // break;
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        int res = -1;
+        JSONObject jObj = new JSONObject();
+        try {
+            jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+                    JVDeviceConst.CLOUD_STORAGE_SWITCH_IPC);// mt
+            jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+                    JVDeviceConst.PROTO_VERSION);// pv
+            jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+                    JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+            jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
+            jObj.put(JVDeviceConst.JK_SESSION_ID, JVACCOUNT.GetSession());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
 
+        MyLog.v("saveCloudSettingsToIPC---request", jObj.toString());
+
+        // 返回值范例：
+        /**
+         * {"mt":3007,"rt":5,"mid":1}
+         */
+
+        // 接收返回数据
+        // byte[] resultStr = new byte[512];
+        // int error = JVACCOUNT
+        // .GetResponseByRequestDevicePersistConnectionServer(
+        // jObj.toString(), resultStr);
+        // if (0 == error) {
+        // String result = new String(resultStr);
+        String requesRes = JVACCOUNT
+                .GetResponseByRequestDevicePersistConnectionServerV2(jObj
+                        .toString());
+
+        JSONObject respObject = null;
+        try {
+            respObject = new JSONObject(requesRes);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        int ret = respObject.optInt("result", -1);
+        if (ret == 0) {
+            String result = respObject.optString("resp", "");
+            MyLog.v("saveCloudSettingsToIPC--result--", result);
+
+            if (null != result && !"".equalsIgnoreCase(result)) {
+                try {
+                    JSONObject temObj = new JSONObject(result);
+                    if (null != temObj) {
+                        // int mt =
+                        // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+                        res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+                        // ，其他失败
+                        // int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // if (res == 0 && !"".equals(saveKey)) {
+        // saveToDB(loginUserName, dGuid, saveKey, dName);
+        // }
+        return res;
+    }
     /**
      * 2014-03-10 保存配置（写到数据库）
      */

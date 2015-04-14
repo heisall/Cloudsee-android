@@ -125,13 +125,13 @@ public class CircleProgressBar extends View {
                 this.height / 2, arcColors, null);
         fillArcPaint.setShader(sweepGradient);
         fillArcPaint.setMaskFilter(mBlur);
-        fillArcPaint.setStrokeCap(Paint.Cap.ROUND);
+//        fillArcPaint.setStrokeCap(Paint.Cap.ROUND);
         fillArcPaint.setAntiAlias(true); // 消除锯齿
         fillArcPaint.setStrokeWidth(pathWidth);
         oval.set(this.width / 2 - radius, this.height / 2 - radius, this.width
                 / 2 + radius, this.height / 2 + radius);
-        // 0是逆时针增长 -90是顺时针增长
-        canvas.drawArc(oval, 10, ((float) progress / max) * 360, false,
+
+        canvas.drawArc(oval, -90, -360 * progress / max, false,
                 fillArcPaint);
 
     }

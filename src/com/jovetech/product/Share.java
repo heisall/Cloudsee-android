@@ -30,9 +30,9 @@ public class Share implements IShare {
     public static Share getInstance(Activity activity) {
         if (single == null) {
             single = new Share();
-            single.mActivity = activity;
-            single.mShare = (IShare) single.mActivity;
         }
+        single.mActivity = activity;
+        single.mShare = (IShare) single.mActivity;
         return single;
     }
 

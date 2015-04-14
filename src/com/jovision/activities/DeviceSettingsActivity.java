@@ -77,6 +77,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public String descript;
     public static String fullno;
     public String timezones;
+    public int intentnum;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -179,6 +180,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
             mainListener.onMainAction(JVNetConst.RC_EXTEND,
                     JVNetConst.SET_TIME, 2, 0, 0, null);
         }
+        
+        if (null != streamMap.get("bSntp")) {
+        	intentnum = Integer.valueOf(streamMap.get("bSntp"));
+        } 
     }
 
     @Override
@@ -689,6 +694,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                         JVSetTimeActivity.class);
                 timesIntent.putExtra("timetype", params);
                 timesIntent.putExtra("window", window);
+                timesIntent.putExtra("opennum", intentnum);
                 startActivity(timesIntent);
                 break;
             default:

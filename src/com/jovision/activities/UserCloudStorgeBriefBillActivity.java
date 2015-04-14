@@ -112,7 +112,7 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
                     if (fee_type == 0) {
                         // 构造方法的字符格式这里如果小数不足2位,会以0补足.
-                        DecimalFormat decimalFormat = new DecimalFormat(".0");
+                        DecimalFormat decimalFormat = new DecimalFormat("0.0");
                         // 单位流量
                         float flow_mb = (float) resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW,
                                 0) / (float) 1024;

@@ -1734,7 +1734,7 @@ public class DeviceUtil {
             jObj.put(JVDeviceConst.JK_PROTO_VERSION,
                     JVDeviceConst.PROTO_VERSION);// pv
             jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
-                    JVDeviceConst.DEV_INFO_PRO);// lpt
+                    JVDeviceConst.VAS_PROCESS);// lpt
             jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
             jObj.put(JVDeviceConst.JK_CLOUD_STORAGE_FLAG, flag);
         } catch (Exception e1) {

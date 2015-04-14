@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
+import com.jovision.bean.BackRunPushInfoStack;
 import com.jovision.bean.Device;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.PushInfo;
@@ -537,8 +538,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
                                 MyLog.v("PushCallBack",
                                         "the app is not OnForeground.........");
-                                onNotify(Consts.WHAT_PUSH_MESSAGE,
-                                        pi.alarmType, 0, pi);
+                                BackRunPushInfoStack push_stack = BackRunPushInfoStack.getInstance();
+                                push_stack.push(pi);
+//                                onNotify(Consts.WHAT_PUSH_MESSAGE,
+//                                        pi.alarmType, 0, pi);
                                 Activity currentActivity = MyActivityManager
                                         .getActivityManager().currentActivity();
                                 if (MyActivityManager.getActivityManager()

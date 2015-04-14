@@ -32,7 +32,9 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
+import com.jovision.bean.BackRunPushInfoStack;
 import com.jovision.bean.Device;
+import com.jovision.bean.PushInfo;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyActivityManager;
@@ -197,6 +199,7 @@ public class JVTabActivity extends ShakeActivity implements
     protected void onDestroy() {
         super.onDestroy();
         // int cnt = mApp.getNewPushCnt();
+        BackRunPushInfoStack.getInstance().clear();        
         MyLog.e(TAG, "onDestroy,invoke~~~~~ ");
         // mApp.setNewPushCnt(0);
         // MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
@@ -270,6 +273,12 @@ public class JVTabActivity extends ShakeActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        //获取后台运行时推送过来的报警，by lkp
+        PushInfo pi = BackRunPushInfoStack.getInstance().pop();
+        if(null != pi){
+            onNotify(Consts.WHAT_PUSH_MESSAGE,
+                    pi.alarmType, 0, pi);            
+        }
 
         if (null == (statusHashMap.get(Consts.MORE_BBSNUM))
                 || "".equals((statusHashMap.get(Consts.MORE_BBSNUM)))) {

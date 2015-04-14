@@ -114,9 +114,6 @@ public class JVVersionActivity extends BaseActivity {
             configList.add("个推CID=" + gtClientID + "\n");
             configList.add("OS MODEL=" + android.os.Build.MODEL + "\n");
 
-            configList.add("流量统计兼容测试:" + Global.STR_TRAFFICSTATS_CMPT_RES
-                    + "\n");
-
             if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
                     .GetVersion(0))
                     && ConfigUtil.PLAY_VERSION

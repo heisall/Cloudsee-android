@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVMoreFragment;
+import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.activities.JVTabActivity;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
 
@@ -266,6 +267,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
             case 'd':// 小维工程
                 iconResId = R.drawable.tabbar_compose_engineering;
                 break;
+            case 'e':// 局域网搜索设备
             default:
 
         }
@@ -290,6 +292,9 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
                 break;
             case 'd':// 小维工程
                 gcsurl();
+                break;
+            case 'e':// 局域网搜索设备
+                searchLocalNetworkDevice();
                 break;
             default:
 
@@ -330,6 +335,25 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      */
     private void bbsurl() {
         mLastFragment.bbsurl(mActivity);
+    }
+
+    /**
+     * 局域网扫描设备
+     */
+    private void searchLocalNetworkDevice() {
+        JVTabActivity jvTabActivity = (JVTabActivity) mActivity;
+        char charTag = (char) jvTabActivity.getCurrentIndex();
+        // 我的设备(局域网扫描设备需要先跳转到我的设备中)
+        switch (charTag) {
+            case 'a':// 当前Tab是我的设备时(a表示我的设备),直接执行扫描
+                break;
+            default:
+                jvTabActivity.jumpFragmentByTag('a');
+        }
+
+        JVMyDeviceFragment deviceFragment =
+                (JVMyDeviceFragment) jvTabActivity.getCurrentFragment();
+        deviceFragment.searchLocalNetworkDevice();
     }
 
 }

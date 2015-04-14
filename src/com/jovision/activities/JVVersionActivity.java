@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Global;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;

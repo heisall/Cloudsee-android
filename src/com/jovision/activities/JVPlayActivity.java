@@ -1002,6 +1002,13 @@ public class JVPlayActivity extends PlayActivity implements
                                             channel.setSingleVoice(false);
                                         }
 
+                                        // 获取网络校时字段
+                                        if (null != streamMap.get("bSntp")
+                                                && !"".equalsIgnoreCase(streamMap
+                                                        .get("bSntp"))) {
+                                            MyLog.v("bSntp", "bSntp=" + streamMap.get("bSntp"));
+                                        }
+
                                         // 融合后的代码，从码流信息里获取moveSpeed 云台速度字段
                                         if (null != streamMap.get("moveSpeed")
                                                 && !"".equalsIgnoreCase(streamMap
@@ -3095,6 +3102,14 @@ public class JVPlayActivity extends PlayActivity implements
                     break;
                 case R.id.bottom_but3:
                 case R.id.capture:// 抓拍
+
+                    // String params = "bSntp=" + 1 + ";";//0关，1开
+                    //
+                    // MyLog.v(TAG, "bSntp--" + params);
+                    // Jni.sendString(lastClickIndex,
+                    // JVNetConst.JVN_RSP_TEXTDATA,
+                    // false, 0, Consts.TYPE_SET_PARAM, params);
+
                     // String time = "2:01/01/2015 11:11:11";
                     // String time = "1:2015-01-01 11:11:11";
                     // Jni.sendSuperBytes(lastClickIndex,

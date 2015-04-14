@@ -69,8 +69,8 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
 
             @Override
             public void onComplete(int progress1) {
-//                progress = 0;
-//                mAbProgressBar.reset();
+                // progress = 0;
+                // mAbProgressBar.reset();
             }
         });
         CheckUserFlowTask task = new CheckUserFlowTask();
@@ -109,10 +109,10 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                     return;
                 }
                 else {
+                    // 构造方法的字符格式这里如果小数不足2位,会以0补足.
+                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
                     if (fee_type == 0) {
-                        // 构造方法的字符格式这里如果小数不足2位,会以0补足.
-                        DecimalFormat decimalFormat = new DecimalFormat("0.0");
                         // 单位流量
                         float flow_mb = (float) resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW,
                                 0) / (float) 1024;
@@ -138,14 +138,14 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                     progress = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE_USE, 0);
                     mAbProgressBar.setMax(max);
                     int left = max - progress;
-                    double left_pct = 0;
+                    float left_pct = 0;
                     if (left > 0 && left <= max) {
-                        double db_pct = (double) left / (double) max;
+                        float db_pct = (float) left / (float) max;
                         left_pct = db_pct * 100;
                         mAbProgressBar.setProgress(left);
                     }
-                    tv_free_left_top_pct.setText(left_pct + "%");
-                    tv_free_left_circle_pct.setText(left_pct + "%");
+                    tv_free_left_top_pct.setText(decimalFormat.format(left_pct) + "%");
+                    tv_free_left_circle_pct.setText(decimalFormat.format(left_pct) + "%");
 
                 }
             } catch (JSONException e) {

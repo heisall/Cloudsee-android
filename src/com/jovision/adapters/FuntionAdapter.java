@@ -2,7 +2,6 @@
 package com.jovision.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +23,9 @@ public class FuntionAdapter extends BaseAdapter {
     private boolean bigScreen = false;
     private int playFlag;
     private boolean bFromAlerm;
-    private Resources mResources;
 
     public FuntionAdapter(Context con, boolean flag, int playFlag) {
         mContext = con;
-        mResources = mContext.getResources();
         bigScreen = flag;
         this.playFlag = playFlag;
         inflater = (LayoutInflater) mContext

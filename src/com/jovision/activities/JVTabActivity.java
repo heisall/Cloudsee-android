@@ -3,10 +3,6 @@ package com.jovision.activities;
 
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +28,6 @@ import com.jovetech.product.MoreFragmentFactory;
 import com.jovetech.product.MyDeviceFragmentFactory;
 import com.jovetech.product.VideoFragmentFactory;
 import com.jovision.Consts;
-import com.jovision.Global;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
@@ -1187,6 +1182,7 @@ public class JVTabActivity extends ShakeActivity implements
 
     /**
      * 跳转到某个fragment
+     * 
      * @param tag
      */
     public void jumpFragmentByTag(char tag) {
@@ -1200,17 +1196,19 @@ public class JVTabActivity extends ShakeActivity implements
         // 跳转到某个fragment
         mIndicator.jumpFragment(position);
     }
-    
+
     /**
      * 当前Tab的索引
+     * 
      * @return
      */
     public int getCurrentIndex() {
         return currentIndex;
     }
-    
+
     /**
      * 获取当前的fragment
+     * 
      * @return
      */
     public BaseFragment getCurrentFragment() {

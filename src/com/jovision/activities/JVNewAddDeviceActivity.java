@@ -54,7 +54,6 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     String url = "http://www.cloudsee.net/mobile/nineBlock.action";
     // String url ="https://www.baidu.com/";
     Boolean isLoadUrlfail = false;
-    Boolean isLoadUrlFinish = false;
     private RelativeLayout loadFailedLayout;
     private LinearLayout loadinglayout;
     private ImageView reloadImgView, loadingBar;
@@ -200,7 +199,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
-            MyLog.e("添加设备", "点击了!!!!!!!!!");
+
             // view.loadUrl(newurl);
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
@@ -299,13 +298,18 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                     ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(JVNewAddDeviceActivity.this.getCurrentFocus()
                                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    saveMethod(devNumET.getText().toString(), Consts.DEFAULT_USERNAME
+                    Boolean checkResult = checkYstNum(devNumET.getText().toString(),
+                            Consts.DEFAULT_USERNAME
                             , Consts.DEFAULT_PASSWORD, devNumET.getText().toString());
-                    Intent addDeviceIntent = new Intent();
-                    addDeviceIntent
-                            .setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
-                    addDeviceIntent.putExtra("devNumET_cloudseeid", devNumET.getText().toString());
-                    JVNewAddDeviceActivity.this.startActivity(addDeviceIntent);
+                    if (checkResult) {
+                        Intent addDeviceIntent = new Intent();
+                        addDeviceIntent
+                                .setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
+                        addDeviceIntent.putExtra("devNumET_cloudseeid", devNumET.getText()
+                                .toString());
+                        JVNewAddDeviceActivity.this.startActivity(addDeviceIntent);
+                        return;
+                    }
                     break;
                 case R.id.refreshimg:
                     if (ConfigUtil.isConnected(JVNewAddDeviceActivity.this)) {
@@ -409,34 +413,23 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
      * @param userName
      * @param userPwd
      */
-    public void saveMethod(String devNum, String userName, String userPwd,
+    public Boolean checkYstNum(String devNum, String userName, String userPwd,
             String nickName) {
+        boolean islegal = true;
         if (null == deviceList) {
             deviceList = new ArrayList<Device>();
         }
         int size = deviceList.size();
         if ("".equalsIgnoreCase(devNum)) {// 云视通号不可为空
             showTextToast(R.string.login_str_device_ytnum_notnull);
-            return;
+            islegal = false;
         } else if (!ConfigUtil.checkYSTNum(devNum)) {// 验证云视通号是否合法
             showTextToast(R.string.increct_yst_tips);
-            return;
-        } else if (!"".equals(nickName) && !ConfigUtil.checkNickName(nickName)) {// 昵称不合法
-            showTextToast(R.string.login_str_nike_name_order);
-            return;
-        } else if ("".equalsIgnoreCase(userName)) {// 用户名不可为空
-            showTextToast(R.string.login_str_device_account_notnull);
-            return;
-        } else if (!ConfigUtil.checkDeviceUsername(userName)) {// 用户名是否合法
-            showTextToast(R.string.login_str_device_account_error);
-            return;
-        } else if (!ConfigUtil.checkDevicePwd(userPwd)) {
-            showTextToast(R.string.login_str_device_pass_error);
-            return;
+            islegal = false;
         } else if (size >= 100
                 && !Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地多于100个设备不让再添加
             showTextToast(R.string.str_device_most_count);
-            return;
+            islegal = false;
         } else {
             // 判断一下是否已存在列表中
             boolean find = false;
@@ -452,17 +445,11 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             if (find) {
                 devNumET.setText("");
                 showTextToast(R.string.str_device_exsit);
-                return;
+                islegal = false;
             }
         }
 
-        AddDevTask task = new AddDevTask();
-        String[] strParams = new String[4];
-        strParams[0] = ConfigUtil.getGroup(devNum);
-        strParams[1] = String.valueOf(ConfigUtil.getYST(devNum));
-        strParams[2] = String.valueOf(2);
-        strParams[3] = nickName;
-        task.execute(strParams);
+        return islegal;
     }
 
     // 设置三种类型参数分别为String,Integer,String

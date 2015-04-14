@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -692,7 +693,8 @@ public class JVWebView2Activity extends BaseActivity implements
         // 设置setWebChromeClient对象
         webView.setWebChromeClient(wvcc);
         webView.requestFocus(View.FOCUS_DOWN);
-
+        WebSettings set = webView.getSettings();
+        set.setDomStorageEnabled(true);
         // setting.setPluginState(PluginState.ON);
         // 加快加载速度
         webView.getSettings().setRenderPriority(RenderPriority.HIGH);

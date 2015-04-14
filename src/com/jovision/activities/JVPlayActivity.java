@@ -37,7 +37,6 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.jovetech.CloudSee.temp.R;
@@ -65,7 +64,6 @@ import com.jovision.utils.PlayUtil;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
@@ -152,10 +150,11 @@ public class JVPlayActivity extends PlayActivity implements
     private boolean updateStreaminfoFlag = false;
     /** 基于断开视频不走回调加此list */
     private MyList<Message> msgList = new MyList<Message>(0);
-// -----------------customize start--------------------
+    // -----------------customize start--------------------
     private UMSocialService mController;
     private Share mShare;
-// -----------------customize end----------------------
+
+    // -----------------customize end----------------------
 
     @Override
     public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -1765,14 +1764,14 @@ public class JVPlayActivity extends PlayActivity implements
             // + ", channel/index = "
             // + channelList.get(startWindowIndex).getChannel() + "/"
             // + channelList.get(startWindowIndex).getIndex());
-// -----------------customize start--------------------
+            // -----------------customize start--------------------
             mShare = Share.getInstance(this);
             mController = mShare.getShareController();
             // 配置需要分享的相关平台
             mShare.configPlatforms();
             // 设置分享的内容
             mShare.setShareContent();
-// -----------------customize end----------------------
+            // -----------------customize end----------------------
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -4185,10 +4184,10 @@ public class JVPlayActivity extends PlayActivity implements
     protected void onActivityResult(int requestCode, int responseCode,
             Intent arg2) {
         super.onActivityResult(requestCode, responseCode, arg2);
-// -----------------customize start--------------------
+        // -----------------customize start--------------------
         /** 使用SSO授权必须添加如下代码 */
         mShare.setAuthorizeCallBack(requestCode, responseCode, arg2);
-// -----------------customize end----------------------
+        // -----------------customize end----------------------
         if (Consts.PLAY_DEVSET_REQUSET == requestCode
                 && Consts.PLAY_DEVSET_RESPONSE == responseCode) {
             this.finish();
@@ -4905,7 +4904,6 @@ public class JVPlayActivity extends PlayActivity implements
 
     /**
      * 分享设置 //TODO
-     *
      */
     @Override
     public void setShareContent() {

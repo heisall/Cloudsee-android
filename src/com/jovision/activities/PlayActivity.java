@@ -247,6 +247,7 @@ public abstract class PlayActivity extends BaseActivity implements
     // 设备分组
     protected String deviceGroup;
     protected boolean isShareEnabled;
+
     // -----------------customize end----------------------
 
     @Override
@@ -885,9 +886,9 @@ public abstract class PlayActivity extends BaseActivity implements
         }
 
         if (screen > 1 || !channel.isConnected()) {
-// -----------------customize start--------------------
+            // -----------------customize start--------------------
             isShareEnabled = false;
-// -----------------customize end----------------------
+            // -----------------customize end----------------------
             rightBtn.setVisibility(View.GONE);
             right_btn_h.setVisibility(View.GONE);
             if (MySharedPreference.getBoolean("playhelp1")) {

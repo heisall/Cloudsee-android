@@ -1203,6 +1203,38 @@ public class JVTabActivity extends ShakeActivity implements
     }
 
     /**
+     * 跳转到某个fragment
+     * @param tag
+     */
+    public void jumpFragmentByTag(char tag) {
+        int position = 0;
+        for (int i = 0; i < mIndicatorSequence.length; i++) {
+            if (tag == mIndicatorSequence[i]) {
+                position = i;
+            }
+        }
+        MyLog.v(TAG, "--jump fragment's position--" + position);
+        // 跳转到某个fragment
+        mIndicator.jumpFragment(position);
+    }
+    
+    /**
+     * 当前Tab的索引
+     * @return
+     */
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+    
+    /**
+     * 获取当前的fragment
+     * @return
+     */
+    public BaseFragment getCurrentFragment() {
+        return getFragmentByTag(currentIndex);
+    }
+
+    /**
      * 原有的indicator选择操作. 因为牵扯到的一些其它的业务,所以保留.在initIndicatorListener会调用
      * 
      * @param v

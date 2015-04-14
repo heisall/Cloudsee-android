@@ -231,6 +231,7 @@
         <item>小维知道</item>
         <item>小维商城</item>
         <item>小维工程</item>
+        <item>局域网搜索设备</item>
     </string-array>
     <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
     <string-array name="array_customize_item_tag">
@@ -238,6 +239,7 @@
         <item>b</item>
         <item>c</item>
         <item>d</item>
+        <item>e</item>
     </string-array>
     <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
     <string-array name="array_tabs_sequence">

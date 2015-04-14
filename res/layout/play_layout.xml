@@ -6,7 +6,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" 
+        >
 
         <include
             android:id="@+id/top_bar"
@@ -138,13 +139,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/videolayout"
             android:background="@color/white"
+            android:layout_marginBottom="55dp"
             android:visibility="visible" >
 
             <include
                 android:id="@+id/yt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_centerVertical="true"
                 layout="@layout/yt_vertical_layout"
                 android:visibility="gone" />
 

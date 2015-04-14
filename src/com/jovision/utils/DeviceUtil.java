@@ -1777,7 +1777,7 @@ public class DeviceUtil {
                         // int mt =
                         // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
                         res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
-                        if(res == 0){
+                        if (res == 0) {
                             int ipc_ret = saveCloudSettingsToIPC(dGuid);
                             return ipc_ret;
                         }
@@ -1795,6 +1795,7 @@ public class DeviceUtil {
         // }
         return res;
     }
+
     public static int saveCloudSettingsToIPC(String dGuid) {
         // 参数例子：{"mid":4,"mt":3006,"pv":"1.0","lpt":7,"sid":"5c9995471e60dad582a253feef0b2e98","username":"juyang","dguid":"A228142816","dinfo":{"tfss":0}}
         // {"username":"juyang","lpt":1,"pv":"1.0","dinfo":{"tfss":0},"mt":3006,"dguid":"A228142816"}
@@ -1880,6 +1881,7 @@ public class DeviceUtil {
         // }
         return res;
     }
+
     /**
      * 2014-03-10 保存配置（写到数据库）
      */

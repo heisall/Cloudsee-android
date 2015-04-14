@@ -125,7 +125,7 @@ public class CircleProgressBar extends View {
                 this.height / 2, arcColors, null);
         fillArcPaint.setShader(sweepGradient);
         fillArcPaint.setMaskFilter(mBlur);
-//        fillArcPaint.setStrokeCap(Paint.Cap.ROUND);
+        // fillArcPaint.setStrokeCap(Paint.Cap.ROUND);
         fillArcPaint.setAntiAlias(true); // 消除锯齿
         fillArcPaint.setStrokeWidth(pathWidth);
         oval.set(this.width / 2 - radius, this.height / 2 - radius, this.width

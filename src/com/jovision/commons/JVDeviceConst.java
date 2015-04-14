@@ -539,7 +539,7 @@ public class JVDeviceConst {
 
     // 云存储
     public static final int CLOUD_STORAGE_SWITCH_IPC = 3034;
-    public static final int CLOUD_STORAGE_SWITCH_IPC_RESPONSE = 3035;    
+    public static final int CLOUD_STORAGE_SWITCH_IPC_RESPONSE = 3035;
     public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5215;
     public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5216;
     public static final int CLOUD_STORAGE_SWITCH = 5219;

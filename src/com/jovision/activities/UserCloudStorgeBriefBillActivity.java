@@ -69,8 +69,8 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
 
             @Override
             public void onComplete(int progress1) {
-//                progress = 0;
-//                mAbProgressBar.reset();
+                // progress = 0;
+                // mAbProgressBar.reset();
             }
         });
         CheckUserFlowTask task = new CheckUserFlowTask();

@@ -198,7 +198,7 @@ public class WheelMain {
         MySharedPreference.putInt("day", wv_day.getCurrentItem());
         MySharedPreference.putInt("hour", wv_hours.getCurrentItem());
         MySharedPreference.putInt("mins", wv_mins.getCurrentItem());
-        if (0 == Count) {
+        if (2 == Count) {
             sb.append((wv_day.getCurrentItem() + 1)).append("/")
                     .append((wv_month.getCurrentItem() + 1)).append("/")
                     .append((wv_year.getCurrentItem() + START_YEAR)).append(" ")
@@ -212,7 +212,7 @@ public class WheelMain {
                     .append((wv_hours.getCurrentItem())).append(":")
                     .append((wv_mins.getCurrentItem())).append(":")
                     .append("00");
-        } else if (2 == Count) {
+        } else if (0 == Count) {
             sb.append((wv_month.getCurrentItem() + 1)).append("/")
                     .append((wv_day.getCurrentItem() + 1)).append("/")
                     .append((wv_year.getCurrentItem() + START_YEAR)).append(" ")

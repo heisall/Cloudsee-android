@@ -770,30 +770,39 @@ public class CustomDialogActivity extends BaseActivity implements
                         String temp1[] = strImgUrl.split("com/");
                         cloudResource = String.format("/%s/%s", cloudBucket,
                                 temp1[1]);
-                        if (!fileIsExists(localImgPath)) {
-                            bLocalFile = false;
-                            if (!strImgUrl.equals("")) {
-                                lookVideoBtn.setEnabled(false);
-                                // 起线程下载图片
+                        if(bDownLoadFileType == 0){
+                            if (!fileIsExists(localImgPath)) {
+                                bLocalFile = false;
+                                if (!strImgUrl.equals("")) {
+                                    lookVideoBtn.setEnabled(false);
+                                    // 起线程下载图片
+                                    // 首先计算签名
+                                    cloudSignImgUri = Jni.GenSignedCloudUri(
+                                            cloudResource, storageJson);
+                                    new Thread(new DownThread(cloudSignImgUri,
+                                            "CSAlarmIMG/", localImgName)).start();
+                                } else if (!vod_uri_.equals("")) {
+                                    lookVideoBtn.setEnabled(true);
+                                }
+                            } else {
+                                if (!vod_uri_.equals("")) {
+                                    lookVideoBtn.setEnabled(true);
+                                }
                                 // 首先计算签名
-                                cloudSignImgUri = Jni.GenSignedCloudUri(
-                                        cloudResource, storageJson);
-                                new Thread(new DownThread(cloudSignImgUri,
-                                        "CSAlarmIMG/", localImgName)).start();
-                            } else if (!vod_uri_.equals("")) {
-                                lookVideoBtn.setEnabled(true);
-                            }
-                        } else {
-                            if (!vod_uri_.equals("")) {
-                                lookVideoBtn.setEnabled(true);
-                            }
-                            // 首先计算签名
-                            Bitmap bmp = getLoacalBitmap(localImgPath);
-                            if (null != bmp) {
-                                alarmImage.setImageBitmap(bmp);
-                            }
-                            bLocalFile = true;
+                                Bitmap bmp = getLoacalBitmap(localImgPath);
+                                if (null != bmp) {
+                                    alarmImage.setImageBitmap(bmp);
+                                }
+                                bLocalFile = true;
+                            }                            
                         }
+                        else{
+                            //下载录像
+                            //TODO
+                            cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
+                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();                            
+                        }
+
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -830,12 +839,12 @@ public class CustomDialogActivity extends BaseActivity implements
                     if (msg.arg1 == 0) {
                         Log.e("Down", "上报成功");
                         downLoadSize = 0;
-                        showTextToast("上报成功");
+                        showTextToast(R.string.str_report_flow_ok);
                         MySharedPreference.putLong(Consts.KEY_CLOUD_VOD_SIZE, 0);// 清0
                     }
                     else {
                         Log.e("Down", "上报失败");
-                        showTextToast("上报失败:" + msg.arg1);
+                        showTextToast(getResources().getString(R.string.str_report_flow_failed) + msg.arg1);
                     }
                     break;
                 case JVNetConst.JVN_RSP_DISCONN:
@@ -1088,7 +1097,7 @@ public class CustomDialogActivity extends BaseActivity implements
         @Override
         protected void onPreExecute() {
             progressdialog.show();
-            Toast.makeText(mActivity, "开始下载", Toast.LENGTH_LONG).show();
+//            Toast.makeText(mActivity, "开始下载", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -1097,10 +1106,10 @@ public class CustomDialogActivity extends BaseActivity implements
                 progressdialog.dismiss();
             }
             if (result == 0) {
-                Toast.makeText(mActivity, "下载成功", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mActivity, "下载成功", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(mActivity, "下载失败", Toast.LENGTH_SHORT).show();
+                showTextToast(R.string.video_download_failed);
             }
             if (downLoadSize >= REPORT_LIMIT) {
                 Log.e("Down", "达到上限，开始上报");

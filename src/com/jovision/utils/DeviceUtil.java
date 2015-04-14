@@ -155,7 +155,7 @@ public class DeviceUtil {
                                                 .optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
                                         // 云存储开关
                                         dev.setCloudEnabled(obj.optInt(
-                                                JVDeviceConst.JK_CLOUD_STORAGE_FLAG, 0));
+                                                JVDeviceConst.JK_CLOUD_STORAGE_FLAG, -1));
                                         deviceList.add(dev);
 
                                         // 同步map,也算是初始化
@@ -1730,7 +1730,7 @@ public class DeviceUtil {
         JSONObject jObj = new JSONObject();
         try {
             jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-                    JVDeviceConst.PUSH_DEVICE_CLOUD_INFO_REQ);// mt
+                    JVDeviceConst.CLOUD_STORAGE_SWITCH);// mt
             jObj.put(JVDeviceConst.JK_PROTO_VERSION,
                     JVDeviceConst.PROTO_VERSION);// pv
             jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,

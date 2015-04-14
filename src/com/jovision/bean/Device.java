@@ -112,7 +112,7 @@ public class Device {
 
     private int ytSpeed = 0;// 2015.4.3设备云台转速
 
-    private int cloudEnabled = 0; // 云存储服务开关
+    private int cloudEnabled = -1; // 云存储服务开关
 
     public Device() {
         channelList = new MyList<Channel>(1);

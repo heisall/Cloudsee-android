@@ -3103,7 +3103,7 @@ public class JVPlayActivity extends PlayActivity implements
                 case R.id.bottom_but3:
                 case R.id.capture:// 抓拍
 
-                    // String params = "bSntp=" + 1 + ";";//0关，1开
+                    // String params = "bSntp=" + 1 + ";";// 0关，1开
                     //
                     // MyLog.v(TAG, "bSntp--" + params);
                     // Jni.sendString(lastClickIndex,

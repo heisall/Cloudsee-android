@@ -588,6 +588,33 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
         });
     }
 
+    // -----------------customize start--------------------
+    // 局域网扫描设备
+    public void searchLocalNetworkDevice() {
+        MyLog.v(TAG, "--searchLocalNetworkDevice--");
+        StatService.trackCustomEvent(mActivity,
+                "Scan devices in LAN", mActivity.getResources()
+                        .getString(R.string.str_scanlandevice));
+
+        if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+                true)) {
+            MyLog.v(Consts.TAG_APP, "not broad = " + false);
+            return;
+        }
+
+        if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+            fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+            broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+            broadList.clear();
+            PlayUtil.deleteDevIp(myDeviceList);
+            PlayUtil.broadCast(mActivity);
+        } else {
+            mActivity.showTextToast(R.string.notwifi_forbid_func);
+        }
+    }
+
+    // -----------------customize end----------------------
+
     @Override
     public void onResume() {
         super.onResume();

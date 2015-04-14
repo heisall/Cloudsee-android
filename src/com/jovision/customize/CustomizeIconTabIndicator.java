@@ -60,27 +60,6 @@ public class CustomizeIconTabIndicator extends LinearLayout {
 
     private Runnable mTabSelector;
 
-    private final View.OnClickListener mTabClickListener = new View.OnClickListener() {
-        public void onClick(View view) {
-            TabView tabView = (TabView) view;
-            final int newSelected = tabView.mIndex;
-            final int oldSelected = mSelectedTabIndex;
-            final boolean isCustomize = tabView.mIsCustomize;
-            final char tag = tabView.mMark;
-            if (oldSelected == newSelected && mTabSelectedListener != null) {
-                mTabSelectedListener.onTabReselected(newSelected, tag,
-                        isCustomize);
-            } else {
-                // 点击定制Tab后不选中
-                if (!isCustomize) {
-                    setCurrentItem(newSelected);
-                }
-                mTabSelectedListener.onTabSelected(newSelected, oldSelected,
-                        tag, isCustomize);
-            }
-        }
-    };
-
     private final LinearLayout mTabLayout;
 
     private int mSelectedTabIndex;
@@ -113,6 +92,17 @@ public class CustomizeIconTabIndicator extends LinearLayout {
     public void setOnTabSelectedListener(OnTabSelectedListener listener) {
         mTabSelectedListener = listener;
     }
+
+    /**
+     * tab的click事件
+     */
+    private final View.OnClickListener mTabClickListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            TabView tabView = (TabView) view;
+            // 具体的点击事件处理
+            clickEvents(tabView);
+        }
+    };
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -278,7 +268,7 @@ public class CustomizeIconTabIndicator extends LinearLayout {
         requestLayout();
     }
 
-    public void setCurrentItem(int item) {
+    private void setCurrentItem(int item) {
 
         mSelectedTabIndex = item;
 
@@ -290,6 +280,40 @@ public class CustomizeIconTabIndicator extends LinearLayout {
             if (isSelected) {
                 animateToTab(item);
             }
+        }
+    }
+
+    /**
+     * 跳转到某个Tabs
+     * 
+     * @param which 要跳转的tab的位置
+     */
+    public void jumpFragment(int which) {
+        TabView tabView = (TabView) mIndicators[which];
+        // 执行Tab的点击事件
+        clickEvents(tabView);
+    }
+
+    /**
+     * tab的具体click事件处理
+     * 
+     * @param tabView
+     */
+    private void clickEvents(TabView tabView) {
+        final int newSelected = tabView.mIndex;
+        final int oldSelected = mSelectedTabIndex;
+        final boolean isCustomize = tabView.mIsCustomize;
+        final char tag = tabView.mMark;
+        if (oldSelected == newSelected && mTabSelectedListener != null) {
+            mTabSelectedListener.onTabReselected(newSelected, tag,
+                    isCustomize);
+        } else {
+            // 点击定制Tab后不选中
+            if (!isCustomize) {
+                setCurrentItem(newSelected);
+            }
+            mTabSelectedListener.onTabSelected(newSelected, oldSelected,
+                    tag, isCustomize);
         }
     }
 
@@ -363,15 +387,15 @@ public class CustomizeIconTabIndicator extends LinearLayout {
     // ---------------------------------------------------
     // ## Update Custom View's Message
     // ---------------------------------------------------
-    public void updateIndicator(int whitch, int msgCount, boolean show,
+    public void updateIndicator(int which, int msgCount, boolean show,
             int count) {
-        TabView tabView = (TabView) mIndicators[whitch];
+        TabView tabView = (TabView) mIndicators[which];
         RelativeLayout rlty = (RelativeLayout) tabView
                 .findViewById(R.id.tab_info);
 
         // 最后一个Tab的位置
         int lastPosition = mIndicators.length - 1;
-        switch (whitch) {
+        switch (which) {
             case 1: {// 报警消息条数,这个屏蔽掉，因为换位置了，避免出错，重新定义个值
                 // tabInfoText.setText(String.valueOf(msgCount));
                 //
@@ -383,7 +407,7 @@ public class CustomizeIconTabIndicator extends LinearLayout {
                 break;
             }
             default:
-                if (whitch == lastPosition) {// 更多功能，新
+                if (which == lastPosition) {// 更多功能，新
                     if (show) {
                         rlty.setVisibility(View.VISIBLE);
                         tabView.setInfoText(count + "");

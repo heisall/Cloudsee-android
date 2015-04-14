@@ -6,8 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        >
+        android:layout_height="match_parent" >
 
         <include
             android:id="@+id/top_bar"
@@ -138,8 +137,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/videolayout"
-            android:background="@color/white"
             android:layout_marginBottom="55dp"
+            android:background="@color/white"
             android:visibility="visible" >
 
             <include

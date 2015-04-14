@@ -288,7 +288,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                     Intent addIntent = new Intent();
                     addIntent.setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
                     addIntent.putExtra("QR", true);
-                    JVNewAddDeviceActivity.this.startActivity(addIntent);
+                    JVNewAddDeviceActivity.this.startActivityForResult(addIntent,
+                            Consts.DEVICE_ADD_REQUEST);
 
                     break;
                 case R.id.editimg_clearn:
@@ -307,7 +308,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                 .setClass(JVNewAddDeviceActivity.this, JVAddDeviceActivity.class);
                         addDeviceIntent.putExtra("devNumET_cloudseeid", devNumET.getText()
                                 .toString());
-                        JVNewAddDeviceActivity.this.startActivity(addDeviceIntent);
+                        JVNewAddDeviceActivity.this.startActivityForResult(addDeviceIntent,
+                                Consts.DEVICE_ADD_REQUEST);
                         return;
                     }
                     break;

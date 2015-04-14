@@ -17,7 +17,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -770,7 +769,7 @@ public class CustomDialogActivity extends BaseActivity implements
                         String temp1[] = strImgUrl.split("com/");
                         cloudResource = String.format("/%s/%s", cloudBucket,
                                 temp1[1]);
-                        if(bDownLoadFileType == 0){
+                        if (bDownLoadFileType == 0) {
                             if (!fileIsExists(localImgPath)) {
                                 bLocalFile = false;
                                 if (!strImgUrl.equals("")) {
@@ -794,13 +793,13 @@ public class CustomDialogActivity extends BaseActivity implements
                                     alarmImage.setImageBitmap(bmp);
                                 }
                                 bLocalFile = true;
-                            }                            
+                            }
                         }
-                        else{
-                            //下载录像
-                            //TODO
+                        else {
+                            // 下载录像
+                            // TODO
                             cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
-                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();                            
+                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
                         }
 
                     } catch (JSONException e) {
@@ -844,7 +843,8 @@ public class CustomDialogActivity extends BaseActivity implements
                     }
                     else {
                         Log.e("Down", "上报失败");
-                        showTextToast(getResources().getString(R.string.str_report_flow_failed) + msg.arg1);
+                        showTextToast(getResources().getString(R.string.str_report_flow_failed)
+                                + msg.arg1);
                     }
                     break;
                 case JVNetConst.JVN_RSP_DISCONN:
@@ -1097,7 +1097,7 @@ public class CustomDialogActivity extends BaseActivity implements
         @Override
         protected void onPreExecute() {
             progressdialog.show();
-//            Toast.makeText(mActivity, "开始下载", Toast.LENGTH_LONG).show();
+            // Toast.makeText(mActivity, "开始下载", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -1106,7 +1106,7 @@ public class CustomDialogActivity extends BaseActivity implements
                 progressdialog.dismiss();
             }
             if (result == 0) {
-//                Toast.makeText(mActivity, "下载成功", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mActivity, "下载成功", Toast.LENGTH_SHORT).show();
             }
             else {
                 showTextToast(R.string.video_download_failed);

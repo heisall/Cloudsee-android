@@ -999,13 +999,19 @@ public class JVTabActivity extends ShakeActivity implements
 
     }
 
-    //
-    // @Override
-    // public void onActivityResult(int requestCode, int resultCode, Intent
-    // data) {
-    // onNotify(Consts.TAB_ON_ACTIVITY_RESULT, requestCode, resultCode, data);
-    // super.onActivityResult(requestCode, resultCode, data);
-    // }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent
+            data) {
+        if (Consts.SCAN_IN_LINE_REQUEST == requestCode && Consts.SCAN_IN_LINE_RESULT == resultCode) {
+            BaseFragment currentFrag = getFragmentByTag(currentIndex);
+            if (null != currentFrag) {
+                ((IHandlerLikeNotify) currentFrag).onNotify(Consts.SCAN_IN_LINE_REQUEST,
+                        Consts.SCAN_IN_LINE_RESULT, 0,
+                        data);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     // ---------------------------------------------------------------------
     // ## customize

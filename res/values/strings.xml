@@ -285,11 +285,19 @@
     <string name="yt_speed">Speed</string>
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
-    <!-- 设备管理 -->
+    <!-- JVNewAddDeviceActivity -->
     <string name="str_new_add_device">选择添加设备</string>
     <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
     <string name="str_new_add_device_confirm">确认</string>
     <string name="str_new_add_device_tab_title">扫一扫</string>
+    <string name="str_new_add_device_networking">已联网设备</string>
+    <string name="str_new_add_device_nonetworking">未联网设备</string>
+    <string name="str_new_add_device_other">其他方式</string>
+    <string name="str_new_add_device_AP">AP设置添加</string>
+    <string name="str_new_add_device_wave">声波设置添加</string>
+    <string name="str_new_add_device_IP"> IP/域名添加</string>
+    <string name="str_new_add_device_localnetwork">局域网添加</string>
+    <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>

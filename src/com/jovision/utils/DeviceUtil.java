@@ -1819,12 +1819,12 @@ public class DeviceUtil {
         int res = -1;
         JSONObject jObj = new JSONObject();
         try {
-            if(flag == 1){//打开
+            if (flag == 1) {// 打开
                 jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-                        JVDeviceConst.CLOUD_STORAGE_SWITCH_OPEN_IPC);// mt                
-            }else{//关闭
+                        JVDeviceConst.CLOUD_STORAGE_SWITCH_OPEN_IPC);// mt
+            } else {// 关闭
                 jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-                        JVDeviceConst.CLOUD_STORAGE_SWITCH_CLOSE_IPC);// mt                   
+                        JVDeviceConst.CLOUD_STORAGE_SWITCH_CLOSE_IPC);// mt
             }
 
             jObj.put(JVDeviceConst.JK_PROTO_VERSION,

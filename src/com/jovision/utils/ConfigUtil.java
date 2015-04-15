@@ -77,8 +77,8 @@ import javax.mail.internet.MimeMultipart;
 public class ConfigUtil {
     private final static String TAG = "ConfigUtil";
     public final static String ACCOUNT_VERSION = "V3.2.15.10";
-    public final static String PLAY_VERSION = "0.9.1b[ff49751][2015-04-14]";
-    public final static String NETWORK_VERSION = "v2.0.76.3.34[private:v2.0.75.13 20150413.1]";
+    public final static String PLAY_VERSION = "0.9.1b[e7cc5cf][2015-04-15]";
+    public final static String NETWORK_VERSION = "v2.0.76.3.34[private:v2.0.75.13 20150331.1]";
 
     public static String GETACCTOUT_VERSION = "";
     public static String GETPLAY_VERSION = "";
@@ -522,7 +522,7 @@ public class ConfigUtil {
         if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
             result = Jni.init(context, 9200, Consts.LOG_PATH);
             ConfigUtil.getJNIVersion();
-            Jni.enableLog(false);
+            Jni.enableLog(true);
             Jni.setThumb(320, 90);
             Jni.setStat(true);
             if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP, true)) {

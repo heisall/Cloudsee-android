@@ -77,7 +77,8 @@ public class JVSetTimeActivity extends BaseActivity {
 		timeText = (TextView) findViewById(R.id.time_text);
 		linear = (LinearLayout) findViewById(R.id.linear);
 
-		rightBtn.setOnClickListener(myOnClickListener);
+//		rightBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setVisibility(View.GONE);
 		intenttime.setOnClickListener(myOnClickListener);
 		dateType.setOnClickListener(myOnClickListener);
 		timeType.setOnClickListener(myOnClickListener);
@@ -149,7 +150,7 @@ public class JVSetTimeActivity extends BaseActivity {
 				finish();
 				break;
 			case R.id.btn_right:
-				Savetime();
+				
 				//TODO
 				break;
 			case R.id.pop_outside:
@@ -187,7 +188,7 @@ public class JVSetTimeActivity extends BaseActivity {
 						dateText.setText("MM/DD/YYYY");
 					}
 				}else {
-					showTextToast("请在关闭网络对时后再做此操作");
+					showTextToast(getResources().getString(R.string.str_swith_time));
 				}
 				break;
 			case R.id.time_type:
@@ -200,13 +201,14 @@ public class JVSetTimeActivity extends BaseActivity {
 					popupWindow.showAtLocation(linear, Gravity.BOTTOM
 							| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 				}else {
-					showTextToast("请在关闭网络对时后再做此操作");
+					showTextToast(getResources().getString(R.string.str_swith_time));
 				}
 				break;
 			case R.id.save:
 				if (0 == isdatetype) {
 					timeText.setText(popupWindow.wheelMain.getTime(MySharedPreference
 							.getInt("timetype")));
+					Savetime();
 				} else if (1 == isdatetype) {
 					if (-1 != MySharedPreference.getInt("year")) {
 						StringBuffer sb = new StringBuffer();
@@ -263,6 +265,7 @@ public class JVSetTimeActivity extends BaseActivity {
 							break;
 						}
 					}
+					Savetime();
 				}
 				popupWindow.dismiss();
 				break;
@@ -304,16 +307,30 @@ public class JVSetTimeActivity extends BaseActivity {
 		if (isopen) {
 			String time = MySharedPreference.getInt("timetype") + ":"
 					+ timeText.getText().toString();
-			Log.i("TAG",time+"时间格式");
+			if (1 != MySharedPreference.getInt("timetype")) {
+				StringBuffer sb = new StringBuffer(); 
+				sb.append(MySharedPreference.getInt("year") + START_YEAR)
+				.append("-")
+				.append(MySharedPreference.getInt("month")+1).append("-")
+				.append(MySharedPreference.getInt("day")+1).append(" ")
+				.append(MySharedPreference.getInt("hour")).append(":")
+				.append(MySharedPreference.getInt("mins")).append(":")
+				.append("00");
+				String time1 = "1:"+ sb.toString();
+				Jni.sendSuperBytes(window,
+						JVNetConst.JVN_RSP_TEXTDATA,
+						false,
+						time1.getBytes().length,
+						JVNetConst.RC_SETSYSTEMTIME, 0, 0, 0,
+						time1.getBytes(), time1.getBytes().length);
+			}
 			Jni.sendSuperBytes(window,
 					JVNetConst.JVN_RSP_TEXTDATA,
 					false,
 					time.getBytes().length,
 					JVNetConst.RC_SETSYSTEMTIME, 0, 0, 0,
 					time.getBytes(), time.getBytes().length);
-			showTextToast(getResources().getString(R.string.str_setting_time_success));
 		}
-		finish();
 	}
 	@Override
 	protected void saveSettings() {

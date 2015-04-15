@@ -722,6 +722,7 @@
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
+    <string name="str_swith_time">請在關閉網絡對時後再做此操作</string>
     <string name="str_setting_time_success">时间设置成功</string>
     <string name="str_setting_time">Setting Time</string>
     <string name="str_setting_submittime">Setting</string>

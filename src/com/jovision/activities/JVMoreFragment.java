@@ -119,7 +119,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             R.drawable.alarm_info_icon, R.drawable.morefragment_setting_icon,
             R.drawable.morefragment_sharedevice_icon,
             R.drawable.cloud_function,/* 云服务 */
-            R.drawable.morefragment_data_icon,
+            // R.drawable.morefragment_data_icon,
             R.drawable.morefragment_install_icon, R.drawable.more_bbs,
             R.drawable.more_message, R.drawable.media_image,
             R.drawable.morefragment_feedback_icon,
@@ -756,45 +756,47 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                                 .equals(Consts.MORE_CLOUD_SHOP)) {// 云服务开通
                             // TODO
                             cloudurl(mActivity);
-                        } else if (dataList.get(position).getItemFlag()
-                                .equals(Consts.MORE_STATURL)) {
-                            // 云视通指数
-                            if (!MySharedPreference
-                                    .getBoolean(Consts.MORE_STATURL)) {
-                                MySharedPreference.putBoolean(
-                                        Consts.MORE_STATURL, true);
-                                mListener.OnFuncEnabled(0, 1);
-                            }
-                            if (!ConfigUtil.isConnected(mActivity)) {
-                                mActivity.alertNetDialog();
-                            } else {
-                                if (null != ((BaseActivity) mActivity).statusHashMap
-                                        .get(Consts.MORE_STATURL)) {
-                                    Intent intentAD0 = new Intent(mActivity,
-                                            JVWebViewActivity.class);
-                                    intentAD0
-                                            .putExtra(
-                                                    "URL",
-                                                    ((BaseActivity) mActivity).statusHashMap
-                                                            .get(Consts.MORE_STATURL));
-                                    intentAD0.putExtra("title", -2);
-                                    mActivity.startActivity(intentAD0);
-                                } else {
-                                    if ("false".equals(mActivity.statusHashMap
-                                            .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-                                        MyLog.e("Login", "初始化账号SDK失败");
-                                        ConfigUtil
-                                                .initAccountSDK(((MainApplication) mActivity
-                                                        .getApplication()));// 初始化账号SDK
-                                    }
-                                    GetDemoTask UrlTask2 = new GetDemoTask(
-                                            mActivity);
-                                    String[] demoParams2 = new String[3];
-                                    demoParams2[1] = "2";
-                                    UrlTask2.execute(demoParams2);
-                                }
-                            }
-                        } else if (dataList.get(position).getItemFlag()
+                        }
+                        // else if (dataList.get(position).getItemFlag()
+                        // .equals(Consts.MORE_STATURL)) {
+                        // // 云视通指数
+                        // if (!MySharedPreference
+                        // .getBoolean(Consts.MORE_STATURL)) {
+                        // MySharedPreference.putBoolean(
+                        // Consts.MORE_STATURL, true);
+                        // mListener.OnFuncEnabled(0, 1);
+                        // }
+                        // if (!ConfigUtil.isConnected(mActivity)) {
+                        // mActivity.alertNetDialog();
+                        // } else {
+                        // if (null != ((BaseActivity) mActivity).statusHashMap
+                        // .get(Consts.MORE_STATURL)) {
+                        // Intent intentAD0 = new Intent(mActivity,
+                        // JVWebViewActivity.class);
+                        // intentAD0
+                        // .putExtra(
+                        // "URL",
+                        // ((BaseActivity) mActivity).statusHashMap
+                        // .get(Consts.MORE_STATURL));
+                        // intentAD0.putExtra("title", -2);
+                        // mActivity.startActivity(intentAD0);
+                        // } else {
+                        // if ("false".equals(mActivity.statusHashMap
+                        // .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                        // MyLog.e("Login", "初始化账号SDK失败");
+                        // ConfigUtil
+                        // .initAccountSDK(((MainApplication) mActivity
+                        // .getApplication()));// 初始化账号SDK
+                        // }
+                        // GetDemoTask UrlTask2 = new GetDemoTask(
+                        // mActivity);
+                        // String[] demoParams2 = new String[3];
+                        // demoParams2[1] = "2";
+                        // UrlTask2.execute(demoParams2);
+                        // }
+                        // }
+                        // }
+                        else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_BBS)) {
                             // 进入社区
                             bbsurl(null);
@@ -1289,8 +1291,8 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
             // 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
             ((BaseActivity) mActivity).dismissDialog();
             ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_BBS, null);
-            ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_STATURL,
-                    null);
+            // ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_STATURL,
+            // null);
             ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_GCSURL,
                     null);
             ((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_DEMOURL,

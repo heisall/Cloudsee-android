@@ -229,7 +229,7 @@ public class PlayUtil {
      */
     public static String captureReturnPath(int index) {
         String savePath = "";
-        String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentDate()
+        String capturePath = Consts.BBSIMG_PATH + ConfigUtil.getCurrentDate()
                 + File.separator;
         String fileName = String.valueOf(System.currentTimeMillis())
                 + Consts.IMAGE_JPG_KIND;

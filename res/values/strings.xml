@@ -482,6 +482,8 @@
     <string name="connfailed_auth_tips">Username or password wrong, change now?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
+    <string name="edit_userinfo_success">用户名或密码修改成功。</string>
+    <string name="edit_userinfo_failed">用户名或密码修改失败。</string>
     <string name="closed">Closed</string>
     <string name="abnormal_closed">Abnormal disconnection happened.</string>
     <string name="str_scanlandevice">Device in Lan</string>

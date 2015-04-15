@@ -141,23 +141,23 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     break;
 
                 case 2:// 云视通指数
-                    // String staturl = "";
-                    // if (null != webUrl.getStatUrl()) {
-                    // Intent intentAD2 = new Intent(mContext,
-                    // JVWebViewActivity.class);
-                    // staturl = webUrl.getStatUrl() + "?" + "&lang=" + lan
-                    // + "&d=" + System.currentTimeMillis();
-                    // ((BaseActivity) mContext).statusHashMap.put(
-                    // Consts.MORE_STATURL, staturl);
-                    //
-                    // Log.i("TAG", staturl);
-                    // intentAD2.putExtra("URL", staturl);
-                    // intentAD2.putExtra("title", -2);
-                    // mContext.startActivity(intentAD2);
-                    // } else {
-                    // ((BaseActivity) mContext)
-                    // .showTextToast(R.string.str_video_load_failed);
-                    // }
+                       // String staturl = "";
+                       // if (null != webUrl.getStatUrl()) {
+                       // Intent intentAD2 = new Intent(mContext,
+                       // JVWebViewActivity.class);
+                       // staturl = webUrl.getStatUrl() + "?" + "&lang=" + lan
+                       // + "&d=" + System.currentTimeMillis();
+                       // ((BaseActivity) mContext).statusHashMap.put(
+                       // Consts.MORE_STATURL, staturl);
+                       //
+                       // Log.i("TAG", staturl);
+                       // intentAD2.putExtra("URL", staturl);
+                       // intentAD2.putExtra("title", -2);
+                       // mContext.startActivity(intentAD2);
+                       // } else {
+                       // ((BaseActivity) mContext)
+                       // .showTextToast(R.string.str_video_load_failed);
+                       // }
 
                     break;
                 case 3:// 社区论坛

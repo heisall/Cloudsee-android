@@ -482,6 +482,8 @@
     <string name="connfailed_timeout">连接超时</string>
     <string name="connfailed_checkpass_timout">连接超时.</string>
     <string name="connfailed_auth_tips">用户名或密码错误，立即修改?</string>
+    <string name="edit_userinfo_success">用户名或密码修改成功。</string>
+    <string name="edit_userinfo_failed">用户名或密码修改失败。</string>
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中…</string>
     <string name="closed">已断开</string>

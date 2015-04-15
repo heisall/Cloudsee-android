@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,6 @@ import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVImageViewActivity;
 import com.jovision.activities.JVMediaListActivity;
-import com.jovision.activities.JVVideoActivity;
 import com.jovision.bean.Filebean;
 import com.jovision.views.MyGridView;
 
@@ -203,12 +204,21 @@ public class MediaFolderAdapter extends BaseAdapter {
                         // 系统播放器
                         if (0 == selectPlayerIndex) {
 
-                            Intent videoIntent = new Intent();
-                            videoIntent.setClass(mContext,
-                                    JVVideoActivity.class);
-                            videoIntent.putExtra("URL", url);
-                            videoIntent.putExtra("IS_LOCAL", true);
-                            mContext.startActivity(videoIntent);
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            String type = "video/mp4";
+                            Uri name = Uri.parse(url);
+                            intent.setDataAndType(name, type);
+                            intent.setClassName("com.cooliris.media",
+                                    "com.cooliris.media.MovieView");
+                            intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION,
+                                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                            mContext.startActivity(intent);
+                            // Intent videoIntent = new Intent();
+                            // videoIntent.setClass(mContext,
+                            // JVVideoActivity.class);
+                            // videoIntent.putExtra("URL", url);
+                            // videoIntent.putExtra("IS_LOCAL", true);
+                            // mContext.startActivity(videoIntent);
 
                         } else if (1 == selectPlayerIndex) {// 第三方播放器
 

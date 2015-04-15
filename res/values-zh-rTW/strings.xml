@@ -482,6 +482,8 @@
     <string name="connfailed_auth_tips">用戶名或密碼錯誤，立即修改?</string>
     <string name="connect_failed">連接失敗</string>
     <string name="connecting">連接中…</string>
+    <string name="edit_userinfo_success">用户名或密码修改成功。</string>
+    <string name="edit_userinfo_failed">用户名或密码修改失败。</string>
     <string name="closed">已斷開</string>
     <string name="abnormal_closed">連接異常斷開</string>
     <string name="str_scanlandevice">局域網設備</string>

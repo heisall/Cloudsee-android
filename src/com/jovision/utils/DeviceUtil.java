@@ -1778,7 +1778,7 @@ public class DeviceUtil {
                         // temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
                         res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
                         if (res == 0) {
-                            int ipc_ret = saveCloudSettingsToIPC(dGuid);
+                            int ipc_ret = saveCloudSettingsToIPC(dGuid, flag);
                             return ipc_ret;
                         }
                         // ，其他失败
@@ -1796,7 +1796,7 @@ public class DeviceUtil {
         return res;
     }
 
-    public static int saveCloudSettingsToIPC(String dGuid) {
+    public static int saveCloudSettingsToIPC(String dGuid, int flag) {
         // 参数例子：{"mid":4,"mt":3006,"pv":"1.0","lpt":7,"sid":"5c9995471e60dad582a253feef0b2e98","username":"juyang","dguid":"A228142816","dinfo":{"tfss":0}}
         // {"username":"juyang","lpt":1,"pv":"1.0","dinfo":{"tfss":0},"mt":3006,"dguid":"A228142816"}
         JSONObject paramObj = new JSONObject();
@@ -1819,8 +1819,14 @@ public class DeviceUtil {
         int res = -1;
         JSONObject jObj = new JSONObject();
         try {
-            jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-                    JVDeviceConst.CLOUD_STORAGE_SWITCH_IPC);// mt
+            if (flag == 1) {// 打开
+                jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+                        JVDeviceConst.CLOUD_STORAGE_SWITCH_OPEN_IPC);// mt
+            } else {// 关闭
+                jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+                        JVDeviceConst.CLOUD_STORAGE_SWITCH_CLOSE_IPC);// mt
+            }
+
             jObj.put(JVDeviceConst.JK_PROTO_VERSION,
                     JVDeviceConst.PROTO_VERSION);// pv
             jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,

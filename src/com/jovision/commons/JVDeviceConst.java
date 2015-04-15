@@ -538,12 +538,17 @@ public class JVDeviceConst {
     public static final String JK_WEB_CLOUD_FLAG = "csf";
 
     // 云存储
-    public static final int CLOUD_STORAGE_SWITCH_IPC = 3034;
-    public static final int CLOUD_STORAGE_SWITCH_IPC_RESPONSE = 3035;
-    public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5215;
-    public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5216;
-    public static final int CLOUD_STORAGE_SWITCH = 5219;
-    public static final int CLOUD_STORAGE_SWITCH_RESPONSE = 5220;
+    public static final int CLOUD_STORAGE_SWITCH_OPEN_IPC = 3034;
+    public static final int CLOUD_STORAGE_SWITCH_OPEN_IPC_RESPONSE = 3035;
+
+    public static final int CLOUD_STORAGE_SWITCH_CLOSE_IPC = 3040;
+    public static final int CLOUD_STORAGE_SWITCH_CLOSE_IPC_RESPONSE = 3041;
+
+    public static final int JK_CLOUD_STORAGE_FLOW_LEFT = 5214;
+    public static final int CLOUD_STORAGE_FLOW_LEFT_RESPONSE = 5215;
+
+    public static final int CLOUD_STORAGE_SWITCH = 5218;
+    public static final int CLOUD_STORAGE_SWITCH_RESPONSE = 5219;
 
     public static final String JK_VAS_FLOW = "vflow";
     public static final String JK_CLOUD_STORAGE_FLOW = "csf";

@@ -274,7 +274,7 @@ public class JVTabActivity extends ShakeActivity implements
     protected void onResume() {
         super.onResume();
         // 获取后台运行时推送过来的报警，by lkp
-        PushInfo pi = BackRunPushInfoStack.getInstance().pop();
+        PushInfo pi = BackRunPushInfoStack.getInstance().pop2clear();
         if (null != pi) {
             onNotify(Consts.WHAT_PUSH_MESSAGE,
                     pi.alarmType, 0, pi);
@@ -325,16 +325,16 @@ public class JVTabActivity extends ShakeActivity implements
                         }
                     }
                 }
-                if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                    countshow = countshow + 1;
-                }
+                // if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+                // countshow = countshow + 1;
+                // }
             } else {
                 if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
                     countshow = countshow + 1;
                 }
-                if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                    countshow = countshow + 1;
-                }
+                // if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+                // countshow = countshow + 1;
+                // }
             }
             if (countshow + countbbs > 0) {
                 // -------------customize start--------------
@@ -451,17 +451,21 @@ public class JVTabActivity extends ShakeActivity implements
                                 }
                             }
                         }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                            countshow = countshow + 1;
-                        }
+                        // if
+                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+                        // {
+                        // countshow = countshow + 1;
+                        // }
                     } else {
                         if (!MySharedPreference
                                 .getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
                             countshow = countshow + 1;
                         }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                            countshow = countshow + 1;
-                        }
+                        // if
+                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+                        // {
+                        // countshow = countshow + 1;
+                        // }
                     }
                     if (countshow + countbbs > 0) {
                         // -------------customize start--------------
@@ -574,9 +578,11 @@ public class JVTabActivity extends ShakeActivity implements
                                 }
                             }
                         }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                            countshow = countshow + 1;
-                        }
+                        // if
+                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+                        // {
+                        // countshow = countshow + 1;
+                        // }
                     } else {
                         // if (cnt > 0
                         // || !MySharedPreference
@@ -589,9 +595,11 @@ public class JVTabActivity extends ShakeActivity implements
                                 .getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
                             countshow = countshow + 1;
                         }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                            countshow = countshow + 1;
-                        }
+                        // if
+                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+                        // {
+                        // countshow = countshow + 1;
+                        // }
                     }
                     if (countshow + countbbs > 0) {
                         // -------------customize start--------------
@@ -883,17 +891,21 @@ public class JVTabActivity extends ShakeActivity implements
                                 }
                             }
                         }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                            countshow = countshow + 1;
-                        }
+                        // if
+                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+                        // {
+                        // countshow = countshow + 1;
+                        // }
                     } else {
                         if (!MySharedPreference
                                 .getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
                             countshow = countshow + 1;
                         }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-                            countshow = countshow + 1;
-                        }
+                        // if
+                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+                        // {
+                        // countshow = countshow + 1;
+                        // }
                     }
                     if (countshow > 0) {
                         // -------------customize start--------------

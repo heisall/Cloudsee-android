@@ -716,10 +716,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
                 item.setShowRightCircleBtn(true);
             }
             /** 设置"新"功能 **/
-            if ((itemFlag.equals(Consts.MORE_STATURL) && !MySharedPreference
-                    .getBoolean(Consts.MORE_STATURL))
-                    || (itemFlag.equals(Consts.MORE_SYSTEMMESSAGE) && !MySharedPreference
-                            .getBoolean(Consts.MORE_SYSTEMMESSAGE))
+            if (
+            // (itemFlag.equals(Consts.MORE_STATURL) && !MySharedPreference
+            // .getBoolean(Consts.MORE_STATURL))
+            // ||
+            (itemFlag.equals(Consts.MORE_SYSTEMMESSAGE) && !MySharedPreference
+                    .getBoolean(Consts.MORE_SYSTEMMESSAGE))
                     || (itemFlag.equals(Consts.MORE_CLOUD_SHOP) && !MySharedPreference
                             .getBoolean(Consts.MORE_CLOUD_SHOP))) {
                 item.setIsnew(true);

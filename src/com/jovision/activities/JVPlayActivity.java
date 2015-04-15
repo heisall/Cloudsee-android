@@ -1642,11 +1642,11 @@ public class JVPlayActivity extends PlayActivity implements
             dismissDialog();
             if (0 == result) {
                 JVPlayActivity.this
-                        .showTextToast(R.string.login_str_device_edit_success);
+                        .showTextToast(R.string.edit_userinfo_success);
                 playImageClickEvent(channelList.get(lastClickIndex), true);
             } else {
                 JVPlayActivity.this
-                        .showTextToast(R.string.login_str_device_edit_failed);
+                        .showTextToast(R.string.edit_userinfo_failed);
             }
             initDialog.dismiss();
         }

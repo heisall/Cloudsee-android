@@ -47,6 +47,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.utils.UploadUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.media.SinaShareContent;
@@ -58,6 +59,7 @@ import com.umeng.socialize.weixin.media.WeiXinShareContent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Timer;
 
@@ -126,9 +128,22 @@ public class JVWebView2Activity extends BaseActivity implements
     private int connectRes3 = 0;
     private int connectRes4 = 0;
 
+    private String uploadUrl = "";// 图片上传地址
+
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
         switch (what) {
+            case Consts.BBS_IMG_UPLOAD_SUCCESS: {
+                dismissDialog();
+                if (null != obj) {
+                    // showTextToast(obj.toString());
+                    webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
+                } else {
+                    // showTextToast("null");
+                }
+                break;
+            }
+
             case Consts.WHAT_NET_ERROR_DISCONNECT: {
                 startConnect(rtmp, playChannel.getSurface());
                 break;
@@ -689,6 +704,7 @@ public class JVWebView2Activity extends BaseActivity implements
             }
         };
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(this, "wst");
 
         // 设置setWebChromeClient对象
         webView.setWebChromeClient(wvcc);
@@ -769,7 +785,6 @@ public class JVWebView2Activity extends BaseActivity implements
 
                         @Override
                         public void onGlobalLayout() {
-                            // TODO Auto-generated method stub
                             if ((disMetrics.heightPixels
                                     - disMetrics.widthPixels * 0.75 - 100)
                                     - webView.getHeight() > 300) {
@@ -1439,7 +1454,6 @@ public class JVWebView2Activity extends BaseActivity implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        MyLog.v("Webview2configuration", "转屏了");
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         if (playChannel.isConnected()) {
             if (fullScreenFlag) {
@@ -1452,6 +1466,42 @@ public class JVWebView2Activity extends BaseActivity implements
                         R.drawable.notfull_screen_icon));
             }
             setSurfaceSize(fullScreenFlag);
+        }
+    }
+
+    /**
+     * upload_url js的返回值
+     * 
+     * @param upUrl 即js的返回值
+     */
+    public void getUploadUrl(String upUrl) {
+        uploadUrl = upUrl;
+        MyLog.v("uploadUrl", uploadUrl);
+    }
+
+    /**
+     * js window.wst.cutpic() 2015-03-31 修改上传照片dialog
+     */
+    public void cutpic() {
+        if (hasSDCard(5, true) && playChannel.isConnected()) {
+            String savePath = PlayUtil.captureReturnPath(playChannel.getIndex());
+            if (null != savePath) {
+                final File captureFile = new File(savePath);
+                if (null != captureFile) {
+                    createDialog("", false);
+                    Thread uploadThread = new Thread() {
+                        @Override
+                        public void run() {
+                            String res = UploadUtil.uploadFile(
+                                    captureFile, uploadUrl);
+                            handler.sendMessage(handler.obtainMessage(
+                                    Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+                            super.run();
+                        }
+                    };
+                    uploadThread.start();
+                }
+            }
         }
     }
 

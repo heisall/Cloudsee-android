@@ -879,12 +879,11 @@ OnPageChangeListener, OnFuncActionListener {
 		// TODO Auto-generated method stub
 		switch (func_index) {
 		case 0:
-			Log.i("TAG", "执行了方法！！");
 			countshow = 0;
 			if ("hasget".equals(statusHashMap.get("GETNUM"))) {
 				countbbs = 0;
 			}
-			if (null != mIndicator && null != showGcsStr) {
+			if (null != mIndicator) {
 				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 					int cnt = mApp.getNewPushCnt();
 					countshow = cnt;

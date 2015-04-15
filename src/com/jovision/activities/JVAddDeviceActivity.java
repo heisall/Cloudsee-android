@@ -2,6 +2,7 @@
 package com.jovision.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -129,6 +130,10 @@ public class JVAddDeviceActivity extends BaseActivity {
         saveBtn = (Button) findViewById(R.id.save_btn);
 
         devNumET.setText(devNumET_cloudseeId);
+        if (!devNumET_cloudseeId.isEmpty()) {
+            devNumET.setEnabled(false);
+            devNumET.setBackgroundColor(getResources().getColor(R.color.my_bg));
+        }
         userET.setText(Consts.DEFAULT_USERNAME);
         pwdET.setText(Consts.DEFAULT_PASSWORD);
         saveBtn.setBackgroundResource(R.drawable.blue_bg);

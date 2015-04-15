@@ -524,5 +524,6 @@
     <color name="cloud_traffic_color_2">#e8e8e8</color>
     <color name="cloud_traffic_circle_fill">#7abf66</color>
     <color name="cloud_traffic_divider">#cecccd</color>
+    <color name="my_bg">#c3c2c0</color>
 
 </resources>

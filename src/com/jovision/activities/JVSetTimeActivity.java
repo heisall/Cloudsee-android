@@ -17,8 +17,12 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.views.TimePopView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class JVSetTimeActivity extends BaseActivity {
 
@@ -297,7 +301,7 @@ public class JVSetTimeActivity extends BaseActivity {
         if (isopen) {
             String time = MySharedPreference.getInt("timetype") + ":"
                     + timeText.getText().toString();
-            Log.i("TAG", time + "时间格式");
+            MyLog.i("TAG", time + "时间格式");
             Jni.sendSuperBytes(window,
                     JVNetConst.JVN_RSP_TEXTDATA,
                     false,

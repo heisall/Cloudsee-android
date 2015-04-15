@@ -789,7 +789,7 @@
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
-    <string name="location_login_hand">访客</string>
+    <string name="location_login_hand">访客</string>  
     <!-- 时区设置 -->
     <string name="str_timezone">时区设置</string>
     <string name="str_current_time_zone">目前所在时区</string>

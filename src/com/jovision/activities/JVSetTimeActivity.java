@@ -20,9 +20,6 @@ import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.views.TimePopView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class JVSetTimeActivity extends BaseActivity {
 
     private RelativeLayout dateType;
@@ -75,7 +72,7 @@ public class JVSetTimeActivity extends BaseActivity {
         timeText = (TextView) findViewById(R.id.time_text);
         linear = (LinearLayout) findViewById(R.id.linear);
 
-        // rightBtn.setOnClickListener(myOnClickListener);
+//        rightBtn.setOnClickListener(myOnClickListener);
         rightBtn.setVisibility(View.GONE);
         intenttime.setOnClickListener(myOnClickListener);
         dateType.setOnClickListener(myOnClickListener);
@@ -181,7 +178,7 @@ public class JVSetTimeActivity extends BaseActivity {
                             dateText.setText("MM/DD/YYYY");
                         }
                     } else {
-                        showTextToast(getResources().getString(R.string.str_swith_time));
+                    	showTextToast(getResources().getString(R.string.str_swith_time));
                     }
                     break;
                 case R.id.time_type:
@@ -204,68 +201,60 @@ public class JVSetTimeActivity extends BaseActivity {
                         if (-1 != MySharedPreference.getInt("year")) {
                             StringBuffer sb = new StringBuffer();
                             sb.append(MySharedPreference.getInt("year") + START_YEAR)
-                                    .append("-")
-                                    .append(MySharedPreference.getInt("month") + 1).append("-")
-                                    .append(MySharedPreference.getInt("day") + 1).append(" ")
-                                    .append(MySharedPreference.getInt("hour")).append(":")
-                                    .append(MySharedPreference.getInt("mins")).append(":")
-                                    .append("00");
-                            // if (1 == MySharedPreference.getInt("timetype")) {
-                            //
-                            // } else if (2 ==
-                            // MySharedPreference.getInt("timetype")) {
-                            // sb.append(MySharedPreference.getInt("day") +
-                            // 1).append("/")
-                            // .append(MySharedPreference.getInt("month") +
-                            // 1).append("/")
-                            // .append(MySharedPreference.getInt("year") +
-                            // START_YEAR)
-                            // .append(" ")
-                            // .append(MySharedPreference.getInt("hour")).append(":")
-                            // .append(MySharedPreference.getInt("mins")).append(":")
-                            // .append("00");
-                            // } else if (0 ==
-                            // MySharedPreference.getInt("timetype")) {
-                            // sb.append(MySharedPreference.getInt("month") +
-                            // 1).append("/")
-                            // .append(MySharedPreference.getInt("day") +
-                            // 1).append("/")
-                            // .append(MySharedPreference.getInt("year") +
-                            // START_YEAR)
-                            // .append(" ")
-                            // .append(MySharedPreference.getInt("hour")).append(":")
-                            // .append(MySharedPreference.getInt("mins")).append(":")
-                            // .append("00");
-                            // }
+                            .append("-")
+                            .append(MySharedPreference.getInt("month") + 1).append("-")
+                            .append(MySharedPreference.getInt("day") + 1).append(" ")
+                            .append(MySharedPreference.getInt("hour")).append(":")
+                            .append(MySharedPreference.getInt("mins")).append(":")
+                            .append("00");
+//                            if (1 == MySharedPreference.getInt("timetype")) {
+//                                
+//                            } else if (2 == MySharedPreference.getInt("timetype")) {
+//                                sb.append(MySharedPreference.getInt("day") + 1).append("/")
+//                                        .append(MySharedPreference.getInt("month") + 1).append("/")
+//                                        .append(MySharedPreference.getInt("year") + START_YEAR)
+//                                        .append(" ")
+//                                        .append(MySharedPreference.getInt("hour")).append(":")
+//                                        .append(MySharedPreference.getInt("mins")).append(":")
+//                                        .append("00");
+//                            } else if (0 == MySharedPreference.getInt("timetype")) {
+//                                sb.append(MySharedPreference.getInt("month") + 1).append("/")
+//                                        .append(MySharedPreference.getInt("day") + 1).append("/")
+//                                        .append(MySharedPreference.getInt("year") + START_YEAR)
+//                                        .append(" ")
+//                                        .append(MySharedPreference.getInt("hour")).append(":")
+//                                        .append(MySharedPreference.getInt("mins")).append(":")
+//                                        .append("00");
+//                            }
                             timeText.setText(sb.toString());
-                        }
-                        // else {
-                        // switch (MySharedPreference.getInt("timetype")) {
-                        // case 2:
-                        // SimpleDateFormat formatter = new SimpleDateFormat(
-                        // "dd/MM/yyyy HH:mm:ss");
-                        // Date curDate = new Date(System.currentTimeMillis());
-                        // String str = formatter.format(curDate);
-                        // timeText.setText(str);
-                        // break;
-                        // case 1:
-                        // SimpleDateFormat formatter1 = new SimpleDateFormat(
-                        // "yyyy-MM-dd HH:mm:ss");
-                        // Date curDate1 = new Date(System.currentTimeMillis());
-                        // String str1 = formatter1.format(curDate1);
-                        // timeText.setText(str1);
-                        // break;
-                        // case 0:
-                        // SimpleDateFormat formatter2 = new SimpleDateFormat(
-                        // "MM/dd/yyyy HH:mm:ss");
-                        // Date curDate2 = new Date(System.currentTimeMillis());
-                        // String str2 = formatter2.format(curDate2);
-                        // timeText.setText(str2);
-                        // break;
-                        // default:
-                        // break;
-                        // }
-                        // }
+                        } 
+//                        else {
+//                            switch (MySharedPreference.getInt("timetype")) {
+//                                case 2:
+//                                    SimpleDateFormat formatter = new SimpleDateFormat(
+//                                            "dd/MM/yyyy HH:mm:ss");
+//                                    Date curDate = new Date(System.currentTimeMillis());
+//                                    String str = formatter.format(curDate);
+//                                    timeText.setText(str);
+//                                    break;
+//                                case 1:
+//                                    SimpleDateFormat formatter1 = new SimpleDateFormat(
+//                                            "yyyy-MM-dd HH:mm:ss");
+//                                    Date curDate1 = new Date(System.currentTimeMillis());
+//                                    String str1 = formatter1.format(curDate1);
+//                                    timeText.setText(str1);
+//                                    break;
+//                                case 0:
+//                                    SimpleDateFormat formatter2 = new SimpleDateFormat(
+//                                            "MM/dd/yyyy HH:mm:ss");
+//                                    Date curDate2 = new Date(System.currentTimeMillis());
+//                                    String str2 = formatter2.format(curDate2);
+//                                    timeText.setText(str2);
+//                                    break;
+//                                default:
+//                                    break;
+//                            }
+//                        }
                     }
                     Savetime();
                     popupWindow.dismiss();
@@ -308,6 +297,7 @@ public class JVSetTimeActivity extends BaseActivity {
         if (isopen) {
             String time = MySharedPreference.getInt("timetype") + ":"
                     + timeText.getText().toString();
+            Log.i("TAG", time + "时间格式");
             Jni.sendSuperBytes(window,
                     JVNetConst.JVN_RSP_TEXTDATA,
                     false,

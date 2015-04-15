@@ -100,8 +100,8 @@ public class JVVersionActivity extends BaseActivity {
             configList.add("视频广场 URL=" + statusHashMap.get("DEMOURL") + "\n");
             configList.add("工程商入驻 URL=" + statusHashMap.get(Consts.MORE_GCSURL)
                     + "\n");
-            configList.add("云视通指数 URL="
-                    + statusHashMap.get(Consts.MORE_STATURL) + "\n\n");
+            // configList.add("云视通指数 URL="
+            // + statusHashMap.get(Consts.MORE_STATURL) + "\n\n");
 
             configList.add("SHORTSERVERIP=" + Url.SHORTSERVERIP + "\n");
             configList.add("LONGSERVERIP=" + Url.LONGSERVERIP + "\n");

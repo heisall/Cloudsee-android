@@ -330,7 +330,7 @@ public class Consts {
     public static final String ALARM_SETTING_SOUND = "AlarmSound"; // 报警声音开关
     public static final String ALARM_SETTING_VIBRATE = "AlarmVibrate";// 报警振动开关
     // public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
-    public static final String MORE_STATURL = "STATURL"; // 云视通指数
+    // public static final String MORE_STATURL = "STATURL"; // 云视通指数
     public static final String MORE_BBS = "BBSURL"; // 论坛
     public static final String MORE_GCSURL = "GCSURL"; // 工程商入住
     public static final String MORE_BBSNUM = "BBSNUM"; // 论坛未读消息数量
@@ -366,7 +366,7 @@ public class Consts {
             MORE_PLAYMODE, /* 4 观看模式 */
             MORE_DEVICESHARE, /* 5设备分享 */
             MORE_CLOUD_SHOP,/* 云服务开通 */
-            MORE_STATURL, /* 6 云视通指数 */
+            // MORE_STATURL, /* 6 云视通指数 */
             MORE_GCSURL, /* 7 工程商入住 */
             MORE_BBS, /* 8进入社区 */
             MORE_SYSTEMMESSAGE, /* 9 系统消息 */

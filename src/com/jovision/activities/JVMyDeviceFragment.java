@@ -378,7 +378,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     Intent newAddDevIntent = new Intent();
                     newAddDevIntent.setClass(mActivity,
                             JVNewAddDeviceActivity.class);
-                    mActivity.startActivity(newAddDevIntent);
+                    mActivity.startActivityForResult(newAddDevIntent, 1989);
 
                     // initPop();
                     // // 点击按钮时，pop显示状态，显示中就消失，否则显示
@@ -435,6 +435,34 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
         }
 
     };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (1989 == requestCode && 1990 == resultCode) {
+            StatService.trackCustomEvent(mActivity,
+                    "Scan devices in LAN", mActivity.getResources()
+                            .getString(R.string.str_scanlandevice));
+
+            if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+                    true)) {
+                MyLog.v(Consts.TAG_APP, "not broad = " + false);
+            } else {
+
+                if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+                    fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+                    broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+                    broadList.clear();
+                    PlayUtil.deleteDevIp(myDeviceList);
+                    PlayUtil.broadCast(mActivity);
+                } else {
+                    mActivity.showTextToast(R.string.notwifi_forbid_func);
+                }
+            }
+
+        }
+    }
 
     // 点击加号弹出的popWindow
     private void initPop() {

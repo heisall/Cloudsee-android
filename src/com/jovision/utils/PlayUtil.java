@@ -225,6 +225,24 @@ public class PlayUtil {
     }
 
     /**
+     * 抓拍返回图片路径
+     */
+    public static String captureReturnPath(int index) {
+        String savePath = "";
+        String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentDate()
+                + File.separator;
+        String fileName = String.valueOf(System.currentTimeMillis())
+                + Consts.IMAGE_JPG_KIND;
+        MobileUtil.createDirectory(new File(capturePath));
+        MyLog.v(TAG, "capture=" + capturePath + fileName);
+        boolean captureRes = Jni.screenshot(index, capturePath + fileName, 100);
+        if (captureRes) {
+            savePath = capturePath + fileName;
+        }
+        return savePath;
+    }
+
+    /**
      * 抓拍
      */
     public static boolean capture(int index, String fullPath) {

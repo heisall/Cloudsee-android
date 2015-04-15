@@ -11,113 +11,214 @@
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:background="@color/white" >
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/new_adddevice_et"
-            style="@style/my_edittext_style"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/erweimaLayout"
-            android:hint="@string/str_new_add_device_edit_hint"
-            android:singleLine="true"
-            android:textCursorDrawable="@drawable/new_adddevice_cursor"
-            android:textSize="15sp" >
-        </EditText>
-
-        <ImageButton
-            android:id="@+id/editimg_clearn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:layout_toLeftOf="@+id/erweimaLayout"
-            android:background="@drawable/new_adddevice_close"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:id="@+id/erweimaLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" >
-
-            <ImageView
-                android:id="@+id/tab_erweima_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/newadddevice_erweima" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tab_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tab_erweima_icon"
-                android:layout_centerHorizontal="true"
-                android:text="@string/str_new_add_device_tab_title"
-                android:textColor="@color/more_fragment_color2"
-                android:textSize="11sp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/str_new_add_device_networking"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@color/white" >
+
+                <EditText
+                    android:id="@+id/new_adddevice_et"
+                    style="@style/my_edittext_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/erweimaLayout"
+                    android:hint="@string/str_new_add_device_edit_hint"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@drawable/new_adddevice_cursor"
+                    android:textSize="15sp" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/editimg_clearn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="5dp"
+                    android:layout_toLeftOf="@+id/erweimaLayout"
+                    android:background="@drawable/new_adddevice_close"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/erweimaLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" >
+
+                    <ImageView
+                        android:id="@+id/tab_erweima_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/newadddevice_erweima" />
+
+                    <TextView
+                        android:id="@+id/tab_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tab_erweima_icon"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/str_new_add_device_tab_title"
+                        android:textColor="@color/more_fragment_color2"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/save_icon"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/add_newdevice_confirm__bg"
+                        android:text="@string/str_new_add_device_confirm"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="15dp"
+                android:background="#F8F6F7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/str_new_add_device_nonetworking"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+            <WebView
+                android:id="@+id/add_device_wv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <LinearLayout
+                android:id="@+id/loadinglayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/loadingbars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/loadingweb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/demo_loading"
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/save_icon"
-                android:layout_width="43dp"
-                android:layout_height="43dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/add_newdevice_confirm__bg"
-                android:text="@string/str_new_add_device_confirm"
-                android:textColor="@color/white"
-                android:textSize="15sp"
+                android:id="@+id/apset_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@drawable/quick_install_bg"
+                android:text="@string/str_new_add_device_AP"
+                android:textColor="@color/quickinstall_btn_normal"
+                android:textSize="18sp"
                 android:visibility="gone" />
-        </RelativeLayout>
-    </RelativeLayout>
 
-    <WebView
-        android:id="@+id/add_device_wv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+            <Button
+                android:id="@+id/soundwave_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@drawable/quick_install_bg"
+                android:text="@string/str_new_add_device_wave"
+                android:textColor="@color/quickinstall_btn_normal"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/loadinglayout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone" >
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="15dp"
+                android:layout_marginTop="10dp"
+                android:background="#F8F6F7" />
 
-        <ImageView
-            android:id="@+id/loadingbars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/loadingweb" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/str_new_add_device_other"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/demo_loading"
-            android:textColor="@color/more_fragment_color2"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/add_button_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp" >
 
-    <include
-        android:id="@+id/loadfailedlayout"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_centerInParent="true"
-        layout="@layout/load_failed_layout"
-        android:visibility="gone" >
-    </include>
+                <TextView
+                    android:id="@+id/ip_dns_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:autoLink="web"
+                    android:background="#FEF7E5"
+                    android:gravity="center"
+                    android:text="@string/str_new_add_device_IP"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/local_network_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:autoLink="web"
+                    android:background="#FDEDEE"
+                    android:gravity="center"
+                    android:text="@string/str_new_add_device_localnetwork"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

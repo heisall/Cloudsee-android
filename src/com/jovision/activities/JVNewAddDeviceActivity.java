@@ -47,16 +47,16 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private EditText devNumET;
     ImageButton editimg_clearn;
     ImageView tab_icon;
-    Button save_icon;
+    Button save_icon, soundwave_button, apset_button;
     TextView tab_title;
+    TextView ip_dns_btn, local_network_button;
     WebView add_device_wv;
     // String url = "http://test.cloudsee.net/mobile/";
     String url = "http://www.cloudsee.net/mobile/nineBlock.action";
     // String url ="https://www.baidu.com/";
     Boolean isLoadUrlfail = false;
-    private RelativeLayout loadFailedLayout;
     private LinearLayout loadinglayout;
-    private ImageView reloadImgView, loadingBar;
+    private ImageView loadingBar;
 
     private ArrayList<Device> deviceList = new ArrayList<Device>();
     private Device addDevice;
@@ -65,6 +65,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private String ip = "";
     private int port = 0;
     private int channelCount = -1;
+    public int broadTag = 0;
+    private ArrayList<Device> broadList = new ArrayList<Device>();// 广播到的设备列表
 
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -116,6 +118,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     protected void initUi() {
         super.initUi();
         setContentView(R.layout.new_adddevice_layout);
+
         leftBtn = (Button) findViewById(R.id.btn_left);
         alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
         accountError = (TextView) findViewById(R.id.accounterror);
@@ -145,11 +148,15 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         loadinglayout.setVisibility(View.VISIBLE);
         add_device_wv.loadUrl(url);
         // 网络加载不成功状态
-        loadFailedLayout = (RelativeLayout)
-                findViewById(R.id.loadfailedlayout);
-        loadFailedLayout.setVisibility(View.GONE);
-        reloadImgView = (ImageView) findViewById(R.id.refreshimg);
-        reloadImgView.setOnClickListener(myOnClickListener);
+        apset_button = (Button) findViewById(R.id.apset_button);
+        soundwave_button = (Button) findViewById(R.id.soundwave_button);
+        apset_button.setOnClickListener(myOnClickListener);
+        soundwave_button.setOnClickListener(myOnClickListener);
+        // ip /局域网登陆
+        ip_dns_btn = (TextView) findViewById(R.id.ip_dns_btn);
+        ip_dns_btn.setOnClickListener(myOnClickListener);
+        local_network_button = (TextView) findViewById(R.id.local_network_button);
+        local_network_button.setOnClickListener(myOnClickListener);
 
     }
 
@@ -173,9 +180,10 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 String failingUrl) {
             // MyLog.e("添加设备", "页面加载失败");
             isLoadUrlfail = true;
-            loadFailedLayout.setVisibility(View.VISIBLE);
             add_device_wv.setVisibility(View.GONE);
             loadinglayout.setVisibility(View.GONE);
+            soundwave_button.setVisibility(View.VISIBLE);
+            apset_button.setVisibility(View.VISIBLE);
             JVNewAddDeviceActivity.this.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
@@ -186,13 +194,13 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             // MyLog.e("添加设备", "页面开始完成");
             if (isLoadUrlfail) {// 加载失败
                 // MyLog.e("添加设备", "页面开始完成失败");
-                loadFailedLayout.setVisibility(View.VISIBLE);
                 add_device_wv.setVisibility(View.GONE);
                 loadinglayout.setVisibility(View.GONE);
+                soundwave_button.setVisibility(View.VISIBLE);
+                apset_button.setVisibility(View.VISIBLE);
             } else {
                 loadinglayout.setVisibility(View.GONE);
                 add_device_wv.setVisibility(View.VISIBLE);
-                loadFailedLayout.setVisibility(View.GONE);
             }
             super.onPageFinished(view, url);
         }
@@ -316,7 +324,6 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 case R.id.refreshimg:
                     if (ConfigUtil.isConnected(JVNewAddDeviceActivity.this)) {
                         MyLog.e("添加设备", "判断手机是否联网成功");
-                        loadFailedLayout.setVisibility(View.GONE);
                         JVNewAddDeviceActivity.this.statusHashMap
                                 .put(Consts.HAS_LOAD_DEMO, "false");
                         loadinglayout.setVisibility(View.VISIBLE);
@@ -338,19 +345,36 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                         JVNewAddDeviceActivity.this.alertNetDialog();
                     }
                     break;
-            // case R.id.tab_title:
-            // StatService.trackCustomEvent(
-            // JVNewAddDeviceActivity.this,
-            // "Scan QR Code",
-            // JVNewAddDeviceActivity.this.getResources().getString(
-            // R.string.census_scanqrcod));
-            // Intent addIntent1 = new Intent();
-            // addIntent1.setClass(JVNewAddDeviceActivity.this,
-            // JVAddDeviceActivity.class);
-            // addIntent1.putExtra("QR", true);
-            // JVNewAddDeviceActivity.this.startActivity(addIntent1);
-            //
-            // break;
+                case R.id.apset_button:
+                    StatService.trackCustomEvent(
+                            JVNewAddDeviceActivity.this,
+                            "Add Wi_Fi Device",
+                            JVNewAddDeviceActivity.this.getResources().getString(
+                                    R.string.census_addwifidev));
+                    JVNewAddDeviceActivity.this.startSearch(false);
+                    break;
+                case R.id.soundwave_button:
+                    StatService.trackCustomEvent(
+                            JVNewAddDeviceActivity.this,
+                            "SoundWave",
+                            JVNewAddDeviceActivity.this.getResources().getString(
+                                    R.string.census_soundwave));
+                    Intent intent = new Intent();
+                    intent.setClass(JVNewAddDeviceActivity.this, JVWaveSetActivity.class);
+                    JVNewAddDeviceActivity.this.startActivity(intent);
+                    break;
+                case R.id.ip_dns_btn:
+                    StatService.trackCustomEvent(JVNewAddDeviceActivity.this, "IP/DNS",
+                            JVNewAddDeviceActivity.this
+                                    .getResources().getString(R.string.census_ipdns));
+                    Intent intent_ip = new Intent();
+                    intent_ip.setClass(JVNewAddDeviceActivity.this, JVAddIpDeviceActivity.class);
+                    JVNewAddDeviceActivity.this.startActivityForResult(intent_ip,
+                            Consts.DEVICE_ADD_REQUEST);
+                    break;
+                case R.id.local_network_button:
+
+                    break;
             }
         }
     };

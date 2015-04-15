@@ -538,10 +538,11 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
                                 MyLog.v("PushCallBack",
                                         "the app is not OnForeground.........");
-                                BackRunPushInfoStack push_stack = BackRunPushInfoStack.getInstance();
+                                BackRunPushInfoStack push_stack = BackRunPushInfoStack
+                                        .getInstance();
                                 push_stack.push(pi);
-//                                onNotify(Consts.WHAT_PUSH_MESSAGE,
-//                                        pi.alarmType, 0, pi);
+                                // onNotify(Consts.WHAT_PUSH_MESSAGE,
+                                // pi.alarmType, 0, pi);
                                 Activity currentActivity = MyActivityManager
                                         .getActivityManager().currentActivity();
                                 if (MyActivityManager.getActivityManager()

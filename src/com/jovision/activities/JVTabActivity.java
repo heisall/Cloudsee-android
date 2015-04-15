@@ -199,7 +199,7 @@ public class JVTabActivity extends ShakeActivity implements
     protected void onDestroy() {
         super.onDestroy();
         // int cnt = mApp.getNewPushCnt();
-        BackRunPushInfoStack.getInstance().clear();        
+        BackRunPushInfoStack.getInstance().clear();
         MyLog.e(TAG, "onDestroy,invoke~~~~~ ");
         // mApp.setNewPushCnt(0);
         // MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
@@ -273,11 +273,11 @@ public class JVTabActivity extends ShakeActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        //获取后台运行时推送过来的报警，by lkp
+        // 获取后台运行时推送过来的报警，by lkp
         PushInfo pi = BackRunPushInfoStack.getInstance().pop();
-        if(null != pi){
+        if (null != pi) {
             onNotify(Consts.WHAT_PUSH_MESSAGE,
-                    pi.alarmType, 0, pi);            
+                    pi.alarmType, 0, pi);
         }
 
         if (null == (statusHashMap.get(Consts.MORE_BBSNUM))

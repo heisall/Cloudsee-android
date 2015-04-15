@@ -748,6 +748,12 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_GCSURL)) {
                             // 工程商入驻
+                            if (!MySharedPreference
+                                    .getBoolean(Consts.MORE_GCSURL)) {
+                                MySharedPreference.putBoolean(
+                                        Consts.MORE_GCSURL, true);
+                                mListener.OnFuncEnabled(0, 1);
+                            }
                             gcsurl(null);
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_DEVICESHARE)) {
@@ -755,6 +761,12 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                         } else if (dataList.get(position).getItemFlag()
                                 .equals(Consts.MORE_CLOUD_SHOP)) {// 云服务开通
                             // TODO
+                            if (!MySharedPreference
+                                    .getBoolean(Consts.MORE_CLOUD_SHOP)) {
+                                MySharedPreference.putBoolean(
+                                        Consts.MORE_CLOUD_SHOP, true);
+                                mListener.OnFuncEnabled(0, 1);
+                            }
                             cloudurl(mActivity);
                         }
                         // else if (dataList.get(position).getItemFlag()

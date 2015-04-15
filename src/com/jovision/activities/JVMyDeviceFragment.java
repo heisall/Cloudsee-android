@@ -378,7 +378,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     Intent newAddDevIntent = new Intent();
                     newAddDevIntent.setClass(mActivity,
                             JVNewAddDeviceActivity.class);
-                    mActivity.startActivity(newAddDevIntent);
+                    mActivity.startActivityForResult(newAddDevIntent, Consts.SCAN_IN_LINE_REQUEST);
 
                     // initPop();
                     // // 点击按钮时，pop显示状态，显示中就消失，否则显示
@@ -1005,6 +1005,32 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
     @Override
     public void onHandler(int what, int arg1, int arg2, Object obj) {
         switch (what) {
+            case Consts.SCAN_IN_LINE_REQUEST: {// 局域网添加设备
+                if (Consts.SCAN_IN_LINE_RESULT == arg1) {
+                    StatService.trackCustomEvent(mActivity,
+                            "Scan devices in LAN", mActivity.getResources()
+                                    .getString(R.string.str_scanlandevice));
+
+                    if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+                            true)) {
+                        MyLog.v(Consts.TAG_APP, "not broad = " + false);
+                    } else {
+
+                        if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+                            fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+                            broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+                            broadList.clear();
+                            PlayUtil.deleteDevIp(myDeviceList);
+                            PlayUtil.broadCast(mActivity);
+                        } else {
+                            mActivity.showTextToast(R.string.notwifi_forbid_func);
+                        }
+                    }
+
+                }
+
+                break;
+            }
             case Consts.NET_CHANGE_CLEAR_CACHE: {// 网络切换清缓存
                 MyLog.i("MyRecevier", "网络变化了--正常网络");
                 Jni.getVersion();

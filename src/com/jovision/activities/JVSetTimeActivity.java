@@ -39,6 +39,7 @@ public class JVSetTimeActivity extends BaseActivity {
     public int window;
     public boolean isopen;
     public int opennum;
+    public int nTimeFormat;
     private int START_YEAR = 1990;
     protected RelativeLayout.LayoutParams reParamstop2;
 
@@ -59,6 +60,7 @@ public class JVSetTimeActivity extends BaseActivity {
         showtime = Integer.valueOf(extras.getString("timetype"));
         window = extras.getInt("window");
         opennum = extras.getInt("opennum");
+        nTimeFormat = extras.getInt("nTimeFormat");
     }
 
     @Override
@@ -108,8 +110,14 @@ public class JVSetTimeActivity extends BaseActivity {
         Date curDate = new Date(System.currentTimeMillis());
         String str = formatter.format(curDate);
 
-        MySharedPreference.putInt("timetype", 1);
-        dateText.setText("YYYY-MM-DD");
+        MySharedPreference.putInt("timetype",nTimeFormat);
+        if (1 == MySharedPreference.getInt("timetype")) {
+            dateText.setText("YYYY-MM-DD");
+        } else if (2 == MySharedPreference.getInt("timetype")) {
+            dateText.setText("DD/MM/YYYY");
+        } else if (0 == MySharedPreference.getInt("timetype")) {
+            dateText.setText("MM/DD/YYYY");
+        }
         timeText.setText(str);
 
         // 初始化话时间表 设置值为 -1;
@@ -162,25 +170,7 @@ public class JVSetTimeActivity extends BaseActivity {
                         if (1 == showtime) {
                             popupWindow.relativeThree.setVisibility(View.GONE);
                         }
-                        if (1 == MySharedPreference.getInt("timetype")) {
-                            popupWindow.relativeTwo_img.setVisibility(View.VISIBLE);
-                            popupWindow.relativeOne_img.setVisibility(View.GONE);
-                            popupWindow.relativeThree_img.setVisibility(View.GONE);
-                            popupWindow.Currenttype.setText("(YYYY-MM-DD)");
-                            dateText.setText("YYYY-MM-DD");
-                        } else if (2 == MySharedPreference.getInt("timetype")) {
-                            popupWindow.relativeOne_img.setVisibility(View.GONE);
-                            popupWindow.relativeThree_img.setVisibility(View.VISIBLE);
-                            popupWindow.relativeTwo_img.setVisibility(View.GONE);
-                            popupWindow.Currenttype.setText("(DD/MM/YYYY)");
-                            dateText.setText("DD/MM/YYYY");
-                        } else if (0 == MySharedPreference.getInt("timetype")) {
-                            popupWindow.relativeThree_img.setVisibility(View.GONE);
-                            popupWindow.relativeTwo_img.setVisibility(View.GONE);
-                            popupWindow.relativeOne_img.setVisibility(View.VISIBLE);
-                            popupWindow.Currenttype.setText("(MM/DD/YYYY)");
-                            dateText.setText("MM/DD/YYYY");
-                        }
+                        SettingTime();
                     } else {
                         showTextToast(getResources().getString(R.string.str_swith_time));
                     }
@@ -320,6 +310,27 @@ public class JVSetTimeActivity extends BaseActivity {
         }
     }
 
+    private void SettingTime() {
+    	 if (1 == MySharedPreference.getInt("timetype")) {
+             popupWindow.relativeTwo_img.setVisibility(View.VISIBLE);
+             popupWindow.relativeOne_img.setVisibility(View.GONE);
+             popupWindow.relativeThree_img.setVisibility(View.GONE);
+             popupWindow.Currenttype.setText("(YYYY-MM-DD)");
+             dateText.setText("YYYY-MM-DD");
+         } else if (2 == MySharedPreference.getInt("timetype")) {
+             popupWindow.relativeOne_img.setVisibility(View.GONE);
+             popupWindow.relativeThree_img.setVisibility(View.VISIBLE);
+             popupWindow.relativeTwo_img.setVisibility(View.GONE);
+             popupWindow.Currenttype.setText("(DD/MM/YYYY)");
+             dateText.setText("DD/MM/YYYY");
+         } else if (0 == MySharedPreference.getInt("timetype")) {
+             popupWindow.relativeThree_img.setVisibility(View.GONE);
+             popupWindow.relativeTwo_img.setVisibility(View.GONE);
+             popupWindow.relativeOne_img.setVisibility(View.VISIBLE);
+             popupWindow.Currenttype.setText("(MM/DD/YYYY)");
+             dateText.setText("MM/DD/YYYY");
+         }
+    }
     @Override
     protected void saveSettings() {
 

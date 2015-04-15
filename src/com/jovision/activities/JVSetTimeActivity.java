@@ -135,7 +135,7 @@ public class JVSetTimeActivity extends BaseActivity {
 					Jni.sendString(window,
 							JVNetConst.JVN_RSP_TEXTDATA,
 							false, 0, Consts.TYPE_SET_PARAM, params);
-				}else{
+				} else{
 					intent_img.setImageResource(R.drawable.morefragment_selector_icon);
 					isopen = false;
 					params = "bSntp=" + 1 + ";";

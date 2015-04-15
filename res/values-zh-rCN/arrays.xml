@@ -226,14 +226,12 @@
     <!-- 中间自定义面板中的元素 -->
     <string-array name="array_customize_board">
         <item>小维社区</item>
-        <item>小维知道</item>
         <item>小维商城</item>
         <item>小维工程</item>
     </string-array>
     <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
     <string-array name="array_customize_item_tag">
         <item>a</item>
-        <item>b</item>
         <item>c</item>
         <item>d</item>
     </string-array>

@@ -373,7 +373,9 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                             Consts.DEVICE_ADD_REQUEST);
                     break;
                 case R.id.local_network_button:
-
+                    Intent intentScan = new Intent();
+                    setResult(Consts.SCAN_IN_LINE_RESULT, intentScan);
+                    JVNewAddDeviceActivity.this.finish();
                     break;
             }
         }

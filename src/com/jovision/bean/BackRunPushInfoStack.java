@@ -30,9 +30,19 @@ public class BackRunPushInfoStack {
             return popInfo;
         }
     }
-
-    /* 将对象压入链表 */
-    public void push(PushInfo item) {
+    public PushInfo pop2clear(){
+        synchronized (backPList_) {
+            if(backPList_.size() == 0){
+                return null;
+            }
+            int index = backPList_.size()-1;
+            PushInfo popInfo = backPList_.get(index);
+            backPList_.clear();
+            return popInfo;
+        }
+    }    
+    /*将对象压入链表*/
+    public void push(PushInfo item){
         synchronized (backPList_) {
             backPList_.add(item);
         }

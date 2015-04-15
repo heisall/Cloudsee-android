@@ -33,7 +33,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -407,7 +406,6 @@ public class WheelView extends View {
             itemsPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
                     | Paint.FAKE_BOLD_TEXT_FLAG);
             itemsPaint.density = getResources().getDisplayMetrics().density;
-            Log.i("TAG", "SSSSSSSSSSSSSSSSS" + itemsPaint.density);
             itemsPaint.setTextSize(TEXT_SIZE * itemsPaint.density);
         }
 

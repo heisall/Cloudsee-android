@@ -274,7 +274,7 @@ public class JVTabActivity extends ShakeActivity implements
     protected void onResume() {
         super.onResume();
         // 获取后台运行时推送过来的报警，by lkp
-        PushInfo pi = BackRunPushInfoStack.getInstance().pop();
+        PushInfo pi = BackRunPushInfoStack.getInstance().pop2clear();
         if (null != pi) {
             onNotify(Consts.WHAT_PUSH_MESSAGE,
                     pi.alarmType, 0, pi);

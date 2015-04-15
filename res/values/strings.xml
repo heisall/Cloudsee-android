@@ -134,6 +134,8 @@
     <string name="str_has_call">Another client is using Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
+    <string name="str_share_link">分享链接</string>
+    <string name="str_share_link_tips"></string>
     <!-- PlayHelp -->
     <string name="playhelp_pull">change into multi-screen</string>
     <string name="playhelp_moreview">More→image view</string>

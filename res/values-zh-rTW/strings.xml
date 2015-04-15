@@ -134,6 +134,8 @@
     <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>
+    <string name="str_share_link">分享鏈接</string>
+    <string name="str_share_link_tips"></string>
     <!-- PlayHelp -->
     <string name="playhelp_pull">切換多屏顯示</string>
     <string name="playhelp_moreview">更多→圖像查看</string>

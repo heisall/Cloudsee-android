@@ -665,6 +665,11 @@ public class Consts {
     /** 设备添加结果 */
     public static final int DEVICE_ADD_SUCCESS_RESULT = 0x83;// 设备添加结果
 
+    /** 局域网添加设备请求 */
+    public static final int SCAN_IN_LINE_REQUEST = 0x84;// 局域网添加设备请求
+    /** 局域网添加设备回调结果 */
+    public static final int SCAN_IN_LINE_RESULT = 0x85;// 局域网添加设备回调结果
+
     /** 设备接口对应值 **/
     public static final int STORAGEMODE_NORMAL = 1;// 手动录像
     public static final int STORAGEMODE_ALARM = 2;// 报警录像

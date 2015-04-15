@@ -3,6 +3,7 @@ package com.jovision.commons;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.test.JVACCOUNT;
@@ -111,10 +112,18 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     break;
 
                 case 1:// 视频广场
+                    String appVersion = "";
+                    try {
+                        appVersion = mContext.getPackageManager().getPackageInfo(
+                                mContext.getPackageName(), 0).versionName;
+                    } catch (NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
-                            + Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
+                            + Build.VERSION.SDK_INT + "&lang=" + lan
+                            + "&appv" + appVersion + "&d="
                             + System.currentTimeMillis() + "&sid=" + sid;
-
+                    MyLog.v("demoUrl", demoUrl);
                     if (!"fragmentString".equals(fragmentString)
                             && null != webUrl.getDemoUrl()) {
                         Intent intentAD = new Intent(mContext,

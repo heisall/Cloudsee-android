@@ -293,8 +293,8 @@
     <string name="str_new_add_device_networking">已聯網設備</string>
     <string name="str_new_add_device_nonetworking">未聯網設備</string>
     <string name="str_new_add_device_other">其他方式</string>
-    <string name="str_new_add_device_AP">AP設置添加</string>
-    <string name="str_new_add_device_wave">聲波設置添加</string>
+    <string name="str_new_add_device_AP">無線配置</string>
+    <string name="str_new_add_device_wave">聲波配置</string>
     <string name="str_new_add_device_IP"> IP/域名添加</string>
     <string name="str_new_add_device_localnetwork">局域網添加</string>
     <!-- 設備管理 -->

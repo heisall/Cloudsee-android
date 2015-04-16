@@ -291,7 +291,8 @@ public class JVTabActivity extends ShakeActivity implements
                 && !"".equals((statusHashMap.get(Consts.MORE_BBSNUM)))
                 && Consts.LANGUAGE_ZH == ConfigUtil
                         .getLanguage2(JVTabActivity.this)
-                && !"hasget".equals(statusHashMap.get("GETNUM"))) {
+                && !"hasget".equals(statusHashMap.get("GETNUM"))
+                && !Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
             GetnoMessageTask task = new GetnoMessageTask();
             String[] param = new String[3];
             param[0] = statusHashMap.get(Consts.MORE_BBSNUM);
@@ -1360,7 +1361,8 @@ public class JVTabActivity extends ShakeActivity implements
                                 && Consts.LANGUAGE_ZH == ConfigUtil
                                         .getLanguage2(JVTabActivity.this)
                                 && !"hasget".equals(statusHashMap
-                                        .get("GETNUM"))) {
+                                        .get("GETNUM"))
+                                && !Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
                             GetnoMessageTask task = new GetnoMessageTask();
                             String[] param = new String[3];
                             param[0] = statusHashMap

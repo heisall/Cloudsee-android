@@ -82,7 +82,6 @@
                     android:layout_weight="1"
                     android:background="@color/transparent"
                     android:drawablePadding="10dp"
-                    android:drawableTop="@drawable/yt_controller"
                     android:text="@string/str_yt_operate"
                     android:textColor="@color/userinfocolor"
                     android:textSize="16sp" />

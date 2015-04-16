@@ -338,13 +338,16 @@ public class CustomDialogActivity extends BaseActivity implements
                     }
                 } else {
                     // 云存储
-                    String temp[] = vod_uri_.split("com/");
-                    cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
-                    cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
-                    lookVideoBtn.setEnabled(false);
-                    bDownLoadFileType = 1;
-                    // cloudSignVodUri = url;
-                    new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
+                    if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
+                        String temp[] = vod_uri_.split("com/");
+                        cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
+                        cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
+                        lookVideoBtn.setEnabled(false);
+                        bDownLoadFileType = 1;
+                        // cloudSignVodUri = url;
+                        new Thread(new HttpJudgeThread(cloudSignVodUri)).start();                        
+                    }
+
                 }
                 break;
             case R.id.dialog_cancle_img:

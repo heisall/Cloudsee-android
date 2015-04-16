@@ -1862,8 +1862,6 @@ public class JVPlayActivity extends PlayActivity implements
         varvoice_bg.setOnClickListener(myOnClickListener);
         leftBtn.setOnClickListener(myOnClickListener);
         left_btn_h.setOnClickListener(myOnClickListener);
-        ht_fight.setOnClickListener(myOnClickListener);
-        ht_motion.setOnClickListener(myOnClickListener);
         // ysSpeedSet.setOnClickListener(myOnClickListener);
 
         selectScreenNum.setOnClickListener(myOnClickListener);

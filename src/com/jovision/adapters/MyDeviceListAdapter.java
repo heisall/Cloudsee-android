@@ -347,14 +347,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
                                     .setVisibility(View.GONE);
                         }
                         // 云存储状态
-                        if (deviceList.get(position * 2).getCloudEnabled() == 1) {
+                        if (deviceList.get(position * 2+1).getCloudEnabled() == 1) {
                             Drawable draw_cloud_on = context_.getResources().getDrawable(
                                     R.drawable.cloud_state_on);
                             draw_cloud_on.setBounds(0, 0, draw_cloud_on.getMinimumWidth(),
                                     draw_cloud_on.getMinimumHeight());
                             deviceHolder.tv_dev_cloud_state_R.setCompoundDrawables(draw_cloud_on,
                                     null, null, null);
-                        } else if (deviceList.get(position * 2).getCloudEnabled() == 0) {
+                        } else if (deviceList.get(position * 2+1).getCloudEnabled() == 0) {
                             Drawable draw_cloud_off = context_.getResources().getDrawable(
                                     R.drawable.cloud_state_off);
                             draw_cloud_off.setBounds(0, 0, draw_cloud_off.getMinimumWidth(),

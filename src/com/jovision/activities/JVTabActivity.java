@@ -962,7 +962,7 @@ public class JVTabActivity extends ShakeActivity implements
             // String gcsurlString =
             // "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm"+"&sid ="+JVACCOUNT.GetSession()
             String result = JSONUtil.httpGet(params[0]);
-            MyLog.e("BBS_notread", "request=" + params[0] + ";result=" + result);
+            MyLog.v("BBS_notread", "request=" + params[0] + ";result=" + result);
             // request=http://bbs.cloudsee.net/v.php?mod=auth&act=sid_login&next=/&sid=c01ed43499478b62f4cb233112a41fe8
             // request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
             try {

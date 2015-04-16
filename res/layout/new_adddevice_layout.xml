@@ -150,7 +150,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/apset_button"
@@ -165,7 +166,7 @@
                     android:text="@string/str_new_add_device_AP"
                     android:textColor="@color/gray"
                     android:textSize="15sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/soundwave_button"
@@ -179,7 +180,7 @@
                     android:text="@string/str_new_add_device_wave"
                     android:textColor="@color/gray"
                     android:textSize="15sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </LinearLayout>
 
             <View

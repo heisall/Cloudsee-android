@@ -52,93 +52,119 @@
                 android:background="@color/morefragment" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/date_type"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp" >
 
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/date_type"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/morefragment" />
+                android:layout_height="match_parent" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="日期格式"
-                android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/morefragment" />
 
-            <TextView
-                android:id="@+id/date_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/date_img"
-                android:text=""
-                android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="日期格式"
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/date_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/morefragment_next_icon" />
+                <TextView
+                    android:id="@+id/date_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/date_img"
+                    android:text=""
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
 
-            <ImageView
+                <ImageView
+                    android:id="@+id/date_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/morefragment_next_icon" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/date_typegone"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/morefragment" />
-        </RelativeLayout>
+                android:layout_height="match_parent"
+                android:background="@color/time_gone"
+                android:visibility="gone" >
+            </RelativeLayout>
+        </FrameLayout>
 
-        <RelativeLayout
-            android:id="@+id/time_type"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="时间格式"
-                android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/time_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/time_img"
-                android:text=""
-                android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/time_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/morefragment_next_icon" />
-
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/time_type"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/morefragment" />
-        </RelativeLayout>
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="时间格式"
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/time_img"
+                    android:text=""
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/time_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/morefragment_next_icon" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/time_typegone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/time_gone"
+                android:visibility="gone" >
+            </RelativeLayout>
+        </FrameLayout>
     </LinearLayout>
 
 </LinearLayout>

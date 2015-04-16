@@ -48,6 +48,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     ImageButton editimg_clearn;
     ImageView tab_icon;
     Button save_icon, soundwave_button, apset_button;
+    private LinearLayout devsetLayout;
     TextView tab_title;
     TextView ip_dns_btn, local_network_button;
     WebView add_device_wv;
@@ -148,6 +149,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         loadinglayout.setVisibility(View.VISIBLE);
         add_device_wv.loadUrl(url);
         // 网络加载不成功状态
+        devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
         apset_button = (Button) findViewById(R.id.apset_button);
         soundwave_button = (Button) findViewById(R.id.soundwave_button);
         apset_button.setOnClickListener(myOnClickListener);
@@ -187,6 +189,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             loadinglayout.setVisibility(View.GONE);
             soundwave_button.setVisibility(View.VISIBLE);
             apset_button.setVisibility(View.VISIBLE);
+            devsetLayout.setVisibility(View.VISIBLE);
             JVNewAddDeviceActivity.this.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
@@ -201,6 +204,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 loadinglayout.setVisibility(View.GONE);
                 soundwave_button.setVisibility(View.VISIBLE);
                 apset_button.setVisibility(View.VISIBLE);
+                devsetLayout.setVisibility(View.VISIBLE);
             } else {
                 loadinglayout.setVisibility(View.GONE);
                 add_device_wv.setVisibility(View.VISIBLE);

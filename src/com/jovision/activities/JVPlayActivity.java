@@ -4948,7 +4948,7 @@ public class JVPlayActivity extends PlayActivity implements
 
         // 设置新浪微博分享的内容
         SinaShareContent sinaContent = new SinaShareContent();
-        sinaContent.setShareContent(videoContent);
+        sinaContent.setShareContent(videoContent + urlLink);
         sinaContent.setTitle(title);
         sinaContent.setTargetUrl(urlLink);
         sinaContent.setShareImage(urlImage);

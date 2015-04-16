@@ -761,7 +761,7 @@ public class CustomDialogActivity extends BaseActivity implements
                                 return;
                             }
                         }
-                        
+
                         String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
                                 strYstNum, strChannelNum);
                         MySharedPreference.putString(strSpKey,

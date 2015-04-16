@@ -110,7 +110,7 @@ public class JVSetTimeActivity extends BaseActivity {
         Date curDate = new Date(System.currentTimeMillis());
         String str = formatter.format(curDate);
 
-        MySharedPreference.putInt("timetype",nTimeFormat);
+        MySharedPreference.putInt("timetype", nTimeFormat);
         if (1 == MySharedPreference.getInt("timetype")) {
             dateText.setText("YYYY-MM-DD");
         } else if (2 == MySharedPreference.getInt("timetype")) {
@@ -311,26 +311,27 @@ public class JVSetTimeActivity extends BaseActivity {
     }
 
     private void SettingTime() {
-    	 if (1 == MySharedPreference.getInt("timetype")) {
-             popupWindow.relativeTwo_img.setVisibility(View.VISIBLE);
-             popupWindow.relativeOne_img.setVisibility(View.GONE);
-             popupWindow.relativeThree_img.setVisibility(View.GONE);
-             popupWindow.Currenttype.setText("(YYYY-MM-DD)");
-             dateText.setText("YYYY-MM-DD");
-         } else if (2 == MySharedPreference.getInt("timetype")) {
-             popupWindow.relativeOne_img.setVisibility(View.GONE);
-             popupWindow.relativeThree_img.setVisibility(View.VISIBLE);
-             popupWindow.relativeTwo_img.setVisibility(View.GONE);
-             popupWindow.Currenttype.setText("(DD/MM/YYYY)");
-             dateText.setText("DD/MM/YYYY");
-         } else if (0 == MySharedPreference.getInt("timetype")) {
-             popupWindow.relativeThree_img.setVisibility(View.GONE);
-             popupWindow.relativeTwo_img.setVisibility(View.GONE);
-             popupWindow.relativeOne_img.setVisibility(View.VISIBLE);
-             popupWindow.Currenttype.setText("(MM/DD/YYYY)");
-             dateText.setText("MM/DD/YYYY");
-         }
+        if (1 == MySharedPreference.getInt("timetype")) {
+            popupWindow.relativeTwo_img.setVisibility(View.VISIBLE);
+            popupWindow.relativeOne_img.setVisibility(View.GONE);
+            popupWindow.relativeThree_img.setVisibility(View.GONE);
+            popupWindow.Currenttype.setText("(YYYY-MM-DD)");
+            dateText.setText("YYYY-MM-DD");
+        } else if (2 == MySharedPreference.getInt("timetype")) {
+            popupWindow.relativeOne_img.setVisibility(View.GONE);
+            popupWindow.relativeThree_img.setVisibility(View.VISIBLE);
+            popupWindow.relativeTwo_img.setVisibility(View.GONE);
+            popupWindow.Currenttype.setText("(DD/MM/YYYY)");
+            dateText.setText("DD/MM/YYYY");
+        } else if (0 == MySharedPreference.getInt("timetype")) {
+            popupWindow.relativeThree_img.setVisibility(View.GONE);
+            popupWindow.relativeTwo_img.setVisibility(View.GONE);
+            popupWindow.relativeOne_img.setVisibility(View.VISIBLE);
+            popupWindow.Currenttype.setText("(MM/DD/YYYY)");
+            dateText.setText("MM/DD/YYYY");
+        }
     }
+
     @Override
     protected void saveSettings() {
 

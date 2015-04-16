@@ -97,77 +97,83 @@ public class MediaFolderAdapter extends BaseAdapter {
         folderHolder.folderName.setText(folderList.get(position).getName());
         final MediaAdapter mediaAdaper = new MediaAdapter(mContext);
         final File[] fileArray = folderList.get(position).listFiles();
-        final String folderPath = folderList.get(position).getAbsolutePath();
-        daArrayList = JVMediaListActivity.fileMap.get(folderPath);
+        if (null == fileArray || 0 == fileArray.length) {
+            folderHolder.folderName.setVisibility(View.GONE);
+            folderHolder.fileGridView.setVisibility(View.GONE);
+        } else {
+            final String folderPath = folderList.get(position).getAbsolutePath();
+            daArrayList = JVMediaListActivity.fileMap.get(folderPath);
 
-        mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect);
+            mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect);
 
-        if (!loadImg && loadIndex == position && loadIndexImg) {
-            mediaAdaper.setData(daArrayList, media, fileArray, loadIndexImg,
-                    isdelect);
-        }
+            if (!loadImg && loadIndex == position && loadIndexImg) {
+                mediaAdaper.setData(daArrayList, media, fileArray, loadIndexImg,
+                        isdelect);
+            }
 
-        folderHolder.fileGridView.setAdapter(mediaAdaper);
-        folderHolder.fileGridView
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1,
-                            int position, long arg3) {
+            folderHolder.fileGridView.setAdapter(mediaAdaper);
+            folderHolder.fileGridView
+                    .setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1,
+                                int position, long arg3) {
 
-                        if (!isdelect) {
-                            daArrayList = JVMediaListActivity.fileMap
-                                    .get(folderPath);
-                            mediaAdaper.setData(daArrayList, media, fileArray,
-                                    loadImg, isdelect);
-                            if (null != daArrayList) {
-                                for (int i = 0; i < daArrayList.size(); i++) {
-                                    if (position == i) {
-                                        if (daArrayList.get(i).isSelect()) {
-                                            daArrayList.get(i).setSelect(false);
-                                            JVMediaListActivity.fileSelectSum--;
-                                        } else {
-                                            daArrayList.get(i).setSelect(true);
-                                            JVMediaListActivity.fileSelectSum++;
+                            if (!isdelect) {
+                                daArrayList = JVMediaListActivity.fileMap
+                                        .get(folderPath);
+                                mediaAdaper.setData(daArrayList, media, fileArray,
+                                        loadImg, isdelect);
+                                if (null != daArrayList) {
+                                    for (int i = 0; i < daArrayList.size(); i++) {
+                                        if (position == i) {
+                                            if (daArrayList.get(i).isSelect()) {
+                                                daArrayList.get(i).setSelect(false);
+                                                JVMediaListActivity.fileSelectSum--;
+                                            } else {
+                                                daArrayList.get(i).setSelect(true);
+                                                JVMediaListActivity.fileSelectSum++;
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                        }
-                        mediaAdaper.notifyDataSetChanged();
-                        if (JVMediaListActivity.fileSelectSum == JVMediaListActivity.fileSum) {
-                            mContext.onNotify(Consts.WHAT_FILE_SUM,
-                                    JVMediaListActivity.fileSelectSum, 1, null);
-                        } else {
-                            mContext.onNotify(Consts.WHAT_FILE_SUM,
-                                    JVMediaListActivity.fileSelectSum, 0, null);
-                        }
-                        if ("image".equalsIgnoreCase(media)) {
-                            if (isdelect) {
-                                Intent imageIntent = new Intent();
-                                imageIntent.setClass(mContext,
-                                        JVImageViewActivity.class);
-                                imageIntent.putExtra("FolderPath", folderPath);
-                                imageIntent.putExtra("FileIndex", position);
-                                mContext.startActivity(imageIntent);
                             }
-                        } else if ("video".equalsIgnoreCase(media)
-                                || "downVideo".equalsIgnoreCase(media)) {
-                            if (isdelect) {
-                                selectPlayerDialog(mContext,
-                                        fileArray[position].getAbsolutePath());
-                                // Intent videoIntent = new Intent();
-                                // videoIntent.setClass(mContext,
-                                // JVVideoActivity.class);
-                                // videoIntent.putExtra("URL",
-                                // fileArray[position].getAbsolutePath());
-                                // videoIntent.putExtra("IS_LOCAL", true);
-                                // mContext.startActivity(videoIntent);
+                            mediaAdaper.notifyDataSetChanged();
+                            if (JVMediaListActivity.fileSelectSum == JVMediaListActivity.fileSum) {
+                                mContext.onNotify(Consts.WHAT_FILE_SUM,
+                                        JVMediaListActivity.fileSelectSum, 1, null);
+                            } else {
+                                mContext.onNotify(Consts.WHAT_FILE_SUM,
+                                        JVMediaListActivity.fileSelectSum, 0, null);
+                            }
+                            if ("image".equalsIgnoreCase(media)) {
+                                if (isdelect) {
+                                    Intent imageIntent = new Intent();
+                                    imageIntent.setClass(mContext,
+                                            JVImageViewActivity.class);
+                                    imageIntent.putExtra("FolderPath", folderPath);
+                                    imageIntent.putExtra("FileIndex", position);
+                                    mContext.startActivity(imageIntent);
+                                }
+                            } else if ("video".equalsIgnoreCase(media)
+                                    || "downVideo".equalsIgnoreCase(media)) {
+                                if (isdelect) {
+                                    selectPlayerDialog(mContext,
+                                            fileArray[position].getAbsolutePath());
+                                    // Intent videoIntent = new Intent();
+                                    // videoIntent.setClass(mContext,
+                                    // JVVideoActivity.class);
+                                    // videoIntent.putExtra("URL",
+                                    // fileArray[position].getAbsolutePath());
+                                    // videoIntent.putExtra("IS_LOCAL", true);
+                                    // mContext.startActivity(videoIntent);
+                                }
                             }
                         }
-                    }
 
-                });
+                    });
+        }
+
         return convertView;
     }
 

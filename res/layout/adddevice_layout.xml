@@ -37,7 +37,7 @@
             <EditText
                 android:id="@+id/ystnum_et"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginLeft="12dp"
                 android:background="@drawable/editimport"
                 android:paddingLeft="10dp"

@@ -12,7 +12,7 @@
         layout="@layout/top_bar_layout" />
 
     <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/new_adddevice_scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -103,15 +103,6 @@
                 android:layout_height="15dp"
                 android:background="#F8F6F7" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/str_new_add_device_nonetworking"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
-
             <WebView
                 android:id="@+id/add_device_wv"
                 android:layout_width="match_parent"
@@ -144,37 +135,51 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/str_new_add_device_nonetworking"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/apset_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/quick_install_bg"
-                    android:drawableLeft="@drawable/wifi_lock"
+                    android:background="@color/apset_button_bg"
+                    android:drawableLeft="@drawable/wifi"
+                    android:padding="15dp"
                     android:text="@string/str_new_add_device_AP"
-                    android:textColor="@color/quickinstall_btn_normal"
-                    android:textSize="18sp"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp"
                     android:visibility="gone" />
 
                 <Button
                     android:id="@+id/soundwave_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/quick_install_bg"
-                    android:drawableLeft="@drawable/wifi_lock"
+                    android:background="@color/soundwave_button_bg"
+                    android:drawableLeft="@drawable/soundwave"
+                    android:padding="15dp"
                     android:text="@string/str_new_add_device_wave"
-                    android:textColor="@color/quickinstall_btn_normal"
-                    android:textSize="18sp"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp"
                     android:visibility="gone" />
             </LinearLayout>
 
@@ -210,11 +215,12 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:autoLink="web"
-                    android:background="#FEF7E5"
+                    android:background="@color/ip_dns_btn_bg"
                     android:gravity="center"
                     android:text="@string/str_new_add_device_IP"
                     android:textColor="@color/gray"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/local_network_button"
@@ -222,7 +228,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:autoLink="web"
-                    android:background="#FDEDEE"
+                    android:background="@color/local_network_btn_bg"
                     android:gravity="center"
                     android:text="@string/str_new_add_device_localnetwork"
                     android:textColor="@color/gray"

@@ -154,7 +154,10 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         soundwave_button.setOnClickListener(myOnClickListener);
         // ip /局域网登陆
         ip_dns_btn = (TextView) findViewById(R.id.ip_dns_btn);
-        ip_dns_btn.setOnClickListener(myOnClickListener);
+        if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+            ip_dns_btn.setVisibility(View.VISIBLE);
+            ip_dns_btn.setOnClickListener(myOnClickListener);
+        }
         local_network_button = (TextView) findViewById(R.id.local_network_button);
         local_network_button.setOnClickListener(myOnClickListener);
 

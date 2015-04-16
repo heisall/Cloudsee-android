@@ -155,7 +155,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
                     .get("timezone"));
-            Log.i("TAG",streamMap.toString());
+            Log.i("TAG", streamMap.toString());
             mainListener.onMainAction(JVNetConst.RC_EXTEND,
                     JVNetConst.TIME_ZONE, 0, 0, 0, getString(R.string.str_timezone)
                             + "("
@@ -186,8 +186,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
             intentnum = Integer.valueOf(streamMap.get("bSntp"));
         }
         if (null != streamMap.get("nTimeFormat")) {
-        	nTimeFormat = Integer.valueOf(streamMap.get("nTimeFormat"));
-		}
+            nTimeFormat = Integer.valueOf(streamMap.get("nTimeFormat"));
+        }
     }
 
     @Override
@@ -1173,6 +1173,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 }
                 // [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
                 CacheUtil.saveDevList(deviceList);
+                statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
             } else if (1000 == result) {
                 showTextToast(R.string.device_offline);
             } else {

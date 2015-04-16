@@ -345,7 +345,7 @@ public class CustomDialogActivity extends BaseActivity implements
                         lookVideoBtn.setEnabled(false);
                         bDownLoadFileType = 1;
                         // cloudSignVodUri = url;
-                        new Thread(new HttpJudgeThread(cloudSignVodUri)).start();                        
+                        new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
                     }
 
                 }

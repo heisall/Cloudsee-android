@@ -918,24 +918,25 @@ public class JVWebView2Activity extends BaseActivity implements
                     break;
                 }
                 case R.id.pause: {// 暂停
-                // if (playChannel.isConnected()) {// 已连接
-                // manuPause = true;
-                // linkSpeed.setVisibility(View.GONE);
-                // pause.setImageDrawable(getResources().getDrawable(
-                // R.drawable.video_play_icon));
-                // // 暂停视频
-                // boolean res = stopConnect();
-                // } else {
-                // manuPause = false;
-                // // 继续播放视频
-                // boolean res = resumeVideo();
-                // }
+                    if (playChannel.isConnected()) {// 已连接
+                        manuPause = true;
+                        linkSpeed.setVisibility(View.GONE);
+                        pause.setImageDrawable(getResources().getDrawable(
+                                R.drawable.video_play_icon));
+                        // 暂停视频
+                        boolean res = stopConnect();
+                    } else {
+                        manuPause = false;
+                        // 继续播放视频
+                        boolean res = resumeVideo();
+                    }
 
-                    Intent bigImageIntent = new Intent();
-                    bigImageIntent.setClass(JVWebView2Activity.this, JVNetImageViewActivity.class);
-                    bigImageIntent.putExtra("ImageUrl",
-                            "http://test.cloudsee.net//upload/videoImge/pcStaticImgUrl/3.png");
-                    JVWebView2Activity.this.startActivity(bigImageIntent);
+                    // Intent bigImageIntent = new Intent();
+                    // bigImageIntent.setClass(JVWebView2Activity.this,
+                    // JVNetImageViewActivity.class);
+                    // bigImageIntent.putExtra("ImageUrl",
+                    // "http://test.cloudsee.net//upload/videoImge/pcStaticImgUrl/3.png");
+                    // JVWebView2Activity.this.startActivity(bigImageIntent);
                     break;
                 }
                 case R.id.capturescreen: {

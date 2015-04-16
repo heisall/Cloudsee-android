@@ -27,16 +27,17 @@ import android.widget.RelativeLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-//import com.jovision.adapters.PeripheralManageAdapter;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.CustomDialog;
+
+//import com.jovision.adapters.PeripheralManageAdapter;
 
 public class AddThirdDeviceMenuFragment extends Fragment implements
         AddThirdDevActivity.OnMainListener {
     private View rootView;// 缓存Fragment view
     private GridView manageGridView;
-//    private PeripheralManageAdapter manageAdapter;
+    // private PeripheralManageAdapter manageAdapter;
     DisplayMetrics disMetrics;
     private WebView mWebView;
     private MyHandler myHandler;

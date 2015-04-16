@@ -50,7 +50,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     Button save_icon, soundwave_button, apset_button;
     private LinearLayout devsetLayout;
     TextView tab_title;
-    TextView ip_dns_btn, local_network_button;
+    RelativeLayout ip_dns_btn, local_network_button;
     WebView add_device_wv;
     // String url = "http://test.cloudsee.net/mobile/";
     String url = "http://www.cloudsee.net/mobile/nineBlock.action";
@@ -155,12 +155,12 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);
         // ip /局域网登陆
-        ip_dns_btn = (TextView) findViewById(R.id.ip_dns_btn);
+        ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
             ip_dns_btn.setVisibility(View.VISIBLE);
             ip_dns_btn.setOnClickListener(myOnClickListener);
         }
-        local_network_button = (TextView) findViewById(R.id.local_network_button);
+        local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
         local_network_button.setOnClickListener(myOnClickListener);
 
     }

@@ -24,6 +24,7 @@ import com.jovision.Jni;
 import com.jovision.MainApplication;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -41,10 +42,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 
 public class CustomDialogActivity extends BaseActivity implements
         android.view.View.OnClickListener, onDownloadListener {
     private static final int REPORT_LIMIT = 100 * 1024;
+    private static final int TIPS_LIMIT_MB = 5;//M
     private static final String TAG = "CustomDialogActivity";
     /** 查看按钮 **/
     private Button lookVideoBtn;
@@ -340,12 +343,18 @@ public class CustomDialogActivity extends BaseActivity implements
                     // 云存储
                     if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
                         String temp[] = vod_uri_.split("com/");
-                        cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
-                        cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
-                        lookVideoBtn.setEnabled(false);
-                        bDownLoadFileType = 1;
-                        // cloudSignVodUri = url;
-                        new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
+                        if(temp.length == 2){
+                            cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
+                            cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
+                            lookVideoBtn.setEnabled(false);
+                            bDownLoadFileType = 1;
+                            // cloudSignVodUri = url;
+                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();                              
+                        }
+                        else{
+                            String strTips = getResources().getString(R.string.str_cloud_url_error1);
+                            showTextToast(strTips);
+                        }
                     }
 
                 }
@@ -771,39 +780,45 @@ public class CustomDialogActivity extends BaseActivity implements
                                 storageObject.toString());
                         cloudBucket = storageObject.optString("csspace");
                         String temp1[] = strImgUrl.split("com/");
-                        cloudResource = String.format("/%s/%s", cloudBucket,
-                                temp1[1]);
-                        if (bDownLoadFileType == 0) {
-                            if (!fileIsExists(localImgPath)) {
-                                bLocalFile = false;
-                                if (!strImgUrl.equals("")) {
-                                    lookVideoBtn.setEnabled(false);
-                                    // 起线程下载图片
+                        if(temp1.length == 2){
+                            cloudResource = String.format("/%s/%s", cloudBucket,
+                                    temp1[1]);
+                            if (bDownLoadFileType == 0) {
+                                if (!fileIsExists(localImgPath)) {
+                                    bLocalFile = false;
+                                    if (!strImgUrl.equals("")) {
+                                        lookVideoBtn.setEnabled(false);
+                                        // 起线程下载图片
+                                        // 首先计算签名
+                                        cloudSignImgUri = Jni.GenSignedCloudUri(
+                                                cloudResource, storageJson);
+                                        new Thread(new DownThread(cloudSignImgUri,
+                                                "CSAlarmIMG/", localImgName)).start();
+                                    } else if (!vod_uri_.equals("")) {
+                                        lookVideoBtn.setEnabled(true);
+                                    }
+                                } else {
+                                    if (!vod_uri_.equals("")) {
+                                        lookVideoBtn.setEnabled(true);
+                                    }
                                     // 首先计算签名
-                                    cloudSignImgUri = Jni.GenSignedCloudUri(
-                                            cloudResource, storageJson);
-                                    new Thread(new DownThread(cloudSignImgUri,
-                                            "CSAlarmIMG/", localImgName)).start();
-                                } else if (!vod_uri_.equals("")) {
-                                    lookVideoBtn.setEnabled(true);
+                                    Bitmap bmp = getLoacalBitmap(localImgPath);
+                                    if (null != bmp) {
+                                        alarmImage.setImageBitmap(bmp);
+                                    }
+                                    bLocalFile = true;
                                 }
-                            } else {
-                                if (!vod_uri_.equals("")) {
-                                    lookVideoBtn.setEnabled(true);
-                                }
-                                // 首先计算签名
-                                Bitmap bmp = getLoacalBitmap(localImgPath);
-                                if (null != bmp) {
-                                    alarmImage.setImageBitmap(bmp);
-                                }
-                                bLocalFile = true;
+                            }
+                            else {
+                                // 下载录像
+                                // TODO
+                                cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
+                                new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
                             }
                         }
-                        else {
-                            // 下载录像
-                            // TODO
-                            cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
-                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
+                        else{
+                            String strTips = getResources().getString(R.string.str_cloud_url_error1);
+                            showTextToast(strTips);
                         }
 
                     } catch (JSONException e) {
@@ -842,13 +857,20 @@ public class CustomDialogActivity extends BaseActivity implements
                     if (msg.arg1 == 0) {
                         Log.e("Down", "上报成功");
                         downLoadSize = 0;
-                        showTextToast(R.string.str_report_flow_ok);
+//                        showTextToast(R.string.str_report_flow_ok);
                         MySharedPreference.putLong(Consts.KEY_CLOUD_VOD_SIZE, 0);// 清0
                     }
                     else {
                         Log.e("Down", "上报失败");
                         showTextToast(getResources().getString(R.string.str_report_flow_failed)
                                 + msg.arg1);
+                    }
+                    break;
+                case 0x9002://流量低于指定大小，提示用户
+                    {
+                        String strTips = getResources().getString(R.string.str_check_flow_tips2);
+                        strTips = strTips.replace("%%", String.valueOf(TIPS_LIMIT_MB));
+                        showTextToast(strTips);
                     }
                     break;
                 case JVNetConst.JVN_RSP_DISCONN:
@@ -988,7 +1010,7 @@ public class CustomDialogActivity extends BaseActivity implements
             int ret = -1;
             Log.e("Down", "开始下载.............");
             HttpDownloader downloader = new HttpDownloader();
-            ret = downloader.downFile(uri_, fileDir_, fileName_, mActivity);
+            ret = downloader.downFile(uri_, fileDir_, fileName_, null);//下载图片先不统计流量
             Log.e("Down", "下载结束.............");
             Message msg = myHandler.obtainMessage(0x00, ret, 0x00);
             msg.sendToTarget();
@@ -1082,11 +1104,26 @@ public class CustomDialogActivity extends BaseActivity implements
             _uri = params[0];
             _fileDir = params[1];
             _fileName = params[2];
+            //先去查询剩余流量
+            int check_ret = checkoutLeftFlow();
+            if(check_ret < 0){
+                return check_ret;
+            }
+            else if(check_ret == 0){
+                //剩余流量不足(充值+免费)
+                return 0x9001;
+            }
+            else{
+                if(check_ret <= TIPS_LIMIT_MB*1024){
+                    Message msg = myHandler.obtainMessage(0x9002);
+                    msg.sendToTarget();
+                }
+                Log.e("Down", "开始下载............." + _uri + "," + _fileDir + "," + _fileName);
+                HttpDownloader downloader = new HttpDownloader();
+                ret = downloader.downFile(_uri, _fileDir, _fileName, mActivity);
+                Log.e("Down", "下载结束.............");                     
+            }
 
-            Log.e("Down", "开始下载............." + _uri + "," + _fileDir + "," + _fileName);
-            HttpDownloader downloader = new HttpDownloader();
-            ret = downloader.downFile(_uri, _fileDir, _fileName, mActivity);
-            Log.e("Down", "下载结束.............");
             return ret;
         }
 
@@ -1109,8 +1146,13 @@ public class CustomDialogActivity extends BaseActivity implements
             if (progressdialog.isShowing()) {
                 progressdialog.dismiss();
             }
-            if (result == 0) {
+            if (result == 0x00) {
                 // Toast.makeText(mActivity, "下载成功", Toast.LENGTH_SHORT).show();
+            }
+            else if(result == 0x9001){
+                String strTips = getResources().getString(R.string.str_check_flow_tips1);
+                showTextToast(strTips);
+                return;
             }
             else {
                 showTextToast(R.string.video_download_failed);
@@ -1145,5 +1187,56 @@ public class CustomDialogActivity extends BaseActivity implements
             msg.sendToTarget();
         }
 
+    }
+    
+    private int checkoutLeftFlow(){
+        String resJson = DeviceUtil.getUserSurFlow();
+        Log.e("cloud", "check flow res:" + resJson);
+        JSONObject resObj;
+        int charge_left = 0, free_left = 0;
+        int total_left = 0;
+        try {
+            resObj = new JSONObject(resJson);
+
+            int ret = resObj.optInt(JVDeviceConst.JK_RESULT);
+            if (ret != 0) {
+                showTextToast(getResources().getString(R.string.str_cloud_query_error_1) + ":"
+                        + ret);
+                return -1;
+            }
+            else {
+                // 构造方法的字符格式这里如果小数不足2位,会以0补足.
+                DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
+                if (fee_type == 0) {
+                    // 单位流量
+                    charge_left = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW,0);
+                    
+                }
+                else if (fee_type == 1) {
+                    // 单位元
+                    charge_left = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0);
+                }
+                if(charge_left < 0){
+                    charge_left = 0;
+                }
+                int free_total = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE, 0);
+                if(free_total < 0){
+                    free_total = 0;
+                }                
+                int free_used = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE_USE, 0);
+                if(free_used < 0){
+                    free_used = 0;
+                }                
+                free_left = (free_used<=free_total)?(free_total-free_used):0;
+                
+                total_left = charge_left + free_left;
+                return total_left;
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }   
+        return total_left;
     }
 }

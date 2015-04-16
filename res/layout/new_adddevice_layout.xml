@@ -103,12 +103,22 @@
                 android:layout_height="15dp"
                 android:background="#F8F6F7" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/str_new_add_device_nonetworking"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
             <WebView
                 android:id="@+id/add_device_wv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp" />
 
             <LinearLayout
                 android:id="@+id/loadinglayout"
@@ -134,15 +144,6 @@
                     android:textColor="@color/more_fragment_color2"
                     android:textSize="16sp" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/str_new_add_device_nonetworking"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -208,33 +209,71 @@
                 android:orientation="horizontal"
                 android:paddingBottom="20dp" >
 
-                <TextView
+                <RelativeLayout
                     android:id="@+id/ip_dns_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:autoLink="web"
-                    android:background="@color/ip_dns_btn_bg"
-                    android:gravity="center"
-                    android:text="@string/str_new_add_device_IP"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
+                    android:background="@color/ip_dns_btn_bg" >
 
-                <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/ip_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/str_new_add_device_IP"
+                            android:textColor="@color/gray"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/local_network_button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:autoLink="web"
-                    android:background="@color/local_network_btn_bg"
-                    android:gravity="center"
-                    android:text="@string/str_new_add_device_localnetwork"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp" />
+                    android:background="@color/local_network_btn_bg" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/lan_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:autoLink="web"
+                            android:text="@string/str_new_add_device_localnetwork"
+                            android:textColor="@color/gray"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

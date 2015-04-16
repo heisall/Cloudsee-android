@@ -197,15 +197,16 @@ public class CustomDialogActivity extends BaseActivity implements
             String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
                     pushInfo.ystNum, pushInfo.coonNum);
             storageJson = MySharedPreference.getString(strSpKey);
-
-            if (storageJson.equals("") || null == storageJson) {
-                // storageJson =
-                // DeviceUtil.getDevCloudStorageInfo(pushInfo.ystNum,
-                // pushInfo.coonNum);
-                new Thread(new GetCloudInfoThread(pushInfo.ystNum,
-                        pushInfo.coonNum)).start();
-            } else {
-                myHandler.sendEmptyMessage(0x01);
+            if (!strImgUrl.equals("")) {
+                if (storageJson.equals("") || null == storageJson) {
+                    // storageJson =
+                    // DeviceUtil.getDevCloudStorageInfo(pushInfo.ystNum,
+                    // pushInfo.coonNum);
+                    new Thread(new GetCloudInfoThread(pushInfo.ystNum,
+                            pushInfo.coonNum)).start();
+                } else {
+                    myHandler.sendEmptyMessage(0x01);
+                }
             }
             /* 初始化流量统计 */
             downLoadSize = MySharedPreference.getLong(Consts.KEY_CLOUD_VOD_SIZE, 0);
@@ -760,7 +761,7 @@ public class CustomDialogActivity extends BaseActivity implements
                                 return;
                             }
                         }
-
+                        
                         String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
                                 strYstNum, strChannelNum);
                         MySharedPreference.putString(strSpKey,

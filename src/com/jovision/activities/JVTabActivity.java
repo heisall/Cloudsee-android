@@ -875,70 +875,63 @@ public class JVTabActivity extends ShakeActivity implements
         }
     }
 
-    @Override
-    public void OnFuncEnabled(int func_index, int enabled) {
-        // TODO Auto-generated method stub
-        switch (func_index) {
-            case 0:
-                Log.i("TAG", "执行了方法！！");
-                countshow = 0;
-                if ("hasget".equals(statusHashMap.get("GETNUM"))) {
-                    countbbs = 0;
-                }
-                if (null != mIndicator && null != showGcsStr) {
-                    if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-                        int cnt = mApp.getNewPushCnt();
-                        countshow = cnt;
-                        if (!MySharedPreference
-                                .getBoolean(Consts.MORE_CLOUD_SHOP)) {
-                            countshow = countshow + 1;
-                        }
-                        Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
-                    }
-                    int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
-                    if (lan == Consts.LANGUAGE_ZH) {
-                        if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
-                            countshow = countshow + 1;
-                        }
-                        if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-                            if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
-                                    && !"".equalsIgnoreCase(statusHashMap
-                                            .get(Consts.MORE_GCS_SWITCH))) {
-                                if (1 == Integer.parseInt(statusHashMap
-                                        .get(Consts.MORE_GCS_SWITCH))) {
-                                    countshow = countshow + 1;
-                                }
-                            }
-                        }
-                        // if
-                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
-                        // {
-                        // countshow = countshow + 1;
-                        // }
-                    } else {
-                        if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
-                            countshow = countshow + 1;
-                        }
-                        // if
-                        // ((!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
-                        // {
-                        // countshow = countshow + 1;
-                        // }
-                    }
-                    if (countshow + countbbs > 0) {
-                        // -------------customize start--------------
-                        // mIndicator.updateIndicator(3, 0, true, countshow +
-                        // countbbs);
-                        mIndicator.updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
-                        // -------------customize end --------------
-                    } else {
-                        // -------------customize start--------------
-                        // mIndicator.updateIndicator(3, 0, false, countshow +
-                        // countbbs);
-                        mIndicator
-                                .updateIndicator(mLastTabPosition, 0, false, countshow + countbbs);
-                        // -------------customize end --------------
-                    }
+	@Override
+	public void OnFuncEnabled(int func_index, int enabled) {
+		// TODO Auto-generated method stub
+		switch (func_index) {
+		case 0:
+			countshow = 0;
+			if ("hasget".equals(statusHashMap.get("GETNUM"))) {
+				countbbs = 0;
+			}
+			if (null != mIndicator) {
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_CLOUD_SHOP)) {
+						countshow = countshow + 1;
+					}
+					Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+				}
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
+						if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
+								&& !"".equalsIgnoreCase(statusHashMap
+										.get(Consts.MORE_GCS_SWITCH))) {
+							if (1 == Integer.parseInt(statusHashMap
+									.get(Consts.MORE_GCS_SWITCH))) {
+								countshow = countshow + 1;
+							}
+						}
+					}
+					// if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					// countshow = countshow + 1;
+					// }
+				} else {
+					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					// if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					// countshow = countshow + 1;
+					// }
+				}
+				if (countshow + countbbs > 0) {
+					// -------------customize start--------------
+					// mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
+					mIndicator.updateIndicator(mLastTabPosition, 0, true, countshow + countbbs);
+					// -------------customize end --------------
+				} else {
+					// -------------customize start--------------
+					// mIndicator.updateIndicator(3, 0, false, countshow +
+					// countbbs);
+					mIndicator.updateIndicator(mLastTabPosition, 0, false, countshow + countbbs);
+					// -------------customize end --------------
+				}
 
                 }
                 break;

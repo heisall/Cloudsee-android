@@ -78,6 +78,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public static String fullno;
     public String timezones;
     public int intentnum;
+    public int nTimeFormat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
                     .get("timezone"));
+            Log.i("TAG",streamMap.toString());
             mainListener.onMainAction(JVNetConst.RC_EXTEND,
                     JVNetConst.TIME_ZONE, 0, 0, 0, getString(R.string.str_timezone)
                             + "("
@@ -183,6 +185,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
         if (null != streamMap.get("bSntp")) {
             intentnum = Integer.valueOf(streamMap.get("bSntp"));
         }
+        if (null != streamMap.get("nTimeFormat")) {
+        	nTimeFormat = Integer.valueOf(streamMap.get("nTimeFormat"));
+		}
     }
 
     @Override
@@ -694,6 +699,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 timesIntent.putExtra("timetype", params);
                 timesIntent.putExtra("window", window);
                 timesIntent.putExtra("opennum", intentnum);
+                timesIntent.putExtra("nTimeFormat", nTimeFormat);
                 startActivity(timesIntent);
                 break;
             default:

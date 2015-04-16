@@ -28,6 +28,8 @@ public class JVSetTimeActivity extends BaseActivity {
 
     private RelativeLayout dateType;
     private RelativeLayout timeType;
+    private RelativeLayout dateTypeGone;
+    private RelativeLayout timeTypeGone;
     private RelativeLayout intenttime;
     private ImageView intent_img;
     private TextView dateText;
@@ -72,6 +74,8 @@ public class JVSetTimeActivity extends BaseActivity {
         currentMenu.setText(getResources().getString(R.string.str_setting_time));
         dateType = (RelativeLayout) findViewById(R.id.date_type);
         timeType = (RelativeLayout) findViewById(R.id.time_type);
+        dateTypeGone = (RelativeLayout) findViewById(R.id.date_typegone);
+        timeTypeGone = (RelativeLayout) findViewById(R.id.time_typegone);
         dateText = (TextView) findViewById(R.id.date_text);
         intenttime = (RelativeLayout) findViewById(R.id.intenttime);
         intent_img = (ImageView) findViewById(R.id.intenttime_img);
@@ -80,6 +84,8 @@ public class JVSetTimeActivity extends BaseActivity {
 
         // rightBtn.setOnClickListener(myOnClickListener);
         rightBtn.setVisibility(View.GONE);
+        dateTypeGone.setOnClickListener(myOnClickListener);
+        timeTypeGone.setOnClickListener(myOnClickListener);
         intenttime.setOnClickListener(myOnClickListener);
         dateType.setOnClickListener(myOnClickListener);
         timeType.setOnClickListener(myOnClickListener);
@@ -87,9 +93,13 @@ public class JVSetTimeActivity extends BaseActivity {
 
         if (0 == opennum) {
             intent_img.setImageResource(R.drawable.morefragment_normal_icon);
+            dateTypeGone.setVisibility(View.GONE);
+            timeTypeGone.setVisibility(View.GONE);
             isopen = true;
         } else if (1 == opennum) {
             intent_img.setImageResource(R.drawable.morefragment_selector_icon);
+            dateTypeGone.setVisibility(View.VISIBLE);
+            timeTypeGone.setVisibility(View.VISIBLE);
             isopen = false;
         }
 
@@ -128,17 +138,26 @@ public class JVSetTimeActivity extends BaseActivity {
         MySharedPreference.putInt("mins", -1);
     }
 
+    /**
+	 * 
+	 */
     OnClickListener myOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.date_typegone:
+                    break;
+                case R.id.time_typegone:
+                    break;
                 case R.id.intenttime:
                     String params = "";// 0关，1开
                     if (!isopen) {
                         params = "bSntp=" + 0 + ";";
                         intent_img.setImageResource(R.drawable.morefragment_normal_icon);
                         isopen = true;
+                        dateTypeGone.setVisibility(View.GONE);
+                        timeTypeGone.setVisibility(View.GONE);
                         Jni.sendString(window,
                                 JVNetConst.JVN_RSP_TEXTDATA,
                                 false, 0, Consts.TYPE_SET_PARAM, params);
@@ -149,8 +168,34 @@ public class JVSetTimeActivity extends BaseActivity {
                         Jni.sendString(window,
                                 JVNetConst.JVN_RSP_TEXTDATA,
                                 false, 0, Consts.TYPE_SET_PARAM, params);
+                        dateTypeGone.setVisibility(View.VISIBLE);
+                        timeTypeGone.setVisibility(View.VISIBLE);
+                        switch (MySharedPreference.getInt("timetype")) {
+                            case 2:
+                                SimpleDateFormat formatter = new SimpleDateFormat(
+                                        "yyyy-MM-dd HH:mm:ss");
+                                Date curDate = new Date(System.currentTimeMillis());
+                                String str = formatter.format(curDate);
+                                timeText.setText(str);
+                                break;
+                            case 1:
+                                SimpleDateFormat formatter1 = new SimpleDateFormat(
+                                        "yyyy-MM-dd HH:mm:ss");
+                                Date curDate1 = new Date(System.currentTimeMillis());
+                                String str1 = formatter1.format(curDate1);
+                                timeText.setText(str1);
+                                break;
+                            case 0:
+                                SimpleDateFormat formatter2 = new SimpleDateFormat(
+                                        "yyyy-MM-dd HH:mm:ss");
+                                Date curDate2 = new Date(System.currentTimeMillis());
+                                String str2 = formatter2.format(curDate2);
+                                timeText.setText(str2);
+                                break;
+                            default:
+                                break;
+                        }
                     }
-
                     break;
                 case R.id.btn_left:
                     finish();
@@ -159,34 +204,26 @@ public class JVSetTimeActivity extends BaseActivity {
                     popupWindow.dismiss();
                     break;
                 case R.id.date_type:
-                    if (isopen) {
-                        isdatetype = 1;
-                        popupWindow = new TimePopView(JVSetTimeActivity.this, myOnClickListener,
-                                isdatetype);
-                        popupWindow.setBackgroundDrawable(null);
-                        popupWindow.setOutsideTouchable(true);
-                        popupWindow.showAtLocation(linear, Gravity.BOTTOM
-                                | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-                        if (1 == showtime) {
-                            popupWindow.relativeThree.setVisibility(View.GONE);
-                        }
-                        SettingTime();
-                    } else {
-                        showTextToast(getResources().getString(R.string.str_swith_time));
+                    isdatetype = 1;
+                    popupWindow = new TimePopView(JVSetTimeActivity.this, myOnClickListener,
+                            isdatetype);
+                    popupWindow.setBackgroundDrawable(null);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.showAtLocation(linear, Gravity.BOTTOM
+                            | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+                    if (1 == showtime) {
+                        popupWindow.relativeThree.setVisibility(View.GONE);
                     }
+                    SettingTime();
                     break;
                 case R.id.time_type:
-                    if (isopen) {
-                        isdatetype = 0;
-                        popupWindow = new TimePopView(JVSetTimeActivity.this, myOnClickListener,
-                                isdatetype);
-                        popupWindow.setBackgroundDrawable(null);
-                        popupWindow.setOutsideTouchable(true);
-                        popupWindow.showAtLocation(linear, Gravity.BOTTOM
-                                | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-                    } else {
-                        showTextToast(getResources().getString(R.string.str_swith_time));
-                    }
+                    isdatetype = 0;
+                    popupWindow = new TimePopView(JVSetTimeActivity.this, myOnClickListener,
+                            isdatetype);
+                    popupWindow.setBackgroundDrawable(null);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.showAtLocation(linear, Gravity.BOTTOM
+                            | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
                     break;
                 case R.id.save:
                     if (0 == isdatetype) {
@@ -296,18 +333,16 @@ public class JVSetTimeActivity extends BaseActivity {
     };
 
     private void Savetime() {
-        if (isopen) {
-            String time = MySharedPreference.getInt("timetype") + ":"
-                    + timeText.getText().toString();
-            MyLog.i("TAG", time + "时间格式");
-            Jni.sendSuperBytes(window,
-                    JVNetConst.JVN_RSP_TEXTDATA,
-                    false,
-                    time.getBytes().length,
-                    JVNetConst.RC_SETSYSTEMTIME, 0, 0, 0,
-                    time.getBytes(), time.getBytes().length);
-            showTextToast(getResources().getString(R.string.str_setting_time_success));
-        }
+        String time = MySharedPreference.getInt("timetype") + ":"
+                + timeText.getText().toString();
+        MyLog.i("TAG", time + "时间格式");
+        Jni.sendSuperBytes(window,
+                JVNetConst.JVN_RSP_TEXTDATA,
+                false,
+                time.getBytes().length,
+                JVNetConst.RC_SETSYSTEMTIME, 0, 0, 0,
+                time.getBytes(), time.getBytes().length);
+        showTextToast(getResources().getString(R.string.str_setting_time_success));
     }
 
     private void SettingTime() {

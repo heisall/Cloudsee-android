@@ -767,7 +767,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                                         Consts.MORE_CLOUD_SHOP, true);
                                 mListener.OnFuncEnabled(0, 1);
                             }
-                            cloudurl(mActivity);
+                            cloudurl(null);
                         }
                         // else if (dataList.get(position).getItemFlag()
                         // .equals(Consts.MORE_STATURL)) {

@@ -69,9 +69,6 @@ public abstract class PlayActivity extends BaseActivity implements
 
     /** layout 上 */
     protected LinearLayout topBar;// 顶部标题栏
-    protected RelativeLayout ishitvis;// 惠通闪光灯
-    protected ImageView ht_motion;// 移动侦测
-    protected ImageView ht_fight;// 闪光灯
     protected ImageView selectScreenNum;// 下拉选择当前分屏数按钮
     protected PopupWindow screenPopWindow;// 选择框
     protected ScreenAdapter screenAdapter;
@@ -297,13 +294,7 @@ public abstract class PlayActivity extends BaseActivity implements
         alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
         accountError = (TextView) findViewById(R.id.accounterror);
         rightBtn = (Button) findViewById(R.id.btn_right);
-        ishitvis = (RelativeLayout) findViewById(R.id.ishitvis);
-        ht_motion = (ImageView) findViewById(R.id.ht_motion);
-        ht_fight = (ImageView) findViewById(R.id.ht_flight);
         rightBtn.setVisibility(View.GONE);
-        if (Consts.ISHITVIS == 1) {
-            ishitvis.setVisibility(View.VISIBLE);
-        }
         reParamstop2 = new RelativeLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);

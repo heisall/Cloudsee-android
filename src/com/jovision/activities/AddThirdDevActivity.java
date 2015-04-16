@@ -47,13 +47,13 @@ public class AddThirdDevActivity extends BaseActivity implements
     private int process_flag = 0; // 0 绑定设备 1绑定昵称
     private boolean bind_nick_res = false;
     // private CustomDialog learningDialog;
-    private int[] add_device_types = {
-            R.drawable.third_guide_door,// 这是占位的
-            R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
-            R.drawable.third_guide_telecontrol, R.drawable.third_guide_smoke,
-            R.drawable.third_guide_curtain, R.drawable.third_guide_infrared,
-            R.drawable.third_guide_gas,
-    };
+    // private int[] add_device_types = {
+    // R.drawable.third_guide_door,// 这是占位的
+    // R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
+    // R.drawable.third_guide_telecontrol, R.drawable.third_guide_smoke,
+    // R.drawable.third_guide_curtain, R.drawable.third_guide_infrared,
+    // R.drawable.third_guide_gas,
+    // };
     private String[] PeripheralArray;
     private int init_dev_alarm_tag = 0;// 默认是失败
 

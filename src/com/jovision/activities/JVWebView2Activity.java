@@ -930,6 +930,13 @@ public class JVWebView2Activity extends BaseActivity implements
                         // 继续播放视频
                         boolean res = resumeVideo();
                     }
+
+                    // Intent bigImageIntent = new Intent();
+                    // bigImageIntent.setClass(JVWebView2Activity.this,
+                    // JVNetImageViewActivity.class);
+                    // bigImageIntent.putExtra("ImageUrl",
+                    // "http://test.cloudsee.net//upload/videoImge/pcStaticImgUrl/3.png");
+                    // JVWebView2Activity.this.startActivity(bigImageIntent);
                     break;
                 }
                 case R.id.capturescreen: {

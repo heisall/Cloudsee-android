@@ -94,7 +94,13 @@ public class JVAddDeviceActivity extends BaseActivity {
     @Override
     protected void initSettings() {
         Intent intent = getIntent();
-        devNumET_cloudseeId = intent.getStringExtra("devNumET_cloudseeid");
+        if (null != intent) {
+            devNumET_cloudseeId = intent.getStringExtra("devNumET_cloudseeid");
+            if (null != devNumET_cloudseeId) {
+                devNumET_cloudseeId = "";
+            }
+        }
+
         deviceList = CacheUtil.getDevList();
         qrAdd = intent.getBooleanExtra("QR", false);
         if (qrAdd) {
@@ -129,7 +135,7 @@ public class JVAddDeviceActivity extends BaseActivity {
         saveBtn = (Button) findViewById(R.id.save_btn);
 
         devNumET.setText(devNumET_cloudseeId);
-        if (!devNumET_cloudseeId.isEmpty()) {
+        if (null != devNumET_cloudseeId && !"".equalsIgnoreCase(devNumET_cloudseeId)) {
             devNumET.setEnabled(false);
             devNumET.setBackgroundColor(getResources().getColor(R.color.my_bg));
         }

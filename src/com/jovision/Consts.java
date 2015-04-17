@@ -344,6 +344,7 @@ public class Consts {
     public static final String MORE_STAT_SWITCH = "STAT_SWITCH"; // 云视通指数开关
     public static final String MORE_BBS_SWITCH = "BBS_SWITCH"; // 论坛开关
     public static final String MORE_GCS_SWITCH = "GCS_SWITCH"; // 工程商入住开关
+    public static final String MORE_SHOP_SWITCH = "SHOP_SWITCH"; // 小维商城开关
 
     public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
     public static final String MORE_FOREIGNSWITCH = "FOREIGNSWITCH"; // 国外服务器开关

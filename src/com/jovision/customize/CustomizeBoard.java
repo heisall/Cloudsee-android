@@ -2,6 +2,7 @@
 package com.jovision.customize;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,11 +19,17 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVMoreFragment;
 import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.activities.JVTabActivity;
+import com.jovision.activities.JVWebViewActivity;
+import com.jovision.commons.GetDemoTask;
+import com.jovision.commons.MyLog;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
+import com.jovision.utils.ConfigUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +55,8 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     private String menuTag[];
     // 功能菜单列表
     private List<Map<String, String>> menuList = new ArrayList<Map<String, String>>();
+    // 开关-打开为1
+    private int mOpenSwitch = 1;
 
     // 布局中子元素的动画延时时间
     private float mAnimationDelay = 0.1F;
@@ -73,6 +82,11 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
                 R.array.array_customize_item_tag);
         for (int i = 0, length = menuText.length; i < length; i++) {
             Map<String, String> map = new HashMap<String, String>();
+
+            // 判断功能是否显示
+            if (!isDisplay(menuTag[i])) {
+                continue;
+            }
             map.put("item_tag", menuTag[i]);
             map.put("item_text", menuText[i]);
             // 获取图片资源
@@ -246,6 +260,35 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
     }
 
     /**
+     * 判断功能是否显示
+     * 
+     * @return
+     */
+    private boolean isDisplay(String pTag) {
+        char tag = pTag.charAt(0);
+        int switchFlag = 1;// 默认为1显示
+        switch (tag) {
+            case 'c':// 小维商城
+                switchFlag = Integer.parseInt(mActivity.statusHashMap
+                        .get(Consts.MORE_SHOP_SWITCH));
+                break;
+            case 'd':// 小维工程
+                switchFlag = Integer.parseInt(mActivity.statusHashMap
+                        .get(Consts.MORE_GCS_SWITCH));
+                break;
+            default:
+                break;
+        }
+
+        // 没有启用,不显示
+        if (mOpenSwitch != switchFlag) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * 通过元素的标记获取相应的图片
      * 
      * @param tag 标记
@@ -311,8 +354,37 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * 小维商城
      */
     private void shopurl() {
-        Toast.makeText(mActivity, "unknown",
-                Toast.LENGTH_SHORT).show();
+        if (!ConfigUtil.isConnected(mActivity)) {
+            mActivity.alertNetDialog();
+        } else {
+            // 商城地址存在,直接跳转
+            if (null != ((BaseActivity) mActivity).statusHashMap
+                    .get(Consts.MORE_SHOPURL)) {
+                Intent intentAD0 = new Intent(mActivity,
+                        JVWebViewActivity.class);
+                intentAD0
+                        .putExtra(
+                                "URL",
+                                ((BaseActivity) mActivity).statusHashMap
+                                        .get(Consts.MORE_SHOPURL));
+                intentAD0.putExtra("title", -2);
+                mActivity.startActivity(intentAD0);
+            } else {
+                if ("false".equals(mActivity.statusHashMap
+                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                    MyLog.e("Login", "初始化账号SDK失败");
+                    ConfigUtil
+                            .initAccountSDK(((MainApplication) mActivity
+                                    .getApplication()));// 初始化账号SDK
+                }
+                // 重新请求url地址
+                GetDemoTask UrlTask = new GetDemoTask(
+                        mActivity);
+                String[] demoParams = new String[3];
+                demoParams[1] = "7";
+                UrlTask.execute(demoParams);
+            }
+        }
     }
 
     /**

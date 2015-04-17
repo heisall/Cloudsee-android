@@ -96,7 +96,7 @@ public class JVAddDeviceActivity extends BaseActivity {
         Intent intent = getIntent();
         if (null != intent) {
             devNumET_cloudseeId = intent.getStringExtra("devNumET_cloudseeid");
-            if (null != devNumET_cloudseeId) {
+            if (null == devNumET_cloudseeId) {
                 devNumET_cloudseeId = "";
             }
         }
@@ -135,6 +135,7 @@ public class JVAddDeviceActivity extends BaseActivity {
         saveBtn = (Button) findViewById(R.id.save_btn);
 
         devNumET.setText(devNumET_cloudseeId);
+        devNumET.setEnabled(false);
         if (null != devNumET_cloudseeId && !"".equalsIgnoreCase(devNumET_cloudseeId)) {
             devNumET.setEnabled(false);
             devNumET.setBackgroundColor(getResources().getColor(R.color.my_bg));

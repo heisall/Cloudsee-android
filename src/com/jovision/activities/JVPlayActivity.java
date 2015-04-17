@@ -616,9 +616,12 @@ public class JVPlayActivity extends PlayActivity implements
                             channel.getParent().setYtSpeed(
                                     MySharedPreference.getInt(channel.getParent().getFullNo()
                                             + Consts.YT_SPEED_KEY));
-                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
-                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
-                            MyLog.v("yt_speed", "normalData=" + channel.getParent().getYtSpeed());
+                            if (0 != channel.getParent().getYtSpeed()) {
+                                ytSeekBar.setProgress(channel.getParent().getYtSpeed());
+                                ytSpeed.setText(channel.getParent().getYtSpeed() + "");
+                                MyLog.v("yt_speed", "normalData="
+                                        + channel.getParent().getYtSpeed());
+                            }
                         } else {
                             ytSeekLayout.setVisibility(View.GONE);
                         }
@@ -944,10 +947,15 @@ public class JVPlayActivity extends PlayActivity implements
                                                     Integer.parseInt(dataMap.get("motorspeed")));
                                             // ytSpeed.setText(channel.getParent().getYtSpeed()
                                             // + "");
-                                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
-                                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
-                                            MyLog.v(TAG, "融合前--的代码,当前云台速度:"
-                                                    + channel.getParent().getYtSpeed());
+                                            if (ONE_SCREEN == currentScreen
+                                                    && lastClickIndex == channel.getIndex()) {
+                                                ytSeekBar.setProgress(channel.getParent()
+                                                        .getYtSpeed());
+                                                ytSpeed.setText(channel.getParent().getYtSpeed()
+                                                        + "");
+                                                MyLog.v(TAG, "融合前--的代码,当前云台速度:"
+                                                        + channel.getParent().getYtSpeed());
+                                            }
                                         }
                                     }
 
@@ -1018,12 +1026,19 @@ public class JVPlayActivity extends PlayActivity implements
                                                     .setYtSpeed(
                                                             Integer.parseInt(streamMap
                                                                     .get("moveSpeed")));
-                                            ytSeekBar.setProgress(channel.getParent().getYtSpeed());
-                                            ytSpeed.setText(channel.getParent().getYtSpeed() + "");
+                                            if (ONE_SCREEN == currentScreen
+                                                    && lastClickIndex == channel.getIndex()) {
+                                                ytSeekBar.setProgress(channel.getParent()
+                                                        .getYtSpeed());
+                                                ytSpeed.setText(channel.getParent().getYtSpeed()
+                                                        + "");
+                                                MyLog.v(TAG, "融合后的代码,当前云台速度:"
+                                                        + channel.getParent().getYtSpeed());
+                                            }
+
                                             // ytSpeed.setText(channel.getParent().getYtSpeed()
                                             // + "");
-                                            MyLog.v(TAG, "融合后的代码,当前云台速度:"
-                                                    + channel.getParent().getYtSpeed());
+
                                         } else {
                                             // 未融合的代码，
                                             // 获取PTZ信息，从信息里获取motorspeed
@@ -2283,6 +2298,17 @@ public class JVPlayActivity extends PlayActivity implements
         // } else {
         // Jni.setStat(true);
         // }
+
+        // if (ONE_SCREEN == currentScreen
+        // && lastClickIndex == channel.getIndex()) {
+        // ytSeekBar.setProgress(channel.getParent()
+        // .getYtSpeed());
+        // ytSpeed.setText(channel.getParent().getYtSpeed()
+        // + "");
+        // MyLog.v(TAG, "融合前--的代码,当前云台速度:"
+        // + channel.getParent().getYtSpeed());
+        // }
+
     }
 
     private void changeBorder(int currentIndex) {

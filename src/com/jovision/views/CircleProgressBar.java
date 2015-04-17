@@ -131,13 +131,13 @@ public class CircleProgressBar extends View {
         oval.set(this.width / 2 - radius, this.height / 2 - radius, this.width
                 / 2 + radius, this.height / 2 + radius);
 
-        if(max > 0 && progress >= 0 && progress <= max){
+        if (max > 0 && progress >= 0 && progress <= max) {
             canvas.drawArc(oval, -90, -360 * progress / max, false,
-                    fillArcPaint);            
+                    fillArcPaint);
         }
-        else{
+        else {
             canvas.drawArc(oval, -90, 0, false,
-                    fillArcPaint);                 
+                    fillArcPaint);
         }
 
     }

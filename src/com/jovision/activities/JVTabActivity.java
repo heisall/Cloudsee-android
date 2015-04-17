@@ -1105,7 +1105,7 @@ public class JVTabActivity extends ShakeActivity implements
                             .replace(R.id.tab_fragment,
                                     getFragmentByTag(tag)).commit();
                     // 执行旧版的indicator中的其它操作
-                    oldTabIndicate(null, position);
+                    oldTabIndicate(null, currentIndex);
                 }
             }
 
@@ -1260,18 +1260,19 @@ public class JVTabActivity extends ShakeActivity implements
 
     /**
      * 原有的indicator选择操作. 因为牵扯到的一些其它的业务,所以保留.在initIndicatorListener会调用
-     * 
+     * 原有代表位置的which,现在作用代表具体fragment的tag来使用
      * @param v
-     * @param which
+     * @param which 
      */
     public void oldTabIndicate(View v, int which) {
+        char tag = (char) which;
         try {
             // currentIndex = which;
             // getSupportFragmentManager().beginTransaction()
             // .replace(R.id.tab_fragment, mFragments[which])
             // .commit();
-            switch (which) {
-                case 0:
+            switch (tag) {
+                case 'a':
                     if (!page2
                             && !MySharedPreference
                                     .getBoolean(Consts.MORE_PAGETWO)) {
@@ -1301,14 +1302,14 @@ public class JVTabActivity extends ShakeActivity implements
                         }
                     }
                     break;
-                case 1:
+                case 'b':
                     // int cnt = mApp.getNewPushCnt();
                     // if (cnt > 0) {
                     // mApp.setNewPushCnt(0);
                     // mIndicator.updateIndicator(1, 0, false);
                     // }
                     break;
-                case 3:
+                case 'd':
                     myDeviceList = CacheUtil.getDevList();
                     if (0 != myDeviceList.size()) {
                         if (!page1
@@ -1342,7 +1343,7 @@ public class JVTabActivity extends ShakeActivity implements
                         }
                     }
                     break;
-                case 4:
+                case 'e':
                     if (Consts.LANGUAGE_ZH == ConfigUtil
                             .getLanguage2(JVTabActivity.this)) {
                         if (null == (statusHashMap.get(Consts.MORE_BBSNUM))

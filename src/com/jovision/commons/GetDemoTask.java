@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Global;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVWebViewActivity;
 import com.jovision.bean.WebUrl;
@@ -238,6 +239,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                                 Consts.MORE_CLOUD_SHOP, cloudurl);
 
                         Log.i("TAG", cloudurl);
+                        Global.CLOUD_BUY_URL = cloudurl;
                         intentAD2.putExtra("URL", cloudurl);
                         intentAD2.putExtra("title", -2);
                         mContext.startActivity(intentAD2);

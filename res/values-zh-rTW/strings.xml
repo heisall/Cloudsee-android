@@ -462,7 +462,7 @@
     <string name="get_device_failed">設備加載失敗</string>
     <string name="search_device_failed">檢索設備在線狀態失敗</string>
     <string name="press_screen_refresh">點擊螢幕刷新</string>
-    <string name="str_no_device_lead">Hi,小夥伴~\n如果您已經有了雲視通設備，點擊右上角按鈕把它加進來吧~</string>
+    <string name="str_no_device_lead">Hi,小夥伴~\n如果您已經有了雲視通設備，點擊我的設備@把它加進來吧~</string>
     <string name="str_no_device_lead2">還沒有設備？去小維商城逛壹下吧~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暫時沒有報警數據</string>
@@ -850,4 +850,5 @@
     <string name="increct_yst_tips">雲視通號不正確</string>
     <string name="login_str_yst_num">雲視通號</string>
     <string name="str_not_qr_device">不屬於雲視通設備</string>
-</resources>
+
+</resources>

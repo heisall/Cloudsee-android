@@ -6,11 +6,15 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +45,8 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 设备管理
@@ -79,6 +85,9 @@ public class JVDeviceManageFragment extends BaseFragment implements
     private Button quickSet;
     private Button addDevice;
 
+    /** 没有设备时的提示语 */
+    private TextView no_device_lead;
+    private TextView no_device_lead_text2;
     private ArrayList<Fragment> fragments;
 
     /** intent传递过来的设备和通道下标 */
@@ -143,6 +152,19 @@ public class JVDeviceManageFragment extends BaseFragment implements
             unwire_device_img_bg.setOnClickListener(mOnClickListener);
             quickSet.setOnClickListener(mOnClickListener);
             addDevice.setOnClickListener(mOnClickListener);
+
+            /** 没有设备时的提示语 */
+            no_device_lead = (TextView) mParent
+                    .findViewById(R.id.no_device_lead);
+            no_device_lead_text2 = (TextView) mParent
+                    .findViewById(R.id.no_device_lead_text2);
+            no_device_lead.setText(myGettext());
+            rightBtn.setOnClickListener(mOnClickListener);
+            if (Integer.parseInt(mActivity.statusHashMap
+                    .get(Consts.MORE_SHOP_SWITCH)) == 1) {
+                no_device_lead_text2.setVisibility(View.VISIBLE);
+            }
+            no_device_lead_text2.setOnClickListener(mOnClickListener);
 
             if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
                     "false")) {// CloudSEE
@@ -391,6 +413,9 @@ public class JVDeviceManageFragment extends BaseFragment implements
                     addIntent.putExtra("QR", false);
                     mActivity.startActivity(addIntent);
                     break;
+                case R.id.no_device_lead_text2:
+                    ((JVTabActivity) mActivity).jumpShop();
+                    break;
                 default:
                     break;
             }
@@ -562,6 +587,24 @@ public class JVDeviceManageFragment extends BaseFragment implements
             e.printStackTrace();
         }
 
+    }
+
+    public SpannableStringBuilder myGettext() {
+        CharSequence text = getResources().getString(R.string.str_no_device_lead);
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        String rexgString = "@";
+        Pattern pattern = Pattern.compile(rexgString);
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            Drawable drawable = this.getResources().getDrawable(R.drawable.bjd);
+            drawable.setBounds(0, 0, 60, 60);// 这里设置图片的大小
+            ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+            builder.setSpan(imageSpan, matcher.start(),
+                    matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
+        return builder;
     }
 
     @Override

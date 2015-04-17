@@ -449,7 +449,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     break;
                 }
                 case R.id.no_device_lead_text2:
-                    // mActivity.jumpShop();
+                    ((JVTabActivity) mActivity).jumpShop();
                     break;
                 default:
                     break;

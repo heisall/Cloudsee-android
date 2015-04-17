@@ -114,7 +114,7 @@ public class JVVersionActivity extends BaseActivity {
             configList.add("个推CID=" + gtClientID + "\n");
             configList.add("OS MODEL=" + android.os.Build.MODEL + "\n");
             configList.add("云服务开通URL=" + Global.CLOUD_BUY_URL + "\n");
-            
+
             if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
                     .GetVersion(0))
                     && ConfigUtil.PLAY_VERSION

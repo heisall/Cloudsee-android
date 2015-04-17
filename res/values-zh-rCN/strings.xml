@@ -462,7 +462,8 @@
     <string name="get_device_failed">设备加载失败</string>
     <string name="search_device_failed">检索设备在线状态失败</string>
     <string name="press_screen_refresh">点击屏幕刷新</string>
-    <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，\n点击这里把它加进来吧~\n还没有设备？去逛一下~</string>
+    <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，点击这里把它加进来吧~</string>
+     <string name="str_no_device_lead2">还没有设备？去逛一下~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
     <string name="alarm_level">报警级别</string>

@@ -3848,7 +3848,11 @@ public class DeviceUtil {
                                     .optString(JVDeviceConst.JK_WEB_GCS_URL));
                             webUrl.setCloudUrl(temObj
                                     .optString(JVDeviceConst.JK_WEB_CLOUD_URL));// 云服务
-
+                            webUrl.setAddDeviceurl(temObj
+                                            .optString(JVDeviceConst.JK_WEB_ADDDEVICE_URL));// 添加设备
+                            
+                            webUrl.setAddDeviceSwitch(temObj
+                                    .optInt(JVDeviceConst.JV_WEB_ADDDEVICE_FLAG));
                             webUrl.setDemoSwitch(temObj
                                     .optInt(JVDeviceConst.JK_WEB_DEMO_FLAG));
                             webUrl.setCustSwitch(temObj

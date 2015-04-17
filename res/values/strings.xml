@@ -492,8 +492,8 @@
     <string name="connfailed_auth_tips">Username or password wrong, change now?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
-    <string name="edit_userinfo_success">用户名或密码修改成功。</string>
-    <string name="edit_userinfo_failed">用户名或密码修改失败。</string>
+    <string name="edit_userinfo_success">用户名或密码修改成功.</string>
+    <string name="edit_userinfo_failed">用户名或密码修改失败.</string>
     <string name="closed">Closed</string>
     <string name="abnormal_closed">Abnormal disconnection happened.</string>
     <string name="str_scanlandevice">Device in Lan</string>
@@ -734,7 +734,6 @@
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
-    <string name="str_swith_time">請在關閉網絡對時後再做此操作</string>
     <string name="str_setting_time_success">时间设置成功</string>
     <string name="str_setting_time">Setting Time</string>
     <string name="str_setting_submittime">Setting</string>
@@ -759,8 +758,8 @@
     <string name="str_report_flow_ok">上报成功</string>
     <string name="str_report_flow_failed">上报失败</string>
     <string name="str_check_flow_tips1">您的剩余流量不足，无法查看视频</string>
-    <string name="str_check_flow_tips2">您的剩余流量已不足%%M, 为不影响正常使用，请及时购买相关服务</string>   
-    <string name="str_cloud_url_error1">报警云存储信息有误</string> 
+    <string name="str_check_flow_tips2">您的剩余流量已不足%%M, 为不影响正常使用，请及时购买相关服务</string>
+    <string name="str_cloud_url_error1">报警云存储信息有误</string>
     <string name="str_cloud_query_error_2">查询用户流量信息失败</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">Upload photos</string>

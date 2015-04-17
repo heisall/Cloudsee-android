@@ -78,7 +78,7 @@ public class JVNetImageViewActivity extends BaseActivity {
         @Override
         public void run() {
             handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO));
-            imageBitmap = ImageUtil.getBitmap(imageUrl);
+            imageBitmap = ImageUtil.getShowBitmap(imageUrl);
             handler.sendMessage(handler.obtainMessage(Consts.WHAT_DISMISS_PROGRESS));
             super.run();
         }

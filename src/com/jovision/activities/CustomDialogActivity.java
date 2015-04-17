@@ -47,7 +47,7 @@ import java.text.DecimalFormat;
 public class CustomDialogActivity extends BaseActivity implements
         android.view.View.OnClickListener, onDownloadListener {
     private static final int REPORT_LIMIT = 100 * 1024;
-    private static final int TIPS_LIMIT_MB = 5;//M
+    private static final int TIPS_LIMIT_MB = 5;// M
     private static final String TAG = "CustomDialogActivity";
     /** 查看按钮 **/
     private Button lookVideoBtn;
@@ -331,16 +331,17 @@ public class CustomDialogActivity extends BaseActivity implements
                     // 云存储
                     if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
                         String temp[] = vod_uri_.split("com/");
-                        if(temp.length == 2){
+                        if (temp.length == 2) {
                             cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
                             cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
                             lookVideoBtn.setEnabled(false);
                             bDownLoadFileType = 1;
                             // cloudSignVodUri = url;
-                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();                              
+                            new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
                         }
-                        else{
-                            String strTips = getResources().getString(R.string.str_cloud_url_error1);
+                        else {
+                            String strTips = getResources()
+                                    .getString(R.string.str_cloud_url_error1);
                             showTextToast(strTips);
                         }
                     }
@@ -1025,7 +1026,7 @@ public class CustomDialogActivity extends BaseActivity implements
             int ret = -1;
             Log.e("Down", "开始下载.............");
             HttpDownloader downloader = new HttpDownloader();
-            ret = downloader.downFile(uri_, fileDir_, fileName_, null);//下载图片先不统计流量
+            ret = downloader.downFile(uri_, fileDir_, fileName_, null);// 下载图片先不统计流量
             Log.e("Down", "下载结束.............");
             Message msg = myHandler.obtainMessage(0x00, ret, 0x00);
             msg.sendToTarget();
@@ -1119,24 +1120,24 @@ public class CustomDialogActivity extends BaseActivity implements
             _uri = params[0];
             _fileDir = params[1];
             _fileName = params[2];
-            //先去查询剩余流量
+            // 先去查询剩余流量
             int check_ret = checkoutLeftFlow();
-            if(check_ret < 0){
+            if (check_ret < 0) {
                 return check_ret;
             }
-            else if(check_ret == 0){
-                //剩余流量不足(充值+免费)
+            else if (check_ret == 0) {
+                // 剩余流量不足(充值+免费)
                 return 0x9001;
             }
-            else{
-                if(check_ret <= TIPS_LIMIT_MB*1024){
+            else {
+                if (check_ret <= TIPS_LIMIT_MB * 1024) {
                     Message msg = myHandler.obtainMessage(0x9002);
                     msg.sendToTarget();
                 }
                 Log.e("Down", "开始下载............." + _uri + "," + _fileDir + "," + _fileName);
                 HttpDownloader downloader = new HttpDownloader();
                 ret = downloader.downFile(_uri, _fileDir, _fileName, mActivity);
-                Log.e("Down", "下载结束.............");                     
+                Log.e("Down", "下载结束.............");
             }
 
             return ret;
@@ -1164,7 +1165,7 @@ public class CustomDialogActivity extends BaseActivity implements
             if (result == 0x00) {
                 // Toast.makeText(mActivity, "下载成功", Toast.LENGTH_SHORT).show();
             }
-            else if(result == 0x9001){
+            else if (result == 0x9001) {
                 String strTips = getResources().getString(R.string.str_check_flow_tips1);
                 showTextToast(strTips);
                 return;
@@ -1203,8 +1204,8 @@ public class CustomDialogActivity extends BaseActivity implements
         }
 
     }
-    
-    private int checkoutLeftFlow(){
+
+    private int checkoutLeftFlow() {
         String resJson = DeviceUtil.getUserSurFlow();
         Log.e("cloud", "check flow res:" + resJson);
         JSONObject resObj;
@@ -1223,33 +1224,33 @@ public class CustomDialogActivity extends BaseActivity implements
                 int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
                 if (fee_type == 0) {
                     // 单位流量
-                    charge_left = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW,0);
-                    
+                    charge_left = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0);
+
                 }
                 else if (fee_type == 1) {
                     // 单位元
                     charge_left = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW, 0);
                 }
-                if(charge_left < 0){
+                if (charge_left < 0) {
                     charge_left = 0;
                 }
                 int free_total = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE, 0);
-                if(free_total < 0){
+                if (free_total < 0) {
                     free_total = 0;
-                }                
+                }
                 int free_used = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE_USE, 0);
-                if(free_used < 0){
+                if (free_used < 0) {
                     free_used = 0;
-                }                
-                free_left = (free_used<=free_total)?(free_total-free_used):0;
-                
+                }
+                free_left = (free_used <= free_total) ? (free_total - free_used) : 0;
+
                 total_left = charge_left + free_left;
                 return total_left;
             }
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }   
+        }
         return total_left;
     }
     

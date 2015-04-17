@@ -180,7 +180,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_BBS, bbsurl);
 
-                        Log.i("TAG", bbsurl);
+                        Log.i("TAG", bbsurl+"你好吗？"+webUrl.getAddDeviceurl());
+                        
                         intentAD2.putExtra("URL", bbsurl);
                         intentAD2.putExtra("title", -2);
                         mContext.startActivity(intentAD2);

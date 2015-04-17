@@ -732,7 +732,6 @@
     <string name="str_computre_time1"> 结束时间不能小于开始时间</string>
     <string name="str_computre_time3"> 开始时间不能等于结束时间</string>
     <string name="str_setting_time">设置时间</string>
-    <string name="str_swith_time">请在关闭网络对时后再做此操作</string>
     <string name="str_setting_time_success">时间设置成功</string>
     <string name="str_setting_submittime">设置</string>
     <string name="str_disconnect_resp_timeout">断开连接超时</string>

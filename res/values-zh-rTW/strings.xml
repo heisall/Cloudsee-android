@@ -734,7 +734,6 @@
     <string name="str_setting_time">設置時間</string>
     <string name="str_setting_time_success">时间设置成功</string>
     <string name="str_setting_submittime">設置</string>
-    <string name="str_swith_time">請在關閉網絡對時後再做此操作</string>
     <string name="str_disconnect_resp_timeout">斷開連接超時</string>
     <string name="str_operation_success">操作成功</string>
     <string name="str_operation_failed">操作不成功</string>

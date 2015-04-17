@@ -802,10 +802,6 @@
             android:process=":pushservice" />
 
         <!-- 个推SDK配置结束 -->
-        <activity
-            android:name="com.jovision.activities.NewAdddeviceActivity"
-            android:label="@string/title_activity_new_adddevice" >
-        </activity>
     </application>
 
 </manifest>

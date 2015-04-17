@@ -463,8 +463,8 @@
     <string name="get_device_failed">設備加載失敗</string>
     <string name="search_device_failed">檢索設備在線狀態失敗</string>
     <string name="press_screen_refresh">點擊螢幕刷新</string>
-    <string name="str_no_device_lead">Hi,小夥伴~\n如果妳已經有了雲視通設備，點擊這裏把它加進來吧~</string>
-    <string name="str_no_device_lead2">還沒有設備？去逛壹下吧~</string>
+    <string name="str_no_device_lead">Hi,小夥伴~\n如果您已經有了雲視通設備，點擊右上角按鈕把它加進來吧~</string>
+    <string name="str_no_device_lead2">還沒有設備？去小維商城逛壹下吧~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暫時沒有報警數據</string>
     <string name="alarm_level">報警級別</string>
@@ -759,9 +759,9 @@
     <string name="str_report_flow_ok">上报成功</string>
     <string name="str_report_flow_failed">上报失败</string>
     <string name="str_check_flow_tips1">您的剩余流量不足，无法查看视频</string>
-    <string name="str_check_flow_tips2">您的剩余流量已不足%%M, 为不影响正常使用，请及时购买相关服务</string>   
+    <string name="str_check_flow_tips2">您的剩余流量已不足%%M, 为不影响正常使用，请及时购买相关服务</string>
     <string name="str_cloud_url_error1">报警云存储信息有误</string>
-    <string name="str_cloud_query_error_2">查询用户流量信息失败</string>     
+    <string name="str_cloud_query_error_2">查询用户流量信息失败</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>

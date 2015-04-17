@@ -49,7 +49,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private EditText devNumET;
     private ImageButton editimg_clearn;
     private ImageView tab_erweima_icon;
-    private Button save_icon, soundwave_button, apset_button;
+    private Button save_icon;
+    private RelativeLayout soundwave_button, apset_button;
     private LinearLayout devsetLayout;
     private TextView tab_erweima_title;
     private RelativeLayout ip_dns_btn, local_network_button;
@@ -145,8 +146,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
-        apset_button = (Button) findViewById(R.id.apset_button);
-        soundwave_button = (Button) findViewById(R.id.soundwave_button);
+        apset_button = (RelativeLayout) findViewById(R.id.apset_button);
+        soundwave_button = (RelativeLayout) findViewById(R.id.soundwave_button);
         ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
         local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
 
@@ -157,7 +158,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
         add_device_wv.requestFocus(View.FOCUS_DOWN);
         add_device_wv.setWebViewClient(myWebviewClient);
-        loadinglayout.setVisibility(View.VISIBLE);
+        // loadinglayout.setVisibility(View.VISIBLE);
         add_device_wv.loadUrl(url);
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);

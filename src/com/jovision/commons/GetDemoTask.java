@@ -259,13 +259,12 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     if (null != shopurl && !shopurl.equals("")) {
                         Intent intentAD2 = new Intent(mContext,
                                 JVWebViewActivity.class);
-//                         商城url拼接工作
-//                        if (shopurl.contains("?")) {
-//                            shopurl = shopurl + "&sid=" + sid;
-//                        }
-//                        else {
-//                            shopurl = shopurl + "?sid=" + sid;
-//                        }
+                        // 商城url拼接工作
+                        if (shopurl.contains("?")) {
+                            shopurl = shopurl + "&sid=" + sid;
+                        } else {
+                            shopurl = shopurl + "?sid=" + sid;
+                        }
                         // 保存商城的url
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_SHOPURL, shopurl);

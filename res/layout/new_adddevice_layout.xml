@@ -116,8 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:visibility="gone" />
+                android:layout_marginRight="5dp" />
 
             <LinearLayout
                 android:id="@+id/loadinglayout"
@@ -151,7 +150,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:orientation="horizontal"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <RelativeLayout
                     android:id="@+id/apset_button"
@@ -159,7 +158,6 @@
                     android:layout_height="75dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:autoLink="web"
                     android:background="@color/apset_button_bg" >
 
                     <LinearLayout
@@ -213,7 +211,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="15dp"
-                            android:autoLink="web"
                             android:text="@string/str_new_add_device_wave"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />

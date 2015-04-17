@@ -42,8 +42,8 @@ public class Device {
     private String user;
     /** 设备密码 */
     private String pwd;
-    /** 是否是家用产品 */
-    private boolean isHomeProduct;// true IPC ，false 非IPC
+    // /** 是否是家用产品 */
+    // private boolean isHomeProduct;// true IPC ，false 非IPC
 
     private boolean isHelperEnabled;
     /** 设备类型 */
@@ -114,6 +114,11 @@ public class Device {
 
     private int cloudEnabled = 0; // 云存储服务开关
 
+    private boolean homeIPCMergeCode = true;// 2015.4.17是否融合后的家用 true ：融合 false
+                                            // ：非融合
+
+    private boolean homeIPCFlag = false;// 2015.4.17是否家用ipc true ：家用 false ：非家用
+
     public Device() {
         channelList = new MyList<Channel>(1);
         thirdDevList = new ArrayList<ThirdAlarmDev>();
@@ -134,7 +139,7 @@ public class Device {
         user = Consts.IPC_DEFAULT_USER;
         pwd = Consts.IPC_DEFAULT_PWD;
 
-        isHomeProduct = true;
+        // isHomeProduct = true;
         isHelperEnabled = false;
 
         channelList = new MyList<Channel>(1);
@@ -179,7 +184,7 @@ public class Device {
 
         this.user = user;
         this.pwd = pwd;
-        this.isHomeProduct = isHomeProduct;
+        // this.isHomeProduct = isHomeProduct;
 
         isHelperEnabled = false;
 
@@ -231,17 +236,17 @@ public class Device {
         return pwd;
     }
 
-    public boolean isHomeProduct() {
-        return isHomeProduct;
-    }
+    // public boolean isHomeProduct() {
+    // return isHomeProduct;
+    // }
 
     public void setHelperEnabled(boolean isHelperEnabled) {
         this.isHelperEnabled = isHelperEnabled;
     }
 
-    public void setHomeProduct(boolean isHomeProduct) {
-        this.isHomeProduct = isHomeProduct;
-    }
+    // public void setHomeProduct(boolean isHomeProduct) {
+    // this.isHomeProduct = isHomeProduct;
+    // }
 
     public boolean isHelperEnabled() {
         return isHelperEnabled;
@@ -260,7 +265,7 @@ public class Device {
             object.put("fullNo", fullNo);
             object.put("user", user);
             object.put("pwd", pwd);
-            object.put("isHomeProduct", isHomeProduct);
+            // object.put("isHomeProduct", isHomeProduct);
             object.put("deviceType", deviceType);
             object.put("is05", is05);
             object.put("enableTcpConnect", enableTcpConnect);
@@ -342,7 +347,8 @@ public class Device {
                     "enableTcpConnect"));
             dev.setUser(ConfigUtil.getString(object, "user"));
             dev.setPwd(ConfigUtil.getString(object, "pwd"));
-            dev.setHomeProduct(ConfigUtil.getBoolean(object, "isHomeProduct"));
+            // dev.setHomeProduct(ConfigUtil.getBoolean(object,
+            // "isHomeProduct"));
             // dev.setHelperEnabled(ConfigUtil.getBoolean(object,"isHelperEnabled"));
             dev.setDeviceType(ConfigUtil.getInt(object, "deviceType"));
             dev.setO5(ConfigUtil.getBoolean(object, "is05"));
@@ -650,5 +656,21 @@ public class Device {
 
     public void setCloudEnabled(int enabled) {
         this.cloudEnabled = enabled;
+    }
+
+    public boolean isHomeIPCMergeCode() {
+        return homeIPCMergeCode;
+    }
+
+    public void setHomeIPCMergeCode(boolean homeIPCMergeCode) {
+        this.homeIPCMergeCode = homeIPCMergeCode;
+    }
+
+    public boolean isHomeIPCFlag() {
+        return homeIPCFlag;
+    }
+
+    public void setHomeIPCFlag(boolean homeIPCFlag) {
+        this.homeIPCFlag = homeIPCFlag;
     }
 }

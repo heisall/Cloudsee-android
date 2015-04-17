@@ -578,6 +578,7 @@ public class JVPlayActivity extends PlayActivity implements
             }
 
             case Consts.CALL_NORMAL_DATA: {
+
                 Channel channel = null;
                 if (arg1 < channelList.size()) {
                     channel = channelList.get(arg1);
@@ -634,13 +635,6 @@ public class JVPlayActivity extends PlayActivity implements
                             channel.getParent().setCard(true);
                         }
 
-                        if (Consts.DEVICE_TYPE_IPC == type) {
-                            channel.getParent().setHomeProduct(true);
-                            // channel.setSingleVoice(true);
-                        } else {
-                            channel.getParent().setHomeProduct(false);
-                            // channel.setSingleVoice(false);
-                        }
                         channel.getParent().setJFH(jobj.optBoolean("is_jfh"));
                         channel.getParent().setO5(jobj.optBoolean("is05"));
                         channel.setAudioType(jobj.getInt("audio_type"));
@@ -672,7 +666,7 @@ public class JVPlayActivity extends PlayActivity implements
                         channel.setHeight(newHeight);
                         channel.setWidth(newWidth);
                         // 是IPC，发文本聊天请求
-                        if (channel.getParent().isHomeProduct()) {
+                        if (Consts.DEVICE_TYPE_IPC == channel.getParent().getType()) {
 
                             if (channel.isAgreeTextData()) {
                                 // 获取主控码流信息请求
@@ -943,6 +937,10 @@ public class JVPlayActivity extends PlayActivity implements
                                         if (null != dataMap.get("motorspeed")
                                                 && !"".equalsIgnoreCase(streamMap
                                                         .get("motorspeed"))) {
+
+                                            // 2015.4.17 融合前的代码获取家用设备的标识
+                                            channel.getParent().setHomeIPCFlag(true);
+
                                             channel.getParent().setYtSpeed(
                                                     Integer.parseInt(dataMap.get("motorspeed")));
                                             // ytSpeed.setText(channel.getParent().getYtSpeed()
@@ -1017,11 +1015,27 @@ public class JVPlayActivity extends PlayActivity implements
                                             MyLog.v("bSntp", "bSntp=" + streamMap.get("bSntp"));
                                         }
 
-                                        // 融合后的代码，从码流信息里获取moveSpeed 云台速度字段
+                                        // 2015.4.17 融合后的代码获取家用设备的标识
+                                        if (null != streamMap.get("HomeIPCFlag")
+                                                && !"".equalsIgnoreCase(streamMap
+                                                        .get("HomeIPCFlag"))) {
+                                            int homeTag = Integer.parseInt(streamMap
+                                                    .get("HomeIPCFlag"));
+                                            if (1 == homeTag) {
+                                                channel.getParent().setHomeIPCMergeCode(true);
+                                                channel.getParent().setHomeIPCFlag(true);
+                                            }
+
+                                            MyLog.v(TAG,
+                                                    "家用融合代码HomeIPCFlag="
+                                                            + streamMap.get("HomeIPCFlag"));
+                                        }
+
+                                        // 家用融合后的代码，从码流信息里获取moveSpeed 云台速度字段
                                         if (null != streamMap.get("moveSpeed")
                                                 && !"".equalsIgnoreCase(streamMap
                                                         .get("moveSpeed"))
-                                                && channel.isSingleVoice()) {
+                                                && channel.getParent().isHomeIPCMergeCode()) {
                                             channel.getParent()
                                                     .setYtSpeed(
                                                             Integer.parseInt(streamMap
@@ -2128,7 +2142,7 @@ public class JVPlayActivity extends PlayActivity implements
                 channel.getParent().setYtSpeed(currentYTSpeed);
                 ytSeekBar.setProgress(currentYTSpeed);
                 ytSpeed.setText(currentYTSpeed + "");
-                if (!channel.isSingleVoice()) {// 非单向对讲，家用设备
+                if (!channel.getParent().isHomeIPCFlag()) {// 非家用设备
                     MySharedPreference.putInt(
                             channel.getParent().getFullNo() + Consts.YT_SPEED_KEY, channel
                                     .getParent().getYtSpeed());
@@ -2227,7 +2241,7 @@ public class JVPlayActivity extends PlayActivity implements
 
         if (ONE_SCREEN == currentScreen) {
             // 是IPC，发文本聊天请求
-            if (channel.getParent().isHomeProduct()) {
+            if (Consts.DEVICE_TYPE_IPC == channel.getParent().getType()) {
                 if (channel.isAgreeTextData()) {
                     // 获取主控码流信息请求
                     Jni.sendTextData(lastClickIndex,

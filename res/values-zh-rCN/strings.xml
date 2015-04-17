@@ -37,7 +37,6 @@
     <string name="login_str_device_add_failed">添加设备失败</string>
     <string name="login_str_point_delete_success">通道删除成功</string>
     <string name="login_str_point_delete_failed">通道删除失败</string>
-    <string name="login_str_point_add_success">通道添加成功</string>
     <string name="login_str_point_add_failed">通道添加失败</string>
     <string name="login_str_point_edit_success">通道修改成功</string>
     <string name="login_str_point_edit_failed">通道修改失败</string>
@@ -464,7 +463,7 @@
     <string name="search_device_failed">检索设备在线状态失败</string>
     <string name="press_screen_refresh">点击屏幕刷新</string>
     <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，点击这里把它加进来吧~</string>
-     <string name="str_no_device_lead2">还没有设备？去逛一下~</string>
+    <string name="str_no_device_lead2">还没有设备？去逛一下~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
     <string name="alarm_level">报警级别</string>
@@ -851,5 +850,4 @@
     <string name="increct_yst_tips">云视通号不正确</string>
     <string name="login_str_yst_num">云视通号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
-
 </resources>

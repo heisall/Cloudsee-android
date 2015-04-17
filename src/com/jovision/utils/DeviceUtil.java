@@ -3849,9 +3849,9 @@ public class DeviceUtil {
                             webUrl.setCloudUrl(temObj
                                     .optString(JVDeviceConst.JK_WEB_CLOUD_URL));// 云服务
                             webUrl.setAddDeviceurl(temObj
-                                            .optString(JVDeviceConst.JK_WEB_ADDDEVICE_URL));// 添加设备
+                                    .optString(JVDeviceConst.JK_WEB_ADDDEVICE_URL));// 添加设备
                             webUrl.setShopUrl(temObj
-                                            .optString(JVDeviceConst.JV_WEB_SHOP_URL));// 商城
+                                    .optString(JVDeviceConst.JV_WEB_SHOP_URL));// 商城
 
                             webUrl.setAddDeviceSwitch(temObj
                                     .optInt(JVDeviceConst.JV_WEB_ADDDEVICE_FLAG));

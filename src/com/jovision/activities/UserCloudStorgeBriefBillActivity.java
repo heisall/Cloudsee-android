@@ -114,12 +114,13 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
                     if (fee_type == 0) {
                         // 单位流量
-                        float flow_mb = (float) resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW,
-                                0) / (float) 1024;
-                        float flow_gb = 0f;
+                        double flow_mb = (double) resObj.optInt(
+                                JVDeviceConst.JK_CLOUD_STORAGE_FLOW,
+                                0) / (double) 1024;
+                        double flow_gb = 0.0;
                         if (flow_mb > 1000) {
                             // 大于1000M显示G
-                            flow_gb = flow_mb / (float) 1024;
+                            flow_gb = flow_mb / (double) 1024;
                             String strFlowGB = decimalFormat.format(flow_gb);
                             tv_charge_left_value.setText(strFlowGB + "G");
                         }
@@ -138,9 +139,9 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                     progress = resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FFREE_USE, 0);
                     mAbProgressBar.setMax(max);
                     int left = max - progress;
-                    float left_pct = 0;
+                    double left_pct = 0;
                     if (left > 0 && left <= max) {
-                        float db_pct = (float) left / (float) max;
+                        double db_pct = (double) left / (double) max;
                         left_pct = db_pct * 100;
                         mAbProgressBar.setProgress(left);
                     }

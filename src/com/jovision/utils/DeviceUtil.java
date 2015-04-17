@@ -3852,7 +3852,7 @@ public class DeviceUtil {
                                             .optString(JVDeviceConst.JK_WEB_ADDDEVICE_URL));// 添加设备
                             webUrl.setShopUrl(temObj
                                             .optString(JVDeviceConst.JV_WEB_SHOP_URL));// 商城
-                            
+
                             webUrl.setAddDeviceSwitch(temObj
                                     .optInt(JVDeviceConst.JV_WEB_ADDDEVICE_FLAG));
                             webUrl.setDemoSwitch(temObj

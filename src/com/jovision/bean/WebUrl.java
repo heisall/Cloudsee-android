@@ -115,17 +115,17 @@ public class WebUrl {
         this.cloudUrl = cloudUrl;
     }
 
-	public String getAddDeviceurl() {
-		return addDeviceurl;
-	}
+    public String getAddDeviceurl() {
+        return addDeviceurl;
+    }
 
-	public void setAddDeviceurl(String addDeviceurl) {
-		this.addDeviceurl = addDeviceurl;
-	}
+    public void setAddDeviceurl(String addDeviceurl) {
+        this.addDeviceurl = addDeviceurl;
+    }
 
-	public int getAddDeviceSwitch() {
-		return addDeviceSwitch;
-	}
+    public int getAddDeviceSwitch() {
+        return addDeviceSwitch;
+    }
 
 	public void setAddDeviceSwitch(int addDeviceSwitch) {
 		this.addDeviceSwitch = addDeviceSwitch;
@@ -146,5 +146,4 @@ public class WebUrl {
     public void setShopSwitch(int shopSwitch) {
         this.shopSwitch = shopSwitch;
     }
-	
 }

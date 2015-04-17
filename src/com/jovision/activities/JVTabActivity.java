@@ -1261,8 +1261,9 @@ public class JVTabActivity extends ShakeActivity implements
     /**
      * 原有的indicator选择操作. 因为牵扯到的一些其它的业务,所以保留.在initIndicatorListener会调用
      * 原有代表位置的which,现在作用代表具体fragment的tag来使用
+     * 
      * @param v
-     * @param which 
+     * @param which
      */
     public void oldTabIndicate(View v, int which) {
         char tag = (char) which;

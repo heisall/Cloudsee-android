@@ -364,7 +364,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
                         } else {
                             // 不显示
                             deviceHolder.tv_dev_cloud_state_R.setVisibility(View.INVISIBLE);
-                        }                     
+                        }
                     }
                 }
             }

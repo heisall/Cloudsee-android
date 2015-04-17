@@ -44,18 +44,19 @@ import java.util.HashMap;
 @SuppressLint("SetJavaScriptEnabled")
 public class JVNewAddDeviceActivity extends ShakeActivity {
     private static final String TAG = "JVNewAddDeviceActivity";
+
+    /** add device layout */
     private EditText devNumET;
-    ImageButton editimg_clearn;
-    ImageView tab_icon;
-    Button save_icon, soundwave_button, apset_button;
+    private ImageButton editimg_clearn;
+    private ImageView tab_erweima_icon;
+    private Button save_icon, soundwave_button, apset_button;
     private LinearLayout devsetLayout;
-    TextView tab_title;
-    RelativeLayout ip_dns_btn, local_network_button;
-    WebView add_device_wv;
+    private TextView tab_erweima_title;
+    private RelativeLayout ip_dns_btn, local_network_button;
+    private WebView add_device_wv;
     // String url = "http://test.cloudsee.net/mobile/";
-    String url = "http://www.cloudsee.net/mobile/nineBlock.action";
-    // String url ="https://www.baidu.com/";
-    Boolean isLoadUrlfail = false;
+    String url = "";
+    private Boolean isLoadUrlfail = false;
     private LinearLayout loadinglayout;
     private ImageView loadingBar;
 
@@ -119,49 +120,95 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     protected void initUi() {
         super.initUi();
         setContentView(R.layout.new_adddevice_layout);
-
+        if (null != statusHashMap.get(
+                Consts.MORE_ADDDEVICEURL)) {
+            url = statusHashMap.get(
+                    Consts.MORE_ADDDEVICEURL);
+        }
+        /** top bar */
         leftBtn = (Button) findViewById(R.id.btn_left);
         alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
         accountError = (TextView) findViewById(R.id.accounterror);
         rightBtn = (Button) findViewById(R.id.btn_right);
-        rightBtn.setVisibility(View.GONE);
         currentMenu = (TextView) findViewById(R.id.currentmenu);
-
         currentMenu.setText(R.string.str_new_add_device);
+        rightBtn.setVisibility(View.GONE);
         leftBtn.setOnClickListener(myOnClickListener);
+
+        /** add device layout */
         devNumET = (EditText) findViewById(R.id.new_adddevice_et);
         editimg_clearn = (ImageButton) findViewById(R.id.editimg_clearn);
-        editimg_clearn.setOnClickListener(myOnClickListener);
-        tab_title = (TextView) findViewById(R.id.tab_title);
-        tab_icon = (ImageView) findViewById(R.id.tab_erweima_icon);
-        tab_icon.setOnClickListener(myOnClickListener);
-        // tab_title.setOnClickListener(myOnClickListener);
+        tab_erweima_title = (TextView) findViewById(R.id.tab_erweima_title);
+        tab_erweima_icon = (ImageView) findViewById(R.id.tab_erweima_icon);
         save_icon = (Button) findViewById(R.id.save_icon);
-        save_icon.setOnClickListener(myOnClickListener);
-        devNumET.addTextChangedListener(new TextWatcherImpl());
-        devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
-        // webview显示设备内容
-        add_device_wv = (WebView) findViewById(R.id.add_device_wv);
-        add_device_wv.requestFocus(View.FOCUS_DOWN);
-        add_device_wv.setWebViewClient(myWebviewClient);
         loadingBar = (ImageView) findViewById(R.id.loadingbars);
         loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
-        loadinglayout.setVisibility(View.VISIBLE);
-        add_device_wv.loadUrl(url);
-        // 网络加载不成功状态
+        add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
         apset_button = (Button) findViewById(R.id.apset_button);
         soundwave_button = (Button) findViewById(R.id.soundwave_button);
+        ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
+        local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
+
+        tab_erweima_icon.setOnClickListener(myOnClickListener);
+        editimg_clearn.setOnClickListener(myOnClickListener);
+        save_icon.setOnClickListener(myOnClickListener);
+        devNumET.addTextChangedListener(new TextWatcherImpl());
+        devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
+        add_device_wv.requestFocus(View.FOCUS_DOWN);
+        add_device_wv.setWebViewClient(myWebviewClient);
+        loadinglayout.setVisibility(View.VISIBLE);
+        add_device_wv.loadUrl(url);
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);
-        // ip /局域网登陆
-        ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
             ip_dns_btn.setVisibility(View.VISIBLE);
             ip_dns_btn.setOnClickListener(myOnClickListener);
         }
-        local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
         local_network_button.setOnClickListener(myOnClickListener);
+
+    }
+
+    private class FocusChangeListenerImpl implements OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (devNumET.getText().toString().length() >= 1) {
+                editimg_clearn.setVisibility(View.VISIBLE);
+                save_icon.setVisibility(View.VISIBLE);
+            } else {
+                editimg_clearn.setVisibility(View.GONE);
+                save_icon.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    // 当输入结束后判断是否显示右边clean的图标
+    private class TextWatcherImpl implements TextWatcher {
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (devNumET.getText().toString().length() >= 1) {
+                editimg_clearn.setVisibility(View.VISIBLE);
+                save_icon.setVisibility(View.VISIBLE);
+                tab_erweima_title.setVisibility(View.GONE);
+                tab_erweima_icon.setVisibility(View.GONE);
+            } else {
+                editimg_clearn.setVisibility(View.GONE);
+                save_icon.setVisibility(View.GONE);
+                tab_erweima_icon.setVisibility(View.VISIBLE);
+                tab_erweima_title.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
 
     }
 
@@ -387,49 +434,6 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             }
         }
     };
-
-    private class FocusChangeListenerImpl implements OnFocusChangeListener {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (devNumET.getText().toString().length() >= 1) {
-                editimg_clearn.setVisibility(View.VISIBLE);
-                save_icon.setVisibility(View.VISIBLE);
-            } else {
-                editimg_clearn.setVisibility(View.GONE);
-                save_icon.setVisibility(View.GONE);
-            }
-        }
-
-    }
-
-    // 当输入结束后判断是否显示右边clean的图标
-    private class TextWatcherImpl implements TextWatcher {
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (devNumET.getText().toString().length() >= 1) {
-                editimg_clearn.setVisibility(View.VISIBLE);
-                save_icon.setVisibility(View.VISIBLE);
-                tab_title.setVisibility(View.GONE);
-                tab_icon.setVisibility(View.GONE);
-            } else {
-                editimg_clearn.setVisibility(View.GONE);
-                save_icon.setVisibility(View.GONE);
-                tab_icon.setVisibility(View.VISIBLE);
-                tab_title.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-    }
 
     @Override
     protected void saveSettings() {

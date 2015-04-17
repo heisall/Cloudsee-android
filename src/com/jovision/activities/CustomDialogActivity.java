@@ -92,6 +92,7 @@ public class CustomDialogActivity extends BaseActivity implements
     /* 流量统计 */
     private long downLoadSize = 0L;
     private PushInfo pushInfo;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -767,11 +768,11 @@ public class CustomDialogActivity extends BaseActivity implements
                         MySharedPreference.putString(strSpKey,
                                 storageObject.toString());
                         cloudBucket = storageObject.optString("csspace");
-                        
-                        if(bDownLoadFileType == 0){
-                            if(null!=strImgUrl && !strImgUrl.equals("")){
-                                String temp1[] = strImgUrl.split("com/");                              
-                                if(temp1.length == 2){
+
+                        if (bDownLoadFileType == 0) {
+                            if (null != strImgUrl && !strImgUrl.equals("")) {
+                                String temp1[] = strImgUrl.split("com/");
+                                if (temp1.length == 2) {
                                     cloudResource = String.format("/%s/%s", cloudBucket,
                                             temp1[1]);
                                     if (!fileIsExists(localImgPath)) {
@@ -791,36 +792,39 @@ public class CustomDialogActivity extends BaseActivity implements
                                         bLocalFile = true;
                                         if (!vod_uri_.equals("")) {
                                             lookVideoBtn.setEnabled(true);
-                                        }                                        
+                                        }
                                     }
                                 }
-                                else{
-                                    String strTips = getResources().getString(R.string.str_cloud_url_error1);
-                                    showTextToast(strTips);                                    
-                                }                                               
+                                else {
+                                    String strTips = getResources().getString(
+                                            R.string.str_cloud_url_error1);
+                                    showTextToast(strTips);
+                                }
                             }
-                            else{
+                            else {
                                 if (!vod_uri_.equals("")) {
                                     lookVideoBtn.setEnabled(true);
-                                }                                  
+                                }
                             }
                         }
-                        else{//下载录像
-                            if(null != vod_uri_ && !vod_uri_.equals("")){
-                                String temp2[] = vod_uri_.split("com/");                              
-                                if(temp2.length == 2){
+                        else {// 下载录像
+                            if (null != vod_uri_ && !vod_uri_.equals("")) {
+                                String temp2[] = vod_uri_.split("com/");
+                                if (temp2.length == 2) {
                                     cloudResource = String.format("/%s/%s", cloudBucket,
                                             temp2[1]);
                                     // 下载录像
                                     // TODO
-                                    cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource, storageJson);
+                                    cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource,
+                                            storageJson);
                                     new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
                                 }
-                                else{
-                                    String strTips = getResources().getString(R.string.str_cloud_url_error1);
+                                else {
+                                    String strTips = getResources().getString(
+                                            R.string.str_cloud_url_error1);
                                     showTextToast(strTips);
-                                }                                 
-                            }                                                        
+                                }
+                            }
                         }
 
                     } catch (JSONException e) {
@@ -859,7 +863,7 @@ public class CustomDialogActivity extends BaseActivity implements
                     if (msg.arg1 == 0) {
                         Log.e("Down", "上报成功");
                         downLoadSize = 0;
-                        //showTextToast(R.string.str_report_flow_ok);
+                        // showTextToast(R.string.str_report_flow_ok);
                         MySharedPreference.putLong(Consts.KEY_CLOUD_VOD_SIZE, 0);// 清0
                     }
                     else {
@@ -868,26 +872,25 @@ public class CustomDialogActivity extends BaseActivity implements
                                 + msg.arg1);
                     }
                     break;
-                case 0x9001:
-                    {
-                        String strTips = getResources().getString(R.string.str_check_flow_tips1);
-                        showTextToast(strTips);
-                        lookVideoBtn.setEnabled(false);
-                    }
+                case 0x9001: {
+                    String strTips = getResources().getString(R.string.str_check_flow_tips1);
+                    showTextToast(strTips);
+                    lookVideoBtn.setEnabled(false);
+                }
                     break;
-                case 0x9002://流量低于指定大小，提示用户
-                    {
-                        String strTips = getResources().getString(R.string.str_check_flow_tips2);
-                        strTips = strTips.replace("%%", String.valueOf(TIPS_LIMIT_MB));
-                        showTextToast(strTips);
-                    }
+                case 0x9002:// 流量低于指定大小，提示用户
+                {
+                    String strTips = getResources().getString(R.string.str_check_flow_tips2);
+                    strTips = strTips.replace("%%", String.valueOf(TIPS_LIMIT_MB));
+                    showTextToast(strTips);
+                }
                     break;
-                case 0x9003://查询流量失败
-                    {
-                        String strTips = getResources().getString(R.string.str_cloud_query_error_2);
-                        showTextToast(strTips);
-                    }
-                    
+                case 0x9003:// 查询流量失败
+                {
+                    String strTips = getResources().getString(R.string.str_cloud_query_error_2);
+                    showTextToast(strTips);
+                }
+
                     break;
                 case JVNetConst.JVN_RSP_DISCONN:
                     // new Thread(new ToastProcess(0x9999)).start();
@@ -1216,8 +1219,6 @@ public class CustomDialogActivity extends BaseActivity implements
 
             int ret = resObj.optInt(JVDeviceConst.JK_RESULT);
             if (ret != 0) {
-                showTextToast(getResources().getString(R.string.str_cloud_query_error_1) + ":"
-                        + ret);
                 return -1;
             }
             else {
@@ -1255,15 +1256,15 @@ public class CustomDialogActivity extends BaseActivity implements
         }
         return total_left;
     }
-    
-    class CloudCheckInfo implements Runnable{
+
+    class CloudCheckInfo implements Runnable {
 
         @Override
         public void run() {
             // TODO Auto-generated method stub
             int ret = checkoutLeftFlow();
-            if(ret > 0){
-                //流量足够，走正常的流程
+            if (ret > 0) {
+                // 流量足够，走正常的流程
                 // 先调用接口获取计算签名参数
                 String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
                         pushInfo.ystNum, pushInfo.coonNum);
@@ -1291,20 +1292,20 @@ public class CustomDialogActivity extends BaseActivity implements
                             try_get_cloud_param_cnt = 0;
                         }
                     }
-                    myHandler.sendEmptyMessage(0x01);                        
+                    myHandler.sendEmptyMessage(0x01);
                 } else {
                     myHandler.sendEmptyMessage(0x01);
                 }
             }
-            else if(ret == 0){
-                //流量不足
+            else if (ret == 0) {
+                // 流量不足
                 myHandler.sendEmptyMessage(0x9001);
             }
-            else{
-                //失败
+            else {
+                // 失败
                 myHandler.sendEmptyMessage(0x9003);
             }
         }
-        
+
     }
 }

@@ -1215,8 +1215,6 @@ public class CustomDialogActivity extends BaseActivity implements
 
             int ret = resObj.optInt(JVDeviceConst.JK_RESULT);
             if (ret != 0) {
-                showTextToast(getResources().getString(R.string.str_cloud_query_error_1) + ":"
-                        + ret);
                 return -1;
             }
             else {

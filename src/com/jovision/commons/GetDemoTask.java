@@ -119,6 +119,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     } catch (NameNotFoundException e) {
                         e.printStackTrace();
                     }
+                    //获取添加设备界面 2015-04-17
+                    if(webUrl != null) {
+                    	 String dburl = webUrl.getAddDeviceurl();
+                         ((BaseActivity) mContext).statusHashMap.put(
+                                 Consts.MORE_ADDDEVICEURL, dburl);
+                    }
+                    
                     demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
                             + Build.VERSION.SDK_INT + "&lang=" + lan
                             + "&appv" + appVersion + "&d="

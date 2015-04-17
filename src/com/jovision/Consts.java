@@ -338,6 +338,8 @@ public class Consts {
     public static final String MORE_BBSNUMURL = "BBSNUMURL"; // 论坛未读消息数量
     public static final String MORE_SHOPURL = "SHOPURL"; // 小维商城
     public static final String MORE_KNOWLEDGEURL = "KNOWLEDGEURL"; // 小维知道
+    public static final String MORE_ADDDEVICEURL = "DBURL";
+    public static final String MORE_ADDDEVICESWITCH = "DB_SWITCH";
 
     public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
     // public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关

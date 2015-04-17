@@ -217,6 +217,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
                 deviceHolder.wifiStateL.setVisibility(View.GONE);
                 deviceHolder.devOnlineImgL.setVisibility(View.GONE);
                 deviceHolder.devWifiImgL.setVisibility(View.GONE);
+                deviceHolder.tv_dev_cloud_state_L.setVisibility(View.GONE);
             } else {
                 if (deviceList.get(position * 2).getHasWifi() == 1) {
                     deviceHolder.devWifiImgL
@@ -288,7 +289,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
                     // 不显示
                     deviceHolder.tv_dev_cloud_state_L.setVisibility(View.INVISIBLE);
                 }
-
             }
             int lastL = (position * 2) % 4;
             int lastR = (position * 2 + 1) % 4;
@@ -364,7 +364,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
                         } else {
                             // 不显示
                             deviceHolder.tv_dev_cloud_state_R.setVisibility(View.INVISIBLE);
-                        }
+                        }                     
                     }
                 }
             }
@@ -430,6 +430,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
                     deviceHolder.wifiStateR.setVisibility(View.GONE);
                     deviceHolder.devOnlineImgR.setVisibility(View.GONE);
                     deviceHolder.devWifiImgR.setVisibility(View.GONE);
+                    deviceHolder.tv_dev_cloud_state_R.setVisibility(View.GONE);
                 } else {
                     if (deviceList.get(position * 2 + 1).getHasWifi() == 1) {
                         deviceHolder.devWifiImgR

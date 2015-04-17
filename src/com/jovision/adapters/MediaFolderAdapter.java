@@ -24,6 +24,7 @@ import com.jovision.bean.Filebean;
 import com.jovision.views.MyGridView;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 
 public class MediaFolderAdapter extends BaseAdapter {
@@ -96,11 +97,33 @@ public class MediaFolderAdapter extends BaseAdapter {
         }
         folderHolder.folderName.setText(folderList.get(position).getName());
         final MediaAdapter mediaAdaper = new MediaAdapter(mContext);
-        final File[] fileArray = folderList.get(position).listFiles();
+
+        File[] fileArrayTemp = null;
+
+        if ("video".equalsIgnoreCase(media)
+                || "downVideo".equalsIgnoreCase(media)) {// 视频文件夹过滤掉非mp4的文件
+            FileFilter filefilter = new FileFilter() {
+
+                public boolean accept(File file) {
+                    // if the file extension is .txt return true, else false
+                    if (file.getName().endsWith(Consts.VIDEO_MP4_KIND)) {
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            fileArrayTemp = folderList.get(position).listFiles(filefilter);
+        } else {
+            fileArrayTemp = folderList.get(position).listFiles();
+        }
+
+        final File[] fileArray = fileArrayTemp;
+
         if (null == fileArray || 0 == fileArray.length) {
             folderHolder.folderName.setVisibility(View.GONE);
             folderHolder.fileGridView.setVisibility(View.GONE);
         } else {
+
             final String folderPath = folderList.get(position).getAbsolutePath();
             daArrayList = JVMediaListActivity.fileMap.get(folderPath);
 

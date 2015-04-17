@@ -77,7 +77,7 @@ import javax.mail.internet.MimeMultipart;
 public class ConfigUtil {
     private final static String TAG = "ConfigUtil";
     public final static String ACCOUNT_VERSION = "V3.2.15.10";
-    public final static String PLAY_VERSION = "0.9.1b[e7cc5cf][2015-04-15]";
+    public final static String PLAY_VERSION = "0.9.1b[c179287][2015-04-16]";
     public final static String NETWORK_VERSION = "v2.0.76.3.34[private:v2.0.75.13 20150331.1]";
 
     public static String GETACCTOUT_VERSION = "";

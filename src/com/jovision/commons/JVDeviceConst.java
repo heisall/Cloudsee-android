@@ -538,6 +538,8 @@ public class JVDeviceConst {
     public static final String JK_WEB_CLOUD_FLAG = "csf";
     public static final String JK_WEB_ADDDEVICE_URL = "dburl";
     public static final String JV_WEB_ADDDEVICE_FLAG = "dbf";
+    public static final String JV_WEB_SHOP_URL = "mall";
+    public static final String JV_WEB_SHOP_FLAG = "mallf";
 
     // 云存储
     public static final int CLOUD_STORAGE_SWITCH_OPEN_IPC = 3034;

@@ -91,6 +91,11 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                 Log.i("TAG", webUrl.getGcsSwitch() + "  FDF ");
             }
 
+            // 小维商城开关
+            ((BaseActivity) mContext).statusHashMap.put(
+                    Consts.MORE_SHOP_SWITCH,
+                    String.valueOf(webUrl.getShopSwitch()));
+
             switch (counts) {
                 case 0:// 2015-3-13从我要装监控变成工程商入驻
                     String custurl;
@@ -120,6 +125,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     } catch (NameNotFoundException e) {
                         e.printStackTrace();
                     }
+                    // 获取添加设备界面 2015-04-17
+                    if (webUrl != null) {
+                        String dburl = webUrl.getAddDeviceurl();
+                        ((BaseActivity) mContext).statusHashMap.put(
+                                Consts.MORE_ADDDEVICEURL, dburl);
+                    }
+
                     demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
                             + Build.VERSION.SDK_INT + "&lang=" + lan
                             + "&appv" + appVersion + "&d="
@@ -234,6 +246,30 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                         Log.i("TAG", cloudurl);
                         Global.CLOUD_BUY_URL = cloudurl;
                         intentAD2.putExtra("URL", cloudurl);
+                        intentAD2.putExtra("title", -2);
+                        mContext.startActivity(intentAD2);
+                    } else {
+                        ((BaseActivity) mContext)
+                                .showTextToast(R.string.str_video_load_failed);
+                    }
+                    break;
+                case 7:// 小维商城
+                    String shopurl = webUrl.getShopUrl();
+                    Log.i("TAG", "shopurl->" + shopurl);
+                    if (null != shopurl && !shopurl.equals("")) {
+                        Intent intentAD2 = new Intent(mContext,
+                                JVWebViewActivity.class);
+                        if (shopurl.contains("?")) {
+                            shopurl = shopurl + "&sid=" + sid;
+                        }
+                        else {
+                            shopurl = shopurl + "?sid=" + sid;
+                        }
+                        ((BaseActivity) mContext).statusHashMap.put(
+                                Consts.MORE_SHOPURL, shopurl);
+
+                        Log.i("TAG", "new shopurl->" + shopurl);
+                        intentAD2.putExtra("URL", shopurl);
                         intentAD2.putExtra("title", -2);
                         mContext.startActivity(intentAD2);
                     } else {

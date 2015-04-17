@@ -338,12 +338,15 @@ public class Consts {
     public static final String MORE_BBSNUMURL = "BBSNUMURL"; // 论坛未读消息数量
     public static final String MORE_SHOPURL = "SHOPURL"; // 小维商城
     public static final String MORE_KNOWLEDGEURL = "KNOWLEDGEURL"; // 小维知道
+    public static final String MORE_ADDDEVICEURL = "DBURL";
+    public static final String MORE_ADDDEVICESWITCH = "DB_SWITCH";
 
     public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
     // public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关
     public static final String MORE_STAT_SWITCH = "STAT_SWITCH"; // 云视通指数开关
     public static final String MORE_BBS_SWITCH = "BBS_SWITCH"; // 论坛开关
     public static final String MORE_GCS_SWITCH = "GCS_SWITCH"; // 工程商入住开关
+    public static final String MORE_SHOP_SWITCH = "SHOP_SWITCH"; // 小维商城开关
 
     public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
     public static final String MORE_FOREIGNSWITCH = "FOREIGNSWITCH"; // 国外服务器开关

@@ -37,7 +37,6 @@
     <string name="login_str_device_add_failed">添加设备失败</string>
     <string name="login_str_point_delete_success">通道删除成功</string>
     <string name="login_str_point_delete_failed">通道删除失败</string>
-    <string name="login_str_point_add_success">通道添加成功</string>
     <string name="login_str_point_add_failed">通道添加失败</string>
     <string name="login_str_point_edit_success">通道修改成功</string>
     <string name="login_str_point_edit_failed">通道修改失败</string>
@@ -851,5 +850,4 @@
     <string name="increct_yst_tips">云视通号不正确</string>
     <string name="login_str_yst_num">云视通号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
-
 </resources>

@@ -37,7 +37,6 @@
     <string name="login_str_device_add_failed">添加設備失敗</string>
     <string name="login_str_point_delete_success">通道刪除成功</string>
     <string name="login_str_point_delete_failed">通道刪除失敗</string>
-    <string name="login_str_point_add_success">通道添加成功</string>
     <string name="login_str_point_add_failed">通道添加失敗</string>
     <string name="login_str_point_edit_success">通道修改成功</string>
     <string name="login_str_point_edit_failed">通道修改失敗</string>
@@ -491,10 +490,10 @@
     <string name="connfailed_timeout">連接超時</string>
     <string name="connfailed_checkpass_timout">連接超時.</string>
     <string name="connfailed_auth_tips">用戶名或密碼錯誤，立即修改?</string>
+    <string name="edit_userinfo_success">用戶名或密碼修改成功。</string>
+    <string name="edit_userinfo_failed">用戶名或密碼修改失敗。</string>
     <string name="connect_failed">連接失敗</string>
     <string name="connecting">連接中…</string>
-    <string name="edit_userinfo_success">用户名或密码修改成功。</string>
-    <string name="edit_userinfo_failed">用户名或密码修改失败。</string>
     <string name="closed">已斷開</string>
     <string name="abnormal_closed">連接異常斷開</string>
     <string name="str_scanlandevice">局域網設備</string>
@@ -584,12 +583,12 @@
     <string name="protect_open_fail">安全防護打開失敗</string>
     <string name="protect_close_succ">安全防護關閉成功</string>
     <string name="protect_close_fail">安全防護關閉失敗</string>
-    <string name="cloud_open_succ">云存储服务打开成功</string>
-    <string name="cloud_open_fail">云存储服务打开失败</string>
-    <string name="cloud_close_succ">云存储服务关闭成功</string>
-    <string name="cloud_close_fail">云存储服务关闭失败</string>
-    <string name="cloud_serv_open">开启云存储服务</string>
-    <string name="cloud_serv_close">关闭云存储服务</string>
+    <string name="cloud_open_succ">雲存儲服務打開成功</string>
+    <string name="cloud_open_fail">雲存儲服務打開失敗</string>
+    <string name="cloud_close_succ">雲存儲服務關閉成功</string>
+    <string name="cloud_close_fail">雲存儲服務關閉失敗</string>
+    <string name="cloud_serv_open">開啟雲存儲服務</string>
+    <string name="cloud_serv_close">關閉雲存儲服務</string>
     <string name="device_offline">設備離線不能執行此操作</string>
     <string name="device_offlines">設備離線</string>
     <string name="device_model">型號</string>
@@ -802,6 +801,10 @@
     <string name="census_version">版本號</string>
     <string name="str_error_vercode">无效验证码</string>
     <string name="location_login_hand">访客</string>
+    <!-- 时区设置 -->
+    <string name="str_timezone">時區設置</string>
+    <string name="str_current_time_zone">目前所在時區</string>
+    <string name="time_zone">時區設置</string>
     <!-- 找回密碼 -->
     <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>
@@ -846,6 +849,4 @@
     <string name="login_str_device_ytnum_notnull">請輸入雲視通號</string>
     <string name="increct_yst_tips">雲視通號不正確</string>
     <string name="login_str_yst_num">雲視通號</string>
-    <string name="str_not_qr_device">不屬於雲視通設備</string>
-
-</resources>
+    <string name="str_not_qr_device">不屬於雲視通設備</string></resources>

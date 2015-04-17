@@ -37,7 +37,6 @@
     <string name="login_str_device_add_failed">Failed to add device</string>
     <string name="login_str_point_delete_success">Channel deleted successfully</string>
     <string name="login_str_point_delete_failed">Channel deleted failed</string>
-    <string name="login_str_point_add_success">Channel added successfully</string>
     <string name="login_str_point_add_failed">Channel added failed</string>
     <string name="login_str_point_edit_success">Channel modified successfully</string>
     <string name="login_str_point_edit_failed">Channel modified failed</string>
@@ -134,7 +133,7 @@
     <string name="str_has_call">Another client is using Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
-    <string name="str_share_link">分享链接</string>
+    <string name="str_share_link">Share the Link</string>
     <string name="str_share_link_tips"></string>
     <!-- PlayHelp -->
     <string name="playhelp_pull">change into multi-screen</string>
@@ -286,17 +285,17 @@
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <!-- JVNewAddDeviceActivity -->
-    <string name="str_new_add_device">选择添加设备</string>
-    <string name="str_new_add_device_edit_hint">请输入云视通账号</string>
-    <string name="str_new_add_device_confirm">确认</string>
-    <string name="str_new_add_device_tab_title">扫一扫</string>
-    <string name="str_new_add_device_networking">已联网设备</string>
-    <string name="str_new_add_device_nonetworking">未联网设备</string>
-    <string name="str_new_add_device_other">其他方式</string>
-    <string name="str_new_add_device_AP">无线配置</string>
-    <string name="str_new_add_device_wave">声波配置</string>
-    <string name="str_new_add_device_IP"> IP/域名添加</string>
-    <string name="str_new_add_device_localnetwork">局域网添加</string>
+    <string name="str_new_add_device">Select Add Device</string>
+    <string name="str_new_add_device_edit_hint">Please Input the Cloudsee ID</string>
+    <string name="str_new_add_device_confirm">Confirm</string>
+    <string name="str_new_add_device_tab_title">Scan</string>
+    <string name="str_new_add_device_networking">Networked Device</string>
+    <string name="str_new_add_device_nonetworking">Devices Not Networked</string>
+    <string name="str_new_add_device_other">Other Ways</string>
+    <string name="str_new_add_device_AP">Wifi Configuration</string>
+    <string name="str_new_add_device_wave">Sound Wave Configuration</string>
+    <string name="str_new_add_device_IP"> IP/Domain Addition</string>
+    <string name="str_new_add_device_localnetwork">LAN Addition</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
@@ -493,8 +492,8 @@
     <string name="connfailed_auth_tips">Username or password wrong, change now?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
-    <string name="edit_userinfo_success">用户名或密码修改成功.</string>
-    <string name="edit_userinfo_failed">用户名或密码修改失败.</string>
+    <string name="edit_userinfo_success">User Name or Password Modify Succeesfully</string>
+    <string name="edit_userinfo_failed">Fail to Modify  User Name or Password</string>
     <string name="closed">Closed</string>
     <string name="abnormal_closed">Abnormal disconnection happened.</string>
     <string name="str_scanlandevice">Device in Lan</string>
@@ -584,12 +583,12 @@
     <string name="protect_open_fail">Failed to enable Security Protection.</string>
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
-    <string name="cloud_open_succ">云存储服务打开成功</string>
-    <string name="cloud_open_fail">云存储服务打开失败</string>
-    <string name="cloud_close_succ">云存储服务关闭成功</string>
-    <string name="cloud_close_fail">云存储服务关闭失败</string>
-    <string name="cloud_serv_open">开启云存储服务</string>
-    <string name="cloud_serv_close">关闭云存储服务</string>
+    <string name="cloud_open_succ">Cloud Storage Service Open Successfully</string>
+    <string name="cloud_open_fail">Fail to Open Cloud Storage Service</string>
+    <string name="cloud_close_succ">Cloud Storage Service Shut Down Successfully</string>
+    <string name="cloud_close_fail">Fail to Shut Down Cloud Storage Service</string>
+    <string name="cloud_serv_open">Cloud Storage Service Enabled</string>
+    <string name="cloud_serv_close">Cloud Storage Service Not Enabled</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
     <string name="device_offlines">Device offline</string>
     <string name="device_model">Model</string>
@@ -666,8 +665,8 @@
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
-    <string name="str_restart_device">重启设备功能</string>
-    <string name="str_set_time">时间设置</string>
+    <string name="str_restart_device">Reboot Device Functions</string>
+    <string name="str_set_time">Timeset</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="str_restart_sure">Are you sure to restart?</string>
     <string name="dev_alarm_sound">Startup the alarm sound</string>
@@ -723,9 +722,9 @@
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
     <string name="str_alarm_setting_tips4">We suggest modify device administrator is password to avoid leakage of privacy.</string>
     <string name="str_alarm_setting_tips5">After reset device will restore factory Settings</string>
-    <string name="str_alarm_setting_tips6">重启后设备将重新启动。</string>
-    <string name="str_alarm_setting_tips7">可以设置你所在的时区。</string>
-    <string name="str_alarm_setting_tips9">可以校准设备时间。</string>
+    <string name="str_alarm_setting_tips6">Device Will Reboot after Restart</string>
+    <string name="str_alarm_setting_tips7">Can Set Your Home Time Zone</string>
+    <string name="str_alarm_setting_tips9">Be Able to Calibrate Device Time</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
@@ -735,7 +734,7 @@
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
-    <string name="str_setting_time_success">时间设置成功</string>
+    <string name="str_setting_time_success">Timeset Succeed</string>
     <string name="str_setting_time">Setting Time</string>
     <string name="str_setting_submittime">Setting</string>
     <string name="str_mdenabled_open_ok">The motion detecting open success</string>
@@ -747,21 +746,21 @@
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
-    <string name="str_alarm_storge_cloud">云存储报警</string>
-    <string name="str_alarm_storge_normal">普通报警</string>
+    <string name="str_alarm_storge_cloud">Cloud Storage Alarm</string>
+    <string name="str_alarm_storge_normal">Regular Alarm</string>
     <!-- 云存储 -->
-    <string name="str_cloud_serv_func">云存储服务</string>
-    <string name="str_cloud_state">云存储</string>
-    <string name="str_cloud_query_error_1">查询用户使用详情失败</string>
-    <string name="str_cloud_query_title">剩余流量</string>
-    <string name="str_cloud_charge_left">充值流量剩余</string>
-    <string name="str_cloud_free_left">赠送剩余</string>
-    <string name="str_report_flow_ok">上报成功</string>
-    <string name="str_report_flow_failed">上报失败</string>
-    <string name="str_check_flow_tips1">您的剩余流量不足，无法查看视频</string>
-    <string name="str_check_flow_tips2">您的剩余流量已不足%%M, 为不影响正常使用，请及时购买相关服务</string>
-    <string name="str_cloud_url_error1">报警云存储信息有误</string>
-    <string name="str_cloud_query_error_2">查询用户流量信息失败</string>
+    <string name="str_cloud_serv_func">Cloud Storage Service</string>
+    <string name="str_cloud_state">Cloud Storage</string>
+    <string name="str_cloud_query_error_1">Fail to Query User Use Detail</string>
+    <string name="str_cloud_query_title">Surpus Flow</string>
+    <string name="str_cloud_charge_left">Top-up Flow Surplus</string>
+    <string name="str_cloud_free_left">Free Flow Surplus</string>
+    <string name="str_report_flow_ok">Report Succeed</string>
+    <string name="str_report_flow_failed">Report Failed</string>
+    <string name="str_check_flow_tips1">Your Surplus Flow Is Not Sufficient to Check the Video</string>
+    <string name="str_check_flow_tips2">Your Surplus Flow Is Less Than %%M, Plase Purchase Relevant Services In Order Not To Affect Normal Use</string>
+    <string name="str_cloud_url_error1">Cloud Storage Alarming Info Error</string>
+    <string name="str_cloud_query_error_2">Fail to Query User Flow Info</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">Upload photos</string>
     <string name="select_to_upload">Selecting photos</string>
@@ -802,6 +801,10 @@
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
     <string name="location_login_hand">访客</string>
+    <!-- 时区设置 -->
+    <string name="str_timezone">时区设置</string>
+    <string name="str_current_time_zone">目前所在时区</string>
+    <string name="time_zone">时区设置</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>
@@ -847,8 +850,4 @@
     <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
     <string name="login_str_yst_num">CloudSEE ID</string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
-    <string name="title_activity_new_adddevice">NewAdddeviceActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
 </resources>

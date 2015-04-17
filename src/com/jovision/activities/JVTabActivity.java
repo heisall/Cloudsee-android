@@ -1259,6 +1259,42 @@ public class JVTabActivity extends ShakeActivity implements
     }
 
     /**
+     * 小维商城
+     */
+    public void jumpShop() {
+        if (!ConfigUtil.isConnected(this)) {
+            this.alertNetDialog();
+        } else {
+            // 商城地址存在,直接跳转
+            if (null != statusHashMap
+                    .get(Consts.MORE_SHOPURL)) {
+                Intent intentAD0 = new Intent(this,
+                        JVWebViewActivity.class);
+                intentAD0
+                        .putExtra(
+                                "URL", statusHashMap
+                                        .get(Consts.MORE_SHOPURL));
+                intentAD0.putExtra("title", -2);
+                startActivity(intentAD0);
+            } else {
+                if ("false".equals(statusHashMap
+                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+                    MyLog.e("Login", "初始化账号SDK失败");
+                    ConfigUtil
+                            .initAccountSDK(((MainApplication) this
+                                    .getApplication()));// 初始化账号SDK
+                }
+                // 重新请求url地址,然后进行跳转
+                GetDemoTask UrlTask = new GetDemoTask(
+                        this);
+                String[] demoParams = new String[3];
+                demoParams[1] = "7";
+                UrlTask.execute(demoParams);
+            }
+        }
+    }
+
+    /**
      * 原有的indicator选择操作. 因为牵扯到的一些其它的业务,所以保留.在initIndicatorListener会调用
      * 原有代表位置的which,现在作用代表具体fragment的tag来使用
      * 

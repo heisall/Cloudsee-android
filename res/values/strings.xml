@@ -462,8 +462,8 @@
     <string name="get_device_failed">Device loaded failed</string>
     <string name="search_device_failed">Check Device Online status failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
-       <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，点击这里把它加进来吧~</string>
-     <string name="str_no_device_lead2">还没有设备？去逛一下~</string>
+    <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，点击这里把它加进来吧~</string>
+    <string name="str_no_device_lead2">还没有设备？去逛一下~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
     <string name="alarm_level">Alarm Level</string>
@@ -802,9 +802,9 @@
     <string name="str_error_vercode">无效验证码</string>
     <string name="location_login_hand">访客</string>
     <!-- 时区设置 -->
-    <string name="str_timezone">时区设置</string>
-    <string name="str_current_time_zone">目前所在时区</string>
-    <string name="time_zone">时区设置</string>
+    <string name="str_timezone">Time Zone</string>
+    <string name="str_current_time_zone">Current Time Zone</string>
+    <string name="time_zone">Time Zone</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>
@@ -850,4 +850,5 @@
     <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
     <string name="login_str_yst_num">CloudSEE ID</string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
+
 </resources>

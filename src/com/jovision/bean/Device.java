@@ -110,7 +110,7 @@ public class Device {
 
     private int shortConnRes = -1;// 设备短连接返回值
 
-    private int ytSpeed = 0;// 2015.4.3设备云台转速
+    private int ytSpeed = 3;// 2015.4.3设备云台转速
 
     private int cloudEnabled = 0; // 云存储服务开关
 

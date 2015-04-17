@@ -217,6 +217,7 @@ public class JVWebViewActivity extends BaseActivity {
 
         };
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.addJavascriptInterface(this, "wst");
 
         // 设置setWebChromeClient对象

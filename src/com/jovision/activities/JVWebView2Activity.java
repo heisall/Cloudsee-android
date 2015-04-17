@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -709,8 +708,7 @@ public class JVWebView2Activity extends BaseActivity implements
         // 设置setWebChromeClient对象
         webView.setWebChromeClient(wvcc);
         webView.requestFocus(View.FOCUS_DOWN);
-        WebSettings set = webView.getSettings();
-        set.setDomStorageEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         // setting.setPluginState(PluginState.ON);
         // 加快加载速度
         webView.getSettings().setRenderPriority(RenderPriority.HIGH);
@@ -930,13 +928,6 @@ public class JVWebView2Activity extends BaseActivity implements
                         // 继续播放视频
                         boolean res = resumeVideo();
                     }
-
-                    // Intent bigImageIntent = new Intent();
-                    // bigImageIntent.setClass(JVWebView2Activity.this,
-                    // JVNetImageViewActivity.class);
-                    // bigImageIntent.putExtra("ImageUrl",
-                    // "http://test.cloudsee.net//upload/videoImge/pcStaticImgUrl/3.png");
-                    // JVWebView2Activity.this.startActivity(bigImageIntent);
                     break;
                 }
                 case R.id.capturescreen: {
@@ -1510,6 +1501,24 @@ public class JVWebView2Activity extends BaseActivity implements
                 }
             }
         }
+    }
+
+    /**
+     * 显示大图
+     */
+    public void showPhoto(String imgUrl) {
+        MyLog.v(TAG, "showPhoto-url=" + imgUrl);
+        if (null != imgUrl && !"".equalsIgnoreCase(imgUrl)) {
+            Intent bigImageIntent = new Intent();
+            bigImageIntent.setClass(JVWebView2Activity.this,
+                    JVNetImageViewActivity.class);
+            bigImageIntent.putExtra("ImageUrl",
+                    imgUrl);
+            JVWebView2Activity.this.startActivity(bigImageIntent);
+        } else {
+            MyLog.e(TAG, "showPhoto-url=null");
+        }
+
     }
 
 }

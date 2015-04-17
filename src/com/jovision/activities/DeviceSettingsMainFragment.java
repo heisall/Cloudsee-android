@@ -193,6 +193,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
             // 云存储服务
             // functionlayout0.setVisibility(View.GONE);
+
             func_cloud_enabled = paramObject.optInt("bCloudEnabled", -1);
             if (0 == func_cloud_enabled) {
                 func_cloudsw
@@ -203,7 +204,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
             } else {
                 functionlayout0.setVisibility(View.GONE);
             }
-
+            
             alarm_way_flag = paramObject.optInt("alarmWay", -1);
             if (alarm_way_flag == 0) {
                 // 走设备服务器

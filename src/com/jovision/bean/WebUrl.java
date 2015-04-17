@@ -14,8 +14,8 @@ public class WebUrl {
     private int gcsSwitch;// (我是工程商开关 0屏蔽 1开启)
     private String cloudUrl = null;// 云服务
     private int cloudSwitch;// 云服务标志
-    private String addDeviceurl;//添加设备Url
-    private int addDeviceSwitch;//添加设备开关
+    private String addDeviceurl;// 添加设备Url
+    private int addDeviceSwitch;// 添加设备开关
 
     public String getDemoUrl() {
         return demoUrl;
@@ -113,19 +113,19 @@ public class WebUrl {
         this.cloudUrl = cloudUrl;
     }
 
-	public String getAddDeviceurl() {
-		return addDeviceurl;
-	}
+    public String getAddDeviceurl() {
+        return addDeviceurl;
+    }
 
-	public void setAddDeviceurl(String addDeviceurl) {
-		this.addDeviceurl = addDeviceurl;
-	}
+    public void setAddDeviceurl(String addDeviceurl) {
+        this.addDeviceurl = addDeviceurl;
+    }
 
-	public int getAddDeviceSwitch() {
-		return addDeviceSwitch;
-	}
+    public int getAddDeviceSwitch() {
+        return addDeviceSwitch;
+    }
 
-	public void setAddDeviceSwitch(int addDeviceSwitch) {
-		this.addDeviceSwitch = addDeviceSwitch;
-	}
+    public void setAddDeviceSwitch(int addDeviceSwitch) {
+        this.addDeviceSwitch = addDeviceSwitch;
+    }
 }

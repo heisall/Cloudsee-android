@@ -114,7 +114,8 @@ public class UserCloudStorgeBriefBillActivity extends BaseActivity implements On
                     int fee_type = resObj.optInt(JVDeviceConst.JK_CLOUD_FEE_TYPE, 0);
                     if (fee_type == 0) {
                         // 单位流量
-                        double flow_mb = (double) resObj.optInt(JVDeviceConst.JK_CLOUD_STORAGE_FLOW,
+                        double flow_mb = (double) resObj.optInt(
+                                JVDeviceConst.JK_CLOUD_STORAGE_FLOW,
                                 0) / (double) 1024;
                         double flow_gb = 0.0;
                         if (flow_mb > 1000) {

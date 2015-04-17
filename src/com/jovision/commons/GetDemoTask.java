@@ -120,13 +120,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     } catch (NameNotFoundException e) {
                         e.printStackTrace();
                     }
-                    //获取添加设备界面 2015-04-17
-                    if(webUrl != null) {
-                    	 String dburl = webUrl.getAddDeviceurl();
-                         ((BaseActivity) mContext).statusHashMap.put(
-                                 Consts.MORE_ADDDEVICEURL, dburl);
+                    // 获取添加设备界面 2015-04-17
+                    if (webUrl != null) {
+                        String dburl = webUrl.getAddDeviceurl();
+                        ((BaseActivity) mContext).statusHashMap.put(
+                                Consts.MORE_ADDDEVICEURL, dburl);
                     }
-                    
+
                     demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
                             + Build.VERSION.SDK_INT + "&lang=" + lan
                             + "&appv" + appVersion + "&d="
@@ -187,8 +187,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_BBS, bbsurl);
 
-                        Log.i("TAG", bbsurl+"你好吗？"+webUrl.getAddDeviceurl());
-                        
+                        Log.i("TAG", bbsurl + "你好吗？" + webUrl.getAddDeviceurl());
+
                         intentAD2.putExtra("URL", bbsurl);
                         intentAD2.putExtra("title", -2);
                         mContext.startActivity(intentAD2);

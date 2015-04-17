@@ -3,17 +3,16 @@
     android:id="@+id/quickinstalllayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#F0F0F3"
+    android:background="@color/white"
     android:orientation="vertical" >
-
-    <!-- android:background="@color/white" -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:scrollbars="none" >
+        android:scrollbars="none"
+        android:visibility="gone" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +87,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0F0F3"
+        android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:visibility="visible" >
@@ -98,21 +97,32 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:src="@drawable/mydevice_error" />
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/no_device" />
 
-        <TextView
-            android:id="@+id/no_device_lead_text"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:text="@string/str_no_device_lead" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible" >
 
-        <ImageView
-            android:id="@+id/no_device_lead_arrow"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/help_rightup_icon" />
+            <TextView
+                android:id="@+id/no_device_lead_text"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/str_no_device_lead" />
+
+            <TextView
+                android:id="@+id/no_device_lead_text"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/str_no_device_lead2"
+                android:textColor="@color/quickinstall_btn_normal" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

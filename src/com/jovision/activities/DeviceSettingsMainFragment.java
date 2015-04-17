@@ -204,7 +204,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
             } else {
                 functionlayout0.setVisibility(View.GONE);
             }
-            
+
             alarm_way_flag = paramObject.optInt("alarmWay", -1);
             if (alarm_way_flag == 0) {
                 // 走设备服务器

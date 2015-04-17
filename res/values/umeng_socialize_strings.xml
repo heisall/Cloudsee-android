@@ -45,7 +45,7 @@
     <!--
     <string name="umeng_socialize_text_waitting">请稍候...</string>
     <string name="umeng_socialize_text_waitting_weixin">跳转微信中，请稍候...</string>
-    <string name="umeng_socialize_text_waitting_weixin_circle">跳转朋友圈中，请稍候...</string>
+    <string name="umeng_socialize_text_waitting_weixin_circle">跳转朋友圈中，请稍候...</string>
     -->
     <string name="umeng_socialize_text_waitting_yixin">跳转易信中，请稍候...</string>
     <string name="umeng_socialize_text_waitting_yixin_circle">跳转易信朋友圈中，请稍候...</string>

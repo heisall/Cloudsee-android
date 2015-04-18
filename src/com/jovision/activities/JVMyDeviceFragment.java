@@ -398,12 +398,12 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     break;
                 case R.id.btn_right:
                 	
-                	DeviceUtil.modifyChannalNum("456","10");
+//                	DeviceUtil.modifyChannalNum("A456","10");
                 	
-//                    Intent newAddDevIntent = new Intent();
-//                    newAddDevIntent.setClass(mActivity,
-//                            JVNewAddDeviceActivity.class);
-//                    mActivity.startActivityForResult(newAddDevIntent, Consts.SCAN_IN_LINE_REQUEST);
+                    Intent newAddDevIntent = new Intent();
+                    newAddDevIntent.setClass(mActivity,
+                            JVNewAddDeviceActivity.class);
+                    mActivity.startActivityForResult(newAddDevIntent, Consts.SCAN_IN_LINE_REQUEST);
 
                     // initPop();
                     // // 点击按钮时，pop显示状态，显示中就消失，否则显示

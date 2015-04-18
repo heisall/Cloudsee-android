@@ -1348,11 +1348,8 @@ public class DeviceUtil {
 	/**
 	 * 更改通道数量接口
 	 * 
-	 * @param userName
-	 * @param devGuid
-	 * @param devName
-	 * @param devUserName
-	 * @param devUserPass
+	 * @param devYstnum 云视通号
+	 * @param devChaNum 通道数量
 	 * @return
 	 */
 	public static int modifyChannalNum(String devYstnum,

@@ -168,6 +168,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             addDeviceWebView.setVisibility(View.GONE);
             devsetLayout.setVisibility(View.VISIBLE);
         }
+        addDeviceWebView.getSettings().setJavaScriptEnabled(true);
+        addDeviceWebView.getSettings().setDomStorageEnabled(true);
         addDeviceWebView.requestFocus(View.FOCUS_DOWN);
         addDeviceWebView.setWebViewClient(myWebviewClient);
         apset_button.setOnClickListener(myOnClickListener);

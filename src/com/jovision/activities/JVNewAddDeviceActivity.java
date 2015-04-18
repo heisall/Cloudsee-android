@@ -55,6 +55,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private TextView tab_erweima_title;
     private RelativeLayout ip_dns_btn, local_network_button;
     private WebView add_device_wv;
+    private TextView subject_detail;
     // private String url = "http://test.cloudsee.net/mobile/";
     private String url = "";
     private Boolean isLoadUrlfail = false;
@@ -175,7 +176,6 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             // MyLog.e("添加设备", "页面开始加载");
-            super.onPageStarted(view, url, favicon);
             if (!MySharedPreference.getBoolean("webfirst")) {
                 MySharedPreference.putBoolean("webfirst", true);
                 loadinglayout.setVisibility(View.VISIBLE);
@@ -183,6 +183,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                         JVNewAddDeviceActivity.this, R.anim.rotate));
                 add_device_wv.setVisibility(View.GONE);
             }
+            super.onPageStarted(view, url, favicon);
         }
 
         @Override
@@ -223,9 +224,9 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
             resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-            String deviceType = resMap.get("device_type");
-            if (null != deviceType) {
-                int devType = Integer.parseInt(deviceType);
+            String addmode = resMap.get("addmode");
+            if (null != addmode) {
+                int devType = Integer.parseInt(addmode);
 
                 switch (devType) {
                     case Consts.NET_DEVICE_TYPE_OTHER:

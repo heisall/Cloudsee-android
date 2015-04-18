@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.format.DateUtils;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -72,6 +76,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 我的设备
@@ -147,6 +153,9 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
     /** 自动刷新 */
     private Timer updateTimer = null;
     private AutoUpdateTask updateTask;
+    /** 没有设备时的提示语 */
+    private TextView no_device_lead;
+    private TextView no_device_lead_text2;
 
     // /** 3分钟广播 */
     // private Timer broadTimer;
@@ -284,6 +293,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
             addDevice = (Button) mParent.findViewById(R.id.adddevice);
             unwire_device_img_bg = (ImageView) mParent
                     .findViewById(R.id.unwire_device_img_bg);
+
             refreshLayout.setOnClickListener(myOnClickListener);
             quickSet.setOnClickListener(myOnClickListener);
             quickinstall_img_bg.setOnClickListener(myOnClickListener);
@@ -316,8 +326,18 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
             myDeviceListView = mPullRefreshListView.getRefreshableView();
             myDeviceListView.addHeaderView(adView);
 
+            /** 没有设备时的提示语 */
+            no_device_lead = (TextView) mParent
+                    .findViewById(R.id.no_device_lead);
+            no_device_lead_text2 = (TextView) mParent
+                    .findViewById(R.id.no_device_lead_text2);
+            no_device_lead.setText(myGettext());
             rightBtn.setOnClickListener(myOnClickListener);
-
+            if (Integer.parseInt(mActivity.statusHashMap
+                    .get(Consts.MORE_SHOP_SWITCH)) == 1) {
+                no_device_lead_text2.setVisibility(View.VISIBLE);
+            }
+            no_device_lead_text2.setOnClickListener(myOnClickListener);
             // if (0 == adUrlList.size()) {
             // adUrlList
             // .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
@@ -428,6 +448,9 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     task.execute(strParams);
                     break;
                 }
+                case R.id.no_device_lead_text2:
+                    ((JVTabActivity) mActivity).jumpShop();
+                    break;
                 default:
                     break;
             }
@@ -2201,4 +2224,23 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
         // TODO Auto-generated method stub
 
     }
+
+    public SpannableStringBuilder myGettext() {
+        CharSequence text = getResources().getString(R.string.str_no_device_lead);
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        String rexgString = "@";
+        Pattern pattern = Pattern.compile(rexgString);
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            Drawable drawable = this.getResources().getDrawable(R.drawable.bjd);
+            drawable.setBounds(0, 0, 60, 60);// 这里设置图片的大小
+            ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+            builder.setSpan(imageSpan, matcher.start(),
+                    matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
+        return builder;
+    }
+
 }

@@ -10,7 +10,7 @@
     <include
         android:id="@+id/title"
         layout="@layout/umeng_socialize_titile_bar"
-        />
+        />
     -->
     <!-- 加载自定义的头部，多语言可控 -->
 

@@ -35,7 +35,7 @@
             android:background="@drawable/umeng_socialize_button_red_blue"
             android:text="腾讯微博"
             android:textColor="#000000"
-            android:textSize="14sp" />
+            android:textSize="14sp" />
         -->
     </LinearLayout>
 

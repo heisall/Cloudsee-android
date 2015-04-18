@@ -454,6 +454,8 @@ public class JVPlayActivity extends PlayActivity implements
             }
 
             case Consts.CALL_CONNECT_CHANGE: {
+                MyLog.v("play-check1", "onHandler:connect changed, arg1=" + arg1
+                        + ", arg2=" + arg2 + ", obj=" + obj);
                 MyLog.d(Consts.TAG_PLAY, "onHandler: changed, arg1=" + arg1
                         + ", arg2=" + arg2 + ", obj=" + obj);
                 Channel channel = null;
@@ -578,6 +580,8 @@ public class JVPlayActivity extends PlayActivity implements
             }
 
             case Consts.CALL_NORMAL_DATA: {
+                MyLog.v("play-check2", "onHandler:normal data, arg1=" + arg1
+                        + ", arg2=" + arg2 + ", obj=" + obj);
 
                 Channel channel = null;
                 if (arg1 < channelList.size()) {
@@ -1258,6 +1262,8 @@ public class JVPlayActivity extends PlayActivity implements
             }
 
             case Consts.CALL_NEW_PICTURE: {
+                MyLog.v("play-check3", "onHandler:new picture, arg1=" + arg1
+                        + ", arg2=" + arg2 + ", obj=" + obj);
                 if (null != obj) {
                     MyLog.e("NEW_PICTURE", obj.toString());
                 }

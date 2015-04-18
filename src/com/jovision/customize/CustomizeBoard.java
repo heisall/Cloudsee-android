@@ -2,7 +2,6 @@
 package com.jovision.customize;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,16 +19,11 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.MainApplication;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVMoreFragment;
 import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.activities.JVTabActivity;
-import com.jovision.activities.JVWebViewActivity;
-import com.jovision.commons.GetDemoTask;
-import com.jovision.commons.MyLog;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
-import com.jovision.utils.ConfigUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

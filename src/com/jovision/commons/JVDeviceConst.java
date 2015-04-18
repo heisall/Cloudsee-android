@@ -91,6 +91,7 @@ public class JVDeviceConst {
     public static final String JK_DEVICE_CHANNEL_NAME = "dcname";
     public static final String JK_DEVICE_CHANNEL_NO = "dcn";
     public static final String JK_DEVICE_CHANNEL_SUM = "dcs";
+    public static final String JK_DEVICE_BIND_TYPE = "dbt";
     public static final String JK_DEVICE_IP = "dip";
     public static final String JK_DEVICE_PORT = "dport";
     public static final String JK_DEVICE_NET_STATE = "dnst";

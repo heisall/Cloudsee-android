@@ -281,7 +281,8 @@ public class JVAddDeviceActivity extends BaseActivity {
         // 可变长的输入参数，与AsyncTask.exucute()对应
         @Override
         protected Integer doInBackground(String... params) {
-
+        	
+        	boolean isright = false;
             String nickName = params[3];
             int addRes = -1;
             boolean localFlag = Boolean.valueOf(statusHashMap
@@ -311,12 +312,20 @@ public class JVAddDeviceActivity extends BaseActivity {
                 MyLog.e(TAG, "getChannelCount C2 = " + channelCount);
                 if (channelCount <= 0) {
                     channelCount = 4;
-                }
+                    isright = false;
+                }else {
+                	isright = true;
+				}
 
                 addDevice = new Device("", 0, params[0],
                         Integer.parseInt(params[1]), userET.getText()
                                 .toString(), pwdET.getText().toString(), false,
                         channelCount, 0, nickName);
+                if (isright) {
+                	addDevice.setBindtype(0);
+				}else{
+					addDevice.setBindtype(1);
+				}
                 // MyLog.v(TAG, "dev = " + addDev.toString());
                 if (null != addDevice) {
                     if (localFlag) {// 本地添加

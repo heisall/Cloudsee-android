@@ -1352,7 +1352,7 @@ public class DeviceUtil {
 	 * @param devChaNum 通道数量
 	 * @return
 	 */
-	public static int modifyChannalNum(String devYstnum,
+	public static int modifyChannalNum(String devYstNum,
 			String devChaNum) {
 		int res = -1;
 		// 请求参数示例
@@ -1371,13 +1371,13 @@ public class DeviceUtil {
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-					JVDeviceConst.MODIFU_CHANNAL_NUMBER);// mt
+					JVDeviceConst.FIX_DEVICE_CHANNEL);// mt
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// pv
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// lpt
 			jObj.put(JVDeviceConst.JK_SESSION_ID, JVACCOUNT.GetSession());
-			jObj.put(JVDeviceConst.JK_DEVICE_GUID, devYstnum);// devguid
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, devYstNum);// devguid
 			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_SUM, devChaNum);// devname
 		} catch (Exception e1) {
 			e1.printStackTrace();

@@ -300,7 +300,7 @@ public class JVDeviceConst {
     public static final int GET_DEVICE_INFO_RESPONSE = 2006;
 
     public static final int MODIFY_DEVICE_CONF_INFO = 2007;
-    public static final int MODIFU_CHANNAL_NUMBER = 2061;
+    public static final int FIX_DEVICE_CHANNEL = 2061;
     public static final int MODIFY_DEVICE_CONF_INFO_RESPONSE = 2008;
 
     public static final int GET_DEVICE_ONLINE_STATE = 2009;

@@ -177,6 +177,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
             ip_dns_btn.setVisibility(View.VISIBLE);
             ip_dns_btn.setOnClickListener(myOnClickListener);
+        } else {
+            ip_dns_btn.setVisibility(View.GONE);
         }
         local_network_button.setOnClickListener(myOnClickListener);
 

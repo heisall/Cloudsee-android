@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -95,11 +94,10 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
     private LinearLayout quickSetSV; // 快速配置界面
     /** 新添添加设备引导界面 nihy */
 
-    private Button quickSet;// 快速无限安装
-    private ImageView quickinstall_img_bg;
-    private Button addDevice;// 有线设备添加
-    private ImageView unwire_device_img_bg;
-    public static boolean ismydevicefirst;
+    // private Button quickSet;// 快速无限安装
+    // private ImageView quickinstall_img_bg;
+    // private Button addDevice;// 有线设备添加
+    // private ImageView unwire_device_img_bg;
 
     /** 广告位 */
     private ArrayList<AD> adList = new ArrayList<AD>();
@@ -287,31 +285,31 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     .findViewById(R.id.refreshlayout);
             quickSetSV = (LinearLayout) mParent
                     .findViewById(R.id.quickinstalllayout);
-            quickSet = (Button) mParent.findViewById(R.id.quickinstall);
-            quickinstall_img_bg = (ImageView) mParent
-                    .findViewById(R.id.quickinstall_img_bg);
-            addDevice = (Button) mParent.findViewById(R.id.adddevice);
-            unwire_device_img_bg = (ImageView) mParent
-                    .findViewById(R.id.unwire_device_img_bg);
+            // quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+            // quickinstall_img_bg = (ImageView) mParent
+            // .findViewById(R.id.quickinstall_img_bg);
+            // addDevice = (Button) mParent.findViewById(R.id.adddevice);
+            // unwire_device_img_bg = (ImageView) mParent
+            // .findViewById(R.id.unwire_device_img_bg);
 
             refreshLayout.setOnClickListener(myOnClickListener);
-            quickSet.setOnClickListener(myOnClickListener);
-            quickinstall_img_bg.setOnClickListener(myOnClickListener);
-            addDevice.setOnClickListener(myOnClickListener);
-            unwire_device_img_bg.setOnClickListener(myOnClickListener);
-
-            if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
-                    "false")) {// CloudSEE
-                quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.wire_device_img));
-                unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.unwire_device_img));
-            } else {
-                quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.wire_devicen_img));
-                unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.unwire_devicen_img));
-            }
+            // quickSet.setOnClickListener(myOnClickListener);
+            // quickinstall_img_bg.setOnClickListener(myOnClickListener);
+            // addDevice.setOnClickListener(myOnClickListener);
+            // unwire_device_img_bg.setOnClickListener(myOnClickListener);
+            //
+            // if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
+            // "false")) {// CloudSEE
+            // quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.wire_device_img));
+            // unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.unwire_device_img));
+            // } else {
+            // quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.wire_devicen_img));
+            // unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.unwire_devicen_img));
+            // }
             /** 广告条 */
             imageScroll = (ImageViewPager) adView
                     .findViewById(R.id.imagescroll);
@@ -333,9 +331,13 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     .findViewById(R.id.no_device_lead_text2);
             no_device_lead.setText(myGettext());
             rightBtn.setOnClickListener(myOnClickListener);
-            if (Integer.parseInt(mActivity.statusHashMap
-                    .get(Consts.MORE_SHOP_SWITCH)) == 1) {
-                no_device_lead_text2.setVisibility(View.VISIBLE);
+
+            if (null != mActivity.statusHashMap && null != mActivity.statusHashMap
+                    .get(Consts.MORE_SHOP_SWITCH)) {
+                if (1 == Integer.parseInt(mActivity.statusHashMap
+                        .get(Consts.MORE_SHOP_SWITCH))) {
+                    no_device_lead_text2.setVisibility(View.VISIBLE);
+                }
             }
             no_device_lead_text2.setOnClickListener(myOnClickListener);
             // if (0 == adUrlList.size()) {
@@ -421,24 +423,24 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                 case R.id.device_nicket_cancle:
                     device_nicket.setText("");
                     break;
-                case R.id.quickinstall:
-                    ((ShakeActivity) getActivity()).startSearch(false);
-                    break;
-                case R.id.quickinstall_img_bg:// 快速安装无线设备
-                    ((ShakeActivity) getActivity()).startSearch(false);
-                    break;
-                case R.id.adddevice:
-                    Intent addIntent = new Intent();
-                    addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-                    addIntent.putExtra("QR", false);
-                    mActivity.startActivity(addIntent);
-                    break;
-                case R.id.unwire_device_img_bg:
-                    Intent addIntents = new Intent();
-                    addIntents.setClass(mActivity, JVAddDeviceActivity.class);
-                    addIntents.putExtra("QR", false);
-                    mActivity.startActivity(addIntents);
-                    break;
+                // case R.id.quickinstall:
+                // ((ShakeActivity) getActivity()).startSearch(false);
+                // break;
+                // case R.id.quickinstall_img_bg:// 快速安装无线设备
+                // ((ShakeActivity) getActivity()).startSearch(false);
+                // break;
+                // case R.id.adddevice:
+                // Intent addIntent = new Intent();
+                // addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+                // addIntent.putExtra("QR", false);
+                // mActivity.startActivity(addIntent);
+                // break;
+                // case R.id.unwire_device_img_bg:
+                // Intent addIntents = new Intent();
+                // addIntents.setClass(mActivity, JVAddDeviceActivity.class);
+                // addIntents.putExtra("QR", false);
+                // mActivity.startActivity(addIntents);
+                // break;
                 case R.id.refreshlayout: {
                     fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 

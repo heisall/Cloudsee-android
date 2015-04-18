@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,10 +78,10 @@ public class JVDeviceManageFragment extends BaseFragment implements
     private RelativeLayout relative;
     /** 帮助引导 */
     private LinearLayout quickSetSV; // 快速配置界面
-    private ImageView quickinstall_img_bg;
-    private ImageView unwire_device_img_bg;
-    private Button quickSet;
-    private Button addDevice;
+    // private ImageView quickinstall_img_bg;
+    // private ImageView unwire_device_img_bg;
+    // private Button quickSet;
+    // private Button addDevice;
 
     /** 没有设备时的提示语 */
     private TextView no_device_lead;
@@ -141,17 +139,17 @@ public class JVDeviceManageFragment extends BaseFragment implements
             /** 引导加设备 */
             quickSetSV = (LinearLayout) mParent
                     .findViewById(R.id.quickinstalllayout);
-            quickinstall_img_bg = (ImageView) mParent
-                    .findViewById(R.id.quickinstall_img_bg);
-            unwire_device_img_bg = (ImageView) mParent
-                    .findViewById(R.id.unwire_device_img_bg);
-            quickSet = (Button) mParent.findViewById(R.id.quickinstall);
-            addDevice = (Button) mParent.findViewById(R.id.adddevice);
-
-            quickinstall_img_bg.setOnClickListener(mOnClickListener);
-            unwire_device_img_bg.setOnClickListener(mOnClickListener);
-            quickSet.setOnClickListener(mOnClickListener);
-            addDevice.setOnClickListener(mOnClickListener);
+            // quickinstall_img_bg = (ImageView) mParent
+            // .findViewById(R.id.quickinstall_img_bg);
+            // unwire_device_img_bg = (ImageView) mParent
+            // .findViewById(R.id.unwire_device_img_bg);
+            // quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+            // addDevice = (Button) mParent.findViewById(R.id.adddevice);
+            //
+            // quickinstall_img_bg.setOnClickListener(mOnClickListener);
+            // unwire_device_img_bg.setOnClickListener(mOnClickListener);
+            // quickSet.setOnClickListener(mOnClickListener);
+            // addDevice.setOnClickListener(mOnClickListener);
 
             /** 没有设备时的提示语 */
             no_device_lead = (TextView) mParent
@@ -160,24 +158,27 @@ public class JVDeviceManageFragment extends BaseFragment implements
                     .findViewById(R.id.no_device_lead_text2);
             no_device_lead.setText(myGettext());
             rightBtn.setOnClickListener(mOnClickListener);
-            if (Integer.parseInt(mActivity.statusHashMap
-                    .get(Consts.MORE_SHOP_SWITCH)) == 1) {
-                no_device_lead_text2.setVisibility(View.VISIBLE);
+            if (null != mActivity.statusHashMap && null != mActivity.statusHashMap
+                    .get(Consts.MORE_SHOP_SWITCH)) {
+                if (1 == Integer.parseInt(mActivity.statusHashMap
+                        .get(Consts.MORE_SHOP_SWITCH))) {
+                    no_device_lead_text2.setVisibility(View.VISIBLE);
+                }
             }
             no_device_lead_text2.setOnClickListener(mOnClickListener);
 
-            if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
-                    "false")) {// CloudSEE
-                quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.wire_device_img));
-                unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.unwire_device_img));
-            } else {
-                quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.wire_devicen_img));
-                unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-                        .getDrawable(R.drawable.unwire_devicen_img));
-            }
+            // if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
+            // "false")) {// CloudSEE
+            // quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.wire_device_img));
+            // unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.unwire_device_img));
+            // } else {
+            // quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.wire_devicen_img));
+            // unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+            // .getDrawable(R.drawable.unwire_devicen_img));
+            // }
 
             devicemanage_listView = (ListView) mParent
                     .findViewById(R.id.device_listView);
@@ -402,17 +403,17 @@ public class JVDeviceManageFragment extends BaseFragment implements
                     managePager.setVisibility(View.VISIBLE);
                     relative.setVisibility(View.VISIBLE);
                     break;
-                case R.id.quickinstall_img_bg:
-                case R.id.quickinstall:
-                    ((ShakeActivity) mActivity).startSearch(false);
-                    break;
-                case R.id.unwire_device_img_bg:
-                case R.id.adddevice:
-                    Intent addIntent = new Intent();
-                    addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-                    addIntent.putExtra("QR", false);
-                    mActivity.startActivity(addIntent);
-                    break;
+                // case R.id.quickinstall_img_bg:
+                // case R.id.quickinstall:
+                // ((ShakeActivity) mActivity).startSearch(false);
+                // break;
+                // case R.id.unwire_device_img_bg:
+                // case R.id.adddevice:
+                // Intent addIntent = new Intent();
+                // addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+                // addIntent.putExtra("QR", false);
+                // mActivity.startActivity(addIntent);
+                // break;
                 case R.id.no_device_lead_text2:
                     ((JVTabActivity) mActivity).jumpShop();
                     break;

@@ -222,12 +222,10 @@ public class Consts {
 
     public static final int WHAT_DUMMY = 0x04;
 
-    /******************************** 添加设备类型 ***********************************/
-    public static final int NET_DEVICE_TYPE_YST_NUMBER = 1;// 云视通号添加设备
+    /******************************** 添加设备类型 1为wifi模式，2为声波，3为云视通号 ***********************************/
+    public static final int NET_DEVICE_TYPE_YST_NUMBER = 3;// 云视通号添加设备
     public static final int NET_DEVICE_TYPE_SOUND_WAVE = 2;// 声波配置
-    public static final int NET_DEVICE_TYPE_AP_SET = 3;// AP配置
-    public static final int NET_DEVICE_TYPE_IPDOMAIN = 4;// IP,域名添加
-    public static final int NET_DEVICE_TYPE_OTHER = 5;// 其他
+    public static final int NET_DEVICE_TYPE_AP_SET = 1;// AP配置
 
     /********************************* 　以下修改设备用户名密码需要的宏定义　 ***************************************/
     public static final int SECRET_KEY = 0x1053564A;

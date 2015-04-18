@@ -54,7 +54,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private LinearLayout devsetLayout;
     private TextView tab_erweima_title;
     private RelativeLayout ip_dns_btn, local_network_button;
-    private WebView add_device_wv;
+    private WebView addDeviceWebView;
     private TextView subject_detail;
     // private String url = "http://test.cloudsee.net/mobile/";
     private String url = "";
@@ -126,6 +126,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 Consts.MORE_ADDDEVICEURL)) {
             url = statusHashMap.get(
                     Consts.MORE_ADDDEVICEURL);
+            url = "http://www.cloudsee.net/UI/mobile/devicetypelist.html";
         }
         /** top bar */
         leftBtn = (Button) findViewById(R.id.btn_left);
@@ -145,7 +146,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         save_icon = (Button) findViewById(R.id.save_icon);
         loadingBar = (ImageView) findViewById(R.id.loadingbars);
         loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
-        add_device_wv = (WebView) findViewById(R.id.add_device_wv);
+        addDeviceWebView = (WebView) findViewById(R.id.add_device_wv);
         devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
         apset_button = (RelativeLayout) findViewById(R.id.apset_button);
         soundwave_button = (RelativeLayout) findViewById(R.id.soundwave_button);
@@ -157,10 +158,18 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         save_icon.setOnClickListener(myOnClickListener);
         devNumET.addTextChangedListener(new TextWatcherImpl());
         devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
-        loadinglayout.setVisibility(View.VISIBLE);
-        add_device_wv.loadUrl(url);
-        add_device_wv.requestFocus(View.FOCUS_DOWN);
-        add_device_wv.setWebViewClient(myWebviewClient);
+
+        if (ConfigUtil.isConnected(JVNewAddDeviceActivity.this)) {// 已联网
+            loadinglayout.setVisibility(View.VISIBLE);
+            addDeviceWebView.loadUrl(url);
+            addDeviceWebView.setVisibility(View.VISIBLE);
+            devsetLayout.setVisibility(View.GONE);
+        } else {
+            addDeviceWebView.setVisibility(View.GONE);
+            devsetLayout.setVisibility(View.VISIBLE);
+        }
+        addDeviceWebView.requestFocus(View.FOCUS_DOWN);
+        addDeviceWebView.setWebViewClient(myWebviewClient);
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
@@ -181,7 +190,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 loadinglayout.setVisibility(View.VISIBLE);
                 loadingBar.setAnimation(AnimationUtils.loadAnimation(
                         JVNewAddDeviceActivity.this, R.anim.rotate));
-                add_device_wv.setVisibility(View.GONE);
+                addDeviceWebView.setVisibility(View.GONE);
             }
             super.onPageStarted(view, url, favicon);
         }
@@ -191,11 +200,11 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 String failingUrl) {
             // MyLog.e("添加设备", "页面加载失败");
             isLoadUrlfail = true;
-            add_device_wv.setVisibility(View.GONE);
             loadinglayout.setVisibility(View.GONE);
             soundwave_button.setVisibility(View.VISIBLE);
             apset_button.setVisibility(View.VISIBLE);
             devsetLayout.setVisibility(View.VISIBLE);
+            addDeviceWebView.setVisibility(View.GONE);
             JVNewAddDeviceActivity.this.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
@@ -206,20 +215,33 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             MyLog.e("添加设备", "页面开始完成");
             if (isLoadUrlfail) {// 加载失败
                 // MyLog.e("添加设备", "页面开始完成失败");
-                add_device_wv.setVisibility(View.GONE);
                 loadinglayout.setVisibility(View.GONE);
                 soundwave_button.setVisibility(View.VISIBLE);
                 apset_button.setVisibility(View.VISIBLE);
                 devsetLayout.setVisibility(View.VISIBLE);
+                addDeviceWebView.setVisibility(View.GONE);
             } else {
                 loadinglayout.setVisibility(View.GONE);
-                add_device_wv.setVisibility(View.VISIBLE);
+                devsetLayout.setVisibility(View.GONE);
+                addDeviceWebView.setVisibility(View.VISIBLE);
             }
             super.onPageFinished(view, url);
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
+            if (!newurl.contains("addmode")) {// 不含添加设备类型字段，打开一个新网页
+                if (newurl.contains("open")) {// 打开新的WebView模式
+                    Intent intentAD2 = new Intent(JVNewAddDeviceActivity.this,
+                            JVWebViewActivity.class);
+                    intentAD2.putExtra("URL", newurl);
+                    intentAD2.putExtra("title", -2);
+                    JVNewAddDeviceActivity.this.startActivity(intentAD2);
+                } else if (newurl.contains("close")) {// 关闭当前webview
+                    JVNewAddDeviceActivity.this.finish();
+                }
+                return true;
+            }
 
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
@@ -229,7 +251,6 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 int devType = Integer.parseInt(addmode);
 
                 switch (devType) {
-                    case Consts.NET_DEVICE_TYPE_OTHER:
                     case Consts.NET_DEVICE_TYPE_YST_NUMBER: {// 云视通号添加
                         StatService.trackCustomEvent(JVNewAddDeviceActivity.this,
                                 "Add by CloudSEE ID", JVNewAddDeviceActivity.this.getResources()
@@ -260,16 +281,6 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                         R.string.census_addwifidev));
                         JVNewAddDeviceActivity.this.startSearch(false);
 
-                        break;
-                    }
-                    case Consts.NET_DEVICE_TYPE_IPDOMAIN: {// IP 域名添加
-                        StatService.trackCustomEvent(JVNewAddDeviceActivity.this, "IP/DNS",
-                                JVNewAddDeviceActivity.this
-                                        .getResources().getString(R.string.census_ipdns));
-                        Intent intent = new Intent();
-                        intent.setClass(JVNewAddDeviceActivity.this, JVAddIpDeviceActivity.class);
-                        JVNewAddDeviceActivity.this.startActivityForResult(intent,
-                                Consts.DEVICE_ADD_REQUEST);
                         break;
                     }
                 }
@@ -351,7 +362,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                                 .getApplication()));// 初始化账号SDK
                             }
                         }
-                        add_device_wv.loadUrl(url);
+                        addDeviceWebView.loadUrl(url);
                     } else {
                         MyLog.e("添加设备", "判断手机是否联网失败");
                         JVNewAddDeviceActivity.this.alertNetDialog();

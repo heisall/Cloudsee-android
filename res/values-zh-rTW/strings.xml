@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">用戶名格式不正確，只能為手機號或郵箱.</string>
     <string name="login_str_username_tips2">用戶名不能全為數字，請確認輸入的是手機號.</string>
     <string name="login_str_username_tips3">用戶名由英文、數字及-_組成</string>
-    <string name="login_str_username_tips4">用戶名長度只能在4-28位字元之間</string>
-    <string name="login_str_password_tips1">密碼長度應在6-20位字元之間</string>
+    <string name="login_str_username_tips4">用戶名長度只能在4–28位字元之間</string>
+    <string name="login_str_password_tips1">密碼長度應在6–20位字元之間</string>
     <string name="login_str_login_failed">登錄失敗</string>
     <string name="login_str_regist_success">註冊成功</string>
     <string name="login_str_registerchoiceone">手機註冊</string>
@@ -26,13 +26,13 @@
     <string name="login_str_device">設備列表</string>
     <string name="login_str_add_device">增加設備</string>
     <string name="login_str_device_devicename_notnull">請輸入設備昵稱</string>
-    <string name="login_str_nike_name_order">昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="login_str_nike_name_order">昵稱由1–20個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
     <string name="device_pass_notzh">密碼不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道數量不能為空</string>
-    <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1-16位的英文、數字及._-組成.</string>
-    <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0-16位字元組成.</string>
+    <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1–16位的英文、數字及._-組成.</string>
+    <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0–16位字元組成.</string>
     <string name="login_str_device_add_success">添加設備成功</string>
     <string name="login_str_device_add_failed">添加設備失敗</string>
     <string name="login_str_point_delete_success">通道刪除成功</string>
@@ -403,7 +403,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">視頻廣場</string>
     <string name="demo_get_failed">視頻廣場加載失敗</string>
-    <string name="demo_loading">正在努力加載...</string>
+    <string name="demo_loading">正在努力加載…</string>
     <!-- JVTab -->
     <string name="account_error_tips">您已離線，請點擊登錄。</string>
     <string name="network_error_tips">網絡連接不可用，是否進行設置?</string>
@@ -601,8 +601,8 @@
     <string name="check_key_update_error">更新出錯，請重新更新。</string>
     <string name="update">升級</string>
     <string name="key_update_title">升級內容</string>
-    <string name="downloading_update">正在下載。。。</string>
-    <string name="writing_update">正在燒寫。。。</string>
+    <string name="downloading_update">正在下載…</string>
+    <string name="writing_update">設備正在燒寫，請勿斷電…</string>
     <string name="writing_update_error">燒寫出錯</string>
     <string name="key_update_reset">設備版本更新成功，是否重啟設備？</string>
     <string name="update_reset_success">重啟設備</string>
@@ -741,7 +741,7 @@
     <string name="str_mdenabled_open_failed">移動偵測打開失敗</string>
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
-    <string name="str_illegal_dev_nick">昵稱应由1-24個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="str_illegal_dev_nick">昵稱应由1–24個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <string name="str_cloud_file_error_2">此通道沒有雲存儲信息</string>
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
@@ -818,11 +818,11 @@
     <string name="reset_passwd_done">完成</string>
     <string name="reset_passwd_tips1">請輸入要重置密碼的帳號</string>
     <string name="reset_passwd_tips2">輸入的帳號不合法</string>
-    <string name="reset_passwd_tips3">請稍後...</string>
+    <string name="reset_passwd_tips3">請稍後…</string>
     <string name="reset_passwd_tips4">我們已經發送了驗證碼到你的手機:</string>
     <string name="reset_passwd_tips5">您綁定的手機號碼不合法</string>
     <string name="reset_passwd_tips6">填寫驗證碼</string>
-    <string name="reset_passwd_tips7">發送中...</string>
+    <string name="reset_passwd_tips7">發送中…</string>
     <string name="reset_passwd_tips8">驗證未通過</string>
     <string name="reset_passwd_virificaition_code_wrong">驗證碼不正確</string>
     <string name="reset_passwd_failed">重置密碼失敗</string>

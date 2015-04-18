@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">Format for the username is not correct, and it can only be email address.</string>
     <string name="login_str_username_tips2">Username can\'t be all numbers.</string>
     <string name="login_str_username_tips3">User name should be composed of letter, number and -_</string>
-    <string name="login_str_username_tips4">Username should be 4-28 characters.</string>
-    <string name="login_str_password_tips1">Password should be 6-20 characters.</string>
+    <string name="login_str_username_tips4">Username should be 4–28 characters.</string>
+    <string name="login_str_password_tips1">Password should be 6–20 characters.</string>
     <string name="login_str_login_failed">Login failed</string>
     <string name="login_str_regist_success">Registed successfully</string>
     <string name="login_str_registerchoiceone">Phone register</string>
@@ -31,8 +31,8 @@
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="device_pass_notzh">Password can not be Chinese</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
-    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1-15 letters,numbers or. _-.</string>
-    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0-15 letters,numbers or _-.</string>
+    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or. _-.</string>
+    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _-.</string>
     <string name="login_str_device_add_success">Device added successfully</string>
     <string name="login_str_device_add_failed">Failed to add device</string>
     <string name="login_str_point_delete_success">Channel deleted successfully</string>
@@ -403,7 +403,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">Demo</string>
     <string name="demo_get_failed">Failed to load demo video.</string>
-    <string name="demo_loading">Efforts are being made to load...</string>
+    <string name="demo_loading">Efforts are being made to load…</string>
     <!-- JVTab -->
     <string name="account_error_tips">You are offline，touch to login again.</string>
     <string name="network_error_tips">Unable to connect with network, do you want to configure?</string>
@@ -547,7 +547,7 @@
     <string name="add_channel_succ">Channel added successfully</string>
     <string name="add_channel_failed">Channel added failed</string>
     <string name="device_connect">Connect All</string>
-    <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
+    <string name="channel_full">Fail to add due to up to limition of Device channel quantity.</string>
     <!-- JVSystemInfoActivity -->
     <string name="system_info">System Information</string>
     <string name="system_info_load_error">Failed to load the information</string>
@@ -686,7 +686,7 @@
     <string name="str_alarm_manage">Add Alarm Device</string>
     <string name="str_alarm_connect_except">abnormal disconnection</string>
     <string name="str_alarm_thirddev_default_name">alarm devices</string>
-    <string name="str_alarm_thirddev_learning">Setting...</string>
+    <string name="str_alarm_thirddev_learning">Setting…</string>
     <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
     <string name="str_bind_finish">OK</string>
     <string name="str_alarm_type_move">Motion Detection</string>
@@ -741,7 +741,7 @@
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
-    <string name="str_illegal_dev_nick">The NikeName should be formed by 1-24 english letter,number,or special characters like .-_+()</string>
+    <string name="str_illegal_dev_nick">The NikeName should be formed by 1–24 english letter,number,or special characters like .-_+()</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
@@ -818,11 +818,11 @@
     <string name="reset_passwd_done">Done</string>
     <string name="reset_passwd_tips1">Please enter the account to reset your password</string>
     <string name="reset_passwd_tips2">The account is not legal</string>
-    <string name="reset_passwd_tips3">Please Wait...</string>
+    <string name="reset_passwd_tips3">Please Wait…</string>
     <string name="reset_passwd_tips4">Your SMS verification code has been sent to your phone:</string>
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Enter code</string>
-    <string name="reset_passwd_tips7">Sending...</string>
+    <string name="reset_passwd_tips7">Sending…</string>
     <string name="reset_passwd_tips8">The verification is unsuccessful.</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
     <string name="reset_passwd_failed">Reset password failed</string>
@@ -835,7 +835,7 @@
     <string name="str_receive_sms_time">Your SMS should arrive in SS second.</string>
     <string name="str_sms_sent">SMS verification code sent</string>
     <string name="str_set_new_pwd">Set New Password</string>
-    <string name="str_set_new_pwd_ok">Set Ok, login again</string>
+    <string name="str_set_new_pwd_ok">Set OK, login again</string>
     <string name="str_query_account_failed">Query account info failed</string>
     <string name="str_query_account_failed1">Network error, operation failed. Please try again.</string>
     <string name="str_not_bind_phone_tips1">Your account is not bound with your mobile number. Please retrieve via email.</string>

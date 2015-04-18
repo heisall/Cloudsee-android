@@ -375,6 +375,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     }
                     break;
                 case R.id.btn_right:
+                	
                     Intent newAddDevIntent = new Intent();
                     newAddDevIntent.setClass(mActivity,
                             JVNewAddDeviceActivity.class);

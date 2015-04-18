@@ -1374,7 +1374,7 @@ public class DeviceUtil {
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-					JVDeviceConst.MODIFY_DEVICE_CONF_INFO);// mt
+					JVDeviceConst.MODIFU_CHANNAL_NUMBER);// mt
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// pv
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,

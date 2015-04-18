@@ -398,8 +398,6 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     break;
                 case R.id.btn_right:
                 	
-//                	DeviceUtil.modifyChannalNum("A456","10");
-                	
                     Intent newAddDevIntent = new Intent();
                     newAddDevIntent.setClass(mActivity,
                             JVNewAddDeviceActivity.class);

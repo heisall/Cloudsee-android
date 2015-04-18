@@ -49,13 +49,15 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private EditText devNumET;
     private ImageButton editimg_clearn;
     private ImageView tab_erweima_icon;
-    private Button save_icon, soundwave_button, apset_button;
+    private Button save_icon;
+    private RelativeLayout soundwave_button, apset_button;
     private LinearLayout devsetLayout;
     private TextView tab_erweima_title;
     private RelativeLayout ip_dns_btn, local_network_button;
     private WebView add_device_wv;
-    // String url = "http://test.cloudsee.net/mobile/";
-    String url = "";
+    private TextView subject_detail;
+    // private String url = "http://test.cloudsee.net/mobile/";
+    private String url = "";
     private Boolean isLoadUrlfail = false;
     private LinearLayout loadinglayout;
     private ImageView loadingBar;
@@ -145,8 +147,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
         add_device_wv = (WebView) findViewById(R.id.add_device_wv);
         devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
-        apset_button = (Button) findViewById(R.id.apset_button);
-        soundwave_button = (Button) findViewById(R.id.soundwave_button);
+        apset_button = (RelativeLayout) findViewById(R.id.apset_button);
+        soundwave_button = (RelativeLayout) findViewById(R.id.soundwave_button);
         ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
         local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
 
@@ -155,10 +157,10 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         save_icon.setOnClickListener(myOnClickListener);
         devNumET.addTextChangedListener(new TextWatcherImpl());
         devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
-        add_device_wv.requestFocus(View.FOCUS_DOWN);
-        add_device_wv.setWebViewClient(myWebviewClient);
         loadinglayout.setVisibility(View.VISIBLE);
         add_device_wv.loadUrl(url);
+        add_device_wv.requestFocus(View.FOCUS_DOWN);
+        add_device_wv.setWebViewClient(myWebviewClient);
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
@@ -169,62 +171,19 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
     }
 
-    private class FocusChangeListenerImpl implements OnFocusChangeListener {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (devNumET.getText().toString().length() >= 1) {
-                editimg_clearn.setVisibility(View.VISIBLE);
-                save_icon.setVisibility(View.VISIBLE);
-            } else {
-                editimg_clearn.setVisibility(View.GONE);
-                save_icon.setVisibility(View.GONE);
-            }
-        }
-
-    }
-
-    // 当输入结束后判断是否显示右边clean的图标
-    private class TextWatcherImpl implements TextWatcher {
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (devNumET.getText().toString().length() >= 1) {
-                editimg_clearn.setVisibility(View.VISIBLE);
-                save_icon.setVisibility(View.VISIBLE);
-                tab_erweima_title.setVisibility(View.GONE);
-                tab_erweima_icon.setVisibility(View.GONE);
-            } else {
-                editimg_clearn.setVisibility(View.GONE);
-                save_icon.setVisibility(View.GONE);
-                tab_erweima_icon.setVisibility(View.VISIBLE);
-                tab_erweima_title.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-    }
-
     WebViewClient myWebviewClient = new WebViewClient() {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             // MyLog.e("添加设备", "页面开始加载");
-            super.onPageStarted(view, url, favicon);
             if (!MySharedPreference.getBoolean("webfirst")) {
                 MySharedPreference.putBoolean("webfirst", true);
                 loadinglayout.setVisibility(View.VISIBLE);
-                add_device_wv.setVisibility(View.GONE);
                 loadingBar.setAnimation(AnimationUtils.loadAnimation(
                         JVNewAddDeviceActivity.this, R.anim.rotate));
+                add_device_wv.setVisibility(View.GONE);
             }
+            super.onPageStarted(view, url, favicon);
         }
 
         @Override
@@ -244,7 +203,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             // TODO 自动生成的方法存根
-            // MyLog.e("添加设备", "页面开始完成");
+            MyLog.e("添加设备", "页面开始完成");
             if (isLoadUrlfail) {// 加载失败
                 // MyLog.e("添加设备", "页面开始完成失败");
                 add_device_wv.setVisibility(View.GONE);
@@ -262,13 +221,12 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
 
-            // view.loadUrl(newurl);
             String param_array[] = newurl.split("\\?");
             HashMap<String, String> resMap;
             resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-            String deviceType = resMap.get("device_type");
-            if (null != deviceType) {
-                int devType = Integer.parseInt(deviceType);
+            String addmode = resMap.get("addmode");
+            if (null != addmode) {
+                int devType = Integer.parseInt(addmode);
 
                 switch (devType) {
                     case Consts.NET_DEVICE_TYPE_OTHER:
@@ -442,6 +400,49 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
     @Override
     protected void freeMe() {
+
+    }
+
+    private class FocusChangeListenerImpl implements OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (devNumET.getText().toString().length() >= 1) {
+                editimg_clearn.setVisibility(View.VISIBLE);
+                save_icon.setVisibility(View.VISIBLE);
+            } else {
+                editimg_clearn.setVisibility(View.GONE);
+                save_icon.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    // 当输入结束后判断是否显示右边clean的图标
+    private class TextWatcherImpl implements TextWatcher {
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (devNumET.getText().toString().length() >= 1) {
+                editimg_clearn.setVisibility(View.VISIBLE);
+                save_icon.setVisibility(View.VISIBLE);
+                tab_erweima_title.setVisibility(View.GONE);
+                tab_erweima_icon.setVisibility(View.GONE);
+            } else {
+                editimg_clearn.setVisibility(View.GONE);
+                save_icon.setVisibility(View.GONE);
+                tab_erweima_icon.setVisibility(View.VISIBLE);
+                tab_erweima_title.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
 
     }
 

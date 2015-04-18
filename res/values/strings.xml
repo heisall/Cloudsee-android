@@ -462,8 +462,8 @@
     <string name="get_device_failed">Device loaded failed</string>
     <string name="search_device_failed">Check Device Online status failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
-    <string name="str_no_device_lead">Hi,小伙伴~\n如果你已经有了云视通设备，点击这里把它加进来吧~</string>
-    <string name="str_no_device_lead2">还没有设备？去逛一下~</string>
+    <string name="str_no_device_lead">Hi,小伙伴~\n如果您已经有了云视通设备，点击我的设备@把它加进来吧~</string>
+    <string name="str_no_device_lead2">还没有设备？去小维商城逛一下吧~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
     <string name="alarm_level">Alarm Level</string>

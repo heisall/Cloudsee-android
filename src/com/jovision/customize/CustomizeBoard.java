@@ -2,7 +2,6 @@
 package com.jovision.customize;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,16 +19,11 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.MainApplication;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVMoreFragment;
 import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.activities.JVTabActivity;
-import com.jovision.activities.JVWebViewActivity;
-import com.jovision.commons.GetDemoTask;
-import com.jovision.commons.MyLog;
 import com.jovision.customize.CustomizePageView.OnTabTouchedListener;
-import com.jovision.utils.ConfigUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +37,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
         OnTabTouchedListener {
 
     protected static final String TAG = "CustomizeBoard";
+    private JVTabActivity mJVTabActivity;
     private BaseActivity mActivity;
     private JVMoreFragment mLastFragment;
     private ImageView mClose;
@@ -63,6 +58,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
 
     public CustomizeBoard(JVTabActivity activity) {
         super(activity);
+        mJVTabActivity = activity;
         mActivity = (BaseActivity) activity;
         mLastFragment = (JVMoreFragment) activity.getLastFragment();
 
@@ -354,37 +350,7 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * 小维商城
      */
     private void shopurl() {
-        if (!ConfigUtil.isConnected(mActivity)) {
-            mActivity.alertNetDialog();
-        } else {
-            // 商城地址存在,直接跳转
-            if (null != ((BaseActivity) mActivity).statusHashMap
-                    .get(Consts.MORE_SHOPURL)) {
-                Intent intentAD0 = new Intent(mActivity,
-                        JVWebViewActivity.class);
-                intentAD0
-                        .putExtra(
-                                "URL",
-                                ((BaseActivity) mActivity).statusHashMap
-                                        .get(Consts.MORE_SHOPURL));
-                intentAD0.putExtra("title", -2);
-                mActivity.startActivity(intentAD0);
-            } else {
-                if ("false".equals(mActivity.statusHashMap
-                        .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-                    MyLog.e("Login", "初始化账号SDK失败");
-                    ConfigUtil
-                            .initAccountSDK(((MainApplication) mActivity
-                                    .getApplication()));// 初始化账号SDK
-                }
-                // 重新请求url地址
-                GetDemoTask UrlTask = new GetDemoTask(
-                        mActivity);
-                String[] demoParams = new String[3];
-                demoParams[1] = "7";
-                UrlTask.execute(demoParams);
-            }
-        }
+        mJVTabActivity.jumpShop();
     }
 
     /**
@@ -413,18 +379,17 @@ public class CustomizeBoard extends PopupWindow implements OnClickListener,
      * 局域网扫描设备
      */
     private void searchLocalNetworkDevice() {
-        JVTabActivity jvTabActivity = (JVTabActivity) mActivity;
-        char charTag = (char) jvTabActivity.getCurrentIndex();
+        char charTag = (char) mJVTabActivity.getCurrentIndex();
         // 我的设备(局域网扫描设备需要先跳转到我的设备中)
         switch (charTag) {
             case 'a':// 当前Tab是我的设备时(a表示我的设备),直接执行扫描
                 break;
             default:
-                jvTabActivity.jumpFragmentByTag('a');
+                mJVTabActivity.jumpFragmentByTag('a');
         }
 
         JVMyDeviceFragment deviceFragment =
-                (JVMyDeviceFragment) jvTabActivity.getCurrentFragment();
+                (JVMyDeviceFragment) mJVTabActivity.getCurrentFragment();
         deviceFragment.searchLocalNetworkDevice();
     }
 

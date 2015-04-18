@@ -100,7 +100,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="15dp"
+                android:layout_height="10dp"
                 android:background="#F8F6F7" />
 
             <TextView
@@ -149,43 +149,78 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone" >
 
-                <Button
+                <RelativeLayout
                     android:id="@+id/apset_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="75dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:background="@color/apset_button_bg"
-                    android:drawableLeft="@drawable/wifi"
-                    android:padding="15dp"
-                    android:text="@string/str_new_add_device_AP"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
+                    android:background="@color/apset_button_bg" >
 
-                <Button
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/wifi" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:text="@string/str_new_add_device_AP"
+                            android:textColor="@color/gray"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/soundwave_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="75dp"
                     android:layout_weight="1"
-                    android:background="@color/soundwave_button_bg"
-                    android:drawableLeft="@drawable/soundwave"
-                    android:padding="15dp"
-                    android:text="@string/str_new_add_device_wave"
-                    android:textColor="@color/gray"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
+                    android:background="@color/soundwave_button_bg" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/soundwave" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:text="@string/str_new_add_device_wave"
+                            android:textColor="@color/gray"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="15dp"
+                android:layout_height="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#F8F6F7" />
 
@@ -204,7 +239,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp" >
+                android:paddingBottom="10dp" >
 
                 <RelativeLayout
                     android:id="@+id/ip_dns_btn"
@@ -213,7 +248,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:autoLink="web"
-                    android:background="@color/ip_dns_btn_bg" >
+                    android:background="@color/soundwave_button_bg" >
 
                     <LinearLayout
                         android:layout_width="wrap_content"

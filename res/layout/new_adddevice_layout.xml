@@ -58,7 +58,7 @@
                     android:layout_margin="5dp"
                     android:layout_toLeftOf="@+id/erweimaLayout"
                     android:background="@drawable/new_adddevice_close"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <RelativeLayout
                     android:id="@+id/erweimaLayout"

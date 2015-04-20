@@ -1079,15 +1079,6 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
                 GetDemoTask demoTask = new GetDemoTask(mActivity);
                 String[] demoParams = new String[3];
-                if (!Boolean.valueOf(mActivity.statusHashMap
-                        .get(Consts.LOCAL_LOGIN))) {
-                    String sessionResult = ConfigUtil.getSession();
-
-                    MyLog.v("session", sessionResult);
-                    demoParams[0] = sessionResult;
-                } else {
-                    demoParams[0] = "";
-                }
                 demoParams[1] = "1";
                 demoParams[2] = "fragmentString";
                 demoTask.execute(demoParams);

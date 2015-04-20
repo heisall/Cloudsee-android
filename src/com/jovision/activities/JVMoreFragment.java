@@ -982,16 +982,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
         if (pActivity != null) {
             reconfigActivity(pActivity);
         }
-        String sid = "";
-        if (!Boolean
-                .valueOf(mActivity.statusHashMap
-                        .get(Consts.LOCAL_LOGIN))) {
-            String sessionResult = ConfigUtil
-                    .getSession();
-            sid = sessionResult;
-        } else {
-            sid = "";
-        }
         if (!MySharedPreference
                 .getBoolean(Consts.MORE_CLOUD_SHOP)) {
             MySharedPreference.putBoolean(
@@ -1023,7 +1013,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                 GetDemoTask UrlTask = new GetDemoTask(
                         mActivity);
                 String[] demoParams = new String[3];
-                demoParams[0] = sid;
                 demoParams[1] = "6";
                 UrlTask.execute(demoParams);
             }
@@ -1074,16 +1063,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     intentAD0.putExtra("title", -2);
                     mActivity.startActivity(intentAD0);
                 } else {
-                    String sid = "";
-                    if (!Boolean
-                            .valueOf(mActivity.statusHashMap
-                                    .get(Consts.LOCAL_LOGIN))) {
-                        String sessionResult = ConfigUtil
-                                .getSession();
-                        sid = sessionResult;
-                    } else {
-                        sid = "";
-                    }
 
                     if ("false".equals(mActivity.statusHashMap
                             .get(Consts.KEY_INIT_ACCOUNT_SDK))) {
@@ -1100,7 +1079,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
                     GetDemoTask UrlTask2 = new GetDemoTask(
                             mActivity);
                     String[] demoParams2 = new String[3];
-                    demoParams2[0] = sid;
                     demoParams2[1] = "3";
                     UrlTask2.execute(demoParams2);
                 }

@@ -112,7 +112,7 @@ public class Device {
 
     private int ytSpeed = 3;// 2015.4.3设备云台转速
 
-    private int cloudEnabled = 0; // 云存储服务开关
+    private int cloudEnabled = -1; // 云存储服务开关
 
     private int channelBindFlag = 0; // 2015.4.18 设备通道数量正确与否 0：通道数正确 1.通道数不正确
 

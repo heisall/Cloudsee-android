@@ -673,7 +673,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
                     || itemFlag.equals(Consts.MORE_BROADCAST)
                     || itemFlag.equals(Consts.MORE_TESTSWITCH)
                     || itemFlag.equals(Consts.MORE_FOREIGNSWITCH)
-                    || itemFlag.equals(Consts.MORE_VERSION)) {
+                    || itemFlag.equals(Consts.MORE_VERSION)
+                    || itemFlag.equals(Consts.MORE_CLOUD_SHOP)) {
                 item.setDismiss(true);
             }
             if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))

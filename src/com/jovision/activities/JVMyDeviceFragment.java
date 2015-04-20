@@ -72,6 +72,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -164,6 +165,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
     public int broadTag = 0;
     private ArrayList<Device> broadList = new ArrayList<Device>();// 广播到的设备列表
+    private HashMap<String, Integer> broadChanCoutMap = new HashMap<String, Integer>();// 广播到的设备和通道数量
 
     private PopupWindow popupWindow; // 声明PopupWindow对象；
 
@@ -1189,8 +1191,11 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     case Consts.WHAT_DEVICE_GETDATA_SUCCESS: {
                         broadTag = Consts.TAG_BROAD_DEVICE_LIST;
                         PlayUtil.deleteDevIp(myDeviceList);
-                        PlayUtil.broadCast(mActivity);
+                        boolean canBroad = PlayUtil.broadCast(mActivity);
                         mPullRefreshListView.onRefreshComplete();
+                        if (!canBroad) {// 3G不可以广播
+                            new ChannelCountThread().start();
+                        }
                         break;
                     }
                     // 云视通检索服务器通信异常
@@ -1239,9 +1244,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                 // + ";arg2=" + arg1 + ";obj=" + obj.toString());
                 // onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
                 if (broadTag == Consts.TAG_BROAD_DEVICE_LIST
-                        || broadTag == Consts.TAG_BROAD_THREE_MINITE) {// 三分钟广播
-                    // 或
-                    // 广播设备列表
+                        || broadTag == Consts.TAG_BROAD_THREE_MINITE) {// 三分钟广播或广播设备列表
                     JSONObject broadObj;
                     try {
                         broadObj = new JSONObject(obj.toString());
@@ -1256,7 +1259,15 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                             String ip = broadObj.optString("ip");
                             int port = broadObj.optInt("port");
                             int netmod = broadObj.optInt("netmod");
+                            int channelCount = broadObj.optInt("count");
                             String broadDevNum = gid + no;
+
+                            if (channelCount > 0) {// 广播获取到设备的通道数量
+                                if (null == broadChanCoutMap) {
+                                    broadChanCoutMap = new HashMap<String, Integer>();// 广播到的设备和通道数量
+                                }
+                                broadChanCoutMap.put(broadDevNum, channelCount);
+                            }
 
                             PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port,
                                     netmod);
@@ -1267,7 +1278,10 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                 mActivity = (BaseActivity) getActivity();
                             }
                             PlayUtil.sortList(myDeviceList, mActivity);
-                            // new ChannelCountThread().start();
+                            if (broadTag == Consts.TAG_BROAD_DEVICE_LIST) {
+                                new ChannelCountThread().start();
+                            }
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -2261,21 +2275,52 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
         @Override
         public void run() {
             MyLog.v(TAG, "ChannelCountThread:E");
-            if (null != myDeviceList && 0 != myDeviceList.size()) {
-                for (Device dev : myDeviceList) {
-                    if (1 == dev.getChannelBindFlag()) {// 通道数量不对，重新获取
-                        MyLog.v(TAG, "通道不正确:dev=" + dev.getFullNo());
-                        int channelCount = Jni.getChannelCount(dev.getGid(), dev.getNo(), 2);
-                        if (channelCount > 0) {// 通道获取正确了，汇报给服务器
-                            MyLog.v(TAG, "通道获取正确了，汇报给服务器:dev=" + dev.getFullNo() + ",count="
-                                    + channelCount);
-                            DeviceUtil.modifyChannalNum(dev.getFullNo(), channelCount);
+            try {
+                Thread.sleep(200);
+                if (null != myDeviceList && 0 != myDeviceList.size()) {
+                    for (Device dev : myDeviceList) {
+                        if (1 == dev.getChannelBindFlag()) {// 通道数量不对，重新获取
+                            MyLog.v(TAG, "通道不正确:dev=" + dev.getFullNo());
+                            boolean hasBroadChannelCount = false;// true：广播到通道数量
+                                                                 // false：未广播到通道数量
+                            if (null != broadChanCoutMap) {// 有广播通道信息、
+                                MyLog.e(TAG, "E:有广播通道信息，从广播里取");
+                                if (broadChanCoutMap.containsKey(dev.getFullNo())) {
+                                    int channelCount = broadChanCoutMap.get(dev.getFullNo());
+                                    if (channelCount > 0) {
+                                        MyLog.v(TAG, "X：广播--通道获取正确了，汇报给服务器:dev=" + dev.getFullNo()
+                                                + ",count="
+                                                + channelCount);
+                                        DeviceUtil.modifyChannalNum(dev.getFullNo(), channelCount);
+                                    }
+                                } else {
+                                    MyLog.e(TAG, "X：广播没取到");
+                                }
+                            }
+
+                            if (!hasBroadChannelCount) {// 没广播到通道，从服务器过去
+                                MyLog.e(TAG, "E:没广播到通道，从服务器过去");
+                                int channelCount = Jni
+                                        .getChannelCount(dev.getGid(), dev.getNo(), 2);
+                                if (channelCount > 0) {// 通道获取正确了，汇报给服务器
+                                    MyLog.v(TAG, "X:云视通--通道获取正确了，汇报给服务器:dev=" + dev.getFullNo()
+                                            + ",count="
+                                            + channelCount);
+                                    DeviceUtil.modifyChannalNum(dev.getFullNo(), channelCount);
+                                } else {
+                                    MyLog.e(TAG, "X：云视通没取到");
+                                }
+                            }
+
                         }
                     }
                 }
+                MyLog.v(TAG, "ChannelCountThread:X");
+                super.run();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            MyLog.v(TAG, "ChannelCountThread:X");
-            super.run();
+
         }
 
     }

@@ -129,9 +129,10 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 Consts.MORE_ADDDEVICEURL)) {
             url = statusHashMap.get(
                     Consts.MORE_ADDDEVICEURL);
-            url = "http://www.cloudsee.net/UI/mobile/devicetypelist.html";
+            // url = "http://www.cloudsee.net/UI/mobile/devicetypelist.html";
         }
 
+        // 拼接sid appv等字段
         if (null != url && !"".equalsIgnoreCase(url)) {
             getJoinUrl();
         }

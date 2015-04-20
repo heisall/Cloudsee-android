@@ -342,7 +342,6 @@ public class JVSetTimeActivity extends BaseActivity {
     private void Savetime() {
         String time = MySharedPreference.getInt("timetype") + ":"
                 + timeText.getText().toString();
-        MyLog.i("TAG", time + "时间格式");
         Jni.sendSuperBytes(window,
                 JVNetConst.JVN_RSP_TEXTDATA,
                 false,

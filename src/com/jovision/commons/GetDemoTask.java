@@ -22,7 +22,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
     private Context mContext;
     private String demoUrl;
     private WebUrl webUrl;
-    private String sid;
     private String count;
     private String fragmentString;
 
@@ -34,13 +33,12 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
     @Override
     protected Integer doInBackground(String... params) {
         int getRes = -1;// 0成功 1失败
-        sid = params[0];
-        if (!Boolean.valueOf(((BaseActivity) mContext).statusHashMap
-                .get(Consts.LOCAL_LOGIN))) {// 在线
-            sid = JVACCOUNT.GetSession();
-        } else {
-            sid = "";
-        }
+//        if (!Boolean.valueOf(((BaseActivity) mContext).statusHashMap
+//                .get(Consts.LOCAL_LOGIN))) {// 在线
+//            sid = JVACCOUNT.GetSession();
+//        } else {
+//            sid = "";
+//        }
 
         count = params[1];
         fragmentString = params[2];
@@ -71,15 +69,15 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     webUrl.getDemoUrl());
             int counts = Integer.valueOf(count);
 
-            String lan = "";
-            if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
-                lan = "zh_cn";
-            } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-                    .getLanguage2(mContext)) {
-                lan = "zh_tw";
-            } else {
-                lan = "en_us";
-            }
+//            String lan = "";
+//            if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+//                lan = "zh_cn";
+//            } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+//                    .getLanguage2(mContext)) {
+//                lan = "zh_tw";
+//            } else {
+//                lan = "en_us";
+//            }
 
             if (null != webUrl.getGcsUrl()) {// 获取工程商开关
                 ((BaseActivity) mContext).statusHashMap.put(
@@ -87,7 +85,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                         String.valueOf(webUrl.getGcsSwitch()));
                 ((BaseActivity) mContext).onNotify(Consts.MORE_BBSNUMNOTY, 0,
                         0, null);
-                Log.i("TAG", webUrl.getGcsSwitch() + "  FDF ");
             }
 
             // 小维商城开关
@@ -101,12 +98,11 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     if (null != webUrl.getGcsUrl()) {
                         Intent intentAD0 = new Intent(mContext,
                                 JVWebViewActivity.class);
-                        custurl = webUrl.getGcsUrl() + "&sid=" + sid;
+                        custurl = webUrl.getGcsUrl() + ConfigUtil.getBbsParamsStr(mContext);
                         // + "?" + "&lang=" + lan + "&d="
                         // + System.currentTimeMillis();
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_GCSURL, custurl);
-                        Log.i("TAG", custurl);
                         intentAD0.putExtra("URL", custurl);
                         intentAD0.putExtra("title", -2);
                         mContext.startActivity(intentAD0);
@@ -167,22 +163,10 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     if (null != webUrl.getBbsUrl()) {
                         Intent intentAD2 = new Intent(mContext,
                                 JVWebViewActivity.class);
-
-                        if (!Boolean
-                                .valueOf(((BaseActivity) mContext).statusHashMap
-                                        .get(Consts.LOCAL_LOGIN))) {// 在线
-                            bbsurl = webUrl.getBbsUrl() + "&sid=" + sid;
-                            // + "&act=login";
-                        } else {// 本地
-                            bbsurl = webUrl.getBbsUrl() + "&sid=" + sid;
-                            // + "&act=logout";
-                        }
-
+                         
+                        bbsurl = webUrl.getBbsUrl()+ConfigUtil.getBbsParamsStr(mContext);     
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_BBS, bbsurl);
-
-                        Log.i("TAG", bbsurl + "你好吗？" + webUrl.getAddDeviceurl());
-
                         intentAD2.putExtra("URL", bbsurl);
                         intentAD2.putExtra("title", -2);
                         mContext.startActivity(intentAD2);
@@ -192,27 +176,15 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     }
                     break;
                 case 4:// 论坛条数
-
                     String bbsnum = " ";
                     if (null != webUrl.getBbsUrl()) {
-                        bbsnum = webUrl.getBbsUrl();
-                        String[] array = bbsnum.split("mod");
-                        if (!Boolean
-                                .valueOf(((BaseActivity) mContext).statusHashMap
-                                        .get(Consts.LOCAL_LOGIN))) {
-                            bbsnum = array[0] + "mod=api&act=user_pm&sid="
-                                    + JVACCOUNT.GetSession();
-                        } else {
-                            bbsnum = array[0] + "mod=api&act=user_pm";
-                        }
+                        bbsnum = ConfigUtil.getBbsNumParamsStr(webUrl.getBbsUrl(), mContext);
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_BBSNUM, bbsnum);
                     }
                     break;
-                case 5:// tab页卡视频广场刷新
-                    demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
-                            + Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
-                            + System.currentTimeMillis() + "&sid=" + sid;
+                case 5:// 视频广场刷新
+                	demoUrl = webUrl.getDemoUrl() + ConfigUtil.getDemoParamsStr(mContext);
                     if (null != webUrl.getDemoUrl()) {
                         ((BaseActivity) mContext).onNotify(
                                 Consts.TAB_PLAZZA_RELOAD_URL, 0, 0, demoUrl);
@@ -223,16 +195,9 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     if (null != cloudurl && !cloudurl.equals("")) {
                         Intent intentAD2 = new Intent(mContext,
                                 JVWebViewActivity.class);
-                        if (cloudurl.contains("?")) {
-                            cloudurl = cloudurl + "&sid=" + sid;
-                        }
-                        else {
-                            cloudurl = cloudurl + "?sid=" + sid;
-                        }
+                       cloudurl = ConfigUtil.getCloudShopParamsStr(cloudurl, mContext);
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_CLOUD_SHOP, cloudurl);
-
-                        Log.i("TAG", cloudurl);
                         Global.CLOUD_BUY_URL = cloudurl;
                         intentAD2.putExtra("URL", cloudurl);
                         intentAD2.putExtra("title", -2);
@@ -244,21 +209,15 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
                     break;
                 case 7:// 小维商城
                     String shopurl = webUrl.getShopUrl();
-                    Log.i("TAG", "shopurl->" + shopurl);
                     if (null != shopurl && !shopurl.equals("")) {
                         Intent intentAD2 = new Intent(mContext,
                                 JVWebViewActivity.class);
                         // 商城url拼接工作
-                        if (shopurl.contains("?")) {
-                            shopurl = shopurl + "&sid=" + sid;
-                        } else {
-                            shopurl = shopurl + "?sid=" + sid;
-                        }
+                        shopurl = ConfigUtil.getCloudShopParamsStr(shopurl, mContext);
                         // 保存商城的url
                         ((BaseActivity) mContext).statusHashMap.put(
                                 Consts.MORE_SHOPURL, shopurl);
 
-                        Log.i("TAG", "new shopurl->" + shopurl);
                         intentAD2.putExtra("URL", shopurl);
                         intentAD2.putExtra("title", -2);
                         mContext.startActivity(intentAD2);

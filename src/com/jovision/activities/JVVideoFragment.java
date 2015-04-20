@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -190,6 +191,8 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
         super.onActivityCreated(savedInstanceState);
         if (null != ((BaseActivity) mActivity).statusHashMap
                 .get(Consts.MORE_DEMOURL)) {
+        	urls = ((BaseActivity) mActivity).statusHashMap
+                      .get(Consts.MORE_DEMOURL);
             urls = urls + ConfigUtil.getDemoParamsStr(mActivity);
         } else {
             isshow = true;
@@ -501,7 +504,6 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
                             GetDemoTask task = new GetDemoTask(mActivity);
                             String[] params = new String[3];
-                            params[0] = "";
                             params[1] = "5";//
                             task.execute(params);
                             MyLog.v(TAG, "urls is null");

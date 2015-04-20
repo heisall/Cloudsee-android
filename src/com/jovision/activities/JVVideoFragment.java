@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -191,29 +190,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
         super.onActivityCreated(savedInstanceState);
         if (null != ((BaseActivity) mActivity).statusHashMap
                 .get(Consts.MORE_DEMOURL)) {
-
-            if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
-                lan = "zh_cn";
-            } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-                    .getLanguage2(mActivity)) {
-                lan = "zh_tw";
-            } else {
-                lan = "en_us";
-            }
-            urls = ((BaseActivity) mActivity).statusHashMap
-                    .get(Consts.MORE_DEMOURL);
-            // urls = "http://test.cloudsee.net/phone.action";
-
-            if (!Boolean.valueOf(mActivity.statusHashMap
-                    .get(Consts.LOCAL_LOGIN))) {
-                String sessionResult = ConfigUtil.getSession();
-                sid = sessionResult;
-            } else {
-                sid = "";
-            }
-            urls = urls + "?" + "plat=android&platv=" + Build.VERSION.SDK_INT
-                    + "&lang=" + lan + "&d=" + System.currentTimeMillis()
-                    + "&sid=" + sid;
+            urls = urls + ConfigUtil.getDemoParamsStr(mActivity);
         } else {
             isshow = true;
         }

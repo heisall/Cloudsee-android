@@ -17,7 +17,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
-import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.views.TimePopView;
 

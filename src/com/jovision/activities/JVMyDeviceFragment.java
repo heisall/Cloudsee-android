@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -807,15 +806,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                                         adUrl.lastIndexOf("?"));
                                             }
 
-                                            adUrl = adUrl
-                                                    + "?"
-                                                    + "plat=android&platv="
-                                                    + Build.VERSION.SDK_INT
-                                                    + "&lang="
-                                                    + lan
-                                                    + "&d="
-                                                    + System.currentTimeMillis()
-                                                    + "&sid=" + sid;
+                                            adUrl = adUrl + ConfigUtil.getDemoParamsStr(mActivity);
+                                            ;
                                             MyLog.v("adUrl", adUrl);
                                             intentAD.putExtra("title", -2);
                                             intentAD.putExtra("URL", adUrl);

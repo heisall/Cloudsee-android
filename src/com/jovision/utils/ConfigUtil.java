@@ -4,11 +4,13 @@ package com.jovision.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
 import android.util.Base64;
@@ -26,6 +28,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;
+import com.jovision.activities.BaseActivity;
 import com.jovision.bean.Device;
 import com.jovision.bean.Wifi;
 import com.jovision.commons.MyLog;
@@ -1381,5 +1384,47 @@ public class ConfigUtil {
         String sessionResult = JVACCOUNT.GetSession();
         MyLog.v("session", sessionResult);
         return sessionResult;
+    }
+
+    /**
+     * 获取视频广场需要拼接的url后缀,6个参数
+     * 
+     * @param mContext
+     * @return
+     */
+    public static String getDemoParamsStr(Context mContext) {
+        String str = "";
+
+        String appVersion = "";
+        try {
+            appVersion = mContext.getPackageManager().getPackageInfo(
+                    mContext.getPackageName(), 0).versionName;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String lan = "";
+        if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+            lan = "zh_cn";
+        } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+                .getLanguage2(mContext)) {
+            lan = "zh_tw";
+        } else {
+            lan = "en_us";
+        }
+
+        String sid = "";
+        if (!Boolean.valueOf(((BaseActivity) mContext).statusHashMap
+                .get(Consts.LOCAL_LOGIN))) {// 在线
+            sid = JVACCOUNT.GetSession();
+        } else {
+            sid = "";
+        }
+        str = "?" + "plat=android&platv="
+                + Build.VERSION.SDK_INT + "&lang=" + lan
+                + "&appv=" + appVersion + "&d="
+                + System.currentTimeMillis() + "&sid=" + sid;
+
+        return str;
     }
 }

@@ -45,6 +45,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/erweimaLayout"
                     android:hint="@string/str_new_add_device_edit_hint"
+                    android:paddingLeft="8dp"
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/new_adddevice_cursor"
                     android:textSize="15sp" >
@@ -54,7 +55,7 @@
                     android:id="@+id/editimg_clearn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:layout_toLeftOf="@+id/erweimaLayout"
                     android:background="@drawable/new_adddevice_close"

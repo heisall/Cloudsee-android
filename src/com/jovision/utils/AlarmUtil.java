@@ -368,7 +368,7 @@ public class AlarmUtil {
                                             pi.coonNum = obj
                                                     .optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
                                             pi.alarmSolution = obj
-                                                    .optInt(JVAlarmConst.JK_ALARM_SOLUTION);
+                                                    .optInt(JVAlarmConst.JK_ALARM_SOLUTION, 0);
                                             // ArrayList<Device> deviceList =
                                             // CacheUtil
                                             // .getDevList();// 再取一次

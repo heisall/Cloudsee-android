@@ -226,7 +226,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         public void onPageFinished(WebView view, String url) {
             // TODO 自动生成的方法存根
             MyLog.e("添加设备", "页面开始完成");
-            if (isLoadUrlfail) {// 加载失败
+            if (isLoadUrlfail || (null != url && !"".equalsIgnoreCase(url))) {// 加载失败或者url为空
                 // MyLog.e("添加设备", "页面开始完成失败");
                 loadinglayout.setVisibility(View.GONE);
                 soundwave_button.setVisibility(View.VISIBLE);
@@ -238,6 +238,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 devsetLayout.setVisibility(View.GONE);
                 addDeviceWebView.setVisibility(View.VISIBLE);
             }
+
             super.onPageFinished(view, url);
         }
 

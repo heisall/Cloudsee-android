@@ -4,8 +4,11 @@ package com.jovision.activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -53,7 +56,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private RelativeLayout soundwave_button, apset_button;
     private LinearLayout devsetLayout;
     private TextView tab_erweima_title;
-    private RelativeLayout ip_dns_btn, local_network_button;
+    private RelativeLayout ipDnsBtn, localNetworkBtn;
     private WebView addDeviceWebView;
     private TextView subject_detail;
     // private String url = "http://test.cloudsee.net/mobile/";
@@ -128,6 +131,11 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                     Consts.MORE_ADDDEVICEURL);
             url = "http://www.cloudsee.net/UI/mobile/devicetypelist.html";
         }
+
+        if (null != url && !"".equalsIgnoreCase(url)) {
+            getJoinUrl();
+        }
+
         /** top bar */
         leftBtn = (Button) findViewById(R.id.btn_left);
         alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
@@ -150,8 +158,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
         apset_button = (RelativeLayout) findViewById(R.id.apset_button);
         soundwave_button = (RelativeLayout) findViewById(R.id.soundwave_button);
-        ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
-        local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
+        ipDnsBtn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
+        localNetworkBtn = (RelativeLayout) findViewById(R.id.local_network_button);
 
         tab_erweima_icon.setOnClickListener(myOnClickListener);
         editimg_clearn.setOnClickListener(myOnClickListener);
@@ -175,12 +183,12 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-            ip_dns_btn.setVisibility(View.VISIBLE);
-            ip_dns_btn.setOnClickListener(myOnClickListener);
+            ipDnsBtn.setVisibility(View.VISIBLE);
+            ipDnsBtn.setOnClickListener(myOnClickListener);
         } else {
-            ip_dns_btn.setVisibility(View.GONE);
+            ipDnsBtn.setVisibility(View.INVISIBLE);
         }
-        local_network_button.setOnClickListener(myOnClickListener);
+        localNetworkBtn.setOnClickListener(myOnClickListener);
 
     }
 
@@ -274,7 +282,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                         R.string.census_soundwave));
                         Intent intent = new Intent();
                         intent.setClass(JVNewAddDeviceActivity.this, JVWaveSetActivity.class);
-                        JVNewAddDeviceActivity.this.startActivity(intent);
+                        JVNewAddDeviceActivity.this.startActivityForResult(intent,
+                                Consts.DEVICE_ADD_REQUEST);
                         break;
                     }
                     case Consts.NET_DEVICE_TYPE_AP_SET: {// AP设置添加
@@ -615,6 +624,39 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         CacheUtil.saveDevList(deviceList);
         this.finish();
         super.onBackPressed();
+    }
+
+    public void getJoinUrl() {
+        String appVersion = "";
+        try {
+            appVersion = JVNewAddDeviceActivity.this.getPackageManager().getPackageInfo(
+                    JVNewAddDeviceActivity.this.getPackageName(), 0).versionName;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String lan = "";
+        if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVNewAddDeviceActivity.this)) {
+            lan = "zh_cn";
+        } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+                .getLanguage2(JVNewAddDeviceActivity.this)) {
+            lan = "zh_tw";
+        } else {
+            lan = "en_us";
+        }
+
+        String sid = "";
+        if (!Boolean.valueOf(JVNewAddDeviceActivity.this.statusHashMap
+                .get(Consts.LOCAL_LOGIN))) {// 在线
+            sid = JVACCOUNT.GetSession();
+        } else {
+            sid = "";
+        }
+
+        url = url + "?" + "plat=android&platv="
+                + Build.VERSION.SDK_INT + "&lang=" + lan
+                + "&appv=" + appVersion + "&sid=" + sid;
+        MyLog.v(TAG, "addDevUrl=" + url);
     }
 
 }

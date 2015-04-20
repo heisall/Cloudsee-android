@@ -113,8 +113,8 @@ public class Device {
     private int ytSpeed = 3;// 2015.4.3设备云台转速
 
     private int cloudEnabled = 0; // 云存储服务开关
-    
-    private int bindtype = 0; // 设备绑定状态  0.正常  1.通道数不对
+
+    private int channelBindFlag = 0; // 2015.4.18 设备通道数量正确与否 0：通道数正确 1.通道数不正确
 
     private boolean homeIPCMergeCode = true;// 2015.4.17是否融合后的家用 true ：融合 false
                                             // ：非融合
@@ -284,7 +284,7 @@ public class Device {
             object.put("alarmSwitch", alarmSwitch);
             object.put("oldDevice", oldDevice);
             object.put("cloudEnabled", cloudEnabled);// 云存储
-            object.put("bindtype", bindtype);//获取通道数量是否正确
+            object.put("channelBindFlag", channelBindFlag);// 获取通道数量是否正确
             try {
                 ArrayList<Channel> list = channelList.toList();
                 int size = list.size();
@@ -376,7 +376,7 @@ public class Device {
             dev.setChannelList(Channel.fromJsonArray(
                     ConfigUtil.getString(object, "channelList"), dev));
 
-            dev.setBindtype(ConfigUtil.getInt(object, "bindtype"));//获取通道数是否正确
+            dev.setChannelBindFlag(ConfigUtil.getInt(object, "channelBindFlag"));// 获取通道数是否正确
             dev.setCloudEnabled(ConfigUtil.getInt(object, "cloudEnabled"));// 云存储
         } catch (JSONException e) {
             e.printStackTrace();
@@ -678,11 +678,12 @@ public class Device {
         this.homeIPCFlag = homeIPCFlag;
     }
 
-	public int getBindtype() {
-		return bindtype;
-	}
+    public int getChannelBindFlag() {
+        return channelBindFlag;
+    }
 
-	public void setBindtype(int bindtype) {
-		this.bindtype = bindtype;
-	}
+    public void setChannelBindFlag(int channelBindFlag) {
+        this.channelBindFlag = channelBindFlag;
+    }
+
 }

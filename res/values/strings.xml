@@ -667,6 +667,15 @@
     <string name="str_reset_device">Reset the device</string>
     <string name="str_restart_device">Reboot Device Functions</string>
     <string name="str_set_time">Timeset</string>
+    <string name="str_time_format">Time Format</string>
+    <string name="str_date_format">Date Format</string>
+    <string name="str_network">Network time synchronization</string>
+    <string name="str_local_time">Current Area Custom</string>
+    <string name="str_year">year</string>
+    <string name="str_month">month</string>
+    <string name="str_day">day</string>
+    <string name="str_hour">hour</string>
+    <string name="str_minite">minute</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="str_restart_sure">Are you sure to restart?</string>
     <string name="dev_alarm_sound">Startup the alarm sound</string>

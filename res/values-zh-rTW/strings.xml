@@ -667,6 +667,15 @@
     <string name="str_reset_device">重置設備功能</string>
     <string name="str_restart_device">重啟設備功能</string>
     <string name="str_set_time">時間設置</string>
+    <string name="str_time_format">時間格式</string>
+    <string name="str_date_format">日期格式</string>
+    <string name="str_network">網絡對時</string>
+    <string name="str_local_time">當前地區習慣</string>
+    <string name="str_year">年</string>
+    <string name="str_month">月</string>
+    <string name="str_day">日</string>
+    <string name="str_hour">時</string>
+    <string name="str_minite">分</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
     <string name="str_restart_sure">確定重啟設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
@@ -732,7 +741,7 @@
     <string name="str_computre_time1"> 結束時間不能小於開始時間</string>
     <string name="str_computre_time3"> 開始時間不能等於結束時間</string>
     <string name="str_setting_time">設置時間</string>
-    <string name="str_setting_time_success">时间设置成功</string>
+    <string name="str_setting_time_success">時間設置成功</string>
     <string name="str_setting_submittime">設置</string>
     <string name="str_disconnect_resp_timeout">斷開連接超時</string>
     <string name="str_operation_success">操作成功</string>

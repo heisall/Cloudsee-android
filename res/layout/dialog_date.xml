@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="当前地区习惯"
+            android:text="@string/str_local_time"
             android:textColor="@color/more_fragment_color2"
             android:textSize="16sp" />
 

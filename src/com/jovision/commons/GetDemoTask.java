@@ -134,7 +134,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 
                     demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
                             + Build.VERSION.SDK_INT + "&lang=" + lan
-                            + "&appv" + appVersion + "&d="
+                            + "&appv=" + appVersion + "&d="
                             + System.currentTimeMillis() + "&sid=" + sid;
                     MyLog.v("demoUrl", demoUrl);
                     if (!"fragmentString".equals(fragmentString)

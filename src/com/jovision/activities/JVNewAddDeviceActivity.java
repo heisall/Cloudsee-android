@@ -4,8 +4,11 @@ package com.jovision.activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -128,6 +131,11 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                     Consts.MORE_ADDDEVICEURL);
             url = "http://www.cloudsee.net/UI/mobile/devicetypelist.html";
         }
+
+        if (null != url && !"".equalsIgnoreCase(url)) {
+            getJoinUrl();
+        }
+
         /** top bar */
         leftBtn = (Button) findViewById(R.id.btn_left);
         alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
@@ -616,6 +624,39 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         CacheUtil.saveDevList(deviceList);
         this.finish();
         super.onBackPressed();
+    }
+
+    public void getJoinUrl() {
+        String appVersion = "";
+        try {
+            appVersion = JVNewAddDeviceActivity.this.getPackageManager().getPackageInfo(
+                    JVNewAddDeviceActivity.this.getPackageName(), 0).versionName;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String lan = "";
+        if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVNewAddDeviceActivity.this)) {
+            lan = "zh_cn";
+        } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+                .getLanguage2(JVNewAddDeviceActivity.this)) {
+            lan = "zh_tw";
+        } else {
+            lan = "en_us";
+        }
+
+        String sid = "";
+        if (!Boolean.valueOf(JVNewAddDeviceActivity.this.statusHashMap
+                .get(Consts.LOCAL_LOGIN))) {// 在线
+            sid = JVACCOUNT.GetSession();
+        } else {
+            sid = "";
+        }
+
+        url = url + "?" + "plat=android&platv="
+                + Build.VERSION.SDK_INT + "&lang=" + lan
+                + "&appv=" + appVersion + "&sid=" + sid;
+        MyLog.v(TAG, "addDevUrl=" + url);
     }
 
 }

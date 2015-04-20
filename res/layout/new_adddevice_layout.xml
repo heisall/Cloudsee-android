@@ -93,7 +93,7 @@
                         android:background="@drawable/add_newdevice_confirm__bg"
                         android:text="@string/str_new_add_device_confirm"
                         android:textColor="@color/white"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:visibility="gone" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -154,7 +154,7 @@
 
                 <RelativeLayout
                     android:id="@+id/apset_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="75dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
@@ -180,6 +180,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="15dp"
+                            android:gravity="center_horizontal"
                             android:text="@string/str_new_add_device_AP"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />
@@ -188,7 +189,7 @@
 
                 <RelativeLayout
                     android:id="@+id/soundwave_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="75dp"
                     android:layout_weight="1"
                     android:background="@color/soundwave_button_bg" >
@@ -211,6 +212,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="15dp"
+                            android:gravity="center_horizontal"
                             android:text="@string/str_new_add_device_wave"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />

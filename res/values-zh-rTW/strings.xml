@@ -755,8 +755,8 @@
     <string name="str_cloud_file_error_2">此通道沒有雲存儲信息</string>
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
     <string name="str_tpush_autostart_tips_v6">爲保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心"->\"授權管理\"->\"自啟動管理\"界面，將本軟件設置爲允許自動啟動</string>
-    <string name="str_alarm_storge_cloud">云存储报警</string>
-    <string name="str_alarm_storge_normal">普通报警</string>
+    <string name="str_alarm_storge_cloud">雲存儲報警</string>
+    <string name="str_alarm_storge_normal">普通報警</string>
     <!-- 云存储 -->
     <string name="str_cloud_serv_func">雲存儲服務</string>
     <string name="str_cloud_state">雲存儲</string>

@@ -190,6 +190,8 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
         super.onActivityCreated(savedInstanceState);
         if (null != ((BaseActivity) mActivity).statusHashMap
                 .get(Consts.MORE_DEMOURL)) {
+            urls = ((BaseActivity) mActivity).statusHashMap
+                    .get(Consts.MORE_DEMOURL);
             urls = urls + ConfigUtil.getDemoParamsStr(mActivity);
         } else {
             isshow = true;

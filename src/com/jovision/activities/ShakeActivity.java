@@ -52,6 +52,9 @@ public abstract class ShakeActivity extends BaseActivity implements
     /** 是否开启摇一摇 */
     protected boolean shakeState = false;
 
+    /** startActicityCode */
+    protected int startActicityCode = -1;
+
     /**
      * 初始化摇一摇功能
      */
@@ -137,13 +140,14 @@ public abstract class ShakeActivity extends BaseActivity implements
             if (Math.abs(values[0]) > 13 || Math.abs(values[1]) > 13
                     || Math.abs(values[2]) > 13) {
                 if (shakeState) {
-                    startSearch(true);
+                    startSearch(true, -1);
                 }
             }
         }
     }
 
-    public void startSearch(boolean playSound) {
+    public void startSearch(boolean playSound, int startCode) {
+        startActicityCode = startCode;
         if (!threadRunning) {
             threadRunning = true;
             if (playSound) {
@@ -359,7 +363,12 @@ public abstract class ShakeActivity extends BaseActivity implements
                     intent.putExtra("OLD_WIFI", oldWifiSSID);
                     intent.putExtra("IPC_LIST", scanIpcWifiList);
                     intent.putExtra("MOBILE_LIST", scanMobileWifiList);
-                    ShakeActivity.this.startActivity(intent);
+                    if (-1 == startActicityCode) {
+                        ShakeActivity.this.startActivity(intent);
+                    } else {
+                        ShakeActivity.this.startActivityForResult(intent, startActicityCode);
+                    }
+
                     break;
                 }
                 case Consts.WHAT_SHAKE_IPC_WIFI_FAILED: {

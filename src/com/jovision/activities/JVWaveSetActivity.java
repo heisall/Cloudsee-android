@@ -619,6 +619,8 @@ public class JVWaveSetActivity extends BaseActivity {
 
     private void backMethod() {
         if (currentStep == (layoutList.size() - 1)) {
+            Intent intent = new Intent();
+            setResult(Consts.DEVICE_ADD_SUCCESS_RESULT, intent);
             JVWaveSetActivity.this.finish();
         } else {
             showLayoutAtIndex(--currentStep);

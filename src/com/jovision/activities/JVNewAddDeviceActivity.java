@@ -293,7 +293,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                 "Add Wi_Fi Device",
                                 JVNewAddDeviceActivity.this.getResources().getString(
                                         R.string.census_addwifidev));
-                        JVNewAddDeviceActivity.this.startSearch(false);
+                        JVNewAddDeviceActivity.this.startSearch(false, Consts.DEVICE_ADD_REQUEST);
 
                         break;
                     }
@@ -388,7 +388,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                             "Add Wi_Fi Device",
                             JVNewAddDeviceActivity.this.getResources().getString(
                                     R.string.census_addwifidev));
-                    JVNewAddDeviceActivity.this.startSearch(false);
+                    JVNewAddDeviceActivity.this.startSearch(false, Consts.DEVICE_ADD_REQUEST);
                     break;
                 case R.id.soundwave_button:
                     StatService.trackCustomEvent(
@@ -398,7 +398,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                     R.string.census_soundwave));
                     Intent intent = new Intent();
                     intent.setClass(JVNewAddDeviceActivity.this, JVWaveSetActivity.class);
-                    JVNewAddDeviceActivity.this.startActivity(intent);
+                    JVNewAddDeviceActivity.this.startActivityForResult(intent,
+                            Consts.DEVICE_ADD_REQUEST);
                     break;
                 case R.id.ip_dns_btn:
                     StatService.trackCustomEvent(JVNewAddDeviceActivity.this, "IP/DNS",

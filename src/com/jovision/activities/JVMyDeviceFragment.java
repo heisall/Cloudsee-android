@@ -587,7 +587,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                 "Add Wi_Fi Device",
                                 mActivity.getResources().getString(
                                         R.string.census_addwifidev));
-                        ((ShakeActivity) getActivity()).startSearch(false);
+                        ((ShakeActivity) getActivity()).startSearch(false, -1);
                         break;
                     }
                     case 3: {// 二维码扫描

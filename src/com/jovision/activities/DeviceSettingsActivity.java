@@ -79,7 +79,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public String timezones;
     public int intentnum;
     public int nTimeFormat;
-
+    private boolean bGetStreamInfoRes = false;
+    private boolean update_flag = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +102,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
         streamMap = (HashMap<String, String>) extras
                 .getSerializable("streamMap");
         deviceList = CacheUtil.getDevList();
-        boolean update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
+        update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
         funcParamArray = new String[10];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
         if (0 != deviceList.size()) {
             device = deviceList.get(deviceIndex);
@@ -114,13 +115,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
             waitingDialog.setCancelable(false);
             waitingDialog
                     .setMessage(getResources().getString(R.string.waiting));
-            if (!update_flag) {
-                waitingDialog.show();
-                Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-                        JVNetConst.JVN_STREAM_INFO);
-                new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-                        .start();
-            }
+            bGetStreamInfoRes = update_flag;
+//            if (!update_flag) {
+//                waitingDialog.show();
+//                Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+//                        JVNetConst.JVN_STREAM_INFO);
+//                new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+//                        .start();
+//            }
             // waitingDialog.show();
             // 获取当前设置
             // 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
@@ -151,6 +153,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+
+        if (!update_flag) {
+            waitingDialog.show();
+            Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+                    JVNetConst.JVN_STREAM_INFO);
+            new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+                    .start();
+        }        
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
@@ -292,6 +302,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
                                 }
                                 case JVNetConst.JVN_STREAM_INFO:// 码流
                                     myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
+                                    update_flag = true;
+                                    bGetStreamInfoRes = true;
                                     HashMap<String, String> map = ConfigUtil
                                             .genMsgMap(dataObj.getString("msg"));
                                     // streamMap = map;
@@ -796,7 +808,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 case Consts.DEV_SETTINGS_ALARM:
                     strDescString = getResources().getString(
                             R.string.str_setdev_params_timeout);
-
+                    bGetStreamInfoRes = false;
                     Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
                             JVNetConst.JVN_STREAM_INFO);
 
@@ -804,8 +816,15 @@ public class DeviceSettingsActivity extends BaseActivity implements
                             .start();// by lkp这地方不知道为啥屏蔽了。先放开吧
                     return;
                 case JVNetConst.JVN_STREAM_INFO:
-                    strDescString = getResources().getString(
-                            R.string.str_setdev_params_timeout);// str_getdev_params_timeout
+                    if(!bGetStreamInfoRes){//已这个为准
+                        strDescString = getResources().getString(
+                                R.string.str_setdev_params_timeout);// str_getdev_params_timeout                        
+                    }
+                    else{
+                        if (waitingDialog != null && waitingDialog.isShowing())
+                            waitingDialog.dismiss();
+                        return;
+                    }
                     break;
                 default:
                     break;

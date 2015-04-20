@@ -1176,9 +1176,9 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                         PlayUtil.deleteDevIp(myDeviceList);
                         boolean canBroad = PlayUtil.broadCast(mActivity);
                         mPullRefreshListView.onRefreshComplete();
-                        if (!canBroad) {// 3G不可以广播
-                            new ChannelCountThread().start();
-                        }
+                        // if (!canBroad) {// 3G不可以广播
+                        // new ChannelCountThread().start();
+                        // }
                         break;
                     }
                     // 云视通检索服务器通信异常
@@ -1261,9 +1261,9 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                 mActivity = (BaseActivity) getActivity();
                             }
                             PlayUtil.sortList(myDeviceList, mActivity);
-                            if (broadTag == Consts.TAG_BROAD_DEVICE_LIST) {
-                                new ChannelCountThread().start();
-                            }
+                            // if (broadTag == Consts.TAG_BROAD_DEVICE_LIST) {
+                            // new ChannelCountThread().start();
+                            // }
 
                         }
                     } catch (JSONException e) {
@@ -2274,7 +2274,11 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                         MyLog.v(TAG, "X：广播--通道获取正确了，汇报给服务器:dev=" + dev.getFullNo()
                                                 + ",count="
                                                 + channelCount);
-                                        DeviceUtil.modifyChannalNum(dev.getFullNo(), channelCount);
+                                        int modRes = DeviceUtil.modifyChannalNum(dev.getFullNo(),
+                                                channelCount);
+                                        if (0 == modRes) {
+                                            editDeviceChannel(channelCount, dev);
+                                        }
                                     }
                                 } else {
                                     MyLog.e(TAG, "X：广播没取到");
@@ -2289,7 +2293,11 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                     MyLog.v(TAG, "X:云视通--通道获取正确了，汇报给服务器:dev=" + dev.getFullNo()
                                             + ",count="
                                             + channelCount);
-                                    DeviceUtil.modifyChannalNum(dev.getFullNo(), channelCount);
+                                    int modRes = DeviceUtil.modifyChannalNum(dev.getFullNo(),
+                                            channelCount);
+                                    if (0 == modRes) {
+                                        editDeviceChannel(channelCount, dev);
+                                    }
                                 } else {
                                     MyLog.e(TAG, "X：云视通没取到");
                                 }
@@ -2308,4 +2316,34 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
     }
 
+    /**
+     * 2015.4.20修改设备的通道
+     * 
+     * @param rightChannel
+     * @param errorChannel
+     * @param dev
+     */
+    public Device editDeviceChannel(int rightChannel, Device dev) {
+        int errorChannel = dev.getChannelList().size();
+        if (rightChannel > errorChannel) {// 本地通道少，需要增加通道
+            MyLog.v(TAG, "本地通道少，需要增加通道");
+            for (int i = errorChannel; errorChannel < rightChannel; i++) {
+                Channel channel = new Channel(dev, i, i + 1, false, false, dev.getFullNo() + "_"
+                        + (i + 1));
+                dev.getChannelList().add(channel);
+                MyLog.v(TAG, "index=" + i);
+            }
+        } else if (rightChannel < errorChannel) {// 本地通道多，需要删通道
+            MyLog.v(TAG, "本地通道多，需要删通道");
+            for (int i = rightChannel; i < errorChannel; i++) {
+                dev.getChannelList().remove(rightChannel);
+                errorChannel = dev.getChannelList().size();
+                i--;
+                MyLog.v(TAG, "index=" + i);
+            }
+
+        }
+
+        return dev;
+    }
 }

@@ -130,7 +130,9 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 Consts.MORE_ADDDEVICEURL)) {
             url = statusHashMap.get(
                     Consts.MORE_ADDDEVICEURL);
+            MyLog.v(TAG, "addUrl=" + url);
             // url = "http://www.cloudsee.net/UI/mobile/devicetypelist.html";
+        } else {// 还没有获取过添加设备的url
         }
 
         // 拼接sid appv等字段
@@ -170,10 +172,15 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         devNumET.setOnFocusChangeListener(new FocusChangeListenerImpl());
 
         if (ConfigUtil.isConnected(JVNewAddDeviceActivity.this)) {// 已联网
-            loadinglayout.setVisibility(View.VISIBLE);
-            addDeviceWebView.loadUrl(url);
-            addDeviceWebView.setVisibility(View.VISIBLE);
-            devsetLayout.setVisibility(View.GONE);
+            if (null == url || "".equalsIgnoreCase(url)) {
+                addDeviceWebView.setVisibility(View.GONE);
+                devsetLayout.setVisibility(View.VISIBLE);
+            } else {
+                loadinglayout.setVisibility(View.VISIBLE);
+                addDeviceWebView.loadUrl(url);
+                addDeviceWebView.setVisibility(View.VISIBLE);
+                devsetLayout.setVisibility(View.GONE);
+            }
         } else {
             addDeviceWebView.setVisibility(View.GONE);
             devsetLayout.setVisibility(View.VISIBLE);
@@ -227,7 +234,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         public void onPageFinished(WebView view, String url) {
             // TODO 自动生成的方法存根
             MyLog.e("添加设备", "页面开始完成");
-            if (isLoadUrlfail || (null != url && !"".equalsIgnoreCase(url))) {// 加载失败或者url为空
+
+            if (null == url || "".equalsIgnoreCase(url)) {
                 // MyLog.e("添加设备", "页面开始完成失败");
                 loadinglayout.setVisibility(View.GONE);
                 soundwave_button.setVisibility(View.VISIBLE);
@@ -235,11 +243,19 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                 devsetLayout.setVisibility(View.VISIBLE);
                 addDeviceWebView.setVisibility(View.GONE);
             } else {
-                loadinglayout.setVisibility(View.GONE);
-                devsetLayout.setVisibility(View.GONE);
-                addDeviceWebView.setVisibility(View.VISIBLE);
+                if (isLoadUrlfail) {// 加载失败或者url为空
+                    // MyLog.e("添加设备", "页面开始完成失败");
+                    loadinglayout.setVisibility(View.GONE);
+                    soundwave_button.setVisibility(View.VISIBLE);
+                    apset_button.setVisibility(View.VISIBLE);
+                    devsetLayout.setVisibility(View.VISIBLE);
+                    addDeviceWebView.setVisibility(View.GONE);
+                } else {
+                    loadinglayout.setVisibility(View.GONE);
+                    devsetLayout.setVisibility(View.GONE);
+                    addDeviceWebView.setVisibility(View.VISIBLE);
+                }
             }
-
             super.onPageFinished(view, url);
         }
 
@@ -324,7 +340,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_left:
-                    JVNewAddDeviceActivity.this.finish();
+                    backMethod();
                     break;
                 case R.id.tab_erweima_icon:
                     StatService.trackCustomEvent(
@@ -623,10 +639,15 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         }
     }
 
+    public void backMethod() {
+        CacheUtil.saveDevList(deviceList);
+        addDeviceWebView.clearCache(true);
+        this.finish();
+    }
+
     @Override
     public void onBackPressed() {
-        CacheUtil.saveDevList(deviceList);
-        this.finish();
+        backMethod();
         super.onBackPressed();
     }
 

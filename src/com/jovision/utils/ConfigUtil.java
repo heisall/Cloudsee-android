@@ -1427,9 +1427,9 @@ public class ConfigUtil {
 
         return str;
     }
-    
-    /**2015-04-20 闫帅
-     * 获取社区论坛需要拼接的url后缀,1个参数 sid
+
+    /**
+     * 2015-04-20 闫帅 获取社区论坛需要拼接的url后缀,1个参数 sid
      * 
      * @param mContext
      * @return
@@ -1443,39 +1443,39 @@ public class ConfigUtil {
         } else {
             sid = "";
         }
-        str ="&sid=" + sid;
+        str = "&sid=" + sid;
 
         return str;
     }
-    
-    /**2015-04-20 闫帅
-     * 获取论坛条数需要拼接的url后缀,3个参数 sid
+
+    /**
+     * 2015-04-20 闫帅 获取论坛条数需要拼接的url后缀,3个参数 sid
      * 
      * @param mContext
      * @return
      */
-    public static String getBbsNumParamsStr(String bbsNum,Context mContext) {
+    public static String getBbsNumParamsStr(String bbsNum, Context mContext) {
         String str = "";
         String[] array = bbsNum.split("mod");
         if (!Boolean
                 .valueOf(((BaseActivity) mContext).statusHashMap
                         .get(Consts.LOCAL_LOGIN))) {
-        	str = array[0] + "mod=api&act=user_pm&sid="
+            str = array[0] + "mod=api&act=user_pm&sid="
                     + JVACCOUNT.GetSession();
         } else {
-        	str = array[0] + "mod=api&act=user_pm";
+            str = array[0] + "mod=api&act=user_pm";
         }
 
         return str;
     }
-    
-    /**2015-04-20 闫帅
-     * 获取云服务开通和小维商城需要拼接的url后缀,1个参数 sid
+
+    /**
+     * 2015-04-20 闫帅 获取云服务开通和小维商城需要拼接的url后缀,1个参数 sid
      * 
      * @param mContext
      * @return
      */
-    public static String getCloudShopParamsStr(String cloudurl,Context mContext) {
+    public static String getCloudShopParamsStr(String cloudurl, Context mContext) {
         String sid = "";
         if (!Boolean.valueOf(((BaseActivity) mContext).statusHashMap
                 .get(Consts.LOCAL_LOGIN))) {// 在线
@@ -1492,5 +1492,5 @@ public class ConfigUtil {
 
         return cloudurl;
     }
-    
+
 }

@@ -23,7 +23,6 @@ import com.jovision.MainApplication;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.LoginTask;
 import com.jovision.commons.MyLog;
-import com.jovision.utils.ConfigUtil;
 import com.tencent.stat.StatService;
 
 import java.lang.reflect.Field;

@@ -455,8 +455,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
                         0x02,
                         String.format(Consts.FORMATTER_SET_ALARM_SOUND, enabled));
-                // new Thread(new
-                // TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();
+                 new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();//by lkp@15.04.20
                 break;
             }
             default:

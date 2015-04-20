@@ -242,42 +242,10 @@
                 android:paddingBottom="10dp" >
 
                 <RelativeLayout
-                    android:id="@+id/ip_dns_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:autoLink="web"
-                    android:background="@color/soundwave_button_bg" >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:orientation="horizontal" >
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="3dp"
-                            android:background="@drawable/ip_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:text="@string/str_new_add_device_IP"
-                            android:textColor="@color/gray"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/local_network_button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@color/local_network_btn_bg" >
 
@@ -301,6 +269,38 @@
                             android:layout_marginLeft="5dp"
                             android:autoLink="web"
                             android:text="@string/str_new_add_device_localnetwork"
+                            android:textColor="@color/gray"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ip_dns_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:autoLink="web"
+                    android:background="@color/soundwave_button_bg" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/ip_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/str_new_add_device_IP"
                             android:textColor="@color/gray"
                             android:textSize="15sp" />
                     </LinearLayout>

@@ -397,9 +397,9 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     }
                     break;
                 case R.id.btn_right:
-                	
-//                	DeviceUtil.modifyChannalNum("A456","10");
-                	
+
+                    // DeviceUtil.modifyChannalNum("A456","10");
+
                     Intent newAddDevIntent = new Intent();
                     newAddDevIntent.setClass(mActivity,
                             JVNewAddDeviceActivity.class);
@@ -1073,7 +1073,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                 }
                 break;
             }
-            case Consts.GETDEMOURL:
+            case Consts.GETDEMOURL: {
                 fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 
                 if ("false".equals(mActivity.statusHashMap
@@ -1098,7 +1098,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                 demoParams[2] = "fragmentString";
                 demoTask.execute(demoParams);
                 break;
-            case Consts.WHAT_HEART_ERROR:// 心跳异常
+            }
+            case Consts.WHAT_HEART_ERROR: {// 心跳异常
                 if (this.isAdded()) {
                     if (null != alarmnet
                             && !Boolean.valueOf(mActivity.statusHashMap
@@ -1111,6 +1112,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                     }
                 }
                 break;
+            }
             case Consts.WHAT_HEART_TCP_ERROR:
             case Consts.WHAT_HEART_TCP_CLOSED:
                 if (this.isAdded()) {
@@ -1265,6 +1267,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
                                 mActivity = (BaseActivity) getActivity();
                             }
                             PlayUtil.sortList(myDeviceList, mActivity);
+                            // new ChannelCountThread().start();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -2246,6 +2249,35 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
         }
         return builder;
+    }
+
+    /**
+     * 2015.4.18 去云视通获取设备的真正通道数量
+     * 
+     * @author Administrator
+     */
+    class ChannelCountThread extends Thread {
+
+        @Override
+        public void run() {
+            MyLog.v(TAG, "ChannelCountThread:E");
+            if (null != myDeviceList && 0 != myDeviceList.size()) {
+                for (Device dev : myDeviceList) {
+                    if (1 == dev.getChannelBindFlag()) {// 通道数量不对，重新获取
+                        MyLog.v(TAG, "通道不正确:dev=" + dev.getFullNo());
+                        int channelCount = Jni.getChannelCount(dev.getGid(), dev.getNo(), 2);
+                        if (channelCount > 0) {// 通道获取正确了，汇报给服务器
+                            MyLog.v(TAG, "通道获取正确了，汇报给服务器:dev=" + dev.getFullNo() + ",count="
+                                    + channelCount);
+                            DeviceUtil.modifyChannalNum(dev.getFullNo(), channelCount);
+                        }
+                    }
+                }
+            }
+            MyLog.v(TAG, "ChannelCountThread:X");
+            super.run();
+        }
+
     }
 
 }

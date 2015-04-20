@@ -2231,7 +2231,7 @@ public class JVPlayActivity extends PlayActivity implements
                     channel.setPaused(false);
                     handler.sendMessage(handler.obtainMessage(
                             Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-                            Consts.ARG2_STATUS_CONNECTED));
+                            Consts.ARG2_STATUS_BUFFERING));
                     // MyLog.v(TAG,"resumeChannel+buffering,index="+channel.getIndex());
                 } else {
                     // handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,

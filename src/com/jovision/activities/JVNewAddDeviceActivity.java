@@ -53,7 +53,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
     private RelativeLayout soundwave_button, apset_button;
     private LinearLayout devsetLayout;
     private TextView tab_erweima_title;
-    private RelativeLayout ip_dns_btn, local_network_button;
+    private RelativeLayout ipDnsBtn, localNetworkBtn;
     private WebView addDeviceWebView;
     private TextView subject_detail;
     // private String url = "http://test.cloudsee.net/mobile/";
@@ -150,8 +150,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         devsetLayout = (LinearLayout) findViewById(R.id.devsetlayout);
         apset_button = (RelativeLayout) findViewById(R.id.apset_button);
         soundwave_button = (RelativeLayout) findViewById(R.id.soundwave_button);
-        ip_dns_btn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
-        local_network_button = (RelativeLayout) findViewById(R.id.local_network_button);
+        ipDnsBtn = (RelativeLayout) findViewById(R.id.ip_dns_btn);
+        localNetworkBtn = (RelativeLayout) findViewById(R.id.local_network_button);
 
         tab_erweima_icon.setOnClickListener(myOnClickListener);
         editimg_clearn.setOnClickListener(myOnClickListener);
@@ -175,12 +175,12 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         apset_button.setOnClickListener(myOnClickListener);
         soundwave_button.setOnClickListener(myOnClickListener);
         if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-            ip_dns_btn.setVisibility(View.VISIBLE);
-            ip_dns_btn.setOnClickListener(myOnClickListener);
+            ipDnsBtn.setVisibility(View.VISIBLE);
+            ipDnsBtn.setOnClickListener(myOnClickListener);
         } else {
-            ip_dns_btn.setVisibility(View.GONE);
+            ipDnsBtn.setVisibility(View.INVISIBLE);
         }
-        local_network_button.setOnClickListener(myOnClickListener);
+        localNetworkBtn.setOnClickListener(myOnClickListener);
 
     }
 
@@ -274,7 +274,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                                         R.string.census_soundwave));
                         Intent intent = new Intent();
                         intent.setClass(JVNewAddDeviceActivity.this, JVWaveSetActivity.class);
-                        JVNewAddDeviceActivity.this.startActivity(intent);
+                        JVNewAddDeviceActivity.this.startActivityForResult(intent,
+                                Consts.DEVICE_ADD_REQUEST);
                         break;
                     }
                     case Consts.NET_DEVICE_TYPE_AP_SET: {// AP设置添加

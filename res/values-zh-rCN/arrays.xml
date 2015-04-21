@@ -223,7 +223,7 @@
         <item>通知时铃声提醒</item>
         <item>通知时振动提醒</item>
     </string-array>
-    <!-- 中间自定义面板中的元素 -->
+    <!-- 中间自定义面板中的元素, *本数组不需要翻译,目前只有中文下有这些功能* -->
     <string-array name="array_customize_board">
         <item>小维社区</item>
         <item>小维商城</item>

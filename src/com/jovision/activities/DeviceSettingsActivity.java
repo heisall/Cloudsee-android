@@ -80,12 +80,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int intentnum;
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
-<<<<<<< HEAD
-    private boolean update_flag = false;
-
-=======
 //    private boolean update_flag = false;
->>>>>>> 1a30eb67708cce48172ca36febcb85c26a11db37
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,26 +116,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
             waitingDialog.setCancelable(false);
             waitingDialog
                     .setMessage(getResources().getString(R.string.waiting));
-<<<<<<< HEAD
-            bGetStreamInfoRes = update_flag;
-            // if (!update_flag) {
-            // waitingDialog.show();
-            // Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-            // JVNetConst.JVN_STREAM_INFO);
-            // new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-            // .start();
-            // }
-            // waitingDialog.show();
-            // 获取当前设置
-            // 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
-            // Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-            // JVNetConst.JVN_STREAM_INFO, null);
-            // Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-            // JVNetConst.JVN_STREAM_INFO);
-            // new Thread(new
-            // TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
-=======
->>>>>>> 1a30eb67708cce48172ca36febcb85c26a11db37
         }
 
     }
@@ -161,18 +137,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-<<<<<<< HEAD
 
-        if (!update_flag) {
-            waitingDialog.show();
-            Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-                    JVNetConst.JVN_STREAM_INFO);
-            new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-                    .start();
-        }
-=======
-       
->>>>>>> 1a30eb67708cce48172ca36febcb85c26a11db37
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap

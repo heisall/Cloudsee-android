@@ -1139,6 +1139,11 @@ public class JVTabActivity extends ShakeActivity implements
             String tabsDefSeq[] = getResources().getStringArray(
                     R.array.array_tabs_sequence);
             for (int i = 0, length = tabsDefSeq.length; i < length; i++) {
+                // 扩展功能是否显示,还需要进行国内国外判断(只有中国中文简体才显示)
+                if ("c".equals(tabsDefSeq[i]) && (ConfigUtil.getServerLanguage() != 1)) {
+                    MyLog.v(TAG, "--at foreign, customize not display--");
+                    continue;
+                }
                 sbstr.append(tabsDefSeq[i]);
             }
             indicatorSeq = sbstr.toString();

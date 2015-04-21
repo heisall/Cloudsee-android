@@ -295,6 +295,12 @@ public class ConfigUtil {
      * @return
      */
     public static int getServerLanguage() {
+
+        if (Consts.FOREIGN_SERVER) {
+            lan = Consts.LANGUAGE_EN;
+            MyLog.v("local-country", "假的国外位置");
+            return lan;
+        }
         String china = "";
         try {
             JSONObject chinaObj = new JSONObject(CHINA_JSON);

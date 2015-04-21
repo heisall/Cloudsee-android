@@ -80,7 +80,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int intentnum;
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
-//    private boolean update_flag = false;
+
+    // private boolean update_flag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
         streamMap = (HashMap<String, String>) extras
                 .getSerializable("streamMap");
         deviceList = CacheUtil.getDevList();
-//        update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
+        // update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
         funcParamArray = new String[10];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
         if (0 != deviceList.size()) {
             device = deviceList.get(deviceIndex);
@@ -905,7 +906,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 funcParamArray[Consts.DEV_SETTINGS_ALARMTIME] = alarmTime0;
 
                 String alarmsound_enable = map.get("bAlarmSound");
-                funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;                
+                funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;
                 onFuncOperationFlag = false;
                 switch (func_index) {
                     case Consts.DEV_SETTINGS_ALARM:// 安全防护
@@ -995,9 +996,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
                         break;
                     default:
                         break;
-                }                
+                }
             }
-        }        
+        }
     }
 
     private int ResolveStreamInfo(HashMap<String, String> map) {

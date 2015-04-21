@@ -80,12 +80,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int intentnum;
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
-<<<<<<< HEAD
+
     private boolean update_flag = false;
 
-=======
-//    private boolean update_flag = false;
->>>>>>> 1a30eb67708cce48172ca36febcb85c26a11db37
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +104,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
         streamMap = (HashMap<String, String>) extras
                 .getSerializable("streamMap");
         deviceList = CacheUtil.getDevList();
-//        update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
+        // update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
         funcParamArray = new String[10];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
         if (0 != deviceList.size()) {
             device = deviceList.get(deviceIndex);
@@ -120,7 +117,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
             waitingDialog.setCancelable(false);
             waitingDialog
                     .setMessage(getResources().getString(R.string.waiting));
-<<<<<<< HEAD
+
             bGetStreamInfoRes = update_flag;
             // if (!update_flag) {
             // waitingDialog.show();
@@ -138,8 +135,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
             // JVNetConst.JVN_STREAM_INFO);
             // new Thread(new
             // TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
-=======
->>>>>>> 1a30eb67708cce48172ca36febcb85c26a11db37
+
         }
 
     }
@@ -161,7 +157,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-<<<<<<< HEAD
 
         if (!update_flag) {
             waitingDialog.show();
@@ -170,9 +165,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
             new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
                     .start();
         }
-=======
-       
->>>>>>> 1a30eb67708cce48172ca36febcb85c26a11db37
+
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
@@ -940,7 +933,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 funcParamArray[Consts.DEV_SETTINGS_ALARMTIME] = alarmTime0;
 
                 String alarmsound_enable = map.get("bAlarmSound");
-                funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;                
+                funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;
                 onFuncOperationFlag = false;
                 switch (func_index) {
                     case Consts.DEV_SETTINGS_ALARM:// 安全防护
@@ -1030,9 +1023,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
                         break;
                     default:
                         break;
-                }                
+                }
             }
-        }        
+        }
     }
 
     private int ResolveStreamInfo(HashMap<String, String> map) {

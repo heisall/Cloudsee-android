@@ -36,7 +36,6 @@ import com.jovision.Jni;
 import com.jovision.adapters.WaveDevlListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
-import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
@@ -115,7 +114,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
     protected int animTime = 1000;
     // protected int sendCounts = 0;
     protected String params = "";
-    protected MyAudio playAudio;
+    // protected MyAudio playAudio;
     protected static int audioSampleRate = 48000;
     protected static int playBytes = 16;
 
@@ -252,8 +251,8 @@ public class SmartConnectionConfigActivity extends BaseActivity {
     protected void initSettings() {
         deviceList = CacheUtil.getDevList();
         assetMgr = this.getAssets();
-        playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
-                SmartConnectionConfigActivity.this, audioSampleRate);
+        // playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
+        // SmartConnectionConfigActivity.this, audioSampleRate);
         boolean result = ElianNative.LoadLib();
         if (!result) {
             Log.e(TAG, "can't load elianjni lib");

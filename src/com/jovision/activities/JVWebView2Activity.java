@@ -39,7 +39,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
-import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -61,6 +60,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Timer;
+
+//import com.jovision.commons.MyAudio;
 
 public class JVWebView2Activity extends BaseActivity implements
         PlayWindowManager.OnUiListener, IShare {
@@ -102,7 +103,7 @@ public class JVWebView2Activity extends BaseActivity implements
 
     private boolean fullScreenFlag = false;
     private boolean pausedFlag = false;
-    private MyAudio playAudio;
+    // private MyAudio playAudio;
     private int audioByte = 0;
     private Channel playChannel;
     private Timer doubleClickTimer;
@@ -380,12 +381,12 @@ public class JVWebView2Activity extends BaseActivity implements
             }
             case Consts.CALL_PLAY_AUDIO: {// 音频数据
                 MyLog.v("CALL_PLAY_AUDIO", ".....");
-                if (null != obj && null != playAudio) {
-                    byte[] data = (byte[]) obj;
-                    // audioQueue.offer(data);
-                    // [Neo] 将音频填入缓存队列
-                    playAudio.put(data);
-                }
+                // if (null != obj && null != playAudio) {
+                // byte[] data = (byte[]) obj;
+                // // audioQueue.offer(data);
+                // // [Neo] 将音频填入缓存队列
+                // playAudio.put(data);
+                // }
 
                 break;
             }
@@ -453,7 +454,7 @@ public class JVWebView2Activity extends BaseActivity implements
         // open = true;
         // } else {
         PlayUtil.startAudioMonitor(index);// enable audio
-        playAudio.startPlay(audioByte, true);
+        // playAudio.startPlay(audioByte, true);
         open = true;
         // }
         return open;
@@ -469,7 +470,7 @@ public class JVWebView2Activity extends BaseActivity implements
         boolean close = false;
         // if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
         PlayUtil.stopAudioMonitor(index);// stop audio
-        playAudio.stopPlay();
+        // playAudio.stopPlay();
         close = true;
 
         // } else {// 确保不会重复关闭
@@ -485,8 +486,8 @@ public class JVWebView2Activity extends BaseActivity implements
         setContentView(R.layout.webview2_layout);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
-                JVWebView2Activity.this, 8000);
+        // playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
+        // JVWebView2Activity.this, 8000);
         PlayUtil.setContext(JVWebView2Activity.this);
         /** topBar **/
         topBar = (RelativeLayout) findViewById(R.id.topbarh);

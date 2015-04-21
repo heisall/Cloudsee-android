@@ -80,8 +80,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int intentnum;
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
-
-    private boolean update_flag = false;
+//    private boolean update_flag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,25 +116,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
             waitingDialog.setCancelable(false);
             waitingDialog
                     .setMessage(getResources().getString(R.string.waiting));
-
-            bGetStreamInfoRes = update_flag;
-            // if (!update_flag) {
-            // waitingDialog.show();
-            // Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-            // JVNetConst.JVN_STREAM_INFO);
-            // new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-            // .start();
-            // }
-            // waitingDialog.show();
-            // 获取当前设置
-            // 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
-            // Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-            // JVNetConst.JVN_STREAM_INFO, null);
-            // Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-            // JVNetConst.JVN_STREAM_INFO);
-            // new Thread(new
-            // TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
-
         }
 
     }
@@ -157,14 +137,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-
-        if (!update_flag) {
-            waitingDialog.show();
-            Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-                    JVNetConst.JVN_STREAM_INFO);
-            new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-                    .start();
-        }
 
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {

@@ -38,7 +38,6 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.tencent.stat.StatService;
-import com.umeng.socialize.utils.Log;
 
 import org.json.JSONObject;
 

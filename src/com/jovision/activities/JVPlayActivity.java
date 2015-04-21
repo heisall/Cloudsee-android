@@ -4421,7 +4421,7 @@ public class JVPlayActivity extends PlayActivity implements
                 "onResume viewpager:width=" + playViewPager.getWidth()
                         + "viewpager:height=" + playViewPager.getHeight());
         isBlockUi = true;
-//        updateStreaminfoFlag = false;
+        // updateStreaminfoFlag = false;
         handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
         handler.sendMessageDelayed(handler.obtainMessage(
                 Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),

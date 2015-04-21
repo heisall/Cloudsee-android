@@ -309,10 +309,10 @@ public class JVTabActivity extends ShakeActivity implements
             if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
                 int cnt = mApp.getNewPushCnt();
                 countshow = cnt;
-//                if (!MySharedPreference
-//                        .getBoolean(Consts.MORE_CLOUD_SHOP)) {
-//                    countshow = countshow + 1;
-//                }
+                // if (!MySharedPreference
+                // .getBoolean(Consts.MORE_CLOUD_SHOP)) {
+                // countshow = countshow + 1;
+                // }
                 Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
             }
             int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
@@ -437,10 +437,10 @@ public class JVTabActivity extends ShakeActivity implements
                     if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
                         int cnt = mApp.getNewPushCnt();
                         countshow = cnt;
-//                        if (!MySharedPreference
-//                                .getBoolean(Consts.MORE_CLOUD_SHOP)) {
-//                            countshow = countshow + 1;
-//                        }
+                        // if (!MySharedPreference
+                        // .getBoolean(Consts.MORE_CLOUD_SHOP)) {
+                        // countshow = countshow + 1;
+                        // }
                         Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():"
                                 + cnt);
                     }
@@ -561,10 +561,10 @@ public class JVTabActivity extends ShakeActivity implements
                     if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
                         int cnt = mApp.getNewPushCnt();
                         countshow = cnt;
-//                        if (!MySharedPreference
-//                                .getBoolean(Consts.MORE_CLOUD_SHOP)) {
-//                            countshow = countshow + 1;
-//                        }
+                        // if (!MySharedPreference
+                        // .getBoolean(Consts.MORE_CLOUD_SHOP)) {
+                        // countshow = countshow + 1;
+                        // }
                     }
                     int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
                     if (lan == Consts.LANGUAGE_ZH) {
@@ -889,10 +889,10 @@ public class JVTabActivity extends ShakeActivity implements
                     if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
                         int cnt = mApp.getNewPushCnt();
                         countshow = cnt;
-//                        if (!MySharedPreference
-//                                .getBoolean(Consts.MORE_CLOUD_SHOP)) {
-//                            countshow = countshow + 1;
-//                        }
+                        // if (!MySharedPreference
+                        // .getBoolean(Consts.MORE_CLOUD_SHOP)) {
+                        // countshow = countshow + 1;
+                        // }
                         Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
                     }
                     int lan = ConfigUtil.getLanguage2(JVTabActivity.this);

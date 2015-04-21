@@ -80,7 +80,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int intentnum;
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
-    private boolean update_flag = false;
+//    private boolean update_flag = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
         streamMap = (HashMap<String, String>) extras
                 .getSerializable("streamMap");
         deviceList = CacheUtil.getDevList();
-        update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
+//        update_flag = extras.getBoolean("updateflag");// 如果播放界面没取到码流数据，再取一遍
         funcParamArray = new String[10];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
         if (0 != deviceList.size()) {
             device = deviceList.get(deviceIndex);
@@ -115,23 +116,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
             waitingDialog.setCancelable(false);
             waitingDialog
                     .setMessage(getResources().getString(R.string.waiting));
-            bGetStreamInfoRes = update_flag;
-//            if (!update_flag) {
-//                waitingDialog.show();
-//                Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-//                        JVNetConst.JVN_STREAM_INFO);
-//                new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-//                        .start();
-//            }
-            // waitingDialog.show();
-            // 获取当前设置
-            // 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
-            // Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-            // JVNetConst.JVN_STREAM_INFO, null);
-            // Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-            // JVNetConst.JVN_STREAM_INFO);
-            // new Thread(new
-            // TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
         }
 
     }
@@ -154,13 +138,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
         // TODO Auto-generated method stub
         super.onResume();
 
-        if (!update_flag) {
-            waitingDialog.show();
-            Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-                    JVNetConst.JVN_STREAM_INFO);
-            new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-                    .start();
-        }        
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
@@ -302,12 +279,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
                                 }
                                 case JVNetConst.JVN_STREAM_INFO:// 码流
                                     myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
-                                    update_flag = true;
                                     bGetStreamInfoRes = true;
                                     HashMap<String, String> map = ConfigUtil
                                             .genMsgMap(dataObj.getString("msg"));
-                                    // streamMap = map;
-                                    ResolveStreamInfo(map);
+                                    streamMap = map;
+                                    UpdateSettingsRes(funcIndex, map);
                                     if (null != map.get("timezone")) {
                                         int index = Integer.valueOf(map
                                                 .get("timezone"));
@@ -467,7 +443,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
                         0x02,
                         String.format(Consts.FORMATTER_SET_ALARM_SOUND, enabled));
-                 new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();//by lkp@15.04.20
+                new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();// by
+                                                                                // lkp@15.04.20
                 break;
             }
             default:
@@ -816,11 +793,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
                             .start();// by lkp这地方不知道为啥屏蔽了。先放开吧
                     return;
                 case JVNetConst.JVN_STREAM_INFO:
-                    if(!bGetStreamInfoRes){//已这个为准
+                    if (!bGetStreamInfoRes) {// 已这个为准
                         strDescString = getResources().getString(
-                                R.string.str_setdev_params_timeout);// str_getdev_params_timeout                        
+                                R.string.str_setdev_params_timeout);// str_getdev_params_timeout
                     }
-                    else{
+                    else {
                         if (waitingDialog != null && waitingDialog.isShowing())
                             waitingDialog.dismiss();
                         return;
@@ -913,97 +890,114 @@ public class DeviceSettingsActivity extends BaseActivity implements
     /**
      * 设置参数后，重新去获取设备当前参数与要设置的参数去比较，然后做出判断是否成功
      */
-    void UpdateSettingsRes(int func_index) {
-        onFuncOperationFlag = false;
-        switch (func_index) {
-            case Consts.DEV_SETTINGS_ALARM:// 安全防护
-                // alarmEnabling已经是即将要改变的状态,详情见onFuncEnabled
-                if (alarmEnabling == Integer.valueOf(funcParamArray[func_index])) {
-                    // 成功
-                    // 安全防护或者设置安全防护时间ok
-                    alarmEnabled = alarmEnabling;
-                    try {
-                        initDevParamObject.put("bAlarmEnable", alarmEnabled);
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    mainListener.onMainAction(JVNetConst.RC_EXTEND,
-                            JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
-                            funcIndex, alarmEnabling, null);
-                    // showTextToast("安全防护成功");
-                } else {
-                    // 失败
-                    showTextToast(getResources().getString(
-                            R.string.str_operation_failed));
-                    finish();
-                }
-                break;
-            case Consts.DEV_SETTINGS_MD:// 移动侦测
-                // mdEnabling已经是即将要改变的状态,详情见onFuncEnabled
-                if (mdEnabling == Integer.valueOf(funcParamArray[func_index])) {
-                    // 成功
-                    // 移动侦测ok
-                    mdEnabled = mdEnabling;
-                    try {
-                        initDevParamObject.put("bMDEnable", mdEnabled);
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    mainListener.onMainAction(JVNetConst.RC_EXTEND,
-                            JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
-                            funcIndex, mdEnabling, null);
-                    // showTextToast("移动侦测成功");
-                } else {
-                    // 失败
-                    showTextToast(getResources().getString(
-                            R.string.str_operation_failed));
-                    finish();
-                }
-                break;
-            case Consts.DEV_SETTINGS_ALARMTIME:
-                // alarmTime0ing已经是即将要改变的状态,详情见OnAlarmTimeSaved
-                if (alarmTime0ing.equals(funcParamArray[func_index])) {
-                    // 成功
-                    mainListener.onMainAction(JVNetConst.RC_EXTEND,
-                            JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
-                            funcIndex, 0, null);
-                    // showTextToast("防护时间段成功");
-                } else {
-                    // 失败
-                    showTextToast(getResources().getString(
-                            R.string.str_operation_failed));
-                    finish();
-                }
-                break;
-            case Consts.DEV_ALARAM_SOUND:// 报警声音开关
-                // alarmSoundEnabling已经是即将要改变的状态,详情见onFuncEnabled
-                if (alarmSoundEnabling == Integer
-                        .valueOf(funcParamArray[func_index])) {
-                    // 成功
-                    // 报警声音开关ok
-                    alarmSoundEnabled = alarmSoundEnabling;
-                    try {
-                        initDevParamObject.put("bAlarmSound", alarmSoundEnabled);
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    mainListener.onMainAction(JVNetConst.RC_EXTEND,
-                            JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
-                            funcIndex, alarmSoundEnabling, null);
-                    // showTextToast("移动侦测成功");
-                } else {
-                    // 失败
-                    showTextToast(getResources().getString(
-                            R.string.str_operation_failed));
-                    finish();
-                }
-                break;
-            default:
-                break;
-        }
+    void UpdateSettingsRes(int func_index, HashMap<String, String> map) {
+        // 兼容没有返回值的设备
+        if (onFuncOperationFlag) {
+            if (funcIndex != Consts.DEV_SETTINGS_CLOUD) {// 云存储不需要
+                myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
+                String alarm_enable = map.get("bAlarmEnable");
+                funcParamArray[Consts.DEV_SETTINGS_ALARM] = alarm_enable;
+
+                String md_enable = map.get("bMDEnable");
+                funcParamArray[Consts.DEV_SETTINGS_MD] = md_enable;
+
+                alarmTime0 = map.get("alarmTime0");// alarmTime0
+                funcParamArray[Consts.DEV_SETTINGS_ALARMTIME] = alarmTime0;
+
+                String alarmsound_enable = map.get("bAlarmSound");
+                funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;                
+                onFuncOperationFlag = false;
+                switch (func_index) {
+                    case Consts.DEV_SETTINGS_ALARM:// 安全防护
+                        // alarmEnabling已经是即将要改变的状态,详情见onFuncEnabled
+                        if (alarmEnabling == Integer.valueOf(funcParamArray[func_index])) {
+                            // 成功
+                            // 安全防护或者设置安全防护时间ok
+                            alarmEnabled = alarmEnabling;
+                            try {
+                                initDevParamObject.put("bAlarmEnable", alarmEnabled);
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                                    JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
+                                    funcIndex, alarmEnabling, null);
+                            // showTextToast("安全防护成功");
+                        } else {
+                            // 失败
+                            showTextToast(getResources().getString(
+                                    R.string.str_operation_failed));
+                            finish();
+                        }
+                        break;
+                    case Consts.DEV_SETTINGS_MD:// 移动侦测
+                        // mdEnabling已经是即将要改变的状态,详情见onFuncEnabled
+                        if (mdEnabling == Integer.valueOf(funcParamArray[func_index])) {
+                            // 成功
+                            // 移动侦测ok
+                            mdEnabled = mdEnabling;
+                            try {
+                                initDevParamObject.put("bMDEnable", mdEnabled);
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                                    JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
+                                    funcIndex, mdEnabling, null);
+                            // showTextToast("移动侦测成功");
+                        } else {
+                            // 失败
+                            showTextToast(getResources().getString(
+                                    R.string.str_operation_failed));
+                            finish();
+                        }
+                        break;
+                    case Consts.DEV_SETTINGS_ALARMTIME:
+                        // alarmTime0ing已经是即将要改变的状态,详情见OnAlarmTimeSaved
+                        if (alarmTime0ing.equals(funcParamArray[func_index])) {
+                            // 成功
+                            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                                    JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
+                                    funcIndex, 0, null);
+                            // showTextToast("防护时间段成功");
+                        } else {
+                            // 失败
+                            showTextToast(getResources().getString(
+                                    R.string.str_operation_failed));
+                            finish();
+                        }
+                        break;
+                    case Consts.DEV_ALARAM_SOUND:// 报警声音开关
+                        // alarmSoundEnabling已经是即将要改变的状态,详情见onFuncEnabled
+                        if (alarmSoundEnabling == Integer
+                                .valueOf(funcParamArray[func_index])) {
+                            // 成功
+                            // 报警声音开关ok
+                            alarmSoundEnabled = alarmSoundEnabling;
+                            try {
+                                initDevParamObject.put("bAlarmSound", alarmSoundEnabled);
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            mainListener.onMainAction(JVNetConst.RC_EXTEND,
+                                    JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
+                                    funcIndex, alarmSoundEnabling, null);
+                            // showTextToast("移动侦测成功");
+                        } else {
+                            // 失败
+                            showTextToast(getResources().getString(
+                                    R.string.str_operation_failed));
+                            finish();
+                        }
+                        break;
+                    default:
+                        break;
+                }                
+            }
+        }        
     }
 
     private int ResolveStreamInfo(HashMap<String, String> map) {
@@ -1048,14 +1042,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
             funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;
             Log.e("Alarm", "ResolveStreamInfo >> " + alarm_enable + "--"
                     + md_enable + "--" + alarmTime0 + "--" + alarmsound_enable);
-            // 兼容没有返回值的设备
-            if (onFuncOperationFlag) {
-                if (funcIndex != Consts.DEV_SETTINGS_CLOUD) {// 云存储不需要
-                    myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
-                    UpdateSettingsRes(funcIndex);
-                    return -1;
-                }
-            }
+
             if (alarm_enable == null) {
                 alarmEnabled = -1;
             } else {

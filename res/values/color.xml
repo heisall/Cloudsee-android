@@ -527,10 +527,10 @@
     <color name="cloud_traffic_divider">#cecccd</color>
     <!-- newAdddevice -->
     <color name="my_bg">#c3c2c0</color>
-    <color name="soundwave_button_bg">#E5FAFD</color>
+    <color name="soundwave_button_bg">#FDEDEE</color>
     <color name="apset_button_bg">#F3ECFE</color>
     <color name="ip_dns_btn_bg">#FEF7E5</color>
-    <color name="local_network_btn_bg">#FDEDEE</color>
+    <color name="local_network_btn_bg">#F8F0DE</color>
     <color name="addview_space_bg">#F8F6F7</color>
 
 </resources>

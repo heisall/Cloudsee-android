@@ -333,12 +333,19 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
             no_device_lead.setText(myGettext());
             rightBtn.setOnClickListener(myOnClickListener);
 
-            if (null != mActivity.statusHashMap && null != mActivity.statusHashMap
-                    .get(Consts.MORE_SHOP_SWITCH)) {
-                if (1 == Integer.parseInt(mActivity.statusHashMap
-                        .get(Consts.MORE_SHOP_SWITCH))) {
-                    no_device_lead_text2.setVisibility(View.VISIBLE);
+            if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
+                    && Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {// 中文中国
+                if (null != mActivity.statusHashMap && null != mActivity.statusHashMap
+                        .get(Consts.MORE_SHOP_SWITCH)) {
+                    if (1 == Integer.parseInt(mActivity.statusHashMap
+                            .get(Consts.MORE_SHOP_SWITCH))) {
+                        no_device_lead_text2.setVisibility(View.VISIBLE);
+                    } else {
+                        no_device_lead_text2.setVisibility(View.GONE);
+                    }
                 }
+            } else {
+                no_device_lead_text2.setVisibility(View.GONE);
             }
             no_device_lead_text2.setOnClickListener(myOnClickListener);
             // if (0 == adUrlList.size()) {
@@ -1931,6 +1938,20 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
             mPullRefreshListView.onRefreshComplete();
             initADViewPager();
             mActivity.dismissDialog();
+            if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
+                    && Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {// 中文中国
+                if (null != mActivity.statusHashMap && null != mActivity.statusHashMap
+                        .get(Consts.MORE_SHOP_SWITCH)) {
+                    if (1 == Integer.parseInt(mActivity.statusHashMap
+                            .get(Consts.MORE_SHOP_SWITCH))) {
+                        no_device_lead_text2.setVisibility(View.VISIBLE);
+                    } else {
+                        no_device_lead_text2.setVisibility(View.GONE);
+                    }
+                }
+            } else {
+                no_device_lead_text2.setVisibility(View.GONE);
+            }
             switch (result) {
             // 从服务器端获取设备成功
                 case Consts.WHAT_DEVICE_GETDATA_SUCCESS: {

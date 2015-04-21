@@ -1338,7 +1338,7 @@ public abstract class PlayActivity extends BaseActivity implements
             open = true;
         } else {
             PlayUtil.startAudioMonitor(index);// enable audio
-            playAudio.startPlay(audioByte, true);
+            // playAudio.startPlay(audioByte, true);
             open = true;
         }
         return open;
@@ -1354,7 +1354,7 @@ public abstract class PlayActivity extends BaseActivity implements
         boolean close = false;
         if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
             PlayUtil.stopAudioMonitor(index);// stop audio
-            playAudio.stopPlay();
+            // playAudio.stopPlay();
             close = true;
         } else {// 确保不会重复关闭
             close = true;

@@ -1453,18 +1453,18 @@ public class JVWebView2Activity extends BaseActivity implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        if (playChannel.isConnected()) {
-            if (fullScreenFlag) {
-                fullScreenFlag = false;
-                fullScreen.setImageDrawable(getResources().getDrawable(
-                        R.drawable.full_screen_icon));
-            } else {
-                fullScreenFlag = true;
-                fullScreen.setImageDrawable(getResources().getDrawable(
-                        R.drawable.notfull_screen_icon));
-            }
-            setSurfaceSize(fullScreenFlag);
+        // if (playChannel.isConnected()) {
+        if (fullScreenFlag) {
+            fullScreenFlag = false;
+            fullScreen.setImageDrawable(getResources().getDrawable(
+                    R.drawable.full_screen_icon));
+        } else {
+            fullScreenFlag = true;
+            fullScreen.setImageDrawable(getResources().getDrawable(
+                    R.drawable.notfull_screen_icon));
         }
+        setSurfaceSize(fullScreenFlag);
+        // }
     }
 
     /**

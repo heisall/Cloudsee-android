@@ -81,6 +81,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
     private boolean update_flag = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,13 +117,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
             waitingDialog
                     .setMessage(getResources().getString(R.string.waiting));
             bGetStreamInfoRes = update_flag;
-//            if (!update_flag) {
-//                waitingDialog.show();
-//                Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-//                        JVNetConst.JVN_STREAM_INFO);
-//                new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-//                        .start();
-//            }
+            // if (!update_flag) {
+            // waitingDialog.show();
+            // Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+            // JVNetConst.JVN_STREAM_INFO);
+            // new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+            // .start();
+            // }
             // waitingDialog.show();
             // 获取当前设置
             // 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
@@ -160,7 +161,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
                     JVNetConst.JVN_STREAM_INFO);
             new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
                     .start();
-        }        
+        }
         if (null != streamMap.get("timezone")
                 && "".equals(MySharedPreference.getString("TIMEZONE"))) {
             int index = Integer.valueOf(streamMap
@@ -467,7 +468,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
                 Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
                         0x02,
                         String.format(Consts.FORMATTER_SET_ALARM_SOUND, enabled));
-                 new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();//by lkp@15.04.20
+                new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();// by
+                                                                                // lkp@15.04.20
                 break;
             }
             default:
@@ -816,11 +818,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
                             .start();// by lkp这地方不知道为啥屏蔽了。先放开吧
                     return;
                 case JVNetConst.JVN_STREAM_INFO:
-                    if(!bGetStreamInfoRes){//已这个为准
+                    if (!bGetStreamInfoRes) {// 已这个为准
                         strDescString = getResources().getString(
-                                R.string.str_setdev_params_timeout);// str_getdev_params_timeout                        
+                                R.string.str_setdev_params_timeout);// str_getdev_params_timeout
                     }
-                    else{
+                    else {
                         if (waitingDialog != null && waitingDialog.isShowing())
                             waitingDialog.dismiss();
                         return;

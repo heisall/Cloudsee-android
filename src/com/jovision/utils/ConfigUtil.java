@@ -531,7 +531,7 @@ public class ConfigUtil {
         if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
             result = Jni.init(context, 9200, Consts.LOG_PATH);
             ConfigUtil.getJNIVersion();
-            Jni.enableLog(true);
+            Jni.enableLog(false);
             Jni.setThumb(320, 90);
             Jni.setStat(true);
             if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP, true)) {

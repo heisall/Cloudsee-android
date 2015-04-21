@@ -292,7 +292,7 @@ public class JVTabActivity extends ShakeActivity implements
                 && Consts.LANGUAGE_ZH == ConfigUtil
                         .getLanguage2(JVTabActivity.this)
                 && Consts.LANGUAGE_ZH == ConfigUtil
-                		.getServerLanguage()
+                        .getServerLanguage()
                 && !"hasget".equals(statusHashMap.get("GETNUM"))
                 && !Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
             GetnoMessageTask task = new GetnoMessageTask();
@@ -323,9 +323,8 @@ public class JVTabActivity extends ShakeActivity implements
                     countshow = countshow + 1;
                 }
                 if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))
-                		&&Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this) && 
-    					Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-                		) {
+                        && Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this) &&
+                        Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
                     if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
                             && !"".equalsIgnoreCase(statusHashMap
                                     .get(Consts.MORE_GCS_SWITCH))) {
@@ -456,9 +455,8 @@ public class JVTabActivity extends ShakeActivity implements
                             countshow = countshow + 1;
                         }
                         if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))
-                        		&&Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this) && 
-            					Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-                        		) {
+                                && Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this) &&
+                                Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
                             if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
                                     && !"".equalsIgnoreCase(statusHashMap
                                             .get(Consts.MORE_GCS_SWITCH))) {
@@ -909,9 +907,8 @@ public class JVTabActivity extends ShakeActivity implements
                             countshow = countshow + 1;
                         }
                         if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))
-                        		&&Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this) && 
-            					Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-                        		) {
+                                && Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this) &&
+                                Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
                             if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
                                     && !"".equalsIgnoreCase(statusHashMap
                                             .get(Consts.MORE_GCS_SWITCH))) {

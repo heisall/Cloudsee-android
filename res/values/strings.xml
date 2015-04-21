@@ -462,7 +462,7 @@
     <string name="get_device_failed">Device loaded failed</string>
     <string name="search_device_failed">Check Device Online status failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
-    <string name="str_no_device_lead">Hi,buddy.~\n if you've already had cloudsee device, please add it by clicking "my device" tag.</string>
+    <string name="str_no_device_lead">Hi,buddy.\~\n if you\'ve already had cloudsee device, please add it by clicking \"my device\" tag.</string>
     <string name="str_no_device_lead2">If you still do not have device, you are invited to surf in the xiaowei mall.</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>

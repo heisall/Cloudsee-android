@@ -80,7 +80,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
     public int intentnum;
     public int nTimeFormat;
     private boolean bGetStreamInfoRes = false;
-//    private boolean update_flag = false;
+
+    // private boolean update_flag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

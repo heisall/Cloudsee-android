@@ -89,6 +89,7 @@
                     android:id="@+id/voice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/playbackfullscreen"
@@ -136,6 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/videolayout"
+            android:layout_marginBottom="55dp"
             android:background="@color/white"
             android:visibility="visible" >
 
@@ -143,7 +145,7 @@
                 android:id="@+id/yt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_centerVertical="true"
                 layout="@layout/yt_vertical_layout"
                 android:visibility="gone" />
 

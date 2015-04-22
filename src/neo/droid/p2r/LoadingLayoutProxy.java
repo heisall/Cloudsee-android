@@ -1,63 +1,65 @@
+
 package neo.droid.p2r;
 
-import java.util.HashSet;
-
-import neo.droid.p2r.internal.LoadingLayout;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
+import neo.droid.p2r.internal.LoadingLayout;
+
+import java.util.HashSet;
+
 public class LoadingLayoutProxy implements ILoadingLayout {
 
-	private final HashSet<LoadingLayout> mLoadingLayouts;
+    private final HashSet<LoadingLayout> mLoadingLayouts;
 
-	LoadingLayoutProxy() {
-		mLoadingLayouts = new HashSet<LoadingLayout>();
-	}
+    LoadingLayoutProxy() {
+        mLoadingLayouts = new HashSet<LoadingLayout>();
+    }
 
-	public void addLayout(LoadingLayout layout) {
-		if (null != layout) {
-			mLoadingLayouts.add(layout);
-		}
-	}
+    public void addLayout(LoadingLayout layout) {
+        if (null != layout) {
+            mLoadingLayouts.add(layout);
+        }
+    }
 
-	@Override
-	public void setLastUpdatedLabel(CharSequence label) {
-		for (LoadingLayout layout : mLoadingLayouts) {
-			layout.setLastUpdatedLabel(label);
-		}
-	}
+    @Override
+    public void setLastUpdatedLabel(CharSequence label) {
+        for (LoadingLayout layout : mLoadingLayouts) {
+            layout.setLastUpdatedLabel(label);
+        }
+    }
 
-	@Override
-	public void setLoadingDrawable(Drawable drawable) {
-		for (LoadingLayout layout : mLoadingLayouts) {
-			layout.setLoadingDrawable(drawable);
-		}
-	}
+    @Override
+    public void setLoadingDrawable(Drawable drawable) {
+        for (LoadingLayout layout : mLoadingLayouts) {
+            layout.setLoadingDrawable(drawable);
+        }
+    }
 
-	@Override
-	public void setRefreshingLabel(CharSequence refreshingLabel) {
-		for (LoadingLayout layout : mLoadingLayouts) {
-			layout.setRefreshingLabel(refreshingLabel);
-		}
-	}
+    @Override
+    public void setRefreshingLabel(CharSequence refreshingLabel) {
+        for (LoadingLayout layout : mLoadingLayouts) {
+            layout.setRefreshingLabel(refreshingLabel);
+        }
+    }
 
-	@Override
-	public void setPullLabel(CharSequence label) {
-		for (LoadingLayout layout : mLoadingLayouts) {
-			layout.setPullLabel(label);
-		}
-	}
+    @Override
+    public void setPullLabel(CharSequence label) {
+        for (LoadingLayout layout : mLoadingLayouts) {
+            layout.setPullLabel(label);
+        }
+    }
 
-	@Override
-	public void setReleaseLabel(CharSequence label) {
-		for (LoadingLayout layout : mLoadingLayouts) {
-			layout.setReleaseLabel(label);
-		}
-	}
+    @Override
+    public void setReleaseLabel(CharSequence label) {
+        for (LoadingLayout layout : mLoadingLayouts) {
+            layout.setReleaseLabel(label);
+        }
+    }
 
-	public void setTextTypeface(Typeface tf) {
-		for (LoadingLayout layout : mLoadingLayouts) {
-			layout.setTextTypeface(tf);
-		}
-	}
+    public void setTextTypeface(Typeface tf) {
+        for (LoadingLayout layout : mLoadingLayouts) {
+            layout.setTextTypeface(tf);
+        }
+    }
 }

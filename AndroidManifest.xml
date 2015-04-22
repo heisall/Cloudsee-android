@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
-    android:versionCode="52"
-    android:versionName="V5.2.0" >
+    android:versionCode="54"
+    android:versionName="V5.4.0" >
 
     <supports-screens
         android:anyDensity="true"
@@ -60,6 +60,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- <uses-permission android:name="getui.permission.GetuiService.第三方包名" /> -->
     <uses-permission android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp" />
@@ -69,7 +71,7 @@
     <permission
         android:name="getui.permission.GetuiService.第三方包名"
         android:protectionLevel="normal" >
-    </permission>
+    </permission>
     -->
     <permission
         android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp"
@@ -113,7 +115,7 @@
         <!-- 请将CHANNAL改为app的发布渠道 < -->
         <meta-data
             android:name="InstallChannel"
-            android:value="huawei" />
+            android:value="anzhi" />
         <!-- mta系统的权限< -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -121,7 +123,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="huawei" />
+            android:value="anzhi" />
 
         <activity
             android:name="com.jovision.activities.JVWelcomeActivity"
@@ -164,7 +166,21 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
+            android:name="com.jovision.activities.JVNetImageViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
             android:name="com.jovision.activities.JVRebandContactActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVSetTimeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
@@ -287,7 +303,7 @@
             android:name="com.jovision.activities.JVWebView2Activity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustUnspecified" >
         </activity>
         <activity
@@ -334,6 +350,13 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVAddDeviceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVNewAddDeviceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
@@ -389,6 +412,12 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVRegisterActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVTimeZoneActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
@@ -607,6 +636,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name="com.jovision.activities.UserCloudStorgeBriefBillActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
 
         <service
             android:name="com.jovision.CoreService"
@@ -641,7 +677,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <!-- 微信回调activity -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.jovetech.CloudSee.temp.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -707,7 +743,7 @@
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"

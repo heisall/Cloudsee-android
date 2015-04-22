@@ -79,6 +79,7 @@
     <color name="button_fontstyle">#a9b8cc</color>
     <color name="button_fontstyl11">#b4b4b8</color>
     <color name="button_fontstyle2">#94b9d9</color>
+    <color name="time_gone">#8effffff</color>
     <!-- 更多功能字体颜色 -->
     <color name="more_fragment_color">#888888</color>
     <color name="more_fragment_color1">#3c72c4</color>
@@ -101,7 +102,8 @@
     <color name="morefragment_color6">#FD8E35</color>
     <color name="morefragment_color7">#FF565B</color>
     <color name="morefragment_version">#2F84DF</color>
-    <color name="morefragment">#EBEAEB</color>
+    <color name="morefragment">#EBEBEB</color>
+    <color name="dev_setting">#FCFCFC</color>
     <!-- 视频播放 -->
     <color name="play_divider">#D9D9D9</color>
     <color name="play_color">#1eFFFFFF</color>
@@ -115,6 +117,7 @@
     <color name="device_talk">#FEDCDD</color>
     <color name="device_talk_press">#FEBABC</color>
     <color name="device_voicealerm">#D3D3D3</color>
+    <color name="device_share_link">#D8F0F9</color>
 
     <!-- 设备管理 -->
     <color name="cloud_color">#cccccc</color>
@@ -509,5 +512,25 @@
     <color name="string_content">#3D73AF</color>
     <color name="link_color">#ff406ca2</color>
     <color name="link_color_pressed">#ff7a93af</color>
+
+    <!-- customize -->
+    <color name="tab_text_normal">#898989</color>
+    <color name="tab_text_selected">#898989</color>
+    <color name="customize_item_text_color">#ff828282</color>
+
+    <!-- 云存储 -->
+    <color name="cloud_traffic_title">#828282</color>
+    <color name="cloud_traffic_value">#515252</color>
+    <color name="cloud_traffic_color_1">#f8f6f6</color>
+    <color name="cloud_traffic_color_2">#e8e8e8</color>
+    <color name="cloud_traffic_circle_fill">#7abf66</color>
+    <color name="cloud_traffic_divider">#cecccd</color>
+    <!-- newAdddevice -->
+    <color name="my_bg">#c3c2c0</color>
+    <color name="soundwave_button_bg">#FDEDEE</color>
+    <color name="apset_button_bg">#F3ECFE</color>
+    <color name="ip_dns_btn_bg">#FEF7E5</color>
+    <color name="local_network_btn_bg">#F8F0DE</color>
+    <color name="addview_space_bg">#F8F6F7</color>
 
 </resources>

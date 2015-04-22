@@ -18,22 +18,99 @@
             android:orientation="vertical" >
 
             <RelativeLayout
+                android:id="@+id/funclayout0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/dev_settting_function_background" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:id="@+id/funtion_image0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/cloud_function" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/funtion_image0"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/funtion_titile0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_cloud_serv_func"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/funtion_titile01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/str_audio_monitor_tips"
+                        android:textColor="@color/userinfocolor"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/function_switch_01"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/funclayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/dev_settting_function_background"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:background="@drawable/dev_settting_function_background" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
 
                 <ImageView
                     android:id="@+id/funtion_image1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/safety_protection" />
 
                 <LinearLayout
@@ -65,30 +142,28 @@
 
                 <ImageView
                     android:id="@+id/function_switch_11"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_tips_01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/str_alarm_setting_tips1"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
             <!-- 移动侦测 -->
 
@@ -98,17 +173,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
 
                 <ImageView
                     android:id="@+id/funtion_image2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/motion_detection" />
 
                 <LinearLayout
@@ -140,30 +225,28 @@
 
                 <ImageView
                     android:id="@+id/function_switch_21"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_tips_02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/str_alarm_setting_tips2"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
             <!-- 防护时间段 -->
 
@@ -173,17 +256,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
 
                 <ImageView
                     android:id="@+id/funtion_image3"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/saft_setting_icon" />
 
                 <RelativeLayout
@@ -222,8 +315,8 @@
 
                         <Button
                             android:id="@+id/function_arrow"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="16dp"
@@ -236,16 +329,15 @@
                 android:id="@+id/rl_tips_03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/str_alarm_setting_tips3"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
             <!-- 修改用户名密码 -->
 
@@ -255,17 +347,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
 
                 <ImageView
                     android:id="@+id/funtion_image4"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/morefragment_modifymessage_icon" />
 
                 <RelativeLayout
@@ -292,8 +394,8 @@
                         android:orientation="horizontal" >
 
                         <Button
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_marginRight="16dp"
                             android:background="@drawable/morefragment_next_icon" />
                     </LinearLayout>
@@ -304,16 +406,249 @@
                 android:id="@+id/rl_tips_04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/str_alarm_setting_tips4"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <!-- 设置时区功能 -->
+
+            <RelativeLayout
+                android:id="@+id/funclayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:id="@+id/funtion_image7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/time_zone" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/funtion_image7" >
+
+                    <TextView
+                        android:id="@+id/funtion_titile_71"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/funtion_titile_layout_711"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/morefragment_next_icon" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_tips_07"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_alarm_setting_tips7"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <!-- 校准时间功能 -->
+
+            <RelativeLayout
+                android:id="@+id/funclayout9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:id="@+id/funtion_image9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/set_time" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/funtion_image9" >
+
+                    <TextView
+                        android:id="@+id/funtion_titile_91"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/str_set_time"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/funtion_titile_layout_911"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/morefragment_next_icon" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_tips_09"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_alarm_setting_tips9"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <!-- 重启设备功能 -->
+
+            <RelativeLayout
+                android:id="@+id/funclayout8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:id="@+id/funtion_image8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/restart_device" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/funtion_image8" >
+
+                    <TextView
+                        android:id="@+id/funtion_titile_81"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/str_restart_device"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/funtion_titile_layout_811"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/morefragment_next_icon" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_tips_08"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_alarm_setting_tips6"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <!-- 重置设备功能 -->
@@ -324,17 +659,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/morefragment"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:background="@color/dev_setting" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
 
                 <ImageView
                     android:id="@+id/funtion_image5"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/reset_device" />
 
                 <RelativeLayout
@@ -361,8 +706,8 @@
                         android:orientation="horizontal" >
 
                         <Button
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_marginRight="16dp"
                             android:background="@drawable/morefragment_next_icon" />
                     </LinearLayout>
@@ -373,16 +718,15 @@
                 android:id="@+id/rl_tips_05"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/str_alarm_setting_tips5"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <!-- 设备报警声音 -->
@@ -393,17 +737,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/dev_settting_function_background"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:background="@drawable/dev_settting_function_background" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/morefragment" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/morefragment" />
 
                 <ImageView
                     android:id="@+id/funtion_image6"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/alarm_sound" />
 
                 <LinearLayout
@@ -433,30 +787,28 @@
 
                 <ImageView
                     android:id="@+id/function_switch_31"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:clickable="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/morefragment_normal_icon" />
+                    android:background="@drawable/morefragment_normal_icon"
+                    android:clickable="true" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_tips_06"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/dev_alarm_sound_tips"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

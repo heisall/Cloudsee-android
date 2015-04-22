@@ -16,7 +16,7 @@
         <item>Alarm Message</item>
         <item>Viewing Mode(Single-device)</item>
         <item>Share</item>
-        <item>CloudSEE Index</item>
+        <item>Cloud Storage Activated</item>
         <item>I want this</item>
         <item>Enter into community</item>
         <item>System Information</item>
@@ -27,6 +27,7 @@
         <item>Helper</item>
         <item>BroadCast</item>
         <item>Test Switch</item>
+        <item>Foreign server</item>
         <item>Version</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -36,7 +37,7 @@
         <item>Alarm Message</item>
         <item>Viewing Mode(Multi-device)</item>
         <item>Share</item>
-        <item>CloudSEE Index</item>
+        <item>Cloud Storage Activated</item>
         <item>I want this</item>
         <item>Enter into community</item>
         <item>System Information</item>
@@ -47,6 +48,7 @@
         <item>Helper</item>
         <item>BroadCast</item>
         <item>Test Switch</item>
+        <item>Foreign server</item>
         <item>Version</item>
     </string-array>
     <!-- add Dev pop menu -->
@@ -64,6 +66,33 @@
         <item>Scan QR Code</item>
     </string-array>
     <!-- 家庭安防产品 -->
+    <string-array name="time_zone">
+        <item>UTC+12</item>
+        <item>UTC+11</item>
+        <item>UTC+10</item>
+        <item>UTC+9</item>
+        <item>UTC+8</item>
+        <item>UTC+7</item>
+        <item>UTC+6</item>
+        <item>UTC+5</item>
+        <item>UTC+4</item>
+        <item>UTC+3</item>
+        <item>UTC+2</item>
+        <item>UTC+1</item>
+        <item>UTC</item>
+        <item>UTC-1</item>
+        <item>UTC-2</item>
+        <item>UTC-3</item>
+        <item>UTC-4</item>
+        <item>UTC-5</item>
+        <item>UTC-6</item>
+        <item>UTC-7</item>
+        <item>UTC-8</item>
+        <item>UTC-9</item>
+        <item>UTC-10</item>
+        <item>UTC-11</item>
+        <item>UTC-12</item>
+    </string-array>
     <!-- 图片质量 -->
     <string-array name="array_image_quality">
         <item>Fluent</item>
@@ -193,6 +222,30 @@
         <!-- tag 无子标题tips -->
         <item>Bell remind when get notification</item>
         <item>Vibration remind when get notification</item>
+    </string-array>
+    <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
+    <string-array name="array_tabs_sequence">
+        <item>a</item>
+        <item>b</item>
+        <item>d</item>
+        <item>e</item>
+    </string-array>
+    <!-- 播放界面中相关功能.普通 -->
+    <string-array name="array_play_functions_common">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+    </string-array>
+    <!-- 播放界面中相关功能.AP -->
+    <string-array name="array_play_functions_ap">
+        <item>a</item>
+        <item>d</item>
+    </string-array>
+    <!-- 播放界面中相关功能.猫眼 -->
+    <string-array name="array_play_functions_cat">
+        <item>e</item>
+        <item>b</item>
+        <item>c</item>
     </string-array>
 
 </resources>

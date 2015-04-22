@@ -158,4 +158,16 @@
         <!-- 模糊 -->
     </style>
 
+    <!-- customize -->
+    <style name="CustomizeBoardWindowAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/customize_window_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/customize_window_fade_out</item>
+    </style>
+    <!-- 自定义edittext nihy -->
+    <style name="my_edittext_style" parent="@android:style/Widget.EditText">
+
+        <!-- 背景 -->
+        <item name="android:background">@drawable/new_adddevice_edit_bg</item>
+    </style>
+
 </resources>

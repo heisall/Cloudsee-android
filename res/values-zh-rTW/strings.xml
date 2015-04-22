@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">用戶名格式不正確，只能為手機號或郵箱.</string>
     <string name="login_str_username_tips2">用戶名不能全為數字，請確認輸入的是手機號.</string>
     <string name="login_str_username_tips3">用戶名由英文、數字及-_組成</string>
-    <string name="login_str_username_tips4">用戶名長度只能在4-28位字元之間</string>
-    <string name="login_str_password_tips1">密碼長度應在6-20位字元之間</string>
+    <string name="login_str_username_tips4">用戶名長度只能在4–28位字元之間</string>
+    <string name="login_str_password_tips1">密碼長度應在6–20位字元之間</string>
     <string name="login_str_login_failed">登錄失敗</string>
     <string name="login_str_regist_success">註冊成功</string>
     <string name="login_str_registerchoiceone">手機註冊</string>
@@ -26,18 +26,17 @@
     <string name="login_str_device">設備列表</string>
     <string name="login_str_add_device">增加設備</string>
     <string name="login_str_device_devicename_notnull">請輸入設備昵稱</string>
-    <string name="login_str_nike_name_order">昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="login_str_nike_name_order">昵稱由1–20個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
     <string name="device_pass_notzh">密碼不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道數量不能為空</string>
-    <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1-16位的英文、數字及._-組成.</string>
-    <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0-16位字元組成.</string>
+    <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1–16位的英文、數字及._-組成.</string>
+    <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0–16位字元組成.</string>
     <string name="login_str_device_add_success">添加設備成功</string>
     <string name="login_str_device_add_failed">添加設備失敗</string>
     <string name="login_str_point_delete_success">通道刪除成功</string>
     <string name="login_str_point_delete_failed">通道刪除失敗</string>
-    <string name="login_str_point_add_success">通道添加成功</string>
     <string name="login_str_point_add_failed">通道添加失敗</string>
     <string name="login_str_point_edit_success">通道修改成功</string>
     <string name="login_str_point_edit_failed">通道修改失敗</string>
@@ -130,9 +129,12 @@
     <string name="record_failed">錄影無效</string>
     <string name="voice_send">按住說話</string>
     <string name="voice_stop">鬆開結束</string>
+    <string name="voice_ear_tips">戴耳機使用音頻，效果更佳</string>
     <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>
+    <string name="str_share_link">分享鏈接</string>
+    <string name="str_share_link_tips"></string>
     <!-- PlayHelp -->
     <string name="playhelp_pull">切換多屏顯示</string>
     <string name="playhelp_moreview">更多→圖像查看</string>
@@ -279,8 +281,21 @@
     <string name="str_updating">正在下載更新軟體</string>
     <string name="str_change_zoom">變倍</string>
     <string name="str_change_focus">變焦</string>
+    <string name="yt_speed">速度</string>
     <string name="str_exiting_now">正在斷開,請等待…</string>
     <string name="str_no_response_data">網路連接異常，請重新登錄.</string>
+    <!-- JVNewAddDeviceActivity -->
+    <string name="str_new_add_device">選擇添加設備</string>
+    <string name="str_new_add_device_edit_hint">請輸入雲視通賬號</string>
+    <string name="str_new_add_device_confirm">確認</string>
+    <string name="str_new_add_device_tab_title">掃壹掃</string>
+    <string name="str_new_add_device_networking">已聯網設備</string>
+    <string name="str_new_add_device_nonetworking">未聯網設備</string>
+    <string name="str_new_add_device_other">其他方式</string>
+    <string name="str_new_add_device_AP">無線配置</string>
+    <string name="str_new_add_device_wave">聲波配置</string>
+    <string name="str_new_add_device_IP"> IP/域名添加</string>
+    <string name="str_new_add_device_localnetwork">局域網添加</string>
     <!-- 設備管理 -->
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">連接網路超時，請檢查.</string>
@@ -388,7 +403,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">視頻廣場</string>
     <string name="demo_get_failed">視頻廣場加載失敗</string>
-    <string name="demo_loading">正在努力加載...</string>
+    <string name="demo_loading">正在努力加載…</string>
     <!-- JVTab -->
     <string name="account_error_tips">您已離線，請點擊登錄。</string>
     <string name="network_error_tips">網絡連接不可用，是否進行設置?</string>
@@ -447,6 +462,8 @@
     <string name="get_device_failed">設備加載失敗</string>
     <string name="search_device_failed">檢索設備在線狀態失敗</string>
     <string name="press_screen_refresh">點擊螢幕刷新</string>
+    <string name="str_no_device_lead">Hi,小夥伴~\n如果您已經有了雲視通設備，點擊我的設備@把它加進來吧~</string>
+    <string name="str_no_device_lead2">還沒有設備？去小維商城逛壹下吧~</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暫時沒有報警數據</string>
     <string name="alarm_level">報警級別</string>
@@ -473,6 +490,8 @@
     <string name="connfailed_timeout">連接超時</string>
     <string name="connfailed_checkpass_timout">連接超時.</string>
     <string name="connfailed_auth_tips">用戶名或密碼錯誤，立即修改?</string>
+    <string name="edit_userinfo_success">用戶名或密碼修改成功。</string>
+    <string name="edit_userinfo_failed">用戶名或密碼修改失敗。</string>
     <string name="connect_failed">連接失敗</string>
     <string name="connecting">連接中…</string>
     <string name="closed">已斷開</string>
@@ -564,6 +583,12 @@
     <string name="protect_open_fail">安全防護打開失敗</string>
     <string name="protect_close_succ">安全防護關閉成功</string>
     <string name="protect_close_fail">安全防護關閉失敗</string>
+    <string name="cloud_open_succ">雲存儲服務打開成功</string>
+    <string name="cloud_open_fail">雲存儲服務打開失敗</string>
+    <string name="cloud_close_succ">雲存儲服務關閉成功</string>
+    <string name="cloud_close_fail">雲存儲服務關閉失敗</string>
+    <string name="cloud_serv_open">開啟雲存儲服務</string>
+    <string name="cloud_serv_close">關閉雲存儲服務</string>
     <string name="device_offline">設備離線不能執行此操作</string>
     <string name="device_offlines">設備離線</string>
     <string name="device_model">型號</string>
@@ -576,8 +601,8 @@
     <string name="check_key_update_error">更新出錯，請重新更新。</string>
     <string name="update">升級</string>
     <string name="key_update_title">升級內容</string>
-    <string name="downloading_update">正在下載。。。</string>
-    <string name="writing_update">正在燒寫。。。</string>
+    <string name="downloading_update">正在下載…</string>
+    <string name="writing_update">設備正在燒寫，請勿斷電…</string>
     <string name="writing_update_error">燒寫出錯</string>
     <string name="key_update_reset">設備版本更新成功，是否重啟設備？</string>
     <string name="update_reset_success">重啟設備</string>
@@ -640,7 +665,19 @@
     <string name="str_buffering">正在緩衝…</string>
     <string name="str_safe_protected">安全防護</string>
     <string name="str_reset_device">重置設備功能</string>
+    <string name="str_restart_device">重啟設備功能</string>
+    <string name="str_set_time">時間設置</string>
+    <string name="str_time_format">時間格式</string>
+    <string name="str_date_format">日期格式</string>
+    <string name="str_network">網絡對時</string>
+    <string name="str_local_time">當前地區習慣</string>
+    <string name="str_year">年</string>
+    <string name="str_month">月</string>
+    <string name="str_day">日</string>
+    <string name="str_hour">時</string>
+    <string name="str_minite">分</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
+    <string name="str_restart_sure">確定重啟設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
     <string name="dev_alarm_sound_tips">報警聲音關閉後，當發生報警時，設備將不發出聲音 。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
@@ -695,12 +732,17 @@
     <string name="str_all_day">全天</string>
     <string name="str_alarm_setting_tips5">重置後設備將恢復出廠設置。</string>
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
+    <string name="str_alarm_setting_tips6">重啟後設備將重新啟動。</string>
+    <string name="str_alarm_setting_tips7">可以設置妳所在的時區。</string>
+    <string name="str_alarm_setting_tips9">可以校準設備時間。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
     <string name="str_setdev_params_timeout">設置設備參數超時</string>
     <string name="str_computre_time1"> 結束時間不能小於開始時間</string>
     <string name="str_computre_time3"> 開始時間不能等於結束時間</string>
     <string name="str_setting_time">設置時間</string>
+    <string name="str_setting_time_success">時間設置成功</string>
+    <string name="str_setting_submittime">設置</string>
     <string name="str_disconnect_resp_timeout">斷開連接超時</string>
     <string name="str_operation_success">操作成功</string>
     <string name="str_operation_failed">操作不成功</string>
@@ -708,11 +750,26 @@
     <string name="str_mdenabled_open_failed">移動偵測打開失敗</string>
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
-    <string name="str_illegal_dev_nick">昵稱应由1-24個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="str_illegal_dev_nick">昵稱应由1–24個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <string name="str_cloud_file_error_2">此通道沒有雲存儲信息</string>
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
     <string name="str_tpush_autostart_tips_v6">爲保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心"->\"授權管理\"->\"自啟動管理\"界面，將本軟件設置爲允許自動啟動</string>
+    <string name="str_alarm_storge_cloud">雲存儲報警</string>
+    <string name="str_alarm_storge_normal">普通報警</string>
+    <!-- 云存储 -->
+    <string name="str_cloud_serv_func">雲存儲服務</string>
+    <string name="str_cloud_state">雲存儲</string>
+    <string name="str_cloud_query_error_1">查詢用戶使用詳情失敗</string>
+    <string name="str_cloud_query_title">剩余流量</string>
+    <string name="str_cloud_charge_left">充值流量剩余</string>
+    <string name="str_cloud_free_left">赠送剩余</string>
+    <string name="str_report_flow_ok">上报成功</string>
+    <string name="str_report_flow_failed">上报失败</string>
+    <string name="str_check_flow_tips1">您的剩余流量不足，无法查看视频</string>
+    <string name="str_check_flow_tips2">您的剩余流量已不足%%M, 为不影响正常使用，请及时购买相关服务</string>
+    <string name="str_cloud_url_error1">报警云存储信息有误</string>
+    <string name="str_cloud_query_error_2">查询用户流量信息失败</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">拍照上传</string>
     <string name="select_to_upload">选择图片</string>
@@ -753,6 +810,10 @@
     <string name="census_version">版本號</string>
     <string name="str_error_vercode">无效验证码</string>
     <string name="location_login_hand">访客</string>
+    <!-- 时区设置 -->
+    <string name="str_timezone">時區設置</string>
+    <string name="str_current_time_zone">目前所在時區</string>
+    <string name="time_zone">時區設置</string>
     <!-- 找回密碼 -->
     <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>
@@ -766,11 +827,11 @@
     <string name="reset_passwd_done">完成</string>
     <string name="reset_passwd_tips1">請輸入要重置密碼的帳號</string>
     <string name="reset_passwd_tips2">輸入的帳號不合法</string>
-    <string name="reset_passwd_tips3">請稍後...</string>
+    <string name="reset_passwd_tips3">請稍後…</string>
     <string name="reset_passwd_tips4">我們已經發送了驗證碼到你的手機:</string>
     <string name="reset_passwd_tips5">您綁定的手機號碼不合法</string>
     <string name="reset_passwd_tips6">填寫驗證碼</string>
-    <string name="reset_passwd_tips7">發送中...</string>
+    <string name="reset_passwd_tips7">發送中…</string>
     <string name="reset_passwd_tips8">驗證未通過</string>
     <string name="reset_passwd_virificaition_code_wrong">驗證碼不正確</string>
     <string name="reset_passwd_failed">重置密碼失敗</string>

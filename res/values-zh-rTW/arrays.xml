@@ -16,9 +16,9 @@
         <item>報警消息</item>
         <item>觀看模式(單設備)</item>
         <item>設備分享</item>
-        <item>雲視通指數</item>
-        <item>工程商入駐</item>
-        <item>进入社区</item>
+        <item>雲服務開通</item>
+        <item>小維工程</item>
+        <item>進入社區</item>
         <item>系統消息</item>
         <item>圖像查看</item>
         <item>意見回饋</item>
@@ -27,6 +27,7 @@
         <item>小助手</item>
         <item>廣播</item>
         <item>測試開關</item>
+        <item>國外服務器</item>
         <item>版本號</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -36,9 +37,9 @@
         <item>報警消息</item>
         <item>觀看模式(多設備)</item>
         <item>設備分享</item>
-        <item>雲視通指數</item>
-        <item>工程商入駐</item>
-        <item>进入社区</item>
+        <item>雲服務開通</item>
+        <item>小維工程</item>
+        <item>進入社區</item>
         <item>系統消息</item>
         <item>圖像查看</item>
         <item>意見回饋</item>
@@ -47,6 +48,7 @@
         <item>小助手</item>
         <item>廣播</item>
         <item>測試開關</item>
+        <item>國外服務器</item>
         <item>版本號</item>
     </string-array>
     <!-- add Dev pop menu -->
@@ -64,6 +66,33 @@
         <item>二維碼掃描</item>
     </string-array>
     <!-- 家庭安防產品 -->
+    <string-array name="time_zone">
+        <item>東十二區</item>
+        <item>東十壹區</item>
+        <item>東十區</item>
+        <item>東九區</item>
+        <item>東八區</item>
+        <item>東七區</item>
+        <item>東六區</item>
+        <item>東五區</item>
+        <item>東四區</item>
+        <item>東三區</item>
+        <item>東二區</item>
+        <item>東壹區</item>
+        <item>中時區</item>
+        <item>西壹區</item>
+        <item>西二區</item>
+        <item>西三區</item>
+        <item>西四區</item>
+        <item>西五區</item>
+        <item>西六區</item>
+        <item>西七區</item>
+        <item>西八區</item>
+        <item>西九區</item>
+        <item>西十區</item>
+        <item>西十壹區</item>
+        <item>西十二區</item>
+    </string-array>
     <!-- 圖片品質 -->
     <string-array name="array_image_quality">
         <item>流暢</item>
@@ -193,6 +222,13 @@
         <!-- tag 無子標題tips -->
         <item>通知時鈴聲提醒</item>
         <item>通知時振動提醒</item>
+    </string-array>
+    <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
+    <string-array name="array_tabs_sequence">
+        <item>a</item>
+        <item>b</item>
+        <item>d</item>
+        <item>e</item>
     </string-array>
 
 </resources>

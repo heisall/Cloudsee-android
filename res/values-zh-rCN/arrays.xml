@@ -16,8 +16,8 @@
         <item>报警信息</item>
         <item>观看模式(单设备)</item>
         <item>设备分享</item>
-        <item>云视通指数</item>
-        <item>工程商入驻</item>
+        <item>云服务开通</item>
+        <item>小维工程</item>
         <item>进入社区</item>
         <item>系统消息</item>
         <item>图像查看</item>
@@ -27,6 +27,7 @@
         <item>小助手</item>
         <item>广播</item>
         <item>测试开关</item>
+        <item>国外服务器</item>
         <item>版本号</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -36,8 +37,8 @@
         <item>报警信息</item>
         <item>观看模式(多设备)</item>
         <item>设备分享</item>
-        <item>云视通指数</item>
-        <item>工程商入驻</item>
+        <item>云服务开通</item>
+        <item>小维工程</item>
         <item>进入社区</item>
         <item>系统消息</item>
         <item>图像查看</item>
@@ -47,6 +48,7 @@
         <item>小助手</item>
         <item>广播</item>
         <item>测试开关</item>
+        <item>国外服务器</item>
         <item>版本号</item>
     </string-array>
     <!-- add Dev pop menu -->
@@ -64,6 +66,33 @@
         <item>二维码扫描</item>
     </string-array>
     <!-- 家庭安防产品 -->
+    <string-array name="time_zone">
+        <item>东十二区</item>
+        <item>东十一区</item>
+        <item>东十区</item>
+        <item>东九区</item>
+        <item>东八区</item>
+        <item>东七区</item>
+        <item>东六区</item>
+        <item>东五区</item>
+        <item>东四区</item>
+        <item>东三区</item>
+        <item>东二区</item>
+        <item>东一区</item>
+        <item>中时区</item>
+        <item>西一区</item>
+        <item>西二区</item>
+        <item>西三区</item>
+        <item>西四区</item>
+        <item>西五区</item>
+        <item>西六区</item>
+        <item>西七区</item>
+        <item>西八区</item>
+        <item>西九区</item>
+        <item>西十区</item>
+        <item>西十一区</item>
+        <item>西十二区</item>
+    </string-array>
     <!-- 图片质量 -->
     <string-array name="array_image_quality">
         <item>流畅</item>
@@ -193,6 +222,26 @@
         <!-- tag 无子标题tips -->
         <item>通知时铃声提醒</item>
         <item>通知时振动提醒</item>
+    </string-array>
+    <!-- 中间自定义面板中的元素, *本数组不需要翻译,目前只有中文下有这些功能* -->
+    <string-array name="array_customize_board">
+        <item>小维社区</item>
+        <item>小维商城</item>
+        <item>小维工程</item>
+    </string-array>
+    <!-- 中间自定义面板中的元素对应的tag,必须和array_customize_board数组对应 -->
+    <string-array name="array_customize_item_tag">
+        <item>a</item>
+        <item>c</item>
+        <item>d</item>
+    </string-array>
+    <!-- 底部Tabs的默认顺序,字母表示fragment的唯一标识 -->
+    <string-array name="array_tabs_sequence">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
+        <item>e</item>
     </string-array>
 
 </resources>

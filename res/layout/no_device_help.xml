@@ -1,87 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/quickinstalllayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:scrollbars="none"
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/no_device_lead_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/no_device" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
             android:orientation="vertical"
             android:visibility="visible" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:text="@string/wifi_device"
-                android:textColor="@color/gray"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/quickinstall_img_bg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dip" />
-
-            <Button
-                android:id="@+id/quickinstall"
+                android:id="@+id/no_device_lead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dip"
-                android:background="@drawable/quick_install_bg"
-                android:text="@string/str_quick_install"
-                android:textColor="@color/quickinstall_btn_normal"
-                android:textSize="18sp" />
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:minHeight="50dp"
+                android:text="@string/str_no_device_lead"
+                android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/no_device_lead_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/line_device"
-                android:textColor="@color/gray"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/unwire_device_img_bg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dip" />
-
-            <Button
-                android:id="@+id/adddevice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dip"
-                android:background="@drawable/quick_install_bg"
-                android:text="@string/str_help1_1"
+                android:layout_marginTop="5dp"
+                android:text="@string/str_no_device_lead2"
                 android:textColor="@color/quickinstall_btn_normal"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:text="@string/str_quick_install_tips2"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

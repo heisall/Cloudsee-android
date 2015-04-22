@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 是否使用保存在sharedpreferences中的tabs顺序 -->
+    <bool name="use_saved_tabs_seq">false</bool>
+
+</resources>

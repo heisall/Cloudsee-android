@@ -16,4 +16,16 @@
     <dimen name="header_footer_top_bottom_padding">24dp</dimen>
     <dimen name="third_peripherals_top_margin_middle">12dp</dimen>
 
+    <!-- customize -->
+    <dimen name="composer_item_margin_vertical">20.0dip</dimen>
+    <dimen name="composer_item_margin_top">30.0dip</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- cloud -->
+    <dimen name="cloud_text_min_size">12sp</dimen>
+    <dimen name="cloud_text_mid_size">18sp</dimen>
+    <dimen name="cloud_text_max_size">22sp</dimen>
+    <dimen name="cloud_text_large_size">44sp</dimen>
+
 </resources>

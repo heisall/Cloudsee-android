@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">Format for the username is not correct, and it can only be email address.</string>
     <string name="login_str_username_tips2">Username can\'t be all numbers.</string>
     <string name="login_str_username_tips3">User name should be composed of letter, number and -_</string>
-    <string name="login_str_username_tips4">Username should be 4-28 characters.</string>
-    <string name="login_str_password_tips1">Password should be 6-20 characters.</string>
+    <string name="login_str_username_tips4">Username should be 4–28 characters.</string>
+    <string name="login_str_password_tips1">Password should be 6–20 characters.</string>
     <string name="login_str_login_failed">Login failed</string>
     <string name="login_str_regist_success">Registed successfully</string>
     <string name="login_str_registerchoiceone">Phone register</string>
@@ -31,13 +31,12 @@
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="device_pass_notzh">Password can not be Chinese</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
-    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1-15 letters,numbers or. _-.</string>
-    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0-15 letters,numbers or _-.</string>
+    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or. _-.</string>
+    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _-.</string>
     <string name="login_str_device_add_success">Device added successfully</string>
     <string name="login_str_device_add_failed">Failed to add device</string>
     <string name="login_str_point_delete_success">Channel deleted successfully</string>
     <string name="login_str_point_delete_failed">Channel deleted failed</string>
-    <string name="login_str_point_add_success">Channel added successfully</string>
     <string name="login_str_point_add_failed">Channel added failed</string>
     <string name="login_str_point_edit_success">Channel modified successfully</string>
     <string name="login_str_point_edit_failed">Channel modified failed</string>
@@ -130,9 +129,12 @@
     <string name="record_failed">The video is invalid</string>
     <string name="voice_send">Hold to talk</string>
     <string name="voice_stop">Release to Send</string>
+    <string name="voice_ear_tips">It will be better by earphone when you use audio.</string>
     <string name="str_has_call">Another client is using Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
+    <string name="str_share_link">Share the Link</string>
+    <string name="str_share_link_tips"></string>
     <!-- PlayHelp -->
     <string name="playhelp_pull">change into multi-screen</string>
     <string name="playhelp_moreview">More→image view</string>
@@ -279,8 +281,21 @@
     <string name="str_updating">Downloading update software</string>
     <string name="str_change_zoom">Zoom</string>
     <string name="str_change_focus">Focus</string>
+    <string name="yt_speed">Speed</string>
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
+    <!-- JVNewAddDeviceActivity -->
+    <string name="str_new_add_device">Select Add Device</string>
+    <string name="str_new_add_device_edit_hint">Please Input the Cloudsee ID</string>
+    <string name="str_new_add_device_confirm">Confirm</string>
+    <string name="str_new_add_device_tab_title">Scan</string>
+    <string name="str_new_add_device_networking">Networked Device</string>
+    <string name="str_new_add_device_nonetworking">Devices Not Networked</string>
+    <string name="str_new_add_device_other">Other Ways</string>
+    <string name="str_new_add_device_AP">Wifi Configuration</string>
+    <string name="str_new_add_device_wave">Sound Wave Configuration</string>
+    <string name="str_new_add_device_IP"> IP/Domain Addition</string>
+    <string name="str_new_add_device_localnetwork">LAN Addition</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
@@ -388,7 +403,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">Demo</string>
     <string name="demo_get_failed">Failed to load demo video.</string>
-    <string name="demo_loading">Efforts are being made to load...</string>
+    <string name="demo_loading">Efforts are being made to load…</string>
     <!-- JVTab -->
     <string name="account_error_tips">You are offline，touch to login again.</string>
     <string name="network_error_tips">Unable to connect with network, do you want to configure?</string>
@@ -447,6 +462,8 @@
     <string name="get_device_failed">Device loaded failed</string>
     <string name="search_device_failed">Check Device Online status failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
+    <string name="str_no_device_lead">Hi,buddy.\~\n if you\'ve already had cloudsee device, please add it by clicking \"my device\" tag @.</string>
+    <string name="str_no_device_lead2">If you still do not have device, you are invited to surf in the xiaowei mall.</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
     <string name="alarm_level">Alarm Level</string>
@@ -475,6 +492,8 @@
     <string name="connfailed_auth_tips">Username or password wrong, change now?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
+    <string name="edit_userinfo_success">User Name or Password Modify Succeesfully</string>
+    <string name="edit_userinfo_failed">Fail to Modify  User Name or Password</string>
     <string name="closed">Closed</string>
     <string name="abnormal_closed">Abnormal disconnection happened.</string>
     <string name="str_scanlandevice">Device in Lan</string>
@@ -528,7 +547,7 @@
     <string name="add_channel_succ">Channel added successfully</string>
     <string name="add_channel_failed">Channel added failed</string>
     <string name="device_connect">Connect All</string>
-    <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
+    <string name="channel_full">Fail to add due to up to limition of Device channel quantity.</string>
     <!-- JVSystemInfoActivity -->
     <string name="system_info">System Information</string>
     <string name="system_info_load_error">Failed to load the information</string>
@@ -564,6 +583,12 @@
     <string name="protect_open_fail">Failed to enable Security Protection.</string>
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
+    <string name="cloud_open_succ">Cloud Storage Service Open Successfully</string>
+    <string name="cloud_open_fail">Fail to Open Cloud Storage Service</string>
+    <string name="cloud_close_succ">Cloud Storage Service Shut Down Successfully</string>
+    <string name="cloud_close_fail">Fail to Shut Down Cloud Storage Service</string>
+    <string name="cloud_serv_open">Cloud Storage Service Enabled</string>
+    <string name="cloud_serv_close">Cloud Storage Service Not Enabled</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
     <string name="device_offlines">Device offline</string>
     <string name="device_model">Model</string>
@@ -640,7 +665,19 @@
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
+    <string name="str_restart_device">Reboot Device Functions</string>
+    <string name="str_set_time">Timeset</string>
+    <string name="str_time_format">Time Format</string>
+    <string name="str_date_format">Date Format</string>
+    <string name="str_network">Network time synchronization</string>
+    <string name="str_local_time">Current Area Custom</string>
+    <string name="str_year">year</string>
+    <string name="str_month">month</string>
+    <string name="str_day">day</string>
+    <string name="str_hour">hour</string>
+    <string name="str_minite">minute</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
+    <string name="str_restart_sure">Are you sure to restart?</string>
     <string name="dev_alarm_sound">Startup the alarm sound</string>
     <string name="dev_alarm_sound_tips">If alarm sound is turned off, the device will not sound when alarming.</string>
     <string name="str_modify_pwd">Modify device administrator is password.</string>
@@ -658,7 +695,7 @@
     <string name="str_alarm_manage">Add Alarm Device</string>
     <string name="str_alarm_connect_except">abnormal disconnection</string>
     <string name="str_alarm_thirddev_default_name">alarm devices</string>
-    <string name="str_alarm_thirddev_learning">Setting...</string>
+    <string name="str_alarm_thirddev_learning">Setting…</string>
     <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
     <string name="str_bind_finish">OK</string>
     <string name="str_alarm_type_move">Motion Detection</string>
@@ -694,6 +731,9 @@
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
     <string name="str_alarm_setting_tips4">We suggest modify device administrator is password to avoid leakage of privacy.</string>
     <string name="str_alarm_setting_tips5">After reset device will restore factory Settings</string>
+    <string name="str_alarm_setting_tips6">Device Will Reboot after Restart</string>
+    <string name="str_alarm_setting_tips7">Can Set Your Home Time Zone</string>
+    <string name="str_alarm_setting_tips9">Be Able to Calibrate Device Time</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
@@ -703,16 +743,33 @@
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
+    <string name="str_setting_time_success">Timeset Succeed</string>
     <string name="str_setting_time">Setting Time</string>
+    <string name="str_setting_submittime">Setting</string>
     <string name="str_mdenabled_open_ok">The motion detecting open success</string>
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
-    <string name="str_illegal_dev_nick">The NikeName should be formed by 1-24 english letter,number,or special characters like .-_+()</string>
+    <string name="str_illegal_dev_nick">The NikeName should be formed by 1–24 english letter,number,or special characters like .-_+()</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
+    <string name="str_alarm_storge_cloud">Cloud Storage Alarm</string>
+    <string name="str_alarm_storge_normal">Regular Alarm</string>
+    <!-- 云存储 -->
+    <string name="str_cloud_serv_func">Cloud Storage Service</string>
+    <string name="str_cloud_state">Cloud Storage</string>
+    <string name="str_cloud_query_error_1">Fail to Query User Use Detail</string>
+    <string name="str_cloud_query_title">Surpus Flow</string>
+    <string name="str_cloud_charge_left">Top-up Flow Surplus</string>
+    <string name="str_cloud_free_left">Free Flow Surplus</string>
+    <string name="str_report_flow_ok">Report Succeed</string>
+    <string name="str_report_flow_failed">Report Failed</string>
+    <string name="str_check_flow_tips1">Your Surplus Flow Is Not Sufficient to Check the Video</string>
+    <string name="str_check_flow_tips2">Your Surplus Flow Is Less Than %%M, Plase Purchase Relevant Services In Order Not To Affect Normal Use</string>
+    <string name="str_cloud_url_error1">Cloud Storage Alarming Info Error</string>
+    <string name="str_cloud_query_error_2">Fail to Query User Flow Info</string>
     <!-- JVWebviewActivity -->
     <string name="capture_to_upload">Upload photos</string>
     <string name="select_to_upload">Selecting photos</string>
@@ -753,6 +810,10 @@
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
     <string name="location_login_hand">访客</string>
+    <!-- 时区设置 -->
+    <string name="str_timezone">Time Zone</string>
+    <string name="str_current_time_zone">Current Time Zone</string>
+    <string name="time_zone">Time Zone</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>
@@ -766,11 +827,11 @@
     <string name="reset_passwd_done">Done</string>
     <string name="reset_passwd_tips1">Please enter the account to reset your password</string>
     <string name="reset_passwd_tips2">The account is not legal</string>
-    <string name="reset_passwd_tips3">Please Wait...</string>
+    <string name="reset_passwd_tips3">Please Wait…</string>
     <string name="reset_passwd_tips4">Your SMS verification code has been sent to your phone:</string>
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Enter code</string>
-    <string name="reset_passwd_tips7">Sending...</string>
+    <string name="reset_passwd_tips7">Sending…</string>
     <string name="reset_passwd_tips8">The verification is unsuccessful.</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
     <string name="reset_passwd_failed">Reset password failed</string>
@@ -783,7 +844,7 @@
     <string name="str_receive_sms_time">Your SMS should arrive in SS second.</string>
     <string name="str_sms_sent">SMS verification code sent</string>
     <string name="str_set_new_pwd">Set New Password</string>
-    <string name="str_set_new_pwd_ok">Set Ok, login again</string>
+    <string name="str_set_new_pwd_ok">Set OK, login again</string>
     <string name="str_query_account_failed">Query account info failed</string>
     <string name="str_query_account_failed1">Network error, operation failed. Please try again.</string>
     <string name="str_not_bind_phone_tips1">Your account is not bound with your mobile number. Please retrieve via email.</string>

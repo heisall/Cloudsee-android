@@ -56,18 +56,21 @@
                     android:layout_alignParentTop="true"
                     android:text="@string/my_device"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/dev_nickname_l"
+                    android:id="@+id/tv_dev_cloud_state_l"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/dev_name_l"
-                    android:text="@string/my_device"
+                    android:drawableLeft="@drawable/cloud_state_off"
+                    android:drawablePadding="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:visibility="invisible" />
+                    android:textSize="11sp"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -235,18 +238,21 @@
                     android:layout_alignParentTop="true"
                     android:text="@string/my_device"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/dev_nickname_r"
+                    android:id="@+id/tv_dev_cloud_state_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/dev_name_r"
-                    android:text="@string/my_device"
+                    android:drawableLeft="@drawable/cloud_state_off"
+                    android:drawablePadding="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/str_cloud_state"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:visibility="invisible" />
+                    android:textSize="11sp"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

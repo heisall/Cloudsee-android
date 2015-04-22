@@ -179,11 +179,11 @@ public class JVRemotePlayBackActivity extends PlayActivity {
             // }
 
             case Consts.CALL_PLAY_AUDIO: {// 音频数据回调
-            // if (null != obj && null != playAudio) {
-            // byte[] data = (byte[]) obj;
-            // // audioQueue.offer(data);
-            // playAudio.put(data);
-            // }
+                // if (null != obj && null != playAudio) {
+                // byte[] data = (byte[]) obj;
+                // // audioQueue.offer(data);
+                // playAudio.put(data);
+                // }
                 break;
             }
             case Consts.CALL_NEW_PICTURE: {// I帧回调

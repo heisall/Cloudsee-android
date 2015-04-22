@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 
+<!--
     Android Wheel Control.
     http://android-devblog.blogspot.com/2010/05/wheel-ui-contol.html
    
@@ -15,15 +15,19 @@
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
-    limitations under the License.
+    limitations under the License.
 -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<gradient
-		android:startColor="#00FFFFFF"
-		android:centerColor="#00FFFFFF"
-		android:endColor="#00FFFFFF"
-		android:angle="90" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<stroke android:width="0dp" android:color="#70333333" /> 
+    <gradient
+        android:angle="90"
+        android:centerColor="#00FFFFFF"
+        android:endColor="#00FFFFFF"
+        android:startColor="#00FFFFFF" />
+
+    <stroke
+        android:width="0dp"
+        android:color="#70333333" />
+
 </shape>

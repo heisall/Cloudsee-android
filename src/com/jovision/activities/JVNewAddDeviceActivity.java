@@ -136,7 +136,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
         // 拼接sid appv等字段
         if (null != url && !"".equalsIgnoreCase(url)) {
-            getJoinUrl();
+            url += getJoinUrl();
         }
 
         /** top bar */
@@ -260,6 +260,7 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
+
             if (!newurl.contains("addmode")) {// 不含添加设备类型字段，打开一个新网页
                 if (newurl.contains("open")) {// 打开新的WebView模式
                     Intent intentAD2 = new Intent(JVNewAddDeviceActivity.this,
@@ -269,6 +270,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
                     JVNewAddDeviceActivity.this.startActivity(intentAD2);
                 } else if (newurl.contains("close")) {// 关闭当前webview
                     JVNewAddDeviceActivity.this.finish();
+                } else {
+                    addDeviceWebView.loadUrl(newurl);
                 }
                 return true;
             }
@@ -650,7 +653,8 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
         super.onBackPressed();
     }
 
-    public void getJoinUrl() {
+    public String getJoinUrl() {
+        String joinUlr = "";
         String appVersion = "";
         try {
             appVersion = JVNewAddDeviceActivity.this.getPackageManager().getPackageInfo(
@@ -677,10 +681,11 @@ public class JVNewAddDeviceActivity extends ShakeActivity {
             sid = "";
         }
 
-        url = url + "?" + "plat=android&platv="
+        joinUlr = "?" + "plat=android&platv="
                 + Build.VERSION.SDK_INT + "&lang=" + lan
                 + "&appv=" + appVersion + "&sid=" + sid;
         MyLog.v(TAG, "addDevUrl=" + url);
+        return joinUlr;
     }
 
 }

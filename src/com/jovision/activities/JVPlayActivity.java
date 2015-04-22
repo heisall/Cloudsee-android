@@ -86,6 +86,8 @@ public class JVPlayActivity extends PlayActivity implements
     private static final int DISCONNECTION_MIN_PEROID = 100;
     private static final int RESUME_VIDEO_MIN_PEROID = 100;
 
+    private static final int ipcDefaultSpeed = 120;// 2015.4.21高速球默认速度120
+
     private GestureDetector mGestureDetector;
 
     private int currentYTSpeed = 0;// 当前云台速度
@@ -621,6 +623,14 @@ public class JVPlayActivity extends PlayActivity implements
                             channel.getParent().setYtSpeed(
                                     MySharedPreference.getInt(channel.getParent().getFullNo()
                                             + Consts.YT_SPEED_KEY));
+                            MyLog.v("aaaa-1",
+                                    "key="
+                                            + channel.getParent().getFullNo()
+                                            + Consts.YT_SPEED_KEY
+                                            + ";value="
+                                            + MySharedPreference.getInt(channel.getParent()
+                                                    .getFullNo()
+                                                    + Consts.YT_SPEED_KEY));
                             if (0 != channel.getParent().getYtSpeed()) {
                                 ytSeekBar.setProgress(channel.getParent().getYtSpeed());
                                 ytSpeed.setText(channel.getParent().getYtSpeed() + "");
@@ -958,6 +968,17 @@ public class JVPlayActivity extends PlayActivity implements
                                                 MyLog.v(TAG, "融合前--的代码,当前云台速度:"
                                                         + channel.getParent().getYtSpeed());
                                             }
+                                        } else {
+                                            // 如果本地没存云台速度用默认的
+                                            if (0 == channel.getParent().getYtSpeed()) {
+                                                channel.getParent().setYtSpeed(ipcDefaultSpeed);
+                                                ytSeekBar.setProgress(channel.getParent()
+                                                        .getYtSpeed());
+                                                ytSpeed.setText(channel.getParent().getYtSpeed()
+                                                        + "");
+                                                MyLog.v("yt_speed", "normalData="
+                                                        + channel.getParent().getYtSpeed());
+                                            }
                                         }
                                     }
 
@@ -1028,6 +1049,21 @@ public class JVPlayActivity extends PlayActivity implements
                                             if (1 == homeTag) {
                                                 channel.getParent().setHomeIPCMergeCode(true);
                                                 channel.getParent().setHomeIPCFlag(true);
+                                            } else {
+                                                // 如果本地没存云台速度用默认的
+                                                if (0 == channel.getParent().getYtSpeed()) {
+                                                    channel.getParent().setYtSpeed(ipcDefaultSpeed);
+                                                    ytSeekBar.setProgress(channel.getParent()
+                                                            .getYtSpeed());
+                                                    ytSpeed.setText(channel.getParent()
+                                                            .getYtSpeed()
+                                                            + "");
+                                                    MyLog.v("yt_speed", "normalData="
+                                                            + channel.getParent().getYtSpeed());
+                                                }
+
+                                                channel.getParent().setHomeIPCMergeCode(false);
+                                                channel.getParent().setHomeIPCFlag(false);
                                             }
 
                                             MyLog.v(TAG,
@@ -2149,6 +2185,10 @@ public class JVPlayActivity extends PlayActivity implements
                 ytSeekBar.setProgress(currentYTSpeed);
                 ytSpeed.setText(currentYTSpeed + "");
                 if (!channel.getParent().isHomeIPCFlag()) {// 非家用设备
+                    MyLog.v("aaaa-2", "key=" + channel.getParent().getFullNo()
+                            + Consts.YT_SPEED_KEY
+                            + ";value=" + channel.getParent().getYtSpeed());
+
                     MySharedPreference.putInt(
                             channel.getParent().getFullNo() + Consts.YT_SPEED_KEY, channel
                                     .getParent().getYtSpeed());
